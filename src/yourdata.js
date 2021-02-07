@@ -7,13 +7,12 @@ import designIcon from "./images/design.svg"
 import codeIcon from "./images/code.svg"
 
 // Social Icon
-import githubIcon from "./images/github.svg"
-import codepenIcon from "./images/codepen.svg"
-import dribbbleIcon from "./images/dribbble.svg"
+import twitterIcon from "./images/twitter.png"
+import linkedinIcon from "./images/linkedin.png"
 import instagramIcon from "./images/instagram.svg"
 
 // Artwork
-import flower from "./images/artwork/flower.jpg"
+import flower from "./images/artwork/flower_signed.jpg"
 import fish from "./images/artwork/fish.jpg"
 import face from "./images/artwork/face.jpg"
 import card from "./images/artwork/card.jpg"
@@ -24,7 +23,7 @@ import bookmark from "./images/artwork/bookmark.jpg"
 import aboutImage from "./images/presentationPic.jpg"
 
 export default {
-  //   Header Details ---------------------
+  // Header Details ---------------------
   name: "Kara Meese",
   headerTagline: [
     "Building digital",
@@ -34,7 +33,6 @@ export default {
   headerParagraph:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
   contactEmail: "me@karameese.com",
-
   // End Header Details -----------------------
 
   // Work Section ------------------------
@@ -45,7 +43,7 @@ export default {
       para:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
       imageSrc: flower,
-      url: "http://chetanverma.com/",
+      url: flower,
     },
     {
       id: 2,
@@ -53,15 +51,15 @@ export default {
       para:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
       imageSrc: fish,
-      url: "http://chetanverma.com/",
+      url: fish,
     },
     {
       id: 3,
-      title: "",
+      title: "Oni Mask",
       para:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
+        "This piece was inspired by the traditional Japanese Oni mask, a symbol of protection for those who believe in the spiritual world",
       imageSrc: face,
-      url: "http://chetanverma.com/",
+      url: face,
     },
     {
       id: 4,
@@ -69,7 +67,7 @@ export default {
       para:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
       imageSrc: card,
-      url: "http://chetanverma.com/",
+      url: card,
     },
     {
       id: 5,
@@ -77,7 +75,7 @@ export default {
       para:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
       imageSrc: deer,
-      url: "http://chetanverma.com/",
+      url: deer,
     },
     {
       id: 6,
@@ -85,7 +83,7 @@ export default {
       para:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
       imageSrc: bookmark,
-      url: "http://chetanverma.com/",
+      url: bookmark,
     },
 
     /*
@@ -99,7 +97,6 @@ export default {
     }
     */
   ],
-
   // End Work Section -----------------------
 
   // About Secton --------------
@@ -110,12 +107,10 @@ export default {
   aboutParaThree:
     "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
   aboutImage: aboutImage,
-
-  //   End About Section ---------------------
+  // End About Section ---------------------
 
   // Skills Section ---------------
   // Import Icons from the top and link it here
-
   skills: [
     {
       id: 1,
@@ -154,7 +149,6 @@ export default {
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
     },
   ],
-
   // End Skills Section --------------------------
 
   //   Promotion Section --------------------------
@@ -164,26 +158,21 @@ export default {
   // End Promotion Section -----------------
 
   //   Contact Section --------------
-
   contactSubHeading: "Let's create your next experience together",
   social: [
+    // NOTE: Link destinations can be updated on Rebrandly
     {
-      img: githubIcon,
-      url: "https://github.com/chetanverma16"
+      img: twitterIcon,
+      url: "https://link.karameese.com/twitter"
     },
     {
-      img: codepenIcon,
-      url: "https://www.codepen.com/",
-    },
-    {
-      img: dribbbleIcon,
-      url: "https://dribbble.com/chetanverma",
+      img: linkedinIcon,
+      url: "https://link.karameese.com/linkedin",
     },
     {
       img: instagramIcon,
-      url: "https://www.instagram.com/",
+      url: "https://link.karameese.com/instagram",
     },
   ],
-
   // End Contact Section ---------------
 }
