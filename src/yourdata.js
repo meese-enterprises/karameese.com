@@ -1,11 +1,10 @@
 // Skills Icons
 import brushIcon from "./images/skills/brush.png"
-import cssIcon from "./images/skills/css.svg"
-import reactIcon from "./images/skills/react.svg"
-import jsIcon from "./images/skills/javascript.svg"
-//import designIcon from "./images/skills/design.svg"
+import adobeIcon from "./images/skills/xd.png"
+import cameraIcon from "./images/skills/camera.png"
+import therapyIcon from "./images/skills/therapy.png"
 import tattooIcon from "./images/skills/tattoo_gun.svg"
-import codeIcon from "./images/skills/code.svg"
+import poetryIcon from "./images/skills/poetry.svg"
 
 // Social Icon
 import twitterIcon from "./images/social/twitter.png"
@@ -13,12 +12,14 @@ import linkedinIcon from "./images/social/linkedin.png"
 import instagramIcon from "./images/social/instagram.svg"
 
 // Artwork
-import flower from "./images/artwork/flower_signed.jpg"
+import bee from "./images/artwork/bee.jpg"
+import skull from "./images/artwork/skull.jpg"
+import flower from "./images/artwork/flower.jpg"
 import fish from "./images/artwork/fish.jpg"
-import face from "./images/artwork/face.jpg"
+import mask from "./images/artwork/mask.jpg"
 import card from "./images/artwork/card.jpg"
-import deer from "./images/artwork/deer.jpg"
-import bookmark from "./images/artwork/bookmark.jpg"
+import demon from "./images/artwork/demon.jpg"
+import leaf from "./images/artwork/leaf.jpg"
 
 // About image
 import aboutImage from "./images/presentationPic.jpg"
@@ -39,15 +40,27 @@ export default {
 	// Work Section ------------------------
 	projects: [
 		{
-			id: 1,
-			title: "",
+			title: "Bee",
 			desc:
-				"",
+				"The bee symbolizes community, brightness and personal power. Follow the bee to discover your new destination.",
+			imageSrc: bee,
+			url: bee,
+		},
+		{
+			title: "Skull",
+			desc:
+				"Peonies symbolize bashfulness, wealth, bravery, honor, and good fortune in different cultures around the world.",
+			imageSrc: skull,
+			url: skull,
+		},
+		{
+			title: "Peony",
+			desc:
+				"Peonies symbolize bashfulness, wealth, bravery, honor, and good fortune in different cultures around the world.",
 			imageSrc: flower,
 			url: flower,
 		},
 		{
-			id: 2,
 			title: "Coi Fish",
 			desc:
 				"In Japan, Koi fish are associated with perseverance in adversity and strength of purpose. They symbolize good luck and abundance.",
@@ -55,59 +68,37 @@ export default {
 			url: fish,
 		},
 		{
-			id: 3,
 			title: "Oni Mask",
 			desc:
 				"This piece was inspired by the traditional Japanese Oni mask, a symbol of protection for those who believe in the spiritual world.",
-			imageSrc: face,
-			url: face,
+			imageSrc: mask,
+			url: mask,
 		},
 		{
-			id: 4,
-			title: "",
+			title: "Bust of Venus",
 			desc:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
+				"In Roman mythology, Venus was the goddess of love, sex, beauty, and fertility, and she had many abilities beyond the Greek Aphrodite.",
 			imageSrc: card,
 			url: card,
 		},
 		{
-			id: 5,
-			title: "Deer",
+			title: "Demon",
 			desc:
-				"Deer are symbols of majesty and beauty and have roots in ancient history. Deer represent the embodiment of peace, grace, and gentleness.",
-			imageSrc: deer,
-			url: deer,
+				"A demon is a supernatural being, typically associated with evil, prevalent historically in religion, occultism, literature, fiction, mythology, and folklore.",
+			imageSrc: demon,
+			url: demon,
 		},
 		{
-			id: 6,
-			title: "",
+			title: "Leaf",
 			desc:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
-			imageSrc: bookmark,
-			url: bookmark,
+				"Green leaves depict hope, renewal, and revival. Leaves are symbolic of fertility and growth, and in Chinese tradition represent all the beings of the universe.",
+			imageSrc: leaf,
+			url: leaf,
 		},
-
-		/*
-		If You Want To Add More Project just Copy and Paste This At The End (Update the id Respectively)
-		,{
-				id: 7,
-				title: 'Project Five',
-				desc: 'Something Amazing',
-				imageSrc: "",
-				url: ''
-		}
-		*/
 	],
 	// End Work Section -----------------------
 
 	// About Secton --------------
-	aboutParaOne:
-		`I'm an artist, graphic designer, and a creative. In high school my artwork won 2nd in the state of North Carolina,
-		and I've continued to hone my craft in the years since.`,
-	aboutParaTwo:
-		"",
-	aboutParaThree:
-		"",
 	aboutImage: aboutImage,
 	// End About Section ---------------------
 
@@ -118,48 +109,48 @@ export default {
 			id: 1,
 			img: brushIcon,
 			desc: `
-				I can design black and white or colored tattoos to fit your specifications, 
-				with pricing based on the design's complexity.
+				Skilled with pencil, pen, watercolor, oil painting, and almost anything else your heart
+				could desire. Reach out with the details and we can rap about it.
 				`,
 		},
 		{
 			id: 2,
-			img: cssIcon,
+			img: adobeIcon,
 			desc: `
-				I can design black and white or colored tattoos to fit your specifications, 
-				with pricing based on the design's complexity.
+				Experienced in application design and prototyping with Adobe XD. Extensive
+				experience communicating with developers to turn their creative vision into reality.
 				`,
 		},
 		{
 			id: 3,
-			img: jsIcon,
+			img: cameraIcon,
 			desc: `
-				I can design black and white or colored tattoos to fit your specifications, 
-				with pricing based on the design's complexity.
+				I've practiced semi-professional photography for a number of years, and I'm usually available
+				for bookings a few times a month. I specialize in landscapes and people.
 				`,
 		},
 		{
 			id: 4,
-			img: reactIcon,
+			img: therapyIcon,
 			desc: `
-				I can design black and white or colored tattoos to fit your specifications, 
-				with pricing based on the design's complexity.
+				Great at listening to life's problems, providing validation, and offering solutions if and
+				when they are welcome. Contact me to schedule an appointment.
 				`,
 		},
 		{
 			id: 5,
 			img: tattooIcon,
 			desc: `
-				I can design black and white or colored tattoos to fit your specifications, 
-				with pricing based on the design's complexity.
+				Black and white or colored tattoos designed to fit your specifications, with pricing based 
+				on the design's complexity. Reach out with your ideas so we can figure something out.
 				`,
 		},
 		{
 			id: 6,
-			img: codeIcon,
+			img: poetryIcon,
 			desc: `
-				I can design black and white or colored tattoos to fit your specifications, 
-				with pricing based on the design's complexity.
+				Poetry specializing in powerful emotions, ranging from love to sadness and pain.
+				Contact me to see my previous works or to discuss your particular request.
 				`,
 		},
 	],

@@ -16,11 +16,12 @@ const Work = () => {
 					<div className="grid">
 						<Fade bottom cascade>
 							{/* TODO: "Load More" button for > 6 projects, and order by date somehow. */}
-							{data.projects.map(project => (
+							{data.projects.map((project, index) => (
 								<Card
-									key={project.id}
+									key={index}
 									heading={project.title}
 									paragraph={
+										// Will prevent the text from ever being too large for the alloted space
 										project.desc.length < 140 ?
 										project.desc : project.desc.substring(0, 136) + "..."
 									}
