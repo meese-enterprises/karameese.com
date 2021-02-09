@@ -11,30 +11,41 @@
   box-shadow: 1px 5px 7px 0.5px rgba(0, 0, 0, 0.18), 0 1px 1px 0 rgba(0, 0, 0, 0.15) !important;
 
   .content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 0, 0, 0.4);
     font-family: "Open Sans";
     text-align: center;
     padding: 10px;
     opacity: 0;
     transition: all 500ms ease-in-out;
     transform: translate(0, 20px);
-    cursor: pointer;
+
+    // TODO: Convert all these sizes to em
     h1 {
-      font-size: 14px;
+      font-size: 16px;
       color: white;
     }
     p {
-      font-size: 10px;
+      font-size: 12px;
       color: white;
       margin-bottom: 20px;
     }
 
     .btn {
+      cursor: pointer;
       background-color: black;
       color: white;
       padding: 10px;
       text-decoration: none;
     }
-    &:hover {
+  }
+
+  &:hover {
+    .content {
       opacity: 1;
       transform: translate(0, 0px);
     }
