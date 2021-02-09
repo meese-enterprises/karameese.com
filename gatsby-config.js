@@ -1,7 +1,7 @@
 module.exports = {
 	siteMetadata: {
 		title: `Kara Meese`,
-		description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+		description: `I'm an artist, graphic designer, and a creative for hire! Contact me for all your art, photography, therapy, and poetry needs.`,
 		author: `@ajmeese7`,
 	},
 	plugins: [
@@ -24,7 +24,8 @@ module.exports = {
 				background_color: `#663399`,
 				theme_color: `#663399`,
 				display: `minimal-ui`,
-				icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+				// TODO: Find/make a better image for this
+				icon: `src/images/favicon.png`, // This path is relative to the root of the site.
 			},
 		},
 		`gatsby-plugin-sass`,
