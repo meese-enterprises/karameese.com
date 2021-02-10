@@ -4,7 +4,7 @@ module.exports = {
 		description: `I'm an artist, graphic designer, and a creative for hire! Contact me for all your art, photography, therapy, and poetry needs.`,
 		url: `https://www.karameese.com`,
 		author: `@ajmeese7`,
-		image: `./logo.png`,
+		image: `https://www.karameese.com/logo.png`,
 	},
 	plugins: [
 		`gatsby-plugin-react-helmet`,
