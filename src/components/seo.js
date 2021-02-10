@@ -9,7 +9,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
-function SEO({ description, lang, meta, title }) {
+function SEO({ description, lang, meta, image, title }) {
 	const { site } = useStaticQuery(
 		graphql`
 			query {
@@ -17,7 +17,9 @@ function SEO({ description, lang, meta, title }) {
 					siteMetadata {
 						title
 						description
+						url
 						author
+						image
 					}
 				}
 			}
@@ -26,47 +28,25 @@ function SEO({ description, lang, meta, title }) {
 
 	const metaDescription = description || site.siteMetadata.description
 	const defaultTitle = site.siteMetadata?.title
+	const socialImage = site.siteMetadata?.image || image
+	const fullTitle = defaultTitle ? `${title} | ${defaultTitle}` : title
 
 	return (
 		<Helmet
-			htmlAttributes={{
-				lang,
-			}}
+			htmlAttributes={{ lang }}
 			title={title}
 			titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
 			meta={[
-				{
-					name: `description`,
-					content: metaDescription,
-				},
-				{
-					property: `og:title`,
-					content: title,
-				},
-				{
-					property: `og:description`,
-					content: metaDescription,
-				},
-				{
-					property: `og:type`,
-					content: `website`,
-				},
-				{
-					name: `twitter:card`,
-					content: `summary`,
-				},
-				{
-					name: `twitter:creator`,
-					content: site.siteMetadata?.author || ``,
-				},
-				{
-					name: `twitter:title`,
-					content: title,
-				},
-				{
-					name: `twitter:description`,
-					content: metaDescription,
-				},
+				{ property: `description`, content: metaDescription, },
+				{ property: `og:title`, content: fullTitle, },
+				{ property: `og:description`, content: metaDescription, },
+				{ property: `og:url`, content: site.siteMetadata?.url || ``, },
+				{ property: `og:type`, content: `website`, },
+				{ property: `og:image`, content: socialImage, },
+				{ property: `twitter:card`, content: socialImage, },
+				{ property: `twitter:creator`, content: site.siteMetadata?.author || ``, },
+				{ property: `twitter:title`, content: fullTitle, },
+				{ property: `twitter:description`, content: metaDescription, },
 			].concat(meta)}
 		/>
 	)
@@ -75,6 +55,7 @@ function SEO({ description, lang, meta, title }) {
 SEO.defaultProps = {
 	lang: `en`,
 	meta: [],
+	image: null,
 	description: ``,
 }
 
@@ -82,6 +63,7 @@ SEO.propTypes = {
 	description: PropTypes.string,
 	lang: PropTypes.string,
 	meta: PropTypes.arrayOf(PropTypes.object),
+	image: PropTypes.string,
 	title: PropTypes.string.isRequired,
 }
 

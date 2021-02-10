@@ -2,7 +2,9 @@ module.exports = {
 	siteMetadata: {
 		title: `Kara Meese`,
 		description: `I'm an artist, graphic designer, and a creative for hire! Contact me for all your art, photography, therapy, and poetry needs.`,
+		url: `https://www.karameese.com`,
 		author: `@ajmeese7`,
+		image: `./logo.png`,
 	},
 	plugins: [
 		`gatsby-plugin-react-helmet`,
@@ -18,20 +20,17 @@ module.exports = {
 		{
 			resolve: `gatsby-plugin-manifest`,
 			options: {
-				name: `gatsby-starter-default`,
-				short_name: `starter`,
+				name: `Kara Meese`,
+				short_name: `Kara`,
 				start_url: `/`,
-				background_color: `#663399`,
-				theme_color: `#663399`,
+				background_color: `#ffffff`,
+				theme_color: `#F0B0D2`,
 				display: `minimal-ui`,
 				// TODO: Find/make a better image for this
-				icon: `src/images/favicon.png`, // This path is relative to the root of the site.
+				icon: `static/logo.png`, // This path is relative to the root of the site.
 			},
 		},
 		`gatsby-plugin-sass`,
 		`gatsby-plugin-smoothscroll`,
-		// this (optional) plugin enables Progressive Web App + Offline functionality
-		// To learn more, visit: https://gatsby.dev/offline
-		// `gatsby-plugin-offline`,
 	],
 }
