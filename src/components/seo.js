@@ -48,7 +48,18 @@ function SEO({ description, lang, meta, image, title }) {
 				{ property: `twitter:title`, content: fullTitle, },
 				{ property: `twitter:description`, content: metaDescription, },
 			].concat(meta)}
-		/>
+		>
+			{/* https://github.com/nfl/react-helmet/issues/334#issuecomment-413319383 */}
+			<script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH5LC7LC3"></script>
+			<script>
+				{`
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', 'G-CVH5LC7LC3');
+				`}
+			</script>
+		</Helmet>
 	)
 }
 

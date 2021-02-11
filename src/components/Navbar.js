@@ -1,7 +1,7 @@
 import React from "react"
 import scrollTo from "gatsby-plugin-smoothscroll"
 const Navbar = () => {
-	// TODO: Add a mobile nav
+	// TODO: Add a mobile nav with a style of Kara's choosing
 	return (
 		<div className="section">
 			<div className="container">
