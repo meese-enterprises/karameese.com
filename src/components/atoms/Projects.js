@@ -12,9 +12,8 @@ const Projects = ({ projectsToRender }) => {
 	return (
 		<div className="grid">
 			{projectsToRender.map((project, index) => (
-				<Fade bottom distance={"50px"}>
+				<Fade bottom distance={"50px"} key={index}>
 					<Card
-						key={index}
 						heading={project.title}
 						paragraph={trimDesc(project.desc)}
 						imgUrl={project.imageSrc}

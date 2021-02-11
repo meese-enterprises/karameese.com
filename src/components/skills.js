@@ -10,8 +10,8 @@ const Skills = () => {
 					<h1>Skills</h1>
 					<div className="skills-grid">
 						{data.skills.map((skill, index) => (
-							<Fade bottom distance={"50px"}>
-								<div className="skill" key={index}>
+							<Fade bottom distance={"50px"} key={index}>
+								<div className="skill">
 									<img src={skill.img} alt="css"></img>
 									<p>{skill.desc}</p>
 								</div>
