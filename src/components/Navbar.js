@@ -9,6 +9,7 @@ const Navbar = () => {
 					<div
 						role="button"
 						onClick={() => scrollTo("#home")}
+						onKeyDown={() => scrollTo("#home")}
 						className="name"
 						tabIndex={0}
 					>
