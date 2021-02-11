@@ -106,7 +106,6 @@ export default {
 	// Import Icons from the top and link it here
 	skills: [
 		{
-			id: 1,
 			img: brushIcon,
 			desc: `
 				Skilled with pencil, pen, watercolor, oil painting, and almost anything else your heart
@@ -114,7 +113,6 @@ export default {
 				`,
 		},
 		{
-			id: 2,
 			img: adobeIcon,
 			desc: `
 				Experienced in application design and prototyping with Adobe XD. Extensive
@@ -122,7 +120,6 @@ export default {
 				`,
 		},
 		{
-			id: 3,
 			img: cameraIcon,
 			desc: `
 				I've practiced semi-professional photography for a number of years, and I'm usually available
@@ -130,7 +127,6 @@ export default {
 				`,
 		},
 		{
-			id: 4,
 			img: therapyIcon,
 			desc: `
 				Great at listening to life's problems, providing validation, and offering solutions if and
@@ -138,7 +134,6 @@ export default {
 				`,
 		},
 		{
-			id: 5,
 			img: tattooIcon,
 			desc: `
 				Black and white or colored tattoos designed to fit your specifications, with pricing based 
@@ -146,7 +141,6 @@ export default {
 				`,
 		},
 		{
-			id: 6,
 			img: poetryIcon,
 			desc: `
 				Poetry specializing in powerful emotions, ranging from love to sadness and pain.
