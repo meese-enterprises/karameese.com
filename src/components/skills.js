@@ -1,5 +1,6 @@
-import React from "react"
-import data from "../yourdata"
+import React from "react";
+import Fade from "react-reveal/Fade";
+import data from "../yourdata";
 
 const Skills = () => {
 	return (
@@ -9,10 +10,12 @@ const Skills = () => {
 					<h1>Skills</h1>
 					<div className="skills-grid">
 						{data.skills.map((skill, index) => (
-							<div className="skill" key={index}>
-								<img src={skill.img} alt="css"></img>
-								<p>{skill.desc}</p>
-							</div>
+							<Fade bottom distance={"50px"}>
+								<div className="skill" key={index}>
+									<img src={skill.img} alt="css"></img>
+									<p>{skill.desc}</p>
+								</div>
+							</Fade>
 						))}
 					</div>
 				</div>
@@ -21,4 +24,4 @@ const Skills = () => {
 	)
 }
 
-export default Skills
+export default Skills;

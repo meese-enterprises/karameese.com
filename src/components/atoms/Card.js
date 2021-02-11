@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const Card = ({ heading, paragraph, imgUrl, projectLink }) => {
 	return (
@@ -15,10 +15,11 @@ const Card = ({ heading, paragraph, imgUrl, projectLink }) => {
 				<h1 className="header">{heading}</h1>
 				<p className="text">{paragraph}</p>
 				<a
-					href={projectLink ? projectLink : "#"}
+					href={projectLink}
 					target="_blank"
 					rel="noopener noreferrer"
 					className="btn"
+					style={{ display: projectLink ? 'block' : 'none' }}
 				>
 					View Full Image
 				</a>
@@ -27,4 +28,4 @@ const Card = ({ heading, paragraph, imgUrl, projectLink }) => {
 	)
 }
 
-export default Card
+export default Card;
