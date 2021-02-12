@@ -6,7 +6,7 @@ const Projects = ({ projectsToRender }) => {
 	// Will prevent the text from ever being too large for the alloted space
 	const trimDesc = (desc) =>
 		desc.length < 140 ?
-			desc : desc.substring(0, 136) + "..."
+			desc : desc.substring(0, 136) + "...";
 
 	// TODO: Try to get the elements to fade in one-by-one
 	return (

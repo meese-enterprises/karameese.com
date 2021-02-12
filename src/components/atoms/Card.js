@@ -15,13 +15,12 @@ const Card = ({ heading, paragraph, imgUrl, projectLink }) => {
 				<h1 className="header">{heading}</h1>
 				<p className="text">{paragraph}</p>
 				<a
-					href={projectLink}
+					href={projectLink || imgUrl}
 					target="_blank"
 					rel="noopener noreferrer"
 					className="btn"
-					style={{ display: projectLink ? 'block' : 'none' }}
 				>
-					View Full Image
+					{projectLink ? "View Project" : "View Full Image"}
 				</a>
 			</div>
 		</div>

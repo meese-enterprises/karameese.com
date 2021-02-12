@@ -39,61 +39,55 @@ export default {
 
 	// Work Section ------------------------
 	projects: [
+		// NOTE: Projects can also have a url property, if that is different
+		// from the image URL
 		{
 			title: "Bee",
 			desc:
 				"The bee symbolizes community, brightness and personal power. Follow the bee to discover your new destination.",
 			imageSrc: bee,
-			url: bee,
 		},
 		{
 			title: "Skull",
 			desc:
 				"Peonies symbolize bashfulness, wealth, bravery, honor, and good fortune in different cultures around the world.",
 			imageSrc: skull,
-			url: skull,
 		},
 		{
 			title: "Peony",
 			desc:
 				"Peonies symbolize bashfulness, wealth, bravery, honor, and good fortune in different cultures around the world.",
 			imageSrc: flower,
-			url: flower,
 		},
 		{
 			title: "Coi Fish",
 			desc:
 				"In Japan, Koi fish are associated with perseverance in adversity and strength of purpose. They symbolize good luck and abundance.",
 			imageSrc: fish,
-			url: fish,
 		},
 		{
 			title: "Oni Mask",
 			desc:
 				"This piece was inspired by the traditional Japanese Oni mask, a symbol of protection for those who believe in the spiritual world.",
 			imageSrc: mask,
-			url: mask,
 		},
 		{
 			title: "Bust of Venus",
 			desc:
 				"In Roman mythology, Venus was the goddess of love, sex, beauty, and fertility, and she had many abilities beyond the Greek Aphrodite.",
 			imageSrc: card,
-			url: card,
 		},
 		{
 			title: "Demon",
 			desc:
 				"A demon is a supernatural being, typically associated with evil, prevalent historically in religion, occultism, literature, fiction, mythology, and folklore.",
 			imageSrc: demon,
-			url: demon,
 		},
 		{
 			title: "Leaf",
 			desc:
 				"Green leaves depict hope, renewal, and revival. Leaves are symbolic of fertility and growth, and in Chinese tradition represent all the beings of the universe.",
 			imageSrc: leaf,
-			url: leaf,
 		},
 	],
 	// End Work Section -----------------------
