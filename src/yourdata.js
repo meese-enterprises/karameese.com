@@ -12,14 +12,14 @@ import linkedinIcon from "./images/social/linkedin.png"
 import instagramIcon from "./images/social/instagram.svg"
 
 // Artwork
-import bee from "./images/artwork/bee.jpg"
-import skull from "./images/artwork/skull.jpg"
-import flower from "./images/artwork/flower.jpg"
-import fish from "./images/artwork/fish.jpg"
-import mask from "./images/artwork/mask.jpg"
-import card from "./images/artwork/card.jpg"
-import demon from "./images/artwork/demon.jpg"
-import leaf from "./images/artwork/leaf.jpg"
+import bee from "../static/watermarked/bee.jpg"
+import skull from "../static/watermarked/skull.jpg"
+import flower from "../static/watermarked/flower.jpg"
+import fish from "../static/watermarked/fish.jpg"
+import mask from "../static/watermarked/mask.jpg"
+import card from "../static/watermarked/card.jpg"
+import demon from "../static/watermarked/demon.jpg"
+import leaf from "../static/watermarked/leaf.jpg"
 
 // About image
 import aboutImage from "./images/presentationPic.jpg"

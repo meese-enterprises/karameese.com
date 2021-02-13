@@ -7,4 +7,4 @@ This project has been modified from [this repository](https://github.com/chetanv
 it is not my original work.
 
 ### TODOs
-- Watermark artwork with [this package](https://www.npmjs.com/package/react-image-process?activeTab=readme)
+- Add a dark mode slider with [this](https://github.com/chetanverma16/react-portfolio-template/pull/15)

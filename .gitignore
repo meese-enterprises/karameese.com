@@ -1,5 +1,6 @@
 # Environment
 src/images/artwork/unused
+static/watermarked
 
 # Logs
 logs
