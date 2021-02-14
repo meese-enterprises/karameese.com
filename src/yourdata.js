@@ -50,7 +50,7 @@ export default {
 		{
 			title: "Skull",
 			desc:
-				"Peonies symbolize bashfulness, wealth, bravery, honor, and good fortune in different cultures around the world.",
+				"Skulls are a representation of death, mortality and the unachievable nature of immortality.",
 			imageSrc: skull,
 		},
 		{
@@ -60,7 +60,7 @@ export default {
 			imageSrc: flower,
 		},
 		{
-			title: "Coi Fish",
+			title: "Koi Fish",
 			desc:
 				"In Japan, Koi fish are associated with perseverance in adversity and strength of purpose. They symbolize good luck and abundance.",
 			imageSrc: fish,

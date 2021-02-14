@@ -6,5 +6,6 @@ Kara Meese's personal website codebase.
 This project has been modified from [this repository](https://github.com/chetanverma16/react-portfolio-template),
 it is not my original work.
 
-### TODOs
+### IDEAs
 - Add a dark mode slider with [this](https://github.com/chetanverma16/react-portfolio-template/pull/15)
+- "Contact Me" form at the bottom of the site, that will be directed into an email
