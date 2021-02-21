@@ -22,7 +22,7 @@ import demon from "../static/watermarked/demon.jpg"
 import leaf from "../static/watermarked/leaf.jpg"
 
 // About image
-import aboutImage from "./images/presentationPic.jpg"
+import aboutImage from "./images/KaraWebsiteImage.jpg"
 
 export default {
 	// Header Details ---------------------
