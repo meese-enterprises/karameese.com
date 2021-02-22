@@ -35,8 +35,8 @@
 	],
 	"license": "0BSD",
 	"scripts": {
-		"build": "node watermarkImages.js && gatsby build",
-		"watermark": "node watermarkImages.js",
+		"build": "node processImages.js && gatsby build",
+		"process": "node processImages.js",
 		"develop": "gatsby develop",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
 		"start": "npm run develop",

@@ -11,22 +11,33 @@ import twitterIcon from "./images/social/twitter.png"
 import linkedinIcon from "./images/social/linkedin.png"
 import instagramIcon from "./images/social/instagram.svg"
 
+// TODO: Find a way to make this dynamic
 // Artwork
-import bee from "../static/watermarked/bee.jpg"
-import skull from "../static/watermarked/skull.jpg"
-import flower from "../static/watermarked/flower.jpg"
-import fish from "../static/watermarked/fish.jpg"
-import mask from "../static/watermarked/mask.jpg"
-import card from "../static/watermarked/card.jpg"
-import demon from "../static/watermarked/demon.jpg"
-import leaf from "../static/watermarked/leaf.jpg"
+// --- Thumbnails ---
+import bee_thumbnail from "../static/thumbnails/bee.jpg"
+import skull_thumbnail from "../static/thumbnails/skull.jpg"
+import flower_thumbnail from "../static/thumbnails/flower.jpg"
+import fish_thumbnail from "../static/thumbnails/fish.jpg"
+import mask_thumbnail from "../static/thumbnails/mask.jpg"
+import card_thumbnail from "../static/thumbnails/card.jpg"
+import demon_thumbnail from "../static/thumbnails/demon.jpg"
+import leaf_thumbnail from "../static/thumbnails/leaf.jpg"
+// --- Full Images ---
+import bee_full from "../static/watermarked/bee.jpg"
+import skull_full from "../static/watermarked/skull.jpg"
+import flower_full from "../static/watermarked/flower.jpg"
+import fish_full from "../static/watermarked/fish.jpg"
+import mask_full from "../static/watermarked/mask.jpg"
+import card_full from "../static/watermarked/card.jpg"
+import demon_full from "../static/watermarked/demon.jpg"
+import leaf_full from "../static/watermarked/leaf.jpg"
 
 // About image
 import aboutImage from "./images/KaraWebsiteImage.jpg"
 
 export default {
 	// Header Details ---------------------
-	name: "Kara Meese",
+	name: "Cheese Meese",
 	headerTagline: [
 		"Building digital",
 		"products, brands,",
@@ -39,55 +50,61 @@ export default {
 
 	// Work Section ------------------------
 	projects: [
-		// NOTE: Projects can also have a url property, if that is different
-		// from the image URL
 		{
 			title: "Bee",
 			desc:
 				"The bee symbolizes community, brightness and personal power. Follow the bee to discover your new destination.",
-			imageSrc: bee,
+			thumbUrl: bee_thumbnail,
+			fullUrl: bee_full,
 		},
 		{
 			title: "Skull",
 			desc:
 				"Skulls are a representation of death, mortality and the unachievable nature of immortality.",
-			imageSrc: skull,
+			thumbUrl: skull_thumbnail,
+			fullUrl: skull_full,
 		},
 		{
 			title: "Peony",
 			desc:
 				"Peonies symbolize bashfulness, wealth, bravery, honor, and good fortune in different cultures around the world.",
-			imageSrc: flower,
+			thumbUrl: flower_thumbnail,
+			fullUrl: flower_full,
 		},
 		{
 			title: "Koi Fish",
 			desc:
 				"In Japan, Koi fish are associated with perseverance in adversity and strength of purpose. They symbolize good luck and abundance.",
-			imageSrc: fish,
+			thumbUrl: fish_thumbnail,
+			fullUrl: fish_full,
 		},
 		{
 			title: "Oni Mask",
 			desc:
 				"This piece was inspired by the traditional Japanese Oni mask, a symbol of protection for those who believe in the spiritual world.",
-			imageSrc: mask,
+			thumbUrl: mask_thumbnail,
+			fullUrl: mask_full,
 		},
 		{
 			title: "Bust of Venus",
 			desc:
 				"In Roman mythology, Venus was the goddess of love, sex, beauty, and fertility, and she had many abilities beyond the Greek Aphrodite.",
-			imageSrc: card,
+			thumbUrl: card_thumbnail,
+			fullUrl: card_full,
 		},
 		{
 			title: "Demon",
 			desc:
 				"A demon is a supernatural being, typically associated with evil, prevalent historically in religion, occultism, literature, fiction, mythology, and folklore.",
-			imageSrc: demon,
+			thumbUrl: demon_thumbnail,
+			fullUrl: demon_full,
 		},
 		{
 			title: "Leaf",
 			desc:
 				"Green leaves depict hope, renewal, and revival. Leaves are symbolic of fertility and growth, and in Chinese tradition represent all the beings of the universe.",
-			imageSrc: leaf,
+			thumbUrl: leaf_thumbnail,
+			fullUrl: leaf_full,
 		},
 	],
 	// End Work Section -----------------------
@@ -97,7 +114,7 @@ export default {
 	// End About Section ---------------------
 
 	// Skills Section ---------------
-	// Import Icons from the top and link it here
+	// Import icons from the top and link them here
 	skills: [
 		{
 			img: brushIcon,

@@ -26,9 +26,13 @@ fs.readdir(artworkDirectory, function (err, files) {
 			if (!stat.isFile()) return;
 
 			await processImage({
-				imagepath: imageSource,
-				saveimagepath: `./static/watermarked/${file}`,
-				watermarkpath: './static/logo.png'
+				imagePath: imageSource,
+				saveImagePath: `./static/watermarked/${file}`,
+				watermarkPath: './static/logo.png',
+				watermarkText: 'Kara Meese',
+				thumbnailPath: `./static/thumbnails/${file}`,
+				thumbnailMaxWidth: 400,
+				thumbnailMaxHeight: 800,
 			});
 		});
 	});
@@ -41,13 +45,19 @@ fs.readdir(artworkDirectory, function (err, files) {
  * to be watermarked.
  */
 async function processImage(options) {
-	Jimp.read(options.imagepath)
+	Jimp.read(options.imagePath)
 		.then(async image => {
-			//await addImageWatermark(image, options.watermarkpath);
-			await addTextWatermark(image, 'Kara Meese');
+			//await addImageWatermark(image, options.watermarkPath);
+			await addTextWatermark(image, options.watermarkText);
+			await generateThumbnail(
+				image,
+				options.thumbnailPath,
+				options.thumbnailMaxWidth,
+				options.thumbnailMaxHeight,
+			);
 
 			image.quality(95);
-			image.writeAsync(options.saveimagepath)
+			image.writeAsync(options.saveImagePath)
 				.then(() => console.log('image saved'))
 				.catch(err => console.error(err));
 		})
@@ -143,16 +153,15 @@ async function addImageWatermark(image, watermarkpath) {
 
 /**
  * Generates a thumbnail of an image.
- * TODO: Implement for the main page, then only load the full
- * images on request via the "Full Image" button.
  * @param {object} image - Jimp image object
- * @param {integer} size - maximum dimension of the thumbnail
  * @param {string} path - the intended destination file
+ * @param {integer} width - maximum width of the thumbnail
+ * @param {integer} height - maximum height of the thumbnail
  */
-async function generateThumbnail(image, size, path) {
+async function generateThumbnail(image, path, width, height) {
 	const thumbnail = image.clone();
-	thumbnail.scaleToFit(options.thumbmax, options.thumbmax);
-	thumbnail.writeAsync(options.thumbpath)
+	thumbnail.scaleToFit(width, height);
+	thumbnail.writeAsync(path)
 		.then(() => console.log('thumbnail saved'))
 		.catch(err => { console.error(err); });
 }

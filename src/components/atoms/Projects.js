@@ -16,8 +16,8 @@ const Projects = ({ projectsToRender }) => {
 					<Card
 						heading={project.title}
 						paragraph={trimDesc(project.desc)}
-						imgUrl={project.imageSrc}
-						projectLink={project.url}
+						thumbUrl={project.thumbUrl}
+						fullUrl={project.fullUrl}
 					></Card>
 				</Fade>
 			))}
