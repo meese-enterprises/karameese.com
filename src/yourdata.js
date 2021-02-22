@@ -37,7 +37,7 @@ import aboutImage from "./images/KaraWebsiteImage.jpg"
 
 export default {
 	// Header Details ---------------------
-	name: "Cheese Meese",
+	name: "Kara Meese",
 	headerTagline: [
 		"Building digital",
 		"products, brands,",
