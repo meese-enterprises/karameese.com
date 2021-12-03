@@ -1,8 +1,13 @@
+#about {
+	color: white;
+	background-color: #1FBBB4;
+}
+
 .about-section {
 	width: 80vw;
-	margin-top: 10vh;
-	display: flex;
-	justify-content: space-between;
+	//min-height: 80vh;
+	margin: auto;
+	margin-top: 3vh;
 	@include media(">=phone", "<lgphone") {
 		flex-direction: column-reverse;
 	}
@@ -13,8 +18,10 @@
 		flex-direction: column-reverse;
 		align-items: center;
 	}
-	.content {
-		width: 50%;
+
+	#description {
+		line-height: 1.45rem;
+		width: 65%;
 		@include media(">=phone", "<lgphone") {
 			width: 100%;
 		}
@@ -23,38 +30,25 @@
 		}
 		@include media(">=tablet", "<desktop") {
 			width: 100%;
-		}
-
-		h1 {
-			font-size: 3rem;
-			line-height: 20px;
-			@include media(">=tablet", "<desktop") {
-				text-align: center;
-			}
-		}
-		p {
-			@include media(">=tablet", "<desktop") {
-				text-align: center;
-			}
-		}
-		a {
-			color: #F0B0D2;
 		}
 	}
-	.image-wrapper {
-		width: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		overflow: hidden;
-		@include media(">=phone", "<lgphone") {
-			width: 100%;
-		}
-		@include media(">=lgphone", "<tablet") {
-			width: 100%;
-		}
+
+	h2 {
+		font-size: 3rem;
+		line-height: 20px;
+		text-align: center;
+	}
+	#summary {
+		font-size: 1.25rem;
+		text-align: center;
+		margin-bottom: 0;
+	}
+	hr {
+		border: 2px solid white;
+	}
+	p {
 		@include media(">=tablet", "<desktop") {
-			width: 100%;
+			text-align: center;
 		}
 	}
 }

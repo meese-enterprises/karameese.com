@@ -1,3 +1,10 @@
+#work {
+	color: white;
+	background-color: #1FBBB4;
+}
+
+
+
 .work-wrapper {
 	width: 80vw;
 	margin-top: 10vh;
@@ -7,6 +14,10 @@
 	h1 {
 		font-size: 3rem;
 		line-height: 20px;
+	}
+	hr {
+		border: 2px solid white;
+		width: 100%;
 	}
 	.grid {
 		display: grid;
@@ -22,5 +33,13 @@
 		@include media(">=tablet", "<desktop") {
 			grid-template-columns: 1fr 1fr;
 		}
+	}
+
+	button {
+		background-color: white;
+		color: #1FBBB4;
+		font-weight: bold;
+		padding-right: 1.5em;
+		padding-left: 1.5em;
 	}
 }

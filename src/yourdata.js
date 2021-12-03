@@ -11,6 +11,10 @@ import twitterIcon from "./images/social/twitter.png"
 import linkedinIcon from "./images/social/linkedin.png"
 import instagramIcon from "./images/social/instagram.svg"
 
+// TODO: Look into something like this for dymanic image imports,
+// or write my own lib if it doesn't work: https://javascript.info/modules-dynamic-imports
+// https://www.npmjs.com/package/babel-plugin-dynamic-import-node-babel-7
+
 // TODO: Find a way to make this dynamic
 // Artwork
 // --- Thumbnails ---
@@ -32,9 +36,6 @@ import card_full from "../static/watermarked/card.jpg"
 import demon_full from "../static/watermarked/demon.jpg"
 import leaf_full from "../static/watermarked/leaf.jpg"
 
-// About image
-import aboutImage from "./images/KaraWebsiteImage.jpg"
-
 export default {
 	// Header Details ---------------------
 	name: "Kara Meese",
@@ -47,6 +48,75 @@ export default {
 		"If you want a unique style of work, you came to the right place.",
 	contactEmail: "me@karameese.com",
 	// End Header Details -----------------------
+
+	// About Section ---------------
+	summary: "dreamer, artist, graphic designer.",
+	description: `
+		Kara is a North Carolina bred, digitally based artist. An expert of honing 
+		her craft along with discovering new methods to express her internal 
+		monologue. Heavily inspired by mythology, the occult, and neo-traditional 
+		tattooing styles her work is best described as alternative and intriguing. 
+		Her passions include advocating for sexual abuse survivors, finding beauty 
+		in negative spaces, and finding new things to worry over. Her story doesn’t 
+		start with a once upon a time but she has been steadily working toward her 
+		happily ever after by being a self-made first generation college student, 
+		U.S. Army veteran, artist, and most recently web developer.
+		`,
+	// End About Section ---------------
+
+	// Skills Section ---------------
+	// Import icons from the top and link them here
+	skills: [
+		{
+			name: 'Artwork',
+			img: brushIcon,
+			desc: `
+				Skilled with pencil, pen, watercolor, oil painting, and almost anything else your heart
+				could desire. Reach out with the details and we can rap about it.
+				`,
+		},
+		{
+			name: 'Digital Design',
+			img: adobeIcon,
+			desc: `
+				Experienced in application design and prototyping with Adobe XD. Extensive
+				experience communicating with developers to turn their creative vision into reality.
+				`,
+		},
+		{
+			name: 'Photography',
+			img: cameraIcon,
+			desc: `
+				I've practiced semi-professional photography for a number of years, and I'm usually available
+				for bookings a few times a month. I specialize in landscapes and people.
+				`,
+		},
+		{
+			name: 'Therapy',
+			img: therapyIcon,
+			desc: `
+				Great at listening to life's problems, providing validation, and offering solutions if and
+				when they are welcome. Contact me to schedule an appointment.
+				`,
+		},
+		{
+			name: 'Tattoos',
+			img: tattooIcon,
+			desc: `
+				Black and white or colored tattoos designed to fit your specifications, with pricing based 
+				on the design's complexity. Reach out with your ideas so we can figure something out.
+				`,
+		},
+		{
+			name: 'Poetry',
+			img: poetryIcon,
+			desc: `
+				Poetry specializing in powerful emotions, ranging from love and romance to sadness and pain.
+				Contact me to see my previous works or to discuss your particular request.
+				`,
+		},
+	],
+	// End Skills Section --------------------------
 
 	// Work Section ------------------------
 	projects: [
@@ -109,58 +179,6 @@ export default {
 	],
 	// End Work Section -----------------------
 
-	// About Secton --------------
-	aboutImage: aboutImage,
-	// End About Section ---------------------
-
-	// Skills Section ---------------
-	// Import icons from the top and link them here
-	skills: [
-		{
-			img: brushIcon,
-			desc: `
-				Skilled with pencil, pen, watercolor, oil painting, and almost anything else your heart
-				could desire. Reach out with the details and we can rap about it.
-				`,
-		},
-		{
-			img: adobeIcon,
-			desc: `
-				Experienced in application design and prototyping with Adobe XD. Extensive
-				experience communicating with developers to turn their creative vision into reality.
-				`,
-		},
-		{
-			img: cameraIcon,
-			desc: `
-				I've practiced semi-professional photography for a number of years, and I'm usually available
-				for bookings a few times a month. I specialize in landscapes and people.
-				`,
-		},
-		{
-			img: therapyIcon,
-			desc: `
-				Great at listening to life's problems, providing validation, and offering solutions if and
-				when they are welcome. Contact me to schedule an appointment.
-				`,
-		},
-		{
-			img: tattooIcon,
-			desc: `
-				Black and white or colored tattoos designed to fit your specifications, with pricing based 
-				on the design's complexity. Reach out with your ideas so we can figure something out.
-				`,
-		},
-		{
-			img: poetryIcon,
-			desc: `
-				Poetry specializing in powerful emotions, ranging from love to sadness and pain.
-				Contact me to see my previous works or to discuss your particular request.
-				`,
-		},
-	],
-	// End Skills Section --------------------------
-
 	//   Promotion Section --------------------------
 	promotionHeading: "Heading",
 	promotionPara:
@@ -168,7 +186,7 @@ export default {
 	// End Promotion Section -----------------
 
 	//   Contact Section --------------
-	contactSubHeading: "Let's create your next experience together",
+	contactSubHeading: "let's create your next experience together.",
 	social: [
 		// NOTE: Link destinations can be updated on Rebrandly
 		{
@@ -185,4 +203,6 @@ export default {
 		},
 	],
 	// End Contact Section ---------------
+
+	
 }

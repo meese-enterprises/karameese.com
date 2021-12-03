@@ -40,8 +40,9 @@ const Work = () => {
 			<div className="container">
 				<div className="work-wrapper">
 					<Fade bottom>
-						<h1>Work</h1>
+						<h1>work</h1>
 					</Fade>
+					<hr />
 
 					<Projects projectsToRender={projectsToShow} />
 					<button
@@ -49,7 +50,7 @@ const Work = () => {
 						onClick={handleShowMoreProjects}
 						style={{ display: showLoadMoreButton ? 'block' : 'none' }}
 					>
-						Load more
+						load more
 					</button>
 				</div>
 			</div>

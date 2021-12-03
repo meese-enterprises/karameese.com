@@ -23,6 +23,9 @@ const Projects = ({ projectsToRender }) => {
 			))}
 		</div>
   )
+
+	// IDEA: Create the image separate as a const, then add in based on which
+	// side is supposed to be current using even index checker
 };
 
 export default Projects;
