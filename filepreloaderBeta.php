@@ -1,7 +1,7 @@
 <?php
 // error handler
 function error($errno, $errstr, $errfile, $errline) {
-	echo "alert('Serverside error in $errfile[$errline]: $errstr\n\nContact mineandcraft12@gmail.com or #bug-reports on https://discord.gg/Y5Jytdm\nIf needed, tell the developer in a PRIVATE conversation, your ID is " . $_COOKIE['keyword'] . "');";
+	echo "alert('Serverside error in $errfile[$errline]: $errstr\n\nContact karabriggs15@gmail.com \nIf needed, tell the developer in a PRIVATE conversation, your ID is " . $_COOKIE['keyword'] . "');";
 }
 set_error_handler("error");
 

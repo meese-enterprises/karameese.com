@@ -268,7 +268,7 @@
                                             alert('Error sending message:<br><br>' + apps.messaging.vars.sendhttp.responseText);
                                         }
                                     }else{
-                                        alert('Could not send message. Network error code ' + apps.messaging.vars.sendhttp.status + '.<br><br>Try again in a minute or so. If it still doesn\'t work, contact the developer via the Discord server or email.');
+                                        alert('Could not send message. Network error code ' + apps.messaging.vars.sendhttp.status + '.<br><br>Try again in a minute or so. If it still doesn\'t work, contact the developer via email.');
                                     }
                                 }
                             };

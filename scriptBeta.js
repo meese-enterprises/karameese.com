@@ -29,7 +29,7 @@ if (typeof CSS !== "undefined") {
 	}
 }
 
-// substitute performance.now if not intact
+// Substitute performance.now if not intact
 var windowperformancenowIntact = 1;
 if (window.performance === undefined) {
 	window.performance = {
@@ -116,7 +116,7 @@ if (typeof document.getElementsByClassName === 'undefined') {
 	}
 }
 
-// end of IE compatibility fixes
+// End of IE compatibility fixes
 
 // Safe mode
 var safeMode = (window.location.href.indexOf('safe=true') > -1);
@@ -129,7 +129,6 @@ if (!themeEditorTemplateMode) {
 }
 
 var darkMode = 0;
-
 function darkSwitch(light, dark) {
 	if (darkMode) {
 		return dark;
@@ -150,9 +149,7 @@ function checkMobileSize() {
 }
 
 var mobileMode = 0;
-function mobileSwitch(no, yes) {
-	return !!mobileMode ? yes : no;
-}
+const mobileSwitch = (no, yes) => !!mobileMode ? yes : no;
 
 function setMobile(type) {
 	if (type) {
@@ -223,9 +220,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
 		lasterrorconfirmation = formDate('YMDHmSs');
 		try {
 			apps.prompt.vars.notify('Error in ' + errorModule + '<br>[' + lineNumber + '] ' + errorMsg + '<br><br>' + randomPhrase, ['Open Console', 'Dismiss'], function (btn) {
-				if (!btn) {
-					openapp(apps.jsConsole, 'dsktp');
-				}
+				if (!btn) openapp(apps.jsConsole, 'dsktp');
 			}, 'Uncaught Error', 'appicons/ds/redx.png');
 		} catch (err) {
 			console.log("Could not prompt error!");
@@ -308,7 +303,7 @@ function numberCommas(number) {
 	tempNCnumber = number + "";
 	tempNCresult = '';
 	// Adds commas every third character from right
-	for (var i = tempNCnumber.length - 3; i > 0; i -= 3) {
+	for (let i = tempNCnumber.length - 3; i > 0; i -= 3) {
 		tempNCresult = ',' + tempNCnumber.substring(i, i + 3) + tempNCresult;
 		tempNCnumber = tempNCnumber.substring(0, i);
 	}
@@ -403,13 +398,6 @@ function markUserMouseActive(event) {
 		}
 		lastPageX = event.pageX;
 		lastPageY = event.pageY;
-		try {
-			if (apps.settings.vars.prlxBackgroundEnabled && apps.settings.vars.prlxBackgroundUsable) {
-				apps.settings.vars.prlxBackgroundUpdate();
-			}
-		} catch (err) {
-			// this error is to be supressed during boot. It is expected to occur.
-		}
 	}
 }
 
@@ -444,22 +432,14 @@ var vartry = function (varname) {
 }
 
 // Convert number to true/false
-function numtf(num) {
-	return !!num;
-}
+const numtf = (num) => !!num;
+const numEnDis = (num) => !!num ? 'Enabled' : 'Disabled';
 
-function numEnDis(num) {
-	return !!num ? 'Enabled' : 'Disabled';
-}
-
-var currentlanguage = getId('bootLanguage').innerHTML;
-// supported languages
+var currentlanguage = 'en';
 var languagepacks = {
-	en: 'US English',
-	uv: 'Ultra-Verbose US English'
+	en: 'US English'
 };
 var langContent = {
-	// LANGUAGES
 	en: {
 		aOS: {
 			framesPerSecond: 'FPS',
@@ -543,7 +523,6 @@ var langContent = {
 			settings: 'Settings',
 			jsConsole: 'JavaScript Console',
 			screenResolution: 'Change Screen Resolution',
-			desktopBackground: 'Change Desktop Background',
 			addIcon: 'Add Icon',
 			speak: 'Speak',
 			taskbarSettings: 'Taskbar Settings',
@@ -582,106 +561,6 @@ var langContent = {
 			load: 'Load',
 			file: 'File',
 			tools: 'Tools'
-		}
-	},
-	uv: {
-		aOS: {
-			framesPerSecond: 'Frames Per Second',
-			cpuUsage: 'Central Processing Unit Load',
-			failedVarTry: 'unsuccessfull', // lowercase
-			fatalError1: 'aOS has reached a fatal error that it was not expecting - the current operation has been aborted the OS has been paused, at least as long as this popup remains open.',
-			fatalError2: 'Horrific disaster in',
-			fatalError3: 'Module in which said horrific disaster occurred', // lowercase
-			fatalError4: 'within line number', // lowercase
-			fatalError5: 'Direct a report of the details of this error directly to the developer for review?',
-			errorReport: 'Failed miserably to save the report to the server. AaronOS has either failed completely to initialize or extremely crucial and vital components have been deleted or heavily damaged. Please email mineandcraft12@gmail.com with the details of your issue if you would like it fixed.'
-		},
-		appNames: {
-			startMenu: "AaronOS Dashboard",
-			nora: "The Developer\'s Name Backwards",
-			taskManager: "Interval and Timeout Manager",
-			jsConsole: "Interface Utitlized to Run JavaScript Code On-The-Fly",
-			bash: "Terminal that Makes a Rather Sad Attempt at Trying to be a Bash Terminal",
-			cpuMon: "Centrol Processing Unit Load Drawer",
-			prompt: "That Random Screen that Pops Up When an Application Demands Attention",
-			settings: "Tool to Configure the AaronOS Desktop Environment",
-			iconMaker: "Tool to Create New Desktop Icons on the Desktop",
-			windowTest: "The First Application Ever Made for AaronOS",
-			testTwo: "The Second Application Ever Made for AaronOS",
-			ragdoll: "Program Ported from my TI-83 Plus Graphing Calculator",
-			notepad: "Program for Modifying the Contents of Text-Based Files",
-			properties: "Helper Program for Viewing the Properties of a File or Folder in Greater Detail",
-			files: "The File Manager that Comes with AaronOS",
-			changelog: "The Log that the Developer Places All of the Changes to AaronOS",
-			flashCards: "Application to Randomly Select and Display Flashcards from a List",
-			pngSave: "Application that Makes a Sad Attempt at Saving PNG Images to the AaronOS File System",
-			canvasGame: "Video Games Written in JavaScript that Utitlize a Canvas Interface",
-			internet: "Sad Excuse for a Web Browser",
-			aerotest: "Application for Easily Testing the Visual Quality of the WindowBlur Effect",
-			savemaster: "Framework that AaronOS Applications Use to Save Files",
-			mouserecord: "Old Abandoned Script that Tracks Your Mouse and Stores it in a File for You",
-			ti: "Simulator of Texas Instruments 83 Plus Calculator",
-			appAPI: "Poorly Written Application Program Interface Documentation",
-			appmaker: "Application that Creates Applications",
-			calculator: "Application that Solves Basic Mathematical Queries",
-			search: "Look For a File or Application within AaronOS",
-			image: "Abandoned Image Editor",
-			changecalc: "Application that Calculates Change",
-			messaging: "Application that Bridges the Gap Between People Online",
-			camera: "Sad Excuse for a Mirror",
-			help: "Application that Attempts to Assist a User in Using AaronOS",
-			musicVis: "Application that Creates Stunning Visuals Based on a Music File",
-			perfMonitor: "Application that Attempts to Monitor Performance",
-			mathway: "Mathway",
-			appsbrowser: "Comprehensive List of all Applications that are Installed on AaronOS",
-			indycar: "Video Game Depicting Indycar",
-			housegame: "Video Game that Takes Place Between Two Warring Factions",
-			simon: "Simon",
-			postit: "Sticky Note",
-			bootScript: "Boot Script Editor",
-			bugCentral: "Bug Central",
-			rdp: "Remote Desktop Host",
-			rdpViewer: "Remote Desktop Viewer",
-			graph: "Function Grapher",
-			extDebug: "External Debug",
-			mouseControl: "Alternate Mouse Control",
-			onlineDebug: "Online Debug Connection",
-			fileBin: "File Binary",
-			magnifier: "Magnifier",
-			jana: "Jana",
-			cookieClicker: "Cookie Clicker"
-		},
-		startMenu: {
-			power: 'Power',
-			taskManager: 'Task Manager',
-			jsConsole: 'JavaScript Console',
-			settings: 'Settings',
-			files: 'Files',
-			allApps: 'All Apps',
-			aosHelp: 'aOS Help',
-			search: 'Search',
-			shutDown: 'Shut Down',
-			restart: 'Restart'
-		},
-		ctxMenu: {
-			settings: 'Settings',
-			jsConsole: 'JavaScript Console',
-			screenResolution: 'Change Screen Resolution',
-			desktopBackground: 'Change Desktop Background',
-			addIcon: 'Add Icon',
-			speak: 'Speak',
-			taskbarSettings: 'Taskbar Settings',
-			openApp: 'Open',
-			moveIcon: 'Move Icon',
-			showApp: 'Show',
-			hideApp: 'Hide',
-			closeApp: 'Close',
-			fold: 'Fold',
-			fullscreen: 'Toggle Fullscreen',
-			stayOnTop: 'Stay On Top',
-			stopOnTop: 'Stop Staying On Top',
-			copyText: 'Copy',
-			pasteText: 'Paste'
 		}
 	}
 }
@@ -1335,7 +1214,6 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 					anything below that says "settings" can be replaced with the name of your app
 					
 					div .window #win_settings_top           Topmost window div, contains entire window
-							div .winAero   #win_settings_aero       Windowblur background of window (compare to Aero effect of Win7)
 							div .winBimg   #win_settings_img        Texture of window borders
 							div .winres    #win_settings_size       Handle to resize window
 							div .winCap    #win_settings_cap        Window caption with title and icon
@@ -2008,12 +1886,12 @@ function repoUpdate(callback, finishFunc) {
 	if (callback) {
 		repoUpdateCallback = callback;
 		repoUpdateCallbackColored = 0;
-		} else {
-			repoUpdateCallback = doLog;
-			repoUpdateCallbackColored = 1;
-		}
-		if (finishFunc) {
-			repoUpdateFinishFunc = finishFunc;
+	} else {
+		repoUpdateCallback = doLog;
+		repoUpdateCallbackColored = 1;
+	}
+	if (finishFunc) {
+		repoUpdateFinishFunc = finishFunc;
 	} else {
 		repoUpdateFinishFunc = null;
 	}
@@ -2021,15 +1899,15 @@ function repoUpdate(callback, finishFunc) {
 	repositoryIDs = [];
 	repoUpdateOutput = [];
 	repoStagedUpdates = 0;
-		for (var repo in repositories) {
-			repoUpdateXHR[repo] = new XMLHttpRequest();
-			if (repo.indexOf("?") > -1) { // this URL parameter is added to beat the Chrome cache system
-				repoUpdateXHR[repo].open('GET', repo + "&ms=" + performance.now());
-			} else {
-				repoUpdateXHR[repo].open('GET', repo + "?ms=" + performance.now());
-			}
-			repoUpdateXHR[repo].onreadystatechange = repoUpdateIntermediate;
-			repoUpdateXHR[repo].repositoryName = repo;
+	for (var repo in repositories) {
+		repoUpdateXHR[repo] = new XMLHttpRequest();
+		if (repo.indexOf("?") > -1) { // this URL parameter is added to beat the Chrome cache system
+			repoUpdateXHR[repo].open('GET', repo + "&ms=" + performance.now());
+		} else {
+			repoUpdateXHR[repo].open('GET', repo + "?ms=" + performance.now());
+		}
+		repoUpdateXHR[repo].onreadystatechange = repoUpdateIntermediate;
+		repoUpdateXHR[repo].repositoryName = repo;
 		repoUpdateXHR[repo].send();
 		repoStagedUpdates++;
 	}
@@ -2037,8 +1915,8 @@ function repoUpdate(callback, finishFunc) {
 	if (repoUpdateCallbackColored) {
 		repoUpdateCallback("| -----", "#579");
 		repoUpdateCallback("| Updating " + repoStagedUpdates + " repositories", "#579");
-			repoUpdateCallback("| ", "#579");
-		} else {
+		repoUpdateCallback("| ", "#579");
+	} else {
 		repoUpdateCallback("Updating " + repoStagedUpdates + " repositories");
 		repoUpdateCallback("");
 	}
@@ -2229,12 +2107,12 @@ function repoRemoveRepository(query, callback, finishingFunc) {
 		if (repositoriesToRemove[i].indexOf('Warning: No Repo ID: ') === 0) {
 			delete repositories[repositoriesToRemove[i].substring(21, repositoriesToRemove[i].length)];
 			(callback || doLog)('Deleted ' + repositoriesToRemove[i].substring(21, repositoriesToRemove[i].length));
-			} else {
-				delete repositories[repositoryIDs[repositoriesToRemove[i]]];
-				(callback || doLog)('Deleted ' + repositoriesToRemove[i] + ": " + repositoryIDs[repositoriesToRemove[i]]);
-			}
+		} else {
+			delete repositories[repositoryIDs[repositoriesToRemove[i]]];
+			(callback || doLog)('Deleted ' + repositoriesToRemove[i] + ": " + repositoryIDs[repositoriesToRemove[i]]);
 		}
-		(callback || doLog)('Updating...');
+	}
+	(callback || doLog)('Updating...');
 	repoUpdate(callback, finishingFunc);
 	return true;
 }
@@ -4161,7 +4039,6 @@ c(function() {
 						phrases: {
 							'open apps': 'To open apps, you can click the app\'s desktop icon, or if the app has been minimised, click its icon on the taskbar. Alternatively, all apps will appear in the applications list in the bottom-left corner of the screen.',
 							'talk to you': 'Your computer must support the speech engine. If you cannot see the "speak" button to the left of my input box, that means your computer doesn\'t.',
-							'change the desktop background': 'You may right-click the desktop and select "Change Desktop Background", or open Settings and find the option in there.',
 							'move desktop icons': 'You may right-click the icon, then click "Move Icon", then click some location on the desktop.',
 							'move windows': 'You can click on the top title bar of the window, then click somewhere else.',
 							'resize windows': 'You can click the bottom half of the border of the window, then click somewhere else.'
@@ -6556,16 +6433,13 @@ c(function() {
 					langOld('settings', 'perfModeTog') + ' <button onClick="apps.settings.vars.togPerformanceMode()">Performance Mode</button><br>' +
 					'<i>' + langOld('settings', 'perfModeDesc') + '</i><hr>' +
 					'<b>' + langOld('settings', 'info') + '</b><br>' +
-					'&nbsp;<b>&copy;</b> <i>2015-2021 Aaron Adams</i><br>' + //          <= COPYRIGHT NOTICE
+					'&nbsp;<b>&copy;</b> <i>2015-2021 Aaron Adams</i><br>' +
 					'<i>' + langOld('settings', 'cookies') + '</i><br>' +
 					'Anonymous data collection: ' + this.vars.collectData + ' <button onclick="apps.settings.vars.collectData = -1 * apps.settings.vars.collectData + 1">Toggle</button><br><br>' +
 					'If you have suggestions, please email <a href="mailto:mineandcraft12@gmail.com">mineandcraft12@gmail.com</a>!<br><br>' +
 					langOld('settings', 'networkOn') + ': ' + window.navigator.onLine + '<br>' +
 					langOld('settings', 'batteryLevel') + ': ' + Math.round(batteryLevel * 100) + '%<br>' +
 					'<i>' + langOld('settings', 'batteryDesc') + '</i><br><br>' +
-					'Text Language: ' + languagepacks[currentlanguage] + '<br>' +
-					'<i>Some apps support different languages. Translation is up to the developer of the app and may not be accurate. Some languages may be limited to a few apps.</i><br>' +
-					apps.settings.vars.getTextLanguages() + '<br><br>' +
 					'OS ID: ' + SRVRKEYWORD + '<br>' +
 					'<button onclick="apps.settings.vars.changeKey()">Load a Different aOS</button><br><i>You need the OS ID of the target aOS, and the target aOS must have a set password (and you must enter it correctly).</i><br><br>' +
 					'<i>If you experience issues with the OS, such as saved files not being recovered, email me and reference your OS ID and the details of the issue.</i><br><br>' +
@@ -6576,14 +6450,6 @@ c(function() {
 					'Your Screen Resolution: ' + window.outerWidth + 'px by ' + window.outerHeight + 'px <button onclick="fitWindowOuter()">Fit aOS to Screen</button><br>' +
 					'Set Custom Resolution:<br><input id="STNscnresX">px by <input id="STNscnresY">px <button onclick="fitWindowRes(getId(\'STNscnresX\').value, getId(\'STNscnresY\').value)">Set aOS Screen Res</button><br>' +
 					'<button onclick="apps.settings.vars.reqFullscreen()">Enter Fullscreen</button> <button onclick="apps.settings.vars.endFullscreen()">Exit Fullscreen</button><hr>' +
-					'<b>Windows</b><br>' +
-					'Window color: <input id="STNwinColorInput" placeholder="rgba(150, 150, 200, 0.5)" value="' + this.vars.currWinColor + '"> <button onClick="apps.settings.vars.setWinColor()">Set</button><br><br>' +
-					'<button onClick="apps.settings.vars.togAero()">Toggle Window Blur Effect</button><br>' +
-					'<i>Windowblur strength is how much windows blur the background. The default is 2, and large values may produce unintended results as well as lower the framerate.</i><br>' +
-					'Windowblur Strength: <input id="STNwinblurRadius" placeholder="5" value="' + this.vars.currWinblurRad + '"> <button onclick="apps.settings.vars.setAeroRad()">Set</button><br>' +
-					'<i>Window Blur uses a Blend Mode to determine how its color affects the background. Since people will have conflicting ideas on what is best, I give you the choice.</i><br>' +
-					'Window Blur Blend Mode: <input id="STNwinBlendInput" placeholder="screen" value="' + this.vars.currWinBlend + '"> <button onClick="apps.settings.vars.setWinBlend()">Set</button><br>' +
-					'Window Background Image: <button onclick="apps.settings.vars.togWinImg()">Toggle</button> | <input id="STNwinImgInput" placeholder="images/winimg.png" value="' + this.vars.currWinImg + '"> <button onclick="apps.settings.vars.setWinImg()">Set</button><hr>' +
 					'<b>Taskbar</b><br>' +
 					'<i>Toggle the display of different elements of the taskbar</i><br>' +
 					'<button onclick="apps.settings.vars.togTimeComp()">Toggle Compact Time</button> <button onclick="apps.settings.vars.togNetStat()">Toggle Network Status</button> <button onclick="apps.settings.vars.togBatStat()">Toggle Battery Status</button> <button onclick="apps.settings.vars.togBatComp()">Toggle Stylish Battery</button> <button onclick="apps.settings.vars.togFpsStat()">Toggle FPS Status</button> <button onclick="apps.settings.vars.togFpsComp()">Toggle Compact FPS</button> <button onclick="apps.settings.vars.togLodStat()">Toggle CPU Status</button><hr>' +
@@ -6644,75 +6510,6 @@ c(function() {
 				folder: 1,
 				folderName: 'Settings',
 				folderPath: 'apps.settings.vars.menus',
-				background: {
-					folder: 0,
-					folderName: 'Desktop Background',
-					folderPath: 'apps.settings.vars.menus.background',
-					image: 'settingIcons/new/background.png',
-					setUrl: {
-						option: 'Background Image URL',
-						description: function() {
-							return 'Set an image as your desktop background. This can be png, jpg, gif, or any other web-compatible image. You can enter a filename from the "aOS Backgrounds" list at the bottom of this page or an external image URL. If aOS is loaded over HTTPS, make sure your image URL is on HTTPS as well. Some external image URLs may not allow aOS to load them.'
-						},
-						buttons: function() {
-							return '<input id="bckGrndImg" placeholder="images/beta1.png" style="display:inline-block; width:50%" value="' + (ufload("aos_system/desktop/background_image") || 'images/beta1.png') + '"> <button onClick="apps.settings.vars.sB()">Set</button>'
-						}
-					},
-					bgFit: {
-						option: 'Background Image Fit',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="apps.settings.vars.bgFit">?</span>.<br>' +
-								'This determines the size and positioning of your background.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.setBgFit(\'corner\')">Corner</button> <button onclick="apps.settings.vars.setBgFit(\'center\')">Center</button> <button onclick="apps.settings.vars.setBgFit(\'cover\')">Cover</button> <button onclick="apps.settings.vars.setBgFit(\'stretch\')">Stretch</button> <button onclick="apps.settings.vars.setBgFit(\'fit\')">Fit</button>'
-						}
-					},
-					liveBackground: {
-						option: 'Live Background',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.liveBackgroundEnabled)"></span>.<br>' +
-								'Live Background allows you to set a website as your desktop wallpaper. Not all websites work as Live Backgrounds.<br>' +
-								'One example here: https://plus.minecraft.net/?autorun=window'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togLiveBg()">Toggle</button> | <input id="STNliveBg" placeholder="URL to site" value="' + apps.settings.vars.liveBackgroundURL + '"> <button onclick="apps.settings.vars.setLiveBg(getId(\'STNliveBg\').value)">Set URL</button>'
-						}
-					},
-					liveBackgroundScrollHide: {
-						option: "Hide Live Background Scrollbar",
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.liveBackgroundScrollHidden)"></span>.<br>' +
-								'Some websites have scrollbars when used as a live background. If this is the case, this setting attempts to hide the scrollbar.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togLiveBgScrollHide()">Toggle</button>'
-						}
-					},
-					parallaxBackground: {
-						option: 'Parallax Background',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.prlxBackgroundEnabled)"></span>.<br>' +
-								'Parallax Background allows you to create your own wallpapers with depth in them. The wallpaper moves around as you move your mouse. Provide a comma-separated list of image URLs. The first image is displayed at the bottom of the stack.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togPrlxBg()">Toggle</button> | <input id="STNprlxBg" placeholder="comma-separated image URLs" value="' + (apps.settings.vars.prlxBackgroundURLs || "images/p1.png,images/p2.png,images/p3.png,images/p4.png") + '"> <button onclick="apps.settings.vars.setPrlxBg(getId(\'STNprlxBg\').value)">Set URLs</button>'
-						}
-					},
-					premade: {
-						option: 'aOS Backgrounds',
-						description: function() {
-							return 'Here are several images that I have included with aOS. Note that I did not make all of these and that most of these backgrounds have their own respective owners.'
-						},
-						buttons: function() {
-							let str = '';
-							for (let i in apps.settings.vars.availableBackgrounds) {
-								str += '<br>' + apps.settings.vars.availableBackgrounds[i] + '<br><a target="_blank" href="' + apps.settings.vars.availableBackgrounds[i] + '"><button>Preview in New Tab</button></a>';
-							}
-							return str;
-						}
-					}
-				},
 				performance: {
 					folder: 0,
 					folderName: 'Performance',
@@ -6823,7 +6620,7 @@ c(function() {
 							return 'Having issues? Need help? Something broken on aOS? Want to suggest changes or features? Have some other need to contact me? Feel free to contact me below!'
 						},
 						buttons: function() {
-							return 'Email: <a href="mailto:mineandcraft12@gmail.com">mineandcraft12@gmail.com</a><br>Discord: Meowster Chief#1121'
+							return 'Email: <a href="mailto:karabriggs15@gmail.com">karabriggs15@gmail.com</a>'
 						}
 					},
 					dataCollect: {
@@ -6836,16 +6633,6 @@ c(function() {
 								'<button onclick="apps.settings.vars.collectData = -1 * apps.settings.vars.collectData + 1">Toggle</button><br>' +
 								'All ongoing data collection campaigns will be detailed in full here:' +
 								apps.settings.vars.getDataCampaigns()
-						}
-					},
-					textLanguage: {
-						option: 'Text Language',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="languagepacks[(currentlanguage || \'en\')]">' + languagepacks[(currentlanguage || 'en')] + '</span>.<br>' +
-								'Some apps support different languages. Translation is up to the developer of the app and may not be accurate. Some languages may be limited to few apps.'
-						},
-						buttons: function() {
-							return apps.settings.vars.getTextLanguages()
 						}
 					},
 					uglyLoading: {
@@ -6937,63 +6724,6 @@ c(function() {
 							return '<button onclick="apps.settings.vars.togDarkMode();apps.settings.vars.showMenu(apps.settings.vars.menus.windows)">Toggle</button>'
 						}
 					},
-					windowBorderWidth: {
-						option: 'Window Border Width',
-						description: function() {
-							return 'Set the width of the left, right, and bottom borders of windows.'
-						},
-						buttons: function() {
-							return '<input id="STNwinBorderInput" placeholder="3" value="' + apps.settings.vars.winBorder + '"> <button onclick="apps.settings.vars.setWinBorder(getId(\'STNwinBorderInput\').value)">Set</button>'
-						}
-					},
-					windowColor: {
-						option: 'Window Color',
-						description: function() {
-							return 'Set the color of your window borders, as any CSS-compatible color. (#HEX, RGBA, or a common color name)'
-						},
-						buttons: function() {
-							return '<input id="STNwinColorInput" placeholder="rgba(150, 150, 200, 0.5)" value="' + apps.settings.vars.currWinColor + '"> <button onClick="apps.settings.vars.setWinColor()">Set</button>'
-						}
-					},
-					backdropFilter: {
-						option: 'Window Glass Effect',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.isBackdrop)">true</span>.<br>' +
-								'Toggle the glass effect that blurs everything behind transparent window borders and the taskbar.'
-						},
-						buttons: function() {
-							return '<button onClick="apps.settings.vars.togBackdropFilter()">Toggle Glass Effect</button>'
-						}
-					},
-					blurStrength: {
-						option: 'Window Glass Blur Strength',
-						description: function() {
-							return 'Strength of the blur effect on window glass. Large numbers may produce framerate drops and unintended effects on appearance.'
-						},
-						buttons: function() {
-							return '<input id="STNwinblurRadius" placeholder="5" value="' + apps.settings.vars.currWinblurRad + '"> <button onclick="apps.settings.vars.setAeroRad()">Set</button>'
-						}
-					},
-					winImg: {
-						option: 'Window Border Texture',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.enabWinImg)">' + numEnDis(apps.settings.vars.enabWinImg) + '</span>.<br>' +
-								'An image overlay on the border of windows and the taskbar that adds some texture.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togWinImg()">Toggle</button> | <input id="STNwinImgInput" placeholder="images/winimg.png" value="' + apps.settings.vars.currWinImg + '"> <button onclick="apps.settings.vars.setWinImg()">Set</button>'
-						}
-					},
-					displaceMap: {
-						option: 'Glass Distortion Effect <i>(experimental)</i>',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.dispMapEffect)">false</span>.<br>' +
-								'This experimental effect adds distortion to the glass effect that matches the default window texture. This makes it look more like textured glass and less like a simple blur.'
-						},
-						buttons: function() {
-							return '<button onClick="apps.settings.vars.togDispMap()">Toggle Distortion Effect</button>'
-						}
-					},
 					fadeDist: {
 						option: 'Window Fade Size',
 						description: function() {
@@ -7003,25 +6733,6 @@ c(function() {
 							return '<input id="STNwinFadeInput" placeholder="0.8" value="' + apps.settings.vars.winFadeDistance + '"> <button onClick="apps.settings.vars.setFadeDistance(getId(\'STNwinFadeInput\').value)">Set</button>'
 						}
 					},
-					windowBlur: {
-						option: 'Legacy Windowblur (OLD!)',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(parseInt(ufload(\'aos_system/windows/blur_enabled\') || \'0\'))">Disabled</span>.<br>' +
-								'This is the old version of the glass effect that aOS used before it was supported. This effect only shows a blurred version of the desktop background and you can\'t see other windows through it. This can be helpful if the newer glass effect doesn\'t work on your browser.'
-						},
-						buttons: function() {
-							return '<button onClick="apps.settings.vars.togAero()">Toggle Legacy Windowblur Effect</button>'
-						}
-					},
-					blurBlend: {
-						option: 'Legacy Windowblur Blend Mode',
-						description: function() {
-							return 'Legacy Windowblur uses a Blend Mode to determine how its color affects the background. Since people will have conflicting ideas on what is best, I give you the choice.'
-						},
-						buttons: function() {
-							return '<input id="STNwinBlendInput" placeholder="screen" value="' + apps.settings.vars.currWinBlend + '"> <button onClick="apps.settings.vars.setWinBlend()">Set</button>'
-						}
-					}
 				},
 				taskbar: {
 					folder: 0,
@@ -7043,7 +6754,7 @@ c(function() {
 							return 'Change the position of the taskbar on the screen.'
 						},
 						buttons: function() {
-							return '<button onclick="apps.settings.vars.setTskbrPos(0)">Bottom</button> <button onclick="apps.settings.vars.setTskbrPos(1)">Top</button> <button onclick="apps.settings.vars.setTskbrPos(2)">Left</button> <button onclick="apps.settings.vars.setTskbrPos(3)">Right</button>'
+							return '<button onclick="apps.settings.vars.setTskbrPos(1)">Top</button>'
 						}
 					},
 					widgets: {
@@ -7341,15 +7052,6 @@ c(function() {
 							return 'You must reboot aOS for language changes to take effect.'
 						}
 					},
-					changeLanguage: {
-						option: 'Change language',
-						description: function() {
-							return 'Click a button, then restart aOS to change the language.'
-						},
-						buttons: function() {
-							return apps.settings.vars.getTextLanguages()
-						}
-					},
 					credits: {
 						option: 'Translation Credits',
 						description: function() {
@@ -7383,64 +7085,47 @@ c(function() {
 				},
 			},
 			showMenu: function (menu) {
-				if (menu === 'oldMenu') {
-					openapp(apps.settings, 'oldMenu');
-				} else {
-					apps.settings.appWindow.setContent(
-						'<div id="STNmenuDiv" style="font-family:aosProFont, monospace;font-size:12px;width:calc(100% - 3px);height:100%;overflow:auto">' +
-						'<p id="STNmenuTitle" class="noselect" style="font-size:36px;margin:8px;">' + menu.folderName +
-						'<button id="STNhomeButton" onclick="apps.settings.vars.showMenu(apps.settings.vars.menus)" style="float:left;margin:8px;top:8px;left:0;position:absolute;display:none;">Home</button>' +
-						'</p><br></div>'
-					);
-					//if(menu.folder === 1){
-					getId("STNmenuDiv").innerHTML += '<div id="STNmenuTable" class="noselect" style="width:100%;position:relative;"></div>';
-					//var j = 0;
-					var appendStr = '';
-					for (var i in this.menus) {
-						if (i !== 'folder' && i !== 'folderName' && i !== 'folderPath' && i !== 'image' && i !== 'oldMenu') {
-							//if(j % 3 === 0 && j !== 0){
-							//    appendStr += '</tr><tr class="STNtableTR">';
-							//}
-							if (this.menus[i].image) {
-								appendStr += '<div class="STNtableTD cursorPointer" onclick="apps.settings.vars.showMenu(' + this.menus[i].folderPath + ')"><img src="' + this.menus[i].image + '" style="margin-bottom:-12px;width:32px;height:32px;margin-right:3px;' + darkSwitch('', 'filter:invert(1);') + '"> ' + this.menus[i].folderName + '</div>';
-							} else {
-								appendStr += '<div class="STNtableTD cursorPointer" onclick="apps.settings.vars.showMenu(' + this.menus[i].folderPath + ')"><div style="margin-bottom:-12px;width:32px;height:32px;margin-right:3px;position:relative;display:inline-block;"></div> ' + this.menus[i].folderName + '</div>';
-							}
-							//j++;
+				if (menu === 'oldMenu') return openapp(apps.settings, 'oldMenu');
+
+				apps.settings.appWindow.setContent(
+					'<div id="STNmenuDiv" style="font-family:aosProFont, monospace;font-size:12px;width:calc(100% - 3px);height:100%;overflow:auto">' +
+					'<p id="STNmenuTitle" class="noselect" style="font-size:36px;margin:8px;">' + menu.folderName +
+					'<button id="STNhomeButton" onclick="apps.settings.vars.showMenu(apps.settings.vars.menus)" style="float:left;margin:8px;top:8px;left:0;position:absolute;display:none;">Home</button>' +
+					'</p><br></div>'
+				);
+
+				getId("STNmenuDiv").innerHTML += '<div id="STNmenuTable" class="noselect" style="width:100%;position:relative;"></div>';
+				let appendStr = '';
+				for (let i in this.menus) {
+					if (i !== 'folder' && i !== 'folderName' && i !== 'folderPath' && i !== 'image' && i !== 'oldMenu') {
+						if (this.menus[i].image) {
+							appendStr += '<div class="STNtableTD cursorPointer" onclick="apps.settings.vars.showMenu(' + this.menus[i].folderPath + ')"><img src="' + this.menus[i].image + '" style="margin-bottom:-12px;width:32px;height:32px;margin-right:3px;' + darkSwitch('', 'filter:invert(1);') + '"> ' + this.menus[i].folderName + '</div>';
+						} else {
+							appendStr += '<div class="STNtableTD cursorPointer" onclick="apps.settings.vars.showMenu(' + this.menus[i].folderPath + ')"><div style="margin-bottom:-12px;width:32px;height:32px;margin-right:3px;position:relative;display:inline-block;"></div> ' + this.menus[i].folderName + '</div>';
 						}
 					}
-					getId('STNmenuTable').innerHTML += appendStr;
-					//}else{
-					if (!menu.folder) {
-						getId('STNmenuTable').style.width = '225px';
-						getId('STNmenuTable').style.position = 'absolute';
-						getId('STNmenuTable').style.height = 'calc(100% - 64px)';
-						getId('STNmenuTable').style.bottom = '0';
-						getId('STNmenuTable').style.overflowY = 'auto';
-						getId('STNmenuTitle').style.marginLeft = '76px';
-						if (menu !== this.menus) {
-							getId('STNhomeButton').style.display = 'block';
-						}
-						getId('STNmenuTable').style.maxWidth = "calc(50% - 6px)";
-						getId('STNmenuDiv').innerHTML += '<div id="STNcontentDiv" style="width:calc(100% - 232px);min-width:50%;padding-top:5px;right:0;bottom:0;height:calc(100% - 69px);overflow-y:auto;"></div>';
-						for (var i in menu) {
-							if (i !== 'folder' && i !== 'folderName' && i !== 'folderPath' && i !== 'image') {
-								getId('STNcontentDiv').innerHTML += '<span style="font-size:24px">' + menu[i].option +
-									'</span><br><br>' + menu[i].description() +
-									'<br><br>' + menu[i].buttons() + '<br><br><br>';
-							}
-						}
+				}
+
+				getId('STNmenuTable').innerHTML += appendStr;
+				if (menu.folder) return;
+
+				getId('STNmenuTable').style.width = '225px';
+				getId('STNmenuTable').style.position = 'absolute';
+				getId('STNmenuTable').style.height = 'calc(100% - 64px)';
+				getId('STNmenuTable').style.bottom = '0';
+				getId('STNmenuTable').style.overflowY = 'auto';
+				getId('STNmenuTitle').style.marginLeft = '76px';
+				if (menu !== this.menus) getId('STNhomeButton').style.display = 'block';
+				getId('STNmenuTable').style.maxWidth = "calc(50% - 6px)";
+				getId('STNmenuDiv').innerHTML += '<div id="STNcontentDiv" style="width:calc(100% - 232px);min-width:50%;padding-top:5px;right:0;bottom:0;height:calc(100% - 69px);overflow-y:auto;"></div>';
+				for (let i in menu) {
+					if (i !== 'folder' && i !== 'folderName' && i !== 'folderPath' && i !== 'image') {
+						getId('STNcontentDiv').innerHTML += '<span style="font-size:24px">' + menu[i].option +
+							'</span><br><br>' + menu[i].description() +
+							'<br><br>' + menu[i].buttons() + '<br><br><br>';
 					}
-					//}
 				}
 			},
-			availableBackgrounds: [
-				'images/beta1.png',
-				'images/p.png',
-				'images/bgBeta.png',
-				'images/p-bin.png',
-				'images/p-phonebin_1.png'
-			],
 			screensaverBlockNames: [],
 			corsProxy: 'https://cors-anywhere.herokuapp.com/',
 			saveRes: function (newX, newY) {
@@ -7473,9 +7158,8 @@ c(function() {
 					document.getElementById("desktop").classList.add("leftCaptionButtons");
 					this.captionButtonsLeft = 1;
 				}
-				if (!nosave) {
-					ufsave('aos_system/windows/controls_on_left', this.captionButtonsLeft);
-				}
+
+				if (!nosave) ufsave('aos_system/windows/controls_on_left', this.captionButtonsLeft);
 			},
 			iconTitlesEnabled: 1,
 			toggleIconTitles: function (nosave) {
@@ -7485,16 +7169,12 @@ c(function() {
 				} else {
 					getId("icons").classList.add("noIconTitles");
 				}
-				if (!nosave) {
-					ufsave("aos_system/taskbar/iconTitles", String(this.iconTitlesEnabled));
-				}
+				if (!nosave) ufsave("aos_system/taskbar/iconTitles", String(this.iconTitlesEnabled));
 			},
 			setClipboardSlots: function (newSlots, nosave) {
 				textEditorTools.slots = newSlots;
 				textEditorTools.updateSlots();
-				if (!nosave) {
-					ufsave('aos_system/clipboard_slots', newSlots);
-				}
+				if (!nosave) ufsave('aos_system/clipboard_slots', newSlots);
 			},
 			setDashboard: function (dashboardName) {
 				apps.startMenu.vars.listOfApps = '';
@@ -7504,9 +7184,7 @@ c(function() {
 			setScale: function (newScale, nosave) {
 				window.screenScale = parseFloat(newScale);
 				fitWindow();
-				if (!nosave) {
-					lfsave('aos_system/apps/settings/ui_scale', newScale);
-				}
+				if (!nosave) lfsave('aos_system/apps/settings/ui_scale', newScale);
 			},
 			togDarkMode: function (nosave) {
 				if (darkMode) {
@@ -7517,13 +7195,11 @@ c(function() {
 					document.body.classList.add('darkMode');
 				}
 				apps.settings.vars.updateFrameStyles();
-				if (!nosave) {
-					ufsave('aos_system/windows/dark_mode', darkMode);
-				}
+				if (!nosave) ufsave('aos_system/windows/dark_mode', darkMode);
 			},
 			updateFrameStyles: function() {
 				var allFrames = document.getElementsByTagName("iframe");
-				for (var i = 0; i < allFrames.length; i++) {
+				for (let i = 0; i < allFrames.length; i++) {
 					try {
 						if (allFrames[i].getAttribute("data-parent-app")) {
 							allFrames[i].contentWindow.postMessage({
@@ -7548,83 +7224,8 @@ c(function() {
 					setMobile(0);
 					autoMobile = 0;
 				}
-				if (!nosave) {
-					lfsave('aos_system/apps/settings/mobile_mode', type);
-				}
+				if (!nosave) lfsave('aos_system/apps/settings/mobile_mode', type);
 				checkMobileSize();
-			},
-			liveBackgroundEnabled: 0,
-			liveBackgroundScrollHide: 0,
-			liveBackgroundURL: '',
-			prxlBackgroundEnabled: 0,
-			prlxBackgroundURLs: 'images/p1.png,images/p2.png,images/p3.png,images/p4.png',
-			prlxBackgroundUsable: 0,
-			togLiveBg: function (nosave) {
-				if (apps.settings.vars.prlxBackgroundEnabled) {
-					apps.settings.vars.togPrlxBg();
-				}
-				if (apps.settings.vars.liveBackgroundEnabled) {
-					apps.settings.vars.liveBackgroundEnabled = 0;
-					getId('liveBackground').style.display = 'none';
-					getId('liveBackground').src = '';
-				} else {
-					apps.settings.vars.liveBackgroundEnabled = 1;
-					getId('liveBackground').style.display = 'block';
-					getId('liveBackground').src = apps.settings.vars.liveBackgroundURL;
-				}
-				if (!nosave) {
-					ufsave('aos_system/desktop/background_live_enabled', apps.settings.vars.liveBackgroundEnabled);
-				}
-			},
-			togLiveBgScrollHide: function (nosave) {
-				if (apps.settings.vars.liveBackgroundScrollHide) {
-					apps.settings.vars.liveBackgroundScrollHide = 0;
-					getId('liveBackground').style.width = "";
-				} else {
-					apps.settings.vars.liveBackgroundScrollHide = 1;
-					getId('liveBackground').style.width = "calc(100% + 17px)";
-				}
-				if (!nosave) {
-					ufsave('aos_system/desktop/background_live_hide_scrollbar', apps.settings.vars.liveBackgroundScrollHide);
-				}
-			},
-			setLiveBg: function (newURL, nosave) {
-				apps.settings.vars.liveBackgroundURL = newURL;
-				if (apps.settings.vars.liveBackgroundEnabled) {
-					getId('liveBackground').src = newURL;
-				}
-				if (!nosave) {
-					ufsave('aos_system/desktop/background_live_url', newURL);
-				}
-			},
-			togPrlxBg: function (nosave) {
-				if (apps.settings.vars.liveBackgroundEnabled) {
-					apps.settings.vars.togLiveBg();
-				}
-				if (apps.settings.vars.prlxBackgroundEnabled) {
-					apps.settings.vars.prlxBackgroundEnabled = 0;
-					getId('prlxBackground').style.display = 'none';
-					getId('prlxBackground').src = '';
-				} else {
-					apps.settings.vars.prlxBackgroundEnabled = 1;
-					getId('prlxBackground').style.display = 'block';
-					getId('prlxBackground').src = 'prlxBg.php?img=' + encodeURIComponent(apps.settings.vars.prlxBackgroundURLs) + '#0,0';
-				}
-				if (!nosave) {
-					ufsave('aos_system/desktop/background_parallax_enabled', apps.settings.vars.prlxBackgroundEnabled);
-				}
-			},
-			setPrlxBg: function (newURL, nosave) {
-				apps.settings.vars.prlxBackgroundURLs = newURL;
-				if (apps.settings.vars.prlxBackgroundEnabled) {
-					getId('prlxBackground').src = 'prlxBg.php?img=' + encodeURIComponent(newURL) + '#0,0';
-				}
-				if (!nosave) {
-					apps.savemaster.vars.save('aos_system/desktop/background_parallax_layers', newURL, 1);
-				}
-			},
-			prlxBackgroundUpdate: function() {
-				getId('prlxBackground').src = getId('prlxBackground').src.split('#')[0] + '#' + lastPageX + ',' + lastPageY;
 			},
 			tmpPasswordSet: '',
 			newPassword: function() {
@@ -7651,7 +7252,6 @@ c(function() {
 					var passfd = new FormData();
 					passfd.append('pass', tmpPasswordSet);
 					passxhr.send(passfd);
-					//apps.settings.vars.tmpPasswordSet = "";
 				}, 1000);
 				getId("STNosPass").value = "";
 			},
@@ -7660,25 +7260,19 @@ c(function() {
 				var fltOps = 0.0;
 				var strOps = "";
 				var firstTime = performance.now();
-				//var currSec = formDate('S');
-				//while(currSec === formDate('S')){
-				//    
-				//}
-				//currSec = formDate('S');
-				//while(currSec === formDate('S')){
+				
 				while (performance.now() - firstTime <= 1000) {
 					intOps += 1;
 				}
-				//currSec = formDate('S');
-				//while(currSec === formDate('S')){
+
 				while (performance.now() - firstTime <= 2000) {
 					fltOps += 0.1;
 				}
-				//currSec = formDate('S');
-				//while(currSec === formDate('S')){
+				
 				while (performance.now() - firstTime <= 3000) {
 					strOps += "A";
 				}
+
 				fltOps = Math.floor(fltOps * 10);
 				strOps = strOps.length;
 				apps.prompt.vars.alert("Operations Per Second:<br>Note: This value may be inaccurate due to counting time<br><br>Integer OPS: " + numberCommas(intOps) + "<br>Floating Point OPS: " + numberCommas(fltOps) + "<br>String OPS: " + numberCommas(strOps), 'OK', function() {}, 'Settings');
@@ -7687,9 +7281,7 @@ c(function() {
 			longTapTime: 500000,
 			togLongTap: function (nosave) {
 				this.longTap = -1 * this.longTap + 1;
-				if (!nosave) {
-					ufsave('aos_system/apps/settings/ctxmenu_two_fingers', this.longTap);
-				}
+				if (!nosave) ufsave('aos_system/apps/settings/ctxmenu_two_fingers', this.longTap);
 			},
 			clickToMove: 0,
 			togClickToMove: function() {
@@ -7697,9 +7289,7 @@ c(function() {
 			},
 			togNoraHelpTopics: function (nosave) {
 				this.noraHelpTopics = this.noraHelpTopics * -1 + 1;
-				if (!nosave) {
-					ufsave('aos_system/noraa/adv_help_enabled', this.noraHelpTopics);
-				}
+				if (!nosave) ufsave('aos_system/noraa/adv_help_enabled', this.noraHelpTopics);
 			},
 			noraHelpTopics: 1,
 			collectData: 0,
@@ -7709,38 +7299,25 @@ c(function() {
 			currNoraListening: "0",
 			togNoraListen: function (nosave) {
 				if (this.currNoraListening === "1") {
-					//stop nora's listening
+					// Stop nora's listening
 					this.currNoraListening = "0";
 					apps.nora.vars.stopContRecog();
-					if (!nosave) {
-						ufsave('aos_system/noraa/listen_enabled', this.currNoraListening);
-					}
+					if (!nosave) ufsave('aos_system/noraa/listen_enabled', this.currNoraListening);
 				} else {
-					//start nora's listening
+					// Start nora's listening
 					this.currNoraListening = "1";
 					apps.nora.vars.startContRecog();
-					if (!nosave) {
-						ufsave('aos_system/noraa/listen_enabled', this.currNoraListening);
-					}
+					if (!nosave) ufsave('aos_system/noraa/listen_enabled', this.currNoraListening);
 				}
 			},
 			togNoraPhrase: function (nosave) {
 				this.currNoraPhrase = getId('STNnoraphrase').value;
-				if (!nosave) {
-					ufsave('aos_system/noraa/listen_phrase', this.currNoraPhrase);
-				}
+				if (!nosave) ufsave('aos_system/noraa/listen_phrase', this.currNoraPhrase);
 			},
 			setDebugLevel: function (level) {
 				dbgLevel = level;
 			},
 			winBorder: 3,
-			setWinBorder: function (newValue, nosave) {
-				this.winBorder = parseInt(newValue);
-				getId('windowBorderStyle').innerHTML = '#monitor{--windowBorderWidth:' + this.winBorder + 'px;}';
-				if (!nosave) {
-					ufsave('aos_system/windows/border_width', this.winBorder);
-				}
-			},
 			dataCampaigns: [
 				[
 					'Example Campaign <i>(not real)</i>',
@@ -7750,9 +7327,9 @@ c(function() {
 			getDataCampaigns: function() {
 				if (this.dataCampaigns.length > 0) {
 					var str = "";
-					for (var i in this.dataCampaigns) {
+					for (let i in this.dataCampaigns) {
 						str += '<br>' + this.dataCampaigns[i][0];
-						for (var j in this.dataCampaigns[i][1]) {
+						for (let j in this.dataCampaigns[i][1]) {
 							str += '<br>-&nbsp;' + this.dataCampaigns[i][1][j];
 						}
 					}
@@ -7777,22 +7354,18 @@ c(function() {
 				perfStart('settings');
 				if (this.enabWinImg) {
 					this.tempArray = document.getElementsByClassName("winBimg");
-					for (var elem = 0; elem < this.tempArray.length; elem++) {
+					for (let elem = 0; elem < this.tempArray.length; elem++) {
 						this.tempArray[elem].style.display = "none";
 					}
 					this.enabWinImg = 0;
-					if (!nosave) {
-						ufsave("aos_system/windows/border_texture_enabled", "0");
-					}
+					if (!nosave) ufsave("aos_system/windows/border_texture_enabled", "0");
 				} else {
 					this.tempArray = document.getElementsByClassName("winBimg");
-					for (var elem = 0; elem < this.tempArray.length; elem++) {
+					for (let elem = 0; elem < this.tempArray.length; elem++) {
 						this.tempArray[elem].style.display = "block";
 					}
 					this.enabWinImg = 1;
-					if (!nosave) {
-						ufsave("aos_system/windows/border_texture_enabled", "1");
-					}
+					if (!nosave) ufsave("aos_system/windows/border_texture_enabled", "1");
 				}
 				d(1, perfCheck('settings') + '&micro;s to toggle windowbgimg');
 			},
@@ -7800,25 +7373,17 @@ c(function() {
 				perfStart('settings');
 				this.currWinImg = getId('STNwinImgInput').value;
 				this.tempArray = document.getElementsByClassName("winBimg");
-				for (var elem = 0; elem < this.tempArray.length; elem++) {
+				for (let elem = 0; elem < this.tempArray.length; elem++) {
 					this.tempArray[elem].style.backgroundImage = 'url(' + this.currWinImg + ')';
 				}
-				if (!nosave) {
-					ufsave("aos_system/windows/border_texture", this.currWinImg);
-				}
+
+				if (!nosave) ufsave("aos_system/windows/border_texture", this.currWinImg);
 				d(1, perfCheck('settings') + '&micro;s to set windowbgimg');
-			},
-			getTextLanguages: function() {
-				this.currLangStr = '';
-				for (var i in languagepacks) {
-					this.currLangStr += '<button onclick="currentlanguage = \'' + i + '\';ufsave(\'aos_system/language\', \'' + i + '\')">' + languagepacks[i] + '</button> ';
-				}
-				return this.currLangStr;
 			},
 			getVoicesForNORAA: function() {
 				this.currVoiceStr = '';
 				if (apps.nora.vars.voices !== []) {
-					for (var i in apps.nora.vars.voices) {
+					for (let i in apps.nora.vars.voices) {
 						this.currVoiceStr += '<button onclick="apps.nora.vars.lang = \'' + apps.nora.vars.voices[i].name + '\';window.speechSynthesis.onvoiceschanged();apps.settings.vars.saveNORAAvoice()">' + apps.nora.vars.voices[i].name + '</button> ';
 					}
 					return this.currVoiceStr;
@@ -7831,18 +7396,15 @@ c(function() {
 			},
 			NORAAsetDelay: function (nosave) {
 				apps.nora.vars.inputDelay = parseInt(getId('STNnoraDelay').value, 10);
-				if (!nosave) {
-					ufsave('aos_system/noraa/speech_response_delay', apps.nora.vars.inputDelay);
-				}
+				if (!nosave) ufsave('aos_system/noraa/speech_response_delay', apps.nora.vars.inputDelay);
 			},
 			tempArray: [],
 			performanceMode: 0,
 			togPerformanceMode: function (nosave) {
 				this.performanceMode = -1 * this.performanceMode + 1;
-				if (!nosave) {
-					ufsave('aos_system/apps/settings/performance_mode', this.performanceMode);
-				}
+				if (!nosave) ufsave('aos_system/apps/settings/performance_mode', this.performanceMode);
 				tskbrToggle.perfMode = this.performanceMode;
+
 				if (this.performanceMode) {
 					getId('monitor').style.imageRendering = 'pixelated';
 					getId('windowFrameOverlay').style.background = 'rgba(255, 255, 255, 0.1)';
@@ -7857,30 +7419,18 @@ c(function() {
 					getId('windowFrameOverlay').style.borderRadius = '';
 				}
 			},
-			bgFit: 'cover',
-			setBgFit: function (newFit, nosave) {
-				this.bgFit = newFit;
-				if (!nosave) {
-					ufsave("aos_system/desktop/background_fit", newFit);
-				}
-				try {
-					updateBgSize();
-				} catch (err) {
-
-				}
-			},
+			bgFit: 'center',
 			getWidgetList: function() {
 				var nodes = getId('time').childNodes;
 				var str = '<li>';
-				for (var i = 0; i < nodes.length; i++) {
+				for (let i = 0; i < nodes.length; i++) {
 					str += widgets[nodes[i].getAttribute('data-widget-name')].name + '</li><li>';
 				}
 				return str + '</li>';
 			},
 			getWidgetButtons: function() {
 				var str = '';
-				for (var i in widgets) {
-					//str += widgets[nodes[i].getAttribute('data-widget-name')].name + '</li><li>';
+				for (let i in widgets) {
 					if (widgets[i].place === -1) {
 						str += '<button onclick="addWidget(\'' + widgets[i].codeName + '\');apps.settings.vars.showMenu(apps.settings.vars.menus.taskbar);">Add ' + widgets[i].name + ' Widget</button><br>';
 					} else {
@@ -8182,7 +7732,7 @@ c(function() {
 			scnsavList: '',
 			grabScreensavers: function() {
 				this.scnsavList = '';
-				for (var item in this.screensavers) {
+				for (let item in this.screensavers) {
 					this.scnsavList += '<button onclick="apps.settings.vars.setScreensaver(\'' + item + '\')">' + this.screensavers[item].name + '</button> ';
 				}
 				return this.scnsavList;
@@ -8229,20 +7779,16 @@ c(function() {
 				perfStart('settings');
 				if (this.isAero) {
 					this.tempArray = document.getElementsByClassName("winAero");
-					for (var elem = 0; elem < this.tempArray.length; elem++) {
+					for (let elem = 0; elem < this.tempArray.length; elem++) {
 						this.tempArray[elem].style.backgroundImage = "none";
 						this.tempArray[elem].style.backgroundBlendMode = "initial";
 						this.tempArray[elem].style.filter = "none";
 						this.tempArray[elem].style.webkitFilter = "none";
 					}
 					this.isAero = 0;
-					if (!nosave) {
-						ufsave("aos_system/windows/blur_enabled", "0");
-					}
+					if (!nosave) ufsave("aos_system/windows/blur_enabled", "0");
 				} else {
-					if (this.isBackdrop) {
-						this.togBackdropFilter(nosave);
-					}
+					if (this.isBackdrop) this.togBackdropFilter(nosave);
 					this.tempArray = document.getElementsByClassName("winAero");
 					for (var elem = 0; elem < this.tempArray.length; elem++) {
 						this.tempArray[elem].style.backgroundImage = getId("monitor").style.backgroundImage;
@@ -8251,9 +7797,7 @@ c(function() {
 						this.tempArray[elem].style.webkitFilter = "blur(" + this.currWinblurRad + "px)";
 					}
 					this.isAero = 1;
-					if (!nosave) {
-						ufsave("aos_system/windows/blur_enabled", "1");
-					}
+					if (!nosave) ufsave("aos_system/windows/blur_enabled", "1");
 				}
 				d(1, perfCheck('settings') + '&micro;s to toggle windowblur');
 			},
@@ -8262,14 +7806,10 @@ c(function() {
 			togDispMap: function (nosave) {
 				if (this.dispMapEffect) {
 					this.dispMapEffect = "";
-					if (!nosave) {
-						ufsave("aos_system/windows/distort_enabled", "0");
-					}
+					if (!nosave) ufsave("aos_system/windows/distort_enabled", "0");
 				} else {
 					this.dispMapEffect = " url(#svgblur)";
-					if (!nosave) {
-						ufsave("aos_system/windows/distort_enabled", "1");
-					}
+					if (!nosave) ufsave("aos_system/windows/distort_enabled", "1");
 				}
 				if (this.isBackdrop) {
 					this.togBackdropFilter(1);
@@ -8290,15 +7830,11 @@ c(function() {
 					getId("tskbrBimg").style.backgroundPosition = "";
 					getId('ctxMenu').classList.remove('backdropFilterCtxMenu');
 					this.isBackdrop = 0;
-					if (!nosave) {
-						ufsave("aos_system/windows/backdropfilter_blur", "0");
-					}
+					if (!nosave) ufsave("aos_system/windows/backdropfilter_blur", "0");
 				} else {
-					if (this.isAero) {
-						this.togAero(nosave);
-					}
+					if (this.isAero) this.togAero(nosave);
 					this.tempArray = document.getElementsByClassName("window");
-					for (var elem = 0; elem < this.tempArray.length; elem++) {
+					for (let elem = 0; elem < this.tempArray.length; elem++) {
 						this.tempArray[elem].style.webkitBackdropFilter = 'blur(' + this.currWinblurRad + 'px)' + this.dispMapEffect;
 						this.tempArray[elem].style.backdropFilter = 'blur(' + this.currWinblurRad + 'px)' + this.dispMapEffect;
 						if (this.dispMapEffect) {
@@ -8312,9 +7848,7 @@ c(function() {
 					}
 					getId('ctxMenu').classList.add('backdropFilterCtxMenu');
 					this.isBackdrop = 1;
-					if (!nosave) {
-						ufsave("aos_system/windows/backdropfilter_blur", "1");
-					}
+					if (!nosave) ufsave("aos_system/windows/backdropfilter_blur", "1");
 				}
 				d(1, perfCheck('settings') + '&micro;s to toggle backdrop filter');
 			},
@@ -8326,12 +7860,10 @@ c(function() {
 					this.currWinColor = getId("STNwinColorInput").value;
 				}
 				this.tempArray = document.getElementsByClassName("winAero");
-				for (var elem = 0; elem < this.tempArray.length; elem++) {
+				for (let elem = 0; elem < this.tempArray.length; elem++) {
 					this.tempArray[elem].style.backgroundColor = this.currWinColor;
 				}
-				if (!nosave) {
-					ufsave("aos_system/windows/border_color", this.currWinColor);
-				}
+				if (!nosave) ufsave("aos_system/windows/border_color", this.currWinColor);
 				d(1, perfCheck('settings') + '&micro;s to set window color');
 			},
 			setAeroRad: function (nosave) {
@@ -8361,18 +7893,6 @@ c(function() {
 				}
 				d(1, perfCheck('settings') + '&micro;s to set windowblur radius');
 			},
-			setWinBlend: function (nosave) {
-				perfStart('settings');
-				this.currWinBlend = getId("STNwinBlendInput").value;
-				this.tempArray = document.getElementsByClassName("winAero");
-				for (var elem = 0; elem < this.tempArray.length; elem++) {
-					this.tempArray[elem].style.backgroundBlendMode = this.currWinBlend;
-				}
-				if (!nosave) {
-					ufsave("aos_system/windows/blur_blendmode", this.currWinBlend);
-				}
-				d(1, perfCheck('settings') + '&micro;s to set window blend mode');
-			},
 			winFadeDistance: '0.5',
 			setFadeDistance: function (newDist, nosave) {
 				this.winFadeDistance = newDist;
@@ -8382,9 +7902,7 @@ c(function() {
 						getId('win_' + apps[app].objName + '_top').style.opacity = '0';
 					}
 				}
-				if (!nosave) {
-					ufsave("aos_system/windows/fade_distance", newDist);
-				}
+				if (!nosave) ufsave("aos_system/windows/fade_distance", newDist);
 			},
 			reqFullscreen: function() {
 				getId("monitor").requestFullscreen();
@@ -8395,11 +7913,9 @@ c(function() {
 			tempchKey: '',
 			tempchPass: '',
 			changeKey: function() {
-				//this.tempchKey = prompt('What is the key of your target aOS system? Keep in mind that you need a password file (aOSpassword) set on the current OS to get back to it later. Press Cancel if you need to.');
 				apps.prompt.vars.prompt('What is the key of your target aOS system?<br>Leave blank to cancel.<br>Make sure to leave a password on your current system or you may not be able to get back to it.', 'Submit', function (tmpChKey) {
 					apps.settings.vars.tempchKey = tmpChKey;
 					if (apps.settings.vars.tempchKey !== '') {
-						//this.tempchPass = prompt('What is the password of your target aOS system? You still have a chance to press Cancel.');
 						apps.prompt.vars.prompt('What is the password of your target aOS system? You still have a chance to cancel, by leaving the field blank.<br>You may be asked to log in again afterwards.', 'Submit', function (tmpChPass) {
 							apps.settings.vars.tempchPass = tmpChPass;
 							if (apps.settings.vars.tempchPass !== '') {
@@ -8441,12 +7957,12 @@ c(function() {
 						getId('desktop').style.left = '';
 						getId('desktop').style.top = '32px';
 						getId('desktop').style.width = getId('monitor').style.width;
-						getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-						getId('taskbar').style.top = '0';
-						getId('taskbar').style.left = '';
-						getId('taskbar').style.right = '';
-						getId('taskbar').style.bottom = 'auto';
-						getId('taskbar').style.transform = '';
+				getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
+				getId('taskbar').style.top = '0';
+				getId('taskbar').style.left = '';
+				getId('taskbar').style.right = '';
+				getId('taskbar').style.bottom = 'auto';
+				getId('taskbar').style.transform = '';
 						getId('taskbar').style.width = getId('monitor').style.width;
 						getId('tskbrAero').style.backgroundPosition = "20px 20px";
 						getId('windowFrameOverlay').style.transform = 'translate(0, 32px)';
@@ -8501,7 +8017,6 @@ c(function() {
 				openapp(apps.startMenu, 'srtup');
 			},
 			shutDown: function (arg, logout) {
-				//apps.savemaster.vars.save();
 				if (arg === 'restart') {
 					apps.prompt.vars.confirm('Are you sure you wish to restart aOS?', ['No, Stay On', 'Yes, Restart'], function (btn) {
 						if (btn) {
@@ -8513,7 +8028,6 @@ c(function() {
 							window.shutDownPercentComplete = 0;
 							window.shutDownTotalPercent = 1;
 							getId('aOSisLoading').innerHTML = '<div id="aOSisLoadingDiv"><h1>Restarting aOS</h1><hr><div id="aOSloadingInfoDiv"><div id="aOSloadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
-							// getId('aOSisLoading').style.cursor = cursors.loadLight;
 							getId('aOSisLoading').classList.remove('cursorLoadDark');
 							getId('aOSisLoading').classList.add('cursorLoadLight');
 							requestAnimationFrame(function() {
@@ -8653,39 +8167,9 @@ c(function() {
 								} else if (!backdropFilterSupport) {
 									apps.settings.vars.togBackdropFilter(1);
 								}
-								if (ufload("aos_system/windows/blur_enabled")) {
-									if (ufload("aos_system/windows/blur_enabled") === "1") {
-										apps.settings.vars.togAero(1);
-									}
-								} else if (!backdropFilterSupport) {
-									if (cssFilterSupport) {
-										apps.settings.vars.togAero(1);
-									}
-								}
-								if (ufload("aos_system/windows/border_color")) {
-									getId("STNwinColorInput").value = ufload("aos_system/windows/border_color");
-									apps.settings.vars.setWinColor(1);
-								}
-								if (ufload("aos_system/windows/blur_blendmode")) {
-									getId("STNwinBlendInput").value = ufload("aos_system/windows/blur_blendmode");
-									apps.settings.vars.setWinBlend(1);
-								}
 								if (ufload("aos_system/windows/blur_radius")) {
 									getId("STNwinblurRadius").value = ufload("aos_system/windows/blur_radius");
 									apps.settings.vars.setAeroRad(1);
-								}
-								if (ufload("aos_system/windows/border_width")) {
-									apps.settings.vars.setWinBorder(ufload("aos_system/windows/border_width"), 1);
-								}
-								if (ufload("aos_system/windows/distort_enabled")) {
-									if (ufload("aos_system/windows/distort_enabled") === "1") {
-										apps.settings.vars.togDispMap(1);
-									}
-								}
-								if (ufload("aos_system/windows/controls_on_left")) {
-									if (ufload("aos_system/windows/controls_on_left") === "1") {
-										apps.settings.vars.togCaptionButtonsLeft(1);
-									}
 								}
 								if (ufload("aos_system/taskbar/iconTitles")) {
 									if (ufload("aos_system/taskbar/iconTitles") === "0") {
@@ -8715,15 +8199,6 @@ c(function() {
 									if (ufload("aos_system/apps/settings/ctxmenu_two_fingers") === "1") {
 										apps.settings.vars.togLongTap(1);
 									}
-								}
-								if (ufload("aos_system/windows/border_texture_enabled")) {
-									if (ufload("aos_system/windows/border_texture_enabled") === "0") {
-										apps.settings.vars.togWinImg(1);
-									}
-								}
-								if (ufload("aos_system/windows/border_texture")) {
-									getId("STNwinImgInput").value = ufload("aos_system/windows/border_texture");
-									apps.settings.vars.setWinImg(1);
 								}
 								if (ufload("aos_system/clipboard_slots")) {
 									textEditorTools.slots = parseInt(ufload("aos_system/clipboard_slots"));
@@ -8760,27 +8235,6 @@ c(function() {
 								}
 								if (ufload("aos_system/desktop/background_fit")) {
 									apps.settings.vars.setBgFit(ufload("aos_system/desktop/background_fit"), 1);
-								}
-								if (ufload("aos_system/desktop/background_live_enabled")) {
-									if (ufload("aos_system/desktop/background_live_enabled") === "1") {
-										apps.settings.vars.togLiveBg(1);
-									}
-								}
-								if (ufload("aos_system/desktop/background_live_hide_scrollbar")) {
-									if (ufload("aos_system/desktop/background_live_hide_scrollbar") === "1") {
-										apps.settings.vars.togLiveBgScrollHide(1);
-									}
-								}
-								if (ufload("aos_system/desktop/background_live_url")) {
-									apps.settings.vars.setLiveBg(ufload("aos_system/desktop/background_live_url"), 1);
-								}
-								if (ufload("aos_system/desktop/background_parallax_layers")) {
-									apps.settings.vars.setPrlxBg(ufload("aos_system/desktop/background_parallax_layers"), 1);
-								}
-								if (ufload("aos_system/desktop/background_parallax_enabled")) {
-									if (ufload("aos_system/desktop/background_parallax_enabled") === "1") {
-										apps.settings.vars.togPrlxBg(1);
-									}
 								}
 								if (ufload("aos_system/screensaver/enabled")) {
 									if (ufload("aos_system/screensaver/enabled") === "0") {
@@ -9520,9 +8974,7 @@ c(function() {
 										enableLiveAutocompletion: false
 									});
 								}
-							} catch (err) {
-
-							}
+							} catch (err) {}
 						}
 					}.bind(this), 'Text Editor');
 				} else {
@@ -10537,18 +9989,6 @@ c(function() {
 						'If you visit the community, keep an eye out for any third-party repositories that may spring up, and try out any that catch your interest.</p>' +
 						'<p>Information about the AaronOS communities is available on the next page.</p>' +
 						'<button onclick="apps.help.vars.showTutorial(\'community\')">Next Page: Community</button>'
-				},
-				community: {
-					stepTitle: "Community",
-					stepContent: '<p>If you wish to visit the AaronOS community, we are most heavily based on our official Discord server. ' +
-						'The Discord server is home to announcements, updates, occasional polls, and our team. ' +
-						'There are spaces available to share your feedback, suggestions, and bug reports. Additionally, you can feel free to hang around and chat with the community.</p>' +
-						'<p>The AaronOS Discord server is available at <a target="_blank" href="https://discord.gg/Y5Jytdm">https://discord.gg/Y5Jytdm</a></p><br>' +
-						'<p>Additionally, there is a Messaging app on AaronOS, where you can talk to everyone there in a more simple environment.</p>' +
-						'<button onclick="apps.help.vars.showMeHideHighlight(getId(\'app_messaging\'));">Show Me the Messaging App</button>' +
-						'<p>Web Developers, there is documentation available for creating your own applications in the Developer Documentation app, ' +
-						'and I am often around to help on the Discord server.</p>' +
-						'<button onclick="apps.help.vars.showMeHideHighlight(getId(\'app_devDocumentation\'));">Show Me the Developer Documentation</button>'
 				}
 			},
 			showTutorial: function (step) {
@@ -10619,9 +10059,7 @@ c(function() {
 				}
 			},
 			showMenu: function (menuObj) {
-				if (!menuObj) {
-					menuObj = apps.help.vars.menus;
-				}
+				if (!menuObj) menuObj = apps.help.vars.menus;
 				if (menuObj.menuType === "menus") {
 					var menuStr = '<div style="position:relative;text-align:center;">' +
 						'<span style="font-size:2em;">' + menuObj.menuTitle + '</span><br>' +
@@ -10629,7 +10067,7 @@ c(function() {
 						'</div>' +
 						'<button onclick="apps.help.vars.showMenu(apps.help.vars.menus)" style="display:block;position:absolute;right:6px;top:6px;">Help Pages</button>' +
 						'<div id="Hlp_menudiv" class="noselect" style="width:calc(100% - 6px);font-size:1.5em;">';
-					for (var i in menuObj.menuOptions) {
+					for (let i in menuObj.menuOptions) {
 						menuStr += '<div style="width:calc(50% - 6px);display:inline-block;padding-left:6px;position:relative;margin-top:16px;">' +
 							'<span class="cursorPointer" onclick="apps.help.vars.showMenu(' + menuObj.menuOptions[i].menuLocation + ')">' + menuObj.menuOptions[i].menuTitle + '</span></div>';
 					}
@@ -10732,12 +10170,7 @@ c(function() {
 						menuContent: '<img class="centered" src="helpdocs/desktop.png">' +
 							'<p>The AaronOS desktop comes with a set of icons that should be helpful to general users and developers alike. ' +
 							'These icons can be moved around or deleted via the right-click menu or a long-tap on mobile. ' +
-							'Additional icons can be added by right-clicking an app in the taskbar or Dashboard.</p>' +
-							'<p>Right-clicking on an empty part of the desktop will display quick shortcuts to the Settings app, the Javascript Console, ' +
-							'and settings for the Screen Resolution and Desktop Background.</p>' +
-							'<p>In Settings, you can configure your desktop background in various ways. ' +
-							'You can specify the URL to a background image of your choice, as well as change how it is fitted to your desktop. ' +
-							'Additionally, you can choose to enable a Live Background, which allows you to specify a webpage to display as your background.</p>'
+							'Additional icons can be added by right-clicking an app in the taskbar or Dashboard.</p>'
 					},
 					taskbar: {
 						menuTitle: "Taskbar",
@@ -10767,9 +10200,7 @@ c(function() {
 							'<p>The three buttons grouped together will minimize, maximize, or close a window. ' +
 							'The additional button on the opposite side will fold the window up into its caption, allowing you to see behind it. ' +
 							'Additionally, right-clicking the caption will show extra options, such as app information or keeping the window on top of others.</p>' +
-							'<p>Windows in AaronOS are heavily configurable in the Settings app. Among other things, you can toggle the system light / dark theme, ' +
-							'swap the main window controls to the left side of the caption, change the color of the window glass, change how thick the borders are, ' +
-							'toggle the glass blur effect or change its strength, and toggle or change the texture on the window borders. ' +
+							'<p>Windows in AaronOS are heavily configurable in the Settings app. Among other things, you can toggle the system light / dark theme.' +
 							'Additionally, the overall system theme can be customized with Hub themes, or with the Style Editor, if you know CSS.</p>'
 					},
 					dashboard: {
@@ -10794,20 +10225,8 @@ c(function() {
 							'If you\'re having issues with running AaronOS, especially on a mobile device, these changes may help your performance.</p>' +
 							'<span style="font-size:1.5em">Performance Mode</span>' +
 							'<p>Available in Settings -&gt; Performance Mode, this option adjusts image rendering and some system functions in an attempt to improve performance.</p>' +
-							'<span style="font-size:1.5em">Disable Window Blur Effects</span>' +
-							'<p>AaronOS features effects that blur the backdrops of windows. While they look pretty, these effects can have a large impact on performace.<br>' +
-							'If needed, in Settings -&gt; Windows, you can disable the Window Glass Effect to drastically improve performance.</p>' +
 							'<span style="font-size:1.5em">Close Unneeded Applications</span>' +
 							'<p>If you often run a large amount of applications on AaronOS or your real device, closing unneeded applications can help performance.</p>'
-					},
-					unfinished: {
-						menuTitle: "Where's the rest?",
-						menuLocation: "apps.help.vars.menus.menuOptions.unfinished",
-						menuType: "docs",
-						menuContent: '<p>This Help App is brand new and is not completely finished yet.</p>' +
-							'<p>If you\'re trying to find something that is not here, ' +
-							'let me know in our Discord community, available at <a target="_blank" href="https://discord.gg/Y5Jytdm">https://discord.gg/Y5Jytdm</a>. ' +
-							'There, you can let me know what you\'re looking for, so that I can prioritize adding it to this app, and help you out there in the meantime.</p>'
 					}
 				}
 			}
@@ -12370,13 +11789,13 @@ c(function() {
 								appsSorted[i] = tempStr;
 							}
 						}
-						//doLog("Done.", "#ACE");
-						//doLog("Initializing WAP Message Listener and Permission system...", "#ACE");
+
 						if (safeMode) {
 							doLog("Failed WAP Message Listener because Safe Mode is enabled.", "#F00");
 						} else {
 							window.addEventListener("message", apps.webAppMaker.vars.recieveMessage);
 						}
+
 						if (ufload("aos_system/apps/webAppMaker/trusted_apps")) {
 							try {
 								var tempobj = JSON.parse(ufload("aos_system/apps/webAppMaker/trusted_apps"));
@@ -12397,7 +11816,6 @@ c(function() {
 								doLog("Failed initializing WAP Permissions: " + err, "#F00");
 							}
 						}
-						//doLog("Done.", "#ACE");
 						break;
 					case 'shutdown':
 
@@ -12450,7 +11868,6 @@ c(function() {
 		},
 		vars: {
 			appInfo: 'The official AaronOS Messenger. Chat with the entire aOS community, all at once.<br><br>To set your name, go to Settings -&gt; 1, and enter a chat name.<br><br>To view past messages, go to Settings -&gt; 2, and enter in the number of past messages you wish to view.',
-			discussionTopic: 'AaronOS is on Discord! <a href="https://discord.gg/Y5Jytdm" target="_blank">https://discord.gg/Y5Jytdm</a><br>Real admins have a green background on their messages!',
 			lastMsgRecieved: '-9',
 			nameTemp: 'Anonymous',
 			name: 'Anonymous',
@@ -12521,12 +11938,12 @@ c(function() {
 							if (apps.messaging.vars.sendhttp.readyState === 4) {
 								if (apps.messaging.vars.sendhttp.status === 200) {
 									if (apps.messaging.vars.sendhttp.responseText === 'Error - Password incorrect.') {
-										apps.prompt.vars.alert('Could not send message. Your password is incorrect.<br><br>If you recently set a new password, try to reset aOS and see if that fixes the issue. If the issue persists, please contact the developer via the Discord server or email.', 'Okay.', function() {}, 'Messaging');
+										apps.prompt.vars.alert('Could not send message. Your password is incorrect.<br><br>If you recently set a new password, try to reset aOS and see if that fixes the issue. If the issue persists, please contact the developer via email.', 'Okay.', function() {}, 'Messaging');
 									} else if (apps.messaging.vars.sendhttp.responseText.indexOf('Error - ') === 0) {
 										apps.prompt.vars.alert('Error sending message:<br><br>' + apps.messaging.vars.sendhttp.responseText, 'Okay.', function() {}, 'Messaging');
 									}
 								} else {
-									apps.prompt.vars.alert('Could not send message. Network error code ' + apps.messaging.vars.sendhttp.status + '.<br><br>Try again in a minute or so. If it still doesn\'t work, contact the developer via the Discord server or email.', 'Okay.', function() {}, 'Messaging');
+									apps.prompt.vars.alert('Could not send message. Network error code ' + apps.messaging.vars.sendhttp.status + '.<br><br>Try again in a minute or so. If it still doesn\'t work, contact the developer via the  email.', 'Okay.', function() {}, 'Messaging');
 								}
 							}
 						}
@@ -12948,7 +12365,15 @@ c(function() {
 		main: function() {
 			if (!this.appWindow.appIcon) {
 				this.appWindow.paddingMode(0);
-				this.appWindow.setContent('<iframe data-parent-app="musicPlayer" id="MPlframe" onload="apps.musicPlayer.vars.updateStyle()" style="border:none; display:block; width:100%; height:100%; overflow:hidden;" src="../AaronOS_Music/index.html"></iframe>');
+				this.appWindow.setContent(`
+					<iframe
+						data-parent-app="musicPlayer"
+						id="MPlframe"
+						onload="apps.musicPlayer.vars.updateStyle()"
+						style="border:none; display:block; width:100%; height:100%; overflow:hidden;"
+						src="./Music/index.html"
+					></iframe>`
+				);
 				requestAnimationFrame(this.vars.colorWindows);
 				getId("icn_musicPlayer").style.display = "inline-block";
 				requestAnimationFrame(() => {
@@ -14592,7 +14017,7 @@ function toTop(appToNudge, dsktpClick) {
 
 	if (appToNudge.dsktpIcon !== "CLOSING") {
 		var tempAppsList = [];
-		for (var appLication in apps) {
+		for (let appLication in apps) {
 			if (getId("win_" + apps[appLication].objName + "_top").style.zIndex !== "100" && apps[appLication].appWindow.appIcon) {
 				tempAppsList.push([appLication, getId("win_" + apps[appLication].objName + "_top").style.zIndex]);
 			}
@@ -14600,7 +14025,7 @@ function toTop(appToNudge, dsktpClick) {
 		tempAppsList.sort(function (a, b) {
 			return b[1] - a[1];
 		});
-		for (var i = 0; i < tempAppsList.length; i++) {
+		for (let i = 0; i < tempAppsList.length; i++) {
 			getId("win_" + apps[tempAppsList[i][0]].objName + "_top").style.zIndex = 90 - i;
 		}
 	}
@@ -15311,15 +14736,11 @@ function updateBgSize(noWinblur) {
 	}
 	getId("monitor").style.backgroundSize = bgSize[0] + 'px ' + bgSize[1] + 'px';
 	getId("monitor").style.backgroundPosition = bgPosition[0] + 'px ' + bgPosition[1] + 'px';
-	if (!noWinblur) {
-		calcWindowblur(null, 1);
-	}
+	if (!noWinblur) calcWindowblur(null, 1);
 }
 
 function calcWindowblur(win, noBgSize) {
-	if (!noBgSize) {
-		updateBgSize(1);
-	}
+	if (!noBgSize) updateBgSize(1);
 	var aeroOffset = [0, 0];
 	if (tskbrToggle.tskbrPos === 1) {
 		aeroOffset[1] = -32;

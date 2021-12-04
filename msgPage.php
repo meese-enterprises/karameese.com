@@ -127,7 +127,6 @@
 					this.vars.recieveMessage();
 				},
 				vars: {
-					discussionTopic: 'AaronOS is on Discord! <a href="https://discord.gg/Y5Jytdm" target="_blank">https://discord.gg/Y5Jytdm</a>',
 					lastMsgRecieved: '-9',
 					nameTemp: 'Anonymous',
 					name: 'Anonymous',
@@ -164,12 +163,12 @@
 									if (apps.messaging.vars.sendhttp.readyState === 4) {
 										if (apps.messaging.vars.sendhttp.status === 200) {
 											if (apps.messaging.vars.sendhttp.responseText === 'Error - Password incorrect.') {
-												alert('Could not send message. Your password is incorrect.<br><br>If you recently set a new password, try to reset aOS and see if that fixes the issue. If the issue persists, please contact the developer via the Discord server or email.');
+												alert('Could not send message. Your password is incorrect.<br><br>If you recently set a new password, try to reset aOS and see if that fixes the issue. If the issue persists, please contact the developer via email.');
 											} else if(apps.messaging.vars.sendhttp.responseText.indexOf('Error - ') === 0){
 												alert('Error sending message:<br><br>' + apps.messaging.vars.sendhttp.responseText);
 											}
 										} else {
-											alert('Could not send message. Network error code ' + apps.messaging.vars.sendhttp.status + '.<br><br>Try again in a minute or so. If it still doesn\'t work, contact the developer via the Discord server or email.');
+											alert('Could not send message. Network error code ' + apps.messaging.vars.sendhttp.status + '.<br><br>Try again in a minute or so. If it still doesn\'t work, contact the developer via email.');
 										}
 									}
 								};

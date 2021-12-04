@@ -31,24 +31,9 @@
 <body style="background-color:#000" id="pagebody">
 	<!-- helps JS find scrollbar stuff -->
 	<div id="findScrollSize" style="height:100px; width:100px; overflow:scroll;"></div>
-	<div id="bootLanguage" style="display:none">
-		<?php
-			if (isset($_COOKIE['keyword'])) {
-				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/language.txt')) {
-					echo file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/language.txt');
-				}
-			} else {
-				echo 'en';
-			}
-		?>
-	</div>
 
 	<!-- aOS computer screen and content inside on startup -->
 	<div id="monitor" class="cursorDefault">
-		<iframe id="liveBackground"></iframe>
-		<iframe id="prlxBackground"
-			onload="try{if(apps.settings.vars.prlxBackgroundEnabled){apps.settings.vars.prlxBackgroundUsable = 1}}catch(err){}"
-			onunload="try{apps.settings.vars.prlxBackgroundUsable = 0}catch(err){}"></iframe>
 		<div id="desktop" onclick="try{exitFlowMode()}catch(err){}" oncontextmenu="showEditContext(event)">
 			<div id="hideall" onClick="toTop({dsktpIcon: 'DESKTOP'}, 1)"></div>
 			<p id="timesUpdated">Oops!</p>
@@ -78,24 +63,29 @@
 		<div id="screensaverLayer"></div>
 		<div id="petCursors"></div>
 		<?php
-			if (isset($_COOKIE['keyword'])) {
-				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt')) {
-						if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt')) {
-							if (file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt') == '1') {
-								echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');opacity:0"></div><script defer>requestAnimationFrame(function(){getId("desktop").style.display = "";getId("taskbar").style.display = "";});window.dirtyLoadingEnabled = 1;</script>';
-							} else {
-								echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
-							}
-						} else {
-							echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
-						}
-				} else {
-					echo '<div id="aOSloadingBg"></div>';
-				}
-			} else {
+			if (!isset($_COOKIE['keyword'])) {
 				echo '<div id="aOSloadingBg"></div>';
+				return;
 			}
+
+			if (!file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt')) {
+				echo '<div id="aOSloadingBg"></div>';
+				return;
+			}
+			
+			if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt')) {
+				echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
+				return;
+			}
+
+			if (file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt') == '1') {
+				echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');opacity:0"></div><script defer>requestAnimationFrame(function(){getId("desktop").style.display = "";getId("taskbar").style.display = "";});window.dirtyLoadingEnabled = 1;</script>';
+				return;
+			}
+
+			echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
 		?>
+
 		<div id="aOSisLoading" class="cursorLoadLight">
 			<div id="aOSisLoadingDiv">
 				<h1>AaronOS</h1>
@@ -104,8 +94,8 @@
 					<div id="aOSloadingInfo" class="liveElement"
 						data-live-eval="finishedWaitingCodes / totalWaitingCodes * 100 + '%'" data-live-target="style.width">
 						Initializing...</div>
-				</div><br><br>
-				&nbsp;<br>
+				</div>
+				<br><br>&nbsp;<br>
 				<a href="?safeMode"><button>Safe Mode</button></a><br><br>
 				<button
 					onclick="document.getElementById('aOSisLoading').style.display = 'none';document.getElementById('aOSloadingBg').style.display = 'none';document.getElementById('desktop').style.display = '';document.getElementById('taskbar').style.display = '';">Force
@@ -115,19 +105,11 @@
 			</div>
 		</div>
 	</div>
-	<img style="display:none" id="bgSizeElement" src="images/beta1.png" onload="try{updateBgSize()}catch(err){}">
+	<img style="display:none" id="bgSizeElement" src="images/pink_square.png" onload="try{updateBgSize()}catch(err){}">
 </body>
 
 <?php
-	if (isset($_GET['dev'])){
-		if ($_GET['dev'] == '1' || $_GET['dev'] == 'true') {
-			echo '<script defer src="scriptDev.js?ms='.round(microtime(true) * 1000).'"></script>';
-		} else {
-			echo '<script defer src="scriptBeta.js?ms='.round(microtime(true) * 1000).'"></script>';
-		}
-	} else {
-		echo '<script defer src="scriptBeta.js?ms='.round(microtime(true) * 1000).'"></script>';
-	}
+	echo '<script defer src="scriptBeta.js?ms='.round(microtime(true) * 1000).'"></script>';
 ?>
 
 <?php
@@ -135,6 +117,7 @@
 		$changeKey = $_GET['changeKey'];
 		$changePass = $_GET['changePass'];
 	}
+
 	echo '<script defer>window.lineOfTheDay = ';
 	require 'lotd.php';
 	echo '</script>';

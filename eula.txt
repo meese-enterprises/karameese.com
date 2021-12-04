@@ -28,9 +28,6 @@ Some examples of such resources that Aaron is not claiming ownership or responsi
 By deploying or otherwise using the AaronOS project's code and resources, you are agreeing to the agreement laid out in this document.
 
 
-The EULA (this document) may be updated at any time, and all changes become effective immediately. Aaron will also attempt
-    within reasonable effort to notify developers, deployers, and users of changes, most typically via the community server on Discord.
-
 In the event that any portion of this document is to be considered by a court of law to be void, unenforceable, or invalid, then the remainder of the document shall
     not be held void, unenforceable, or invalid as a result.
 
