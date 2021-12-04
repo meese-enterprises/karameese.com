@@ -1,4 +1,5 @@
 <?php
+
 // Recieve message from client
 if (isset($_COOKIE['keyword']) && isset($_POST['c']) && (strpos($_SERVER['HTTP_REFERER'], $_SERVER['SERVER_NAME']) !== false || explode(':', $_SERVER['HTTP_HOST'])[0] === "localhost" || $_SERVER['SERVER_NAME'] === '0.0.0.0')) {
 	if (file_exists('USERFILES/' . $_COOKIE['keyword'] . '/aOSpassword.txt')) {
@@ -36,12 +37,9 @@ if (isset($_COOKIE['keyword']) && isset($_POST['c']) && (strpos($_SERVER['HTTP_R
 	}
 
 	$filenumber = intval($lastMessage->l) + 1;
-
 	$file = fopen('USERFILES/!MESSAGE/m' . $filenumber . '.txt', 'w');
 	fwrite($file, '{"n":"' . $outUsername . '","c":"' . $outMessage . '","t":"' . $outTime . '","l":"' . $filenumber . '"}');
 	fclose($file);
 } else {
-		echo 'Error - No user specified, or you are not allowed to send messages from your domain.';
+	echo 'Error - No user specified, or you are not allowed to send messages from your domain.';
 }
-
-?>

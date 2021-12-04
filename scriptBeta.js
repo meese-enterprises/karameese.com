@@ -5072,7 +5072,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -6349,7 +6348,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -6436,7 +6434,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -6771,7 +6768,8 @@ c(function () {
 			},
 			flashNotification: function (nTimes) {
 				this.showNotifs();
-				if (nTimes) { // if number of flashes defined
+				if (nTimes) {
+					// If number of flashes defined
 					getId('notifContainer').style.opacity = '0.2';
 					setTimeout(function () {
 						getId('notifContainer').style.opacity = '';
@@ -6784,7 +6782,8 @@ c(function () {
 							getId('notifContainer').style.opacity = '';
 						}, i * 600 + 300);
 					}
-				} else { // otherwise just 3 flashes
+				} else {
+					// Otherwise just 3 flashes
 					apps.prompt.vars.flashNotification(3);
 				}
 			},
@@ -6795,14 +6794,12 @@ c(function () {
 		signalHander: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
 				case "close":
 					this.appWindow.closeWindow();
 					window.setTimeout(function () {
-						/*apps.prompt.vars.hideNotifs();*/
 						apps.prompt.vars.checkPrompts();
 					}, 0);
 					setTimeout(function () {
@@ -8932,7 +8929,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -9344,7 +9340,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -9604,7 +9599,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -10741,7 +10735,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -11177,7 +11170,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -11603,8 +11595,6 @@ c(function () {
 			},
 			saveProj: function () {
 				apps.prompt.vars.confirm('Overwrite your existing saved project?', ['No', 'Yes'], function (btn) {
-					//getId('win_appMaker_html').style.backgroundImage = 'url(/loadLight.gif)';
-					// getId('winAPMh').style.cursor = cursors.loadLight;
 					getId('win_appMaker_html').classList.add('cursorLoadLight');
 					if (btn) {
 						getId('APMappsaving').innerHTML = 'SAVING PROJECT...';
@@ -11624,7 +11614,6 @@ c(function () {
 
 						getId('APMappsaving').innerHTML = '';
 						getId('win_appMaker_html').style.backgroundImage = '';
-						// getId('winAPMh').style.cursor = '';
 						getId('win_appMaker_html').classList.remove('cursorLoadLight');
 					}
 				}, 'Legacy App Maker');
@@ -11650,7 +11639,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -11672,7 +11660,6 @@ c(function () {
 						this.appWindow.closeKeepTask();
 						break;
 					case "USERFILES_DONE":
-						//doLog("Initializing APM apps...", "#ACE");
 						if (safeMode) {
 							doLog("Failed APM apps because Safe Mode is enabled.", "#F00");
 						} else {
@@ -11690,7 +11677,6 @@ c(function () {
 								}
 							}
 						}
-						//doLog("Done.", "#ACE");
 						break;
 					case 'shutdown':
 
@@ -11853,7 +11839,7 @@ c(function () {
 						)
 						return "APPMAKER_DO_NOT_REPLY";
 					},
-					// show text-editing menu (copy, paste, etc)
+					// Show text-editing menu (copy, paste, etc)
 					text_menu: function (input, frame, frameOrigin) {
 						currentSelection = input.selectedText;
 						showEditContext(null, 1, input.position, input.conversation, frame, frameOrigin, input.enablePaste);
@@ -12702,7 +12688,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -12787,6 +12772,7 @@ c(function () {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Messaging';
 });
+
 c(function () {
 	m('init MSG');
 	apps.messaging = new Application({
@@ -13037,13 +13023,7 @@ c(function () {
 				},
 				flip: function (str, param) {
 					return '<div style="transform:rotate(180deg);display:inline-block;position:relative">' + str + '</div>';
-				},
-				//site: function(str, param){
-				//    if(str.indexOf('http://') !== 0 && str.indexOf('https://') !== 0 && str.indexOf('/') !== 0){
-				//        str = 'https://' + encodeURI(str);
-				//    }
-				//    return '<div style="position:relative;display:block;width:100%;border:none;background:#FFF;margin-top:-3px;margin-bottom:-3px;border-radius:10px;box-shadow:inset 0 0 5px #000;height:400px;" onclick="if(event.target.tagName.toLowerCase() === \'button\'){this.outerHTML = \'<iframe data-parent-app=\\\'messaging\\\' src=\\\'\' + this.getAttribute(\'data-messaging-site-url\') + \'\\\' style=\\\'\' + this.getAttribute(\'style\') + \'\\\'></iframe>\'}" data-messaging-site-url="' + str + '"><p style="margin-top:188px;text-align:center;"><button>Click to load site:<br>' + str + '</button></p></div>';
-				//}
+				}
 			},
 			objSafe: {
 				img: 0,
@@ -13154,7 +13134,6 @@ c(function () {
 				if (text[0] === '{') {
 					d(2, 'Recieving message');
 					this.lastResponseText = text;
-					//eval("apps.messaging.vars.lastResponseObject = " + this.lastResponseText);
 					this.lastResponseObject = JSON.parse(this.lastResponseText);
 					this.lastMsgRecieved = this.lastResponseObject.l;
 					this.needsScroll = (getId('MSGdiv').scrollTop + 600 >= getId('MSGdiv').scrollHeight);
@@ -13271,7 +13250,6 @@ c(function () {
 							}
 						} else {
 							apps.prompt.vars.notify('Connection to messaging server lost.', [], function () {}, 'Messaging Error', 'appicons/ds/MSG.png');
-							//apps.messaging.vars.xhttpDelay = makeTimeout('MSG', 'requestMessage', 'apps.messaging.vars.requestMessage()', 1000);
 						}
 					}
 				};
@@ -13285,7 +13263,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -13328,6 +13305,7 @@ c(function () {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Music Player';
 });
+
 c(function () {
 	m('init MSC');
 	apps.musicPlayer = new Application({
@@ -13343,7 +13321,7 @@ c(function () {
 			}
 		},
 		hideApp: 0,
-		main: function () {
+		main: function() {
 			if (!this.appWindow.appIcon) {
 				this.appWindow.paddingMode(0);
 				this.appWindow.setContent('<iframe data-parent-app="musicPlayer" id="MPlframe" onload="apps.musicPlayer.vars.updateStyle()" style="border:none; display:block; width:100%; height:100%; overflow:hidden;" src="../AaronOS_Music/index.html"></iframe>');
@@ -13363,9 +13341,7 @@ c(function () {
 		},
 		vars: {
 			appInfo: 'This is the official AaronOS Music Player. Select a folder of songs to loop through.',
-			updateStyle: function () {
-				//getId("MPlframe").contentWindow.postMessage({dark: darkMode, style: getId("aosCustomStyle").innerHTML}, "https://aaron-os-mineandcraft12.c9.io");
-			},
+			updateStyle: function () {},
 			colorModified: 0,
 			colorWindows: function () {
 				if (apps.musicPlayer.appWindow.appIcon) {
@@ -13444,8 +13420,6 @@ c(function () {
 					} else {
 						this.vars.currAppBuiltIn = 'Built-In aOS App';
 					}
-					//getId("APBdiv").innerHTML += '<div class="appsBrowserItem cursorPointer" onclick="c(function(){openapp(apps.' + app + ', \'dsktp\')});" style="top:' + this.vars.appsListed * /*101*/129 + 'px;height:128px;width:100%;border-bottom:1px solid ' + darkSwitch('#000', '#FFF') + ';"><img style="height:128px;width:128px;" src="' + this.vars.currAppImg + '" onerror="this.src=\'appicons/ds/redx.png\'"><div style="font-size:24px;left:132px;bottom:66px;">' + this.vars.currAppIcon + '</div><div style="left:132px;top:66px;font-size:12px;">' + this.vars.currAppName + '</div><div style="color:' + darkSwitch('#555', '#AAA') + ';left:132px;top:4px;font-size:12px;text-align:right">apps.' + app + '</div><div style="color:' + darkSwitch('#555', '#AAA') + ';font-size:12px;right:4px;bottom:4px;text-align:right">' + this.vars.currAppOnTop + this.vars.currAppDesktop + '<br>' + this.vars.currAppOnList + '<br>' + this.vars.currAppBuiltIn + '</div><div style="color:' + darkSwitch('#555', '#AAA') + ';font-size:12px;left:132px;bottom:4px;">' + this.vars.currAppLaunchTypes + '</div></div>';
-					// old APBdiv style --   top:' + (this.vars.appsListed * 129 - 88) + 'px;
 					getId("APBdiv").innerHTML += '<div id="APBapp_' + app + '" class="appsBrowserItem cursorPointer darkResponsive" onclick="c(function(){openapp(apps.' + app + ', \'dsktp\')});" ' +
 						'style="padding-top:1px;padding-bottom:1px;position:relative;height:128px;width:100%;border-bottom:1px solid;" ' +
 						'oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/beta/window.png\', \'ctxMenu/beta/window.png\', \'ctxMenu/beta/file.png\', \'ctxMenu/beta/folder.png\', \'ctxMenu/beta/file.png\'], ' +
@@ -13462,15 +13436,10 @@ c(function () {
 								return ''
 							}
 						}(app, this.vars.currAppBuiltIn) + ']);">' + buildSmartIcon(128, this.vars.currAppImg, "margin-left:1px;") +
-						//'<div style="font-size:24px;left:132px;bottom:66px;">' + this.vars.currAppIcon + '</div>' +
-						//'<div style="left:132px;top:66px;font-size:12px;">' + this.vars.currAppName + '</div>' +
 						'<div class="APB_app_content" style="font-size:24px;left:132px;top:calc(50% - 1em);">' + this.vars.currAppName + '</div>' +
 						'<div class="APB_app_content darkResponsive" style="opacity:0.75;background:none;left:132px;top:4px;font-size:12px;text-align:right">apps.' + app + '</div>' +
 						'<div class="darkResponsive" style="opacity:0.75;background:none;font-size:12px;right:4px;bottom:4px;text-align:right">' + this.vars.currAppBuiltIn + '</div>' +
 						'<div class="APB_app_content darkResponsive"style="opacity:0.75;background:none;font-size:12px;left:132px;bottom:4px;">' + this.vars.currAppIcon + '</div></div>';
-					// position:absolute;
-					//getId("APBdiv").innerHTML += '<button id="button_APBapp_' + app + '" style="top:' + (this.vars.appsListed * 129 - 88) + 'px;font-size:12px;" ' +
-					//    'onclick=>v</button>';
 
 					this.vars.appsListed++;
 				}
@@ -13507,10 +13476,8 @@ c(function () {
 					}
 					if (isVisible) {
 						allDivs[i].style.display = "";
-						//getId("button_" + allDivs[i].id).style.display = "";
 					} else {
 						allDivs[i].style.display = "none";
-						//getId("button_" + allDivs[i].id).style.display = "none";
 					}
 				}
 			}
@@ -13571,7 +13538,6 @@ c(function () {
 				this.appWindow.setCaption('Boot Script Editor');
 				this.appWindow.setContent(
 					'<div id="BtS_scripts" class="noselect" style="width:40%;overflow-y:scroll;height:calc(100% - 2em + 8px)"></div>' +
-					//'<textarea id="BtStextarea" style="font-family:aosProFont, monospace;font-size:12px;position:absolute;right:0;padding:0;border:none;width:calc(60% - 3px);padding-left:3px;height:calc(100% - 2em);resize:none;"></textarea>' +
 					'<iframe id="BtS_edit_frame" data-parent-app="bootScript" src="ace/scriptEdit.html" onload="apps.bootScript.vars.openScript(\'main\');" style="position:absolute; right:0; padding:0; border:none; width:60%; height:calc(100% - 2em + 8px);"></iframe>' +
 					'<div style="bottom:0;width:100%;">' +
 					'<button style="position:relative;width:40%;height:calc(2em - 3px);" onclick="apps.bootScript.vars.newScript()">New Script</button>' +
@@ -13580,7 +13546,6 @@ c(function () {
 					'</div>'
 				);
 				this.vars.listScripts();
-				//this.vars.openScript('main');
 			}
 			this.appWindow.openWindow();
 		},
@@ -13655,7 +13620,6 @@ c(function () {
 			currScript: 'main',
 			openScript: function (scriptName) {
 				if (ufload("aos_system/apps/bootScript/" + scriptName)) {
-					//getId("BtStextarea").value = ufload("aos_system/apps/bootScript/" + scriptName);
 					if (
 						ufload('aos_system/apps/bootScript/' + cleanStr(this.currScript)) !== getId("BtS_edit_frame").contentWindow.editor.getValue() &&
 						getId("BtS_edit_frame").contentWindow.editor.getValue() !== ""
@@ -13723,7 +13687,6 @@ c(function () {
 			},
 			saveBootScript: function () {
 				ufsave('aos_system/apps/bootScript/' + this.currScript, getId('BtS_edit_frame').contentWindow.editor.getValue());
-				// apps.prompt.vars.alert('Saved.', 'Okay', function(){}, 'Boot Script');
 			},
 			helpBootScript: function () {
 				apps.prompt.vars.alert('WARNING - ADVANCED USERS ONLY<br>The Bootscript is your very own script to run on OS boot. Use it for useful things like... well, I can\'t think of anything. Here you are though.<br><br>BootScript will run your script one millisecond after the OS finishes loading your userfiles.<br><br>Save all variables for your script inside the \'this\' object. Example... this.myVar = 9000.1;<br><br>Bootscripts are written in JavaScript. Use the aOS API and assume that your script lives inside of an app\'s vars... (<b>apps.theoreticalApp.vars</b> <-- your script theoretically here) Check the aOS API doc for reference to what this means.<br><br>Your bootscript is NOT AN APP and has no window. Trying to call anything within this.appWindow WILL result in an error!', 'Okay, thanks.', function () {}, 'Boot Script');
@@ -13732,7 +13695,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -13809,7 +13771,6 @@ c(function () {
 		},
 		vars: {
 			appInfo: 'Create your own system theme for aOS! It is embedded as an actual stylesheet, placed such that it overrides the default styles.<br><br>If you create something you want to be featured in aOS, please tell the developer so he can take a look!',
-			//currEditorContent: "",
 			saveStyleEditor: function () {
 				ufsave('aos_system/user_custom_style', getId("themeEditEnv").contentWindow.editor.getValue());
 				getId('aosCustomStyle').innerHTML = getId("themeEditEnv").contentWindow.editor.getValue();
@@ -13818,7 +13779,6 @@ c(function () {
 				apps.prompt.vars.alert('WARNING - ADVANCED USERS ONLY<br>The Custom Stylesheet is your very own set of styling rules for aOS. Use it to style aOS to your whim - theoretically, every element of the OS can be customized with this file.<br><br>You can check out style.css for the default stylesheet, and use your browser\'s developer tools to get easier access to elements as they are shown on-screen.', 'Okay, thanks.', function () {}, 'Boot Script');
 			},
 			updateFrame: function (text) {
-				//this.currEditorContent = text;
 				if (typeof text === 'string') {
 					getId("themeEditframe").contentDocument.getElementById('aosCustomStyle').innerHTML = text;
 				} else {
@@ -13876,7 +13836,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -14012,7 +13971,6 @@ c(function () {
 							}
 						} else {
 							if (this.failed) {
-								//this.lastY = eval(this.currFunc);
 								this.failed = 0;
 								with(Math) {
 									this.ctx.moveTo((x + 10) * 20 + 0.5, 400 - (eval(this.currFunc) * 20));
@@ -14108,7 +14066,6 @@ c(function () {
 				}
 			},
 			setOrigin: function (event) {
-				//getId('monitor').style.transform = 'scale(' + this.currMag + ')';
 				document.body.style.transformOrigin = event.pageX + 'px ' + event.pageY + 'px';
 			}
 		}
@@ -14177,7 +14134,6 @@ c(function () {
 			newTab: function () {
 				var newTabNum = getId('iFBtabs').childNodes.length / 2;
 				getId("iFBtabs").innerHTML += '<button onclick="apps.iFrameBrowser.vars.showTab(' + newTabNum + ')">Tab ' + (newTabNum + 1) + '</button> ';
-				// <iframe data-parent-app="iFrameBrowser" id="iFBframe" src="ifbHomepage.php" style="border:none; width:100%; height:calc(100% - 26px); margin-top:26px; display:block;"></iframe>
 				var newFrame = document.createElement("iframe");
 				newFrame.setAttribute("data-parent-app", "iFrameBrowser");
 				newFrame.classList.add("iFBframe");
@@ -14238,7 +14194,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -14530,7 +14485,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -14623,7 +14577,6 @@ c(function () {
 			appInfo: 'aOS Hub is a GUI front-end for the aOS repository and package system.',
 			previousScrollPoint: 0,
 			displayUpdates: function (updateScreen) {
-				//apps.appCenter.vars.previousScrollPoint = getId("win_appCenter_html").scrollTop;
 				getId("APPCENTER_updates").innerHTML = repoGetUpgradeable().length;
 				if (!updateScreen || typeof updateScreen === "string") {
 					apps.appCenter.vars.listAll();
@@ -14691,14 +14644,10 @@ c(function () {
 				} else {
 					repoAddPackage(buttonElement.getAttribute("data-appcenter-repo") + "." + buttonElement.getAttribute("data-appcenter-package"), null, apps.appCenter.vars.displayUpdates);
 				}
-				//getId("APPCENTER_NOTICE_" + buttonElement.getAttribute("data-appcenter-repo") + "_" + buttonElement.getAttribute("data-appcenter-package")).innerHTML = "Restart to apply changes.";
-				//getId("APPCENTER_NOTICE").innerHTML = "Restart to apply changes.";
 			},
 			uninstall: function (buttonElement) {
 				apps.appCenter.vars.previousScrollPoint = getId("win_appCenter_html").scrollTop;
 				repoRemovePackage(buttonElement.getAttribute("data-appcenter-repo") + "." + buttonElement.getAttribute("data-appcenter-package"), apps.appCenter.vars.displayUpdates);
-				//getId("APPCENTER_NOTICE_" + buttonElement.getAttribute("data-appcenter-repo") + "_" + buttonElement.getAttribute("data-appcenter-package")).innerHTML = "Restart to apply changes.";
-				//getId("APPCENTER_NOTICE").innerHTML = "Restart to apply changes.";
 			},
 			listAll: function () {
 				var packageList = [];
@@ -14847,7 +14796,6 @@ c(function () {
 		signalHandler: function (signal) {
 			switch (signal) {
 				case "forceclose":
-					//this.vars = this.varsOriginal;
 					this.appWindow.closeWindow();
 					this.appWindow.closeIcon();
 					break;
@@ -14912,7 +14860,8 @@ c(function () {
 									}
 								});
 							});
-							// alphabetized array of apps
+
+							// Alphabetized array of apps
 							appsSorted = [];
 							for (var i in apps) {
 								appsSorted.push(apps[i].appDesc.toLowerCase() + "|AC_apps_sort|" + i);
@@ -14972,9 +14921,9 @@ c(function () {
 	getId('aOSloadingInfo').innerHTML = 'Finalizing...';
 });
 m('init finalizing');
-//function to open apps
-var currTopApp = '';
 
+// Function to open apps
+var currTopApp = '';
 function toTop(appToNudge, dsktpClick) {
 	m('Moving App ' + appToNudge.dsktpIcon + ' to Top');
 	currTopApp = '';
@@ -15004,7 +14953,6 @@ function toTop(appToNudge, dsktpClick) {
 		} catch (err) {
 			document.title = 'AaronOS';
 		}
-		//getId("win" + appToNudge.dsktpIcon).style.boxShadow = "0 0 30px #000";
 	} else {
 		try {
 			document.title = 'AaronOS ' + aOSversion;
@@ -15042,23 +14990,15 @@ function openapp(appToOpen, launchTypeUsed) {
 	}
 	toTop(appToOpen);
 }
-// Applications onclicks
-/*
-for(var application in apps){
-		getId("app" + apps[application].dsktpIcon).setAttribute("onClick", "openapp(apps." + application + ", 'dsktp')");
-		getId("icn" + apps[application].dsktpIcon).setAttribute("onClick", "openapp(apps." + application + ", 'tskbr')");
-		getId("win" + apps[application].dsktpIcon).setAttribute("onClick", "toTop(apps." + application + ")");
-		getId("win" + apps[application].dsktpIcon + "e").setAttribute("onClick", "apps." + application + ".signalHandler('close')");
-		getId("win" + apps[application].dsktpIcon + "s").setAttribute("onClick", "apps." + application + ".signalHandler('shrink')");
-}
-*/
+
+// Function to remove broken text warning
 finishedMakingAppClicks = 1;
-//function to remove broken text warning
 function fadeResizeText() {
 	getId("timesUpdated").style.display = "none";
 }
-//function to measure FPS has been moved to time function
-//function to allow app windows to be moved
+
+// Function to measure FPS has been moved to time function
+// Function to allow app windows to be moved
 var winmoveSelect = "";
 var winmovex = 0;
 var winmovey = 0;
@@ -15069,14 +15009,10 @@ var winmovecurrapp = '';
 function winmove(e) {
 	if (e.currentTarget !== getId("winmove")) {
 		getId("winmove").style.display = "block";
-		//winmoveSelect = e.currentTarget.id.substring(0, e.currentTarget.id.length - 1);
 		winmoveSelect = e.currentTarget.id.substring(0, e.currentTarget.id.length - 4);
 		winmovex = e.pageX;
 		winmovey = e.pageY;
-		//winmoveOrX = parseInt(getId(winmoveSelect).style.left);
-		//winmoveOrY = parseInt(getId(winmoveSelect).style.top);
-		for (var app in apps) {
-			//if(apps[app].dsktpIcon == winmoveSelect.substring(3, winmoveSelect.length)){
+		for (let app in apps) {
 			if (apps[app].objName == winmoveSelect.substring(4, winmoveSelect.length)) {
 				winmovecurrapp = app;
 				break;
@@ -15115,11 +15051,6 @@ function winmove(e) {
 		if (apps.settings.vars.performanceMode) {
 			getId('windowFrameOverlay').style.display = 'none';
 		}
-		//eval(getId(winmoveSelect).getAttribute('onclick').substring(6, getId(winmoveSelect).getAttribute('onclick').length - 1) + ".appWindow.windowX = " + (winmoveOrX + (e.pageX - winmovex)));
-		//eval(getId(winmoveSelect).getAttribute('onclick').substring(6, getId(winmoveSelect).getAttribute('onclick').length - 1) + ".appWindow.windowY = " + (winmoveOrY + (e.pageY - winmovey)));
-		//getId(winmoveSelect).style.left = winmoveOrX + (e.pageX - winmovex) + "px";
-		//getId(winmoveSelect).style.top = winmoveOrY + (e.pageY - winmovey) + "px";
-		//getId(winmoveSelect + "a").style.backgroundPosition = (-1 * (winmoveOrX + (e.pageX - winmovex)) + 40) + "px " + (-1 * (winmoveOrY + (e.pageY - winmovey)) + 40) + "px";
 	}
 }
 getId("winmove").addEventListener("click", winmove);
@@ -15136,10 +15067,8 @@ function winmoving(e) {
 			apps[winmovecurrapp].appWindow.windowH, apps[winmovecurrapp].appWindow.windowV
 		);
 	}
-	//getId(winmoveSelect).style.left = winmoveOrX + (e.pageX - winmovex) + "px";
-	//getId(winmoveSelect).style.top = winmoveOrY + (e.pageY - winmovey) + "px";
-	//getId(winmoveSelect + "a").style.backgroundPosition = (-1 * (winmoveOrX + (e.pageX - winmovex)) + 40) + "px " + (-1 * (winmoveOrY + (e.pageY - winmovey)) + 40) + "px";
 }
+
 var icomoveSelect = "";
 var icomovex = 0;
 var icomovey = 0;
@@ -15171,13 +15100,12 @@ function icomove(e, elem) {
 }
 
 getId("icomove").addEventListener("click", icomove);
-
 function icomoving(e) {
 	getId(icomoveSelect).style.left = icomoveOrX + (e.pageX - icomovex) * (1 / screenScale) + "px";
 	getId(icomoveSelect).style.top = icomoveOrY + (e.pageY - icomovey) * (1 / screenScale) + "px";
 }
 
-//custom icons
+// Custom icons
 function icnmove(e, elem) {
 	if (elem) {
 		getId("icnmove").style.display = "block";
@@ -15202,7 +15130,6 @@ function icnmove(e, elem) {
 }
 
 getId("icnmove").addEventListener("click", icnmove);
-
 function icnmoving(e) {
 	getId(icomoveSelect).style.left = icomoveOrX + (e.pageX - icomovex) * (1 / screenScale) + "px";
 	getId(icomoveSelect).style.top = icomoveOrY + (e.pageY - icomovey) * (1 / screenScale) + "px";
@@ -15288,10 +15215,6 @@ function winres(e) {
 		if (apps.settings.vars.performanceMode) {
 			getId('windowFrameOverlay').style.display = 'none';
 		}
-
-		//getId(winmoveSelect).style.transform = "rotateY(" + (e.pageX - winmovex) + "deg)rotateX(" + (e.pageY - winmovey) + "deg)";
-		//getId(winmoveSelect).style.transform = "scale(" + (1 + (e.pageX - winmovex) * 0.0025) + "," + (1 + (e.pageY - winmovey) * 0.0025) + ")";
-		//getId(winmoveSelect + "a").style.transform = "rotateY(" + -1 * (e.pageX - winmovex) + "deg)rotateX(" + -1 * (e.pageY - winmovey) + "deg)";
 	}
 }
 
@@ -15326,10 +15249,6 @@ function winresing(e) {
 			newWidth, newHeight
 		);
 	}
-
-	//getId(winmoveSelect).style.transform = "rotateY(" + (e.pageX - winmovex) + "deg)rotateX(" + (e.pageY - winmovey) + "deg)";
-	//getId(winmoveSelect).style.transform = "scale(" + (1 + (e.pageX - winmovex) * 0.0025) + "," + (1 + (e.pageY - winmovey) * 0.0025) + ")";
-	//getId(winmoveSelect + "a").style.transform = "rotateY(" + -1 * (e.pageX - winmovex) + "deg)rotateX(" + -1 * (e.pageY - winmovey) + "deg)";
 }
 
 function scrollHorizontally(event) {
@@ -15465,7 +15384,7 @@ function ctxMenu(setupArray, version, event, args) {
 			getId("ctxMenu").innerHTML = "";
 			var tempCtxContent = "";
 
-			// first char of name of element: + means new group | - means cannot click | _ means new group and cannot click
+			// First char of name of element: + means new group | - means cannot click | _ means new group and cannot click
 			for (var i = 1; i < ctxSetup.length - 1; i += 2) {
 				if (i !== 1) {
 					if (ctxSetup[i][0] === '+' || ctxSetup[i][0] === '_') {
@@ -15487,6 +15406,7 @@ function ctxMenu(setupArray, version, event, args) {
 		}
 	}
 }
+
 var baseCtx = {
 	hideall: [
 		[' ' + lang('ctxMenu', 'settings'), function () {
@@ -15504,10 +15424,6 @@ var baseCtx = {
 			apps.settings.vars.showMenu(apps.settings.vars.menus.background);
 			getId('bckGrndImg').focus();
 		}, 'ctxMenu/beta/cool.png']
-		/*,
-						['+' + lang('ctxMenu', 'addIcon'), function(){
-								openapp(apps.iconMaker, 'newicon ' + newCtxCoord[0] + ' ' + newCtxCoord[1]);
-						}, 'ctxMenu/beta/add.png']*/
 	],
 	desktop: [
 		[' ' + lang('ctxMenu', 'settings'), function () {
@@ -15947,16 +15863,13 @@ function fitWindowOuter() {
 	getId("desktop").style.width = window.outerWidth * (1 / numberOfScreenScale) + "px";
 	getId("desktop").style.height = window.outerHeight * (1 / numberOfScreenScale) - 32 + "px";
 	getId("taskbar").style.width = window.outerWidth * (1 / numberOfScreenScale) + "px";
-	//getId("taskbar").style.top = window.outerHeight - 30 + "px";
 	getId("tskbrAero").style.backgroundPosition = "20px " + (-1 * (window.outerHeight * (1 / numberOfScreenScale)) + 52) + "px";
 	getId("tskbrAero").style.width = window.outerWidth * (1 / numberOfScreenScale) + 40 + "px";
 	getId("tskbrAero").style.height = '';
 	getId('tskbrAero').style.transform = '';
 	getId('tskbrAero').style.transformOrigin = '';
-	//getId("icons").style.width = window.outerWidth * (1 / numberOfScreenScale) + "px";
-	//doLog(perfCheck('fitWindow') + '&micro;s to fit aOS to screen');
 
-	// taskbar position checking
+	// Taskbar position checking
 	switch (tskbrToggle.tskbrPos) {
 		case 1:
 			getId('desktop').style.left = '';
@@ -16029,16 +15942,13 @@ function fitWindowRes(newmonX, newmonY) {
 	getId("desktop").style.width = newmonX * (1 / numberOfScreenScale) + "px";
 	getId("desktop").style.height = newmonY * (1 / numberOfScreenScale) - 32 + "px";
 	getId("taskbar").style.width = newmonX * (1 / numberOfScreenScale) + "px";
-	//getId("taskbar").style.top = newmonY - 30 + "px";
 	getId("tskbrAero").style.backgroundPosition = "20px " + (-1 * (newmonY * (1 / numberOfScreenScale)) + 52) + "px";
 	getId("tskbrAero").style.width = newmonX * (1 / numberOfScreenScale) + 40 + "px";
 	getId("tskbrAero").style.height = '';
 	getId('tskbrAero').style.transform = '';
 	getId('tskbrAero').style.transformOrigin = '';
-	//getId("icons").style.width = newmonX * (1 / numberOfScreenScale) + "px";
-	//doLog(perfCheck('fitWindow') + '&micro;s to fit aOS to custom size');
 
-	// taskbar position checking
+	// Taskbar position checking
 	switch (tskbrToggle.tskbrPos) {
 		case 1:
 			getId('desktop').style.left = '';
@@ -16097,7 +16007,7 @@ function fitWindowRes(newmonX, newmonY) {
 	}
 }
 
-// test that the code is intact (2c22 68747470733a2f2f6161726f6e6f73 2e64)
+// Test that the code is intact (2c22 68747470733a2f2f6161726f6e6f73 2e64)
 c(function () {
 	var hexTestStr = "76617220616e74695069726163793d7b7d3b7472797b616e74695069726163793d7b6c6f6164696e67456c656d656e743a6e756c6c213d3d67657449642822614f53697" +
 		"34c6f6164696e6722292c636f707972696768744578697374733a766f69642030213d3d617070732e73657474696e67732e766172732e6d656e75732e696e666f2e636f" +
@@ -16210,8 +16120,8 @@ c(function () {
 });
 fadeResizeText();
 
+// Set up LOCALFILES
 window.LOCALFILES = {};
-// set up LOCALFILES
 if (localStorageSupported) {
 	if (!noUserFiles) {
 		if (localStorage.hasOwnProperty("LOCALFILES")) {
@@ -16253,13 +16163,9 @@ window.lfdel = function (filename) {
 	}
 };
 
-//auto-resize display on window change
+// Auto-resize display on window change
 window.addEventListener('resize', fitWindowIfPermitted);
-
-//window.setTimeout(fitWindow, 1000);
-//longtap support
 var monMouseEvent = {};
-
 function monMouseCheck() {
 	try {
 		if (typeof document.elementFromPoint(monMouseEvent.pageX, monMouseEvent.pageY).oncontextmenu === 'function') {
@@ -16318,14 +16224,12 @@ c(function () {
 
 var keepingAwake = false;
 
-// set up service worker
+// Set up service worker
 if ('serviceWorker' in navigator) {
 	window.addEventListener('load', function () {
 		navigator.serviceWorker.register('serviceworker.js').then(function (registration) {
-			// Registration was successful
-			//doLog('ServiceWorker registration successful with scope: ' + registration.scope, '#ABCDEF');
+
 		}, function (err) {
-			// registration failed :(
 			try {
 				doLog('ServiceWorker registration failed: ' + err, '#F00');
 			} catch (err2) {
@@ -16337,20 +16241,12 @@ if ('serviceWorker' in navigator) {
 
 c(function () {
 	getId('aOSloadingInfo').innerHTML = 'Loading your files...';
-	//getId('aosLoadingImage').src = "/loadDark.gif";
-	// getId('aOSisLoading').style.cursor = cursors.loadDark;
 	getId('aOSisLoading').classList.remove('cursorLoadLight');
 	getId('aOSisLoading').classList.add('cursorLoadDark');
 
 	initStatus = 1;
 	doLog('Took ' + (perfCheck('masterInitAOS') / 1000) + 'ms to initialize.');
 	perfStart("masterInitAOS");
-	//aOSping(function(text){
-	//    doLog('aOS server ping: ' + text[0] + ' &micro;s with status ' + text[1]);
-	//});
-	//corsPing(function(text){
-	//    doLog('NORAA search service ping: ' + text[0] + ' &micro;s with status ' + text[1]);
-	//});
 	if (window.navigator.vendor !== "Google Inc.") {
 		doLog('AaronOS works best on Chrome. Some features may act strangely.', '#F00;text-decoration:underline');
 		try {

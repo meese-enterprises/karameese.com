@@ -16,22 +16,24 @@ if (file_exists('USERFILES/' . $_COOKIE['keyword'] . '/aOSpassword.txt')) {
 		}
 
 		if (password_verify($_POST['pass'], $currPassword)) {
-				// SET LOGIN TOKEN AND SAVE IT
-				$tokenlettertypes = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#%&*-.^_`|~';
-				$newtoken = '';
-				for ($i = 0; $i < 30; $i++) {
-					$newtoken = $newtoken . $tokenlettertypes[random_int(0, strlen($tokenlettertypes) - 1)];
-				}
+			// SET LOGIN TOKEN AND SAVE IT
+			$tokenlettertypes = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#%&*-.^_`|~';
+			$newtoken = '';
+			for ($i = 0; $i < 30; $i++) {
+				$newtoken = $newtoken . $tokenlettertypes[random_int(0, strlen($tokenlettertypes) - 1)];
+			}
 
-				if (!is_dir('logins')) {
-					mkdir('logins');
-					file_put_contents('logins/.htaccess', 'Deny from all');
-				}
-				file_put_contents('logins/' . $_COOKIE['keyword'] . '.txt', password_hash($newtoken, PASSWORD_BCRYPT));
-				if (isset($_POST['loggingInViaUI'])) {
-					setcookie('logintoken', $newtoken);
-				}
-				echo $newtoken;
+			if (!is_dir('logins')) {
+				mkdir('logins');
+				file_put_contents('logins/.htaccess', 'Deny from all');
+			}
+
+			file_put_contents('logins/' . $_COOKIE['keyword'] . '.txt', password_hash($newtoken, PASSWORD_BCRYPT));
+			if (isset($_POST['loggingInViaUI'])) {
+				setcookie('logintoken', $newtoken);
+			}
+
+			echo $newtoken;
 		} else {
 			echo 'REJECT';
 		}
@@ -39,5 +41,3 @@ if (file_exists('USERFILES/' . $_COOKIE['keyword'] . '/aOSpassword.txt')) {
 } else {
 	echo 'no password is set';
 }
-
-?>
