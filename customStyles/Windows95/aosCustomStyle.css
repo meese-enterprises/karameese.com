@@ -243,10 +243,14 @@ hr {
 
 /* taskbar */
 #taskbar {
+	top: 0px;
 	background-color: var(--barbie);
 	border-top: 2px solid var(--barney);
 	text-shadow: none;
 	color: #000;
+}
+#desktop {
+	top: 31px;
 }
 
 .widget {

@@ -704,7 +704,7 @@ var dateForms = {
 	}
 };
 
-// function to use above functions to form a date string
+// Function to use above functions to form a date string
 function formDate(dateStr) {
 	tempDate = "";
 	date = new Date();
@@ -752,16 +752,7 @@ window.requestAnimationFrame(countVisualFPS);
 // Taskbar settings
 var tskbrToggle = {
 	perfMode: 0,
-	/*
-	netStat: 1,
-	batStat: 1,
-	batComp: 1,
-	fpsStat: 1,
-	fpsComp: 1,
-	lodStat: 1,
-	timeComp: 1,
-	*/
-	tskbrPos: 0 // 0, 1, 2, 3 : bot, top, left, right
+	tskbrPos: 1
 };
 
 // More FPS functions
@@ -1285,12 +1276,7 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 						getId("win_" + this.objName + "_aero").style.height = ySiz + 80 + "px";
 						this.windowV = ySiz;
 					}
-					var aeroOffset = [0, 0];
-					if (tskbrToggle.tskbrPos === 1) {
-						aeroOffset[1] = -32;
-					} else if (tskbrToggle.tskbrPos === 2) {
-						aeroOffset[0] = -32;
-					}
+					var aeroOffset = [0, -32];
 					try {
 						calcWindowblur(this.objName, 1);
 					} catch (err) {
@@ -1383,64 +1369,16 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 			closeKeepTask: function() {
 				if (this.objName !== 'startMenu') {
 					if (!mobileMode) {
-						switch (tskbrToggle.tskbrPos) {
-							case 1:
-								try {
-									getId("win_" + this.objName + "_top").style.transformOrigin = getId("icn_" + this.objName).getBoundingClientRect().left - this.windowX + 23 + 'px ' + (0 - this.windowY) + 'px';
-								} catch (err) {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '50% -' + window.innerHeight + 'px';
-								}
-								break;
-							case 2:
-								try {
-									getId("win_" + this.objName + "_top").style.transformOrigin = (0 - this.windowX - 30) + 'px ' + (getId("icn_" + this.objName).getBoundingClientRect().top - this.windowY + 23) + 'px';
-								} catch (err) {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '-' + window.innerWidth + 'px 50%';
-								}
-								break;
-							case 3:
-								try {
-									getId("win_" + this.objName + "_top").style.transformOrigin = (parseInt(getId('monitor').style.width, 10) - this.windowX - 30) + 'px ' + (getId("icn_" + this.objName).getBoundingClientRect().top - this.windowY + 23) + 'px';
-								} catch (err) {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '50% ' + window.innerWidth + 'px';
-								}
-								break;
-							default:
-								try {
-									getId("win_" + this.objName + "_top").style.transformOrigin = getId("icn_" + this.objName).getBoundingClientRect().left - this.windowX + 23 + 'px ' + (parseInt(getId('monitor').style.height, 10) - this.windowY - 30) + 'px';
-								} catch (err) {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '50% ' + window.innerHeight + 'px';
-								}
+						try {
+							getId("win_" + this.objName + "_top").style.transformOrigin = getId("icn_" + this.objName).getBoundingClientRect().left - this.windowX + 23 + 'px ' + (0 - this.windowY) + 'px';
+						} catch (err) {
+							getId("win_" + this.objName + "_top").style.transformOrigin = '50% -' + window.innerHeight + 'px';
 						}
 					} else {
-						switch (tskbrToggle.tskbrPos) {
-							case 1:
-								try {
-									getId("win_" + this.objName + "_top").style.transformOrigin = getId("icn_" + this.objName).getBoundingClientRect().left + 23 + 'px 0px';
-								} catch (err) {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '50% -' + window.innerHeight + 'px';
-								}
-								break;
-							case 2:
-								try {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '-30px ' + (getId("icn_" + this.objName).getBoundingClientRect().top + 23) + 'px';
-								} catch (err) {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '-' + window.innerWidth + 'px 50%';
-								}
-								break;
-							case 3:
-								try {
-									getId("win_" + this.objName + "_top").style.transformOrigin = (parseInt(getId('monitor').style.width, 10) - 30) + 'px ' + (getId("icn_" + this.objName).getBoundingClientRect().top + 23) + 'px';
-								} catch (err) {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '50% ' + window.innerWidth + 'px';
-								}
-								break;
-							default:
-								try {
-									getId("win_" + this.objName + "_top").style.transformOrigin = getId("icn_" + this.objName).getBoundingClientRect().left + 23 + 'px ' + (parseInt(getId('monitor').style.height, 10) - 30) + 'px';
-								} catch (err) {
-									getId("win_" + this.objName + "_top").style.transformOrigin = '50% ' + window.innerHeight + 'px';
-								}
+						try {
+							getId("win_" + this.objName + "_top").style.transformOrigin = getId("icn_" + this.objName).getBoundingClientRect().left + 23 + 'px 0px';
+						} catch (err) {
+							getId("win_" + this.objName + "_top").style.transformOrigin = '50% -' + window.innerHeight + 'px';
 						}
 					}
 					getId("win_" + this.objName + "_top").style.transform = 'scale(0.1)';
@@ -2401,63 +2339,19 @@ function removeWidget(widgetName, nosave) {
 
 function widgetMenu(title, content) {
 	// TODO: Abstract with parameters
-	switch (tskbrToggle.tskbrPos) {
-		case 1:
-			getId('widgetMenu').style.bottom = 'auto';
-			getId('widgetMenu').style.top = '0';
-			getId('widgetMenu').style.left = '';
-			getId('widgetMenu').style.right = '';
-			getId('widgetMenu').style.borderBottom = '';
-			getId('widgetMenu').style.borderLeft = '';
-			getId('widgetMenu').style.borderRight = '';
-			getId('widgetMenu').style.borderTop = 'none';
-			getId('widgetMenu').style.borderBottomLeftRadius = '';
-			getId('widgetMenu').style.borderBottomRightRadius = '';
-			getId('widgetMenu').style.borderTopLeftRadius = '0';
-			getId('widgetMenu').style.borderTopRightRadius = '0';
-			break;
-		case 2:
-			getId('widgetMenu').style.bottom = '16px';
-			getId('widgetMenu').style.top = '';
-			getId('widgetMenu').style.left = '0';
-			getId('widgetMenu').style.right = 'auto';
-			getId('widgetMenu').style.borderBottom = '';
-			getId('widgetMenu').style.borderLeft = 'none';
-			getId('widgetMenu').style.borderRight = '';
-			getId('widgetMenu').style.borderTop = '';
-			getId('widgetMenu').style.borderBottomLeftRadius = '0';
-			getId('widgetMenu').style.borderBottomRightRadius = '';
-			getId('widgetMenu').style.borderTopLeftRadius = '0';
-			getId('widgetMenu').style.borderTopRightRadius = '';
-			break;
-		case 3:
-			getId('widgetMenu').style.bottom = 'auto';
-			getId('widgetMenu').style.top = '16px';
-			getId('widgetMenu').style.left = '';
-			getId('widgetMenu').style.right = '0';
-			getId('widgetMenu').style.borderBottom = '';
-			getId('widgetMenu').style.borderLeft = '';
-			getId('widgetMenu').style.borderRight = 'none';
-			getId('widgetMenu').style.borderTop = '';
-			getId('widgetMenu').style.borderBottomLeftRadius = '';
-			getId('widgetMenu').style.borderBottomRightRadius = '0';
-			getId('widgetMenu').style.borderTopLeftRadius = '';
-			getId('widgetMenu').style.borderTopRightRadius = '0';
-			break;
-		default:
-			getId('widgetMenu').style.bottom = '';
-			getId('widgetMenu').style.top = '';
-			getId('widgetMenu').style.left = '';
-			getId('widgetMenu').style.right = '';
-			getId('widgetMenu').style.borderBottom = 'none';
-			getId('widgetMenu').style.borderLeft = '';
-			getId('widgetMenu').style.borderRight = '';
-			getId('widgetMenu').style.borderTop = '';
-			getId('widgetMenu').style.borderBottomLeftRadius = '0';
-			getId('widgetMenu').style.borderBottomRightRadius = '0';
-			getId('widgetMenu').style.borderTopLeftRadius = '';
-			getId('widgetMenu').style.borderTopRightRadius = '';
-	}
+	getId('widgetMenu').style.bottom = 'auto';
+	getId('widgetMenu').style.top = '0';
+	getId('widgetMenu').style.left = '';
+	getId('widgetMenu').style.right = '';
+	getId('widgetMenu').style.borderBottom = '';
+	getId('widgetMenu').style.borderLeft = '';
+	getId('widgetMenu').style.borderRight = '';
+	getId('widgetMenu').style.borderTop = 'none';
+	getId('widgetMenu').style.borderBottomLeftRadius = '';
+	getId('widgetMenu').style.borderBottomRightRadius = '';
+	getId('widgetMenu').style.borderTopLeftRadius = '0';
+	getId('widgetMenu').style.borderTopRightRadius = '0';
+
 	getId('widgetMenu').style.opacity = '';
 	getId('widgetMenu').style.pointerEvents = '';
 	getId('widgetTitle').innerHTML = title;
@@ -2465,31 +2359,11 @@ function widgetMenu(title, content) {
 }
 
 function closeWidgetMenu() {
-	switch (tskbrToggle.tskbrPos) {
-		case 1:
-			getId('widgetMenu').style.bottom = 'auto';
-			getId('widgetMenu').style.top = '-350px';
-			getId('widgetMenu').style.left = '';
-			getId('widgetMenu').style.right = '';
-			break;
-		case 2:
-			getId('widgetMenu').style.bottom = '16px';
-			getId('widgetMenu').style.top = '';
-			getId('widgetMenu').style.left = '-350px';
-			getId('widgetMenu').style.right = 'auto';
-			break;
-		case 3:
-			getId('widgetMenu').style.bottom = 'auto';
-			getId('widgetMenu').style.top = '16px';
-			getId('widgetMenu').style.left = '';
-			getId('widgetMenu').style.right = '-350px';
-			break;
-		default:
-			getId('widgetMenu').style.bottom = '-350px';
-			getId('widgetMenu').style.top = '';
-			getId('widgetMenu').style.left = '';
-			getId('widgetMenu').style.right = '';
-	}
+	getId('widgetMenu').style.bottom = 'auto';
+	getId('widgetMenu').style.top = '-350px';
+	getId('widgetMenu').style.left = '';
+	getId('widgetMenu').style.right = '';
+
 	getId('widgetMenu').style.opacity = '0';
 	getId('widgetMenu').style.pointerEvents = 'none';
 	getId('widgetTitle').innerHTML = '';
@@ -2974,39 +2848,12 @@ c(function() {
 				getId('win_startMenu_cap').setAttribute('onmousedown', '');
 				getId('win_startMenu_size').style.pointerEvents = "none";
 				getId('win_startMenu_cap').setAttribute('oncontextmenu', 'ctxMenu(apps.startMenu.vars.captionCtx, 1, event)');
-				switch (tskbrToggle.tskbrPos) {
-					case 1:
-						getId('win_startMenu_top').style.borderTopLeftRadius = "0";
-						getId('win_startMenu_top').style.borderBottomLeftRadius = "0";
-						getId('win_startMenu_top').style.borderBottomRightRadius = "";
-						getId('win_startMenu_top').style.borderTopRightRadius = "0";
-						getId('win_startMenu_html').style.borderBottomLeftRadius = "0";
-						getId('win_startMenu_html').style.borderBottomRightRadius = "";
-						break;
-					case 2:
-						getId('win_startMenu_top').style.borderTopLeftRadius = "0";
-						getId('win_startMenu_top').style.borderBottomLeftRadius = "0";
-						getId('win_startMenu_top').style.borderBottomRightRadius = "";
-						getId('win_startMenu_top').style.borderTopRightRadius = "0";
-						getId('win_startMenu_html').style.borderBottomLeftRadius = "0";
-						getId('win_startMenu_html').style.borderBottomRightRadius = "";
-						break;
-					case 3:
-						getId('win_startMenu_top').style.borderTopLeftRadius = "";
-						getId('win_startMenu_top').style.borderBottomLeftRadius = "0";
-						getId('win_startMenu_top').style.borderBottomRightRadius = "0";
-						getId('win_startMenu_top').style.borderTopRightRadius = "0";
-						getId('win_startMenu_html').style.borderBottomLeftRadius = "0";
-						getId('win_startMenu_html').style.borderBottomRightRadius = "0";
-						break;
-					default:
-						getId('win_startMenu_top').style.borderTopLeftRadius = "0";
-						getId('win_startMenu_top').style.borderBottomLeftRadius = "0";
-						getId('win_startMenu_top').style.borderBottomRightRadius = "0";
-						getId('win_startMenu_top').style.borderTopRightRadius = "";
-						getId('win_startMenu_html').style.borderBottomLeftRadius = "0";
-						getId('win_startMenu_html').style.borderBottomRightRadius = "0";
-				}
+				getId('win_startMenu_top').style.borderTopLeftRadius = "0";
+				getId('win_startMenu_top').style.borderBottomLeftRadius = "0";
+				getId('win_startMenu_top').style.borderBottomRightRadius = "";
+				getId('win_startMenu_top').style.borderTopRightRadius = "0";
+				getId('win_startMenu_html').style.borderBottomLeftRadius = "0";
+				getId('win_startMenu_html').style.borderBottomRightRadius = "";
 				getId('win_startMenu_html').style.overflowY = "auto";
 				getId('win_startMenu_html').style.background = 'none';
 				getId('win_startMenu_top').setAttribute('onClick', "toTop(apps.startMenu, 2)");
@@ -3022,27 +2869,9 @@ c(function() {
 				this.appWindow.closeKeepTask();
 			} else if (launchType === 'dsktp' || launchType === 'tskbr') {
 				if (getId('win_startMenu_top').style.display !== 'block') {
-					switch (tskbrToggle.tskbrPos) {
-						case 1:
-							requestAnimationFrame(function() {
-								apps.startMenu.appWindow.setDims(0, 0, 300, 370)
-							});
-							break;
-						case 2:
-							requestAnimationFrame(function() {
-								apps.startMenu.appWindow.setDims(0, 0, 300, 370)
-							});
-							break;
-						case 3:
-							requestAnimationFrame(function() {
-								apps.startMenu.appWindow.setDims(parseInt(getId('desktop').style.width, 10) - 300, parseInt(getId('desktop').style.height, 10) - 370, 300, 370)
-							});
-							break;
-						default:
-							requestAnimationFrame(function() {
-								apps.startMenu.appWindow.setDims(0, parseInt(getId('desktop').style.height, 10) - 370, 300, 370)
-							});
-					}
+					requestAnimationFrame(function() {
+						apps.startMenu.appWindow.setDims(0, 0, 300, 370)
+					});
 
 					this.appWindow.openWindow();
 					this.vars.listOfApps = '';
@@ -3347,31 +3176,10 @@ c(function() {
 					break;
 				case "close":
 					setTimeout(apps.startMenu.vars.minimize, 350);
-					switch (tskbrToggle.tskbrPos) {
-						case 1:
-							this.appWindow.setDims(-305, 0, 300, 370);
-							if (mobileMode)
-								getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-
-							break;
-						case 2:
-							this.appWindow.setDims(-305, 0, 300, 370);
-							if (mobileMode)
-								getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-
-							break;
-						case 3:
-							this.appWindow.setDims(parseInt(getId('desktop').style.width, 10) - 300, parseInt(getId('desktop').style.height, 10) + 5, 300, 370);
-							if (mobileMode)
-								getId('win_startMenu_top').style.transform = 'scale(1) translate(0, ' + getId('desktop').style.height + ')';
-
-							break;
-						default:
-							this.appWindow.setDims(-305, parseInt(getId('desktop').style.height, 10) - 370, 300, 370);
-							if (mobileMode)
-								getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-
-					}
+					this.appWindow.setDims(-305, 0, 300, 370);
+					if (mobileMode)
+						getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
+					
 					break;
 				case "checkrunning":
 					if (this.appWindow.appIcon) {
@@ -3381,31 +3189,11 @@ c(function() {
 					}
 					case "shrink":
 						setTimeout(apps.startMenu.vars.minimize, 350);
-						switch (tskbrToggle.tskbrPos) {
-							case 1:
-								this.appWindow.setDims(-305, 0, 300, 370);
-								if (mobileMode) {
-									getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-								}
-								break;
-							case 2:
-								this.appWindow.setDims(-305, 0, 300, 370);
-								if (mobileMode) {
-									getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-								}
-								break;
-							case 3:
-								this.appWindow.setDims(parseInt(getId('desktop').style.width, 10) - 300, parseInt(getId('desktop').style.height, 10) + 5, 300, 370);
-								if (mobileMode) {
-									getId('win_startMenu_top').style.transform = 'scale(1) translate(0, ' + getId('desktop').style.height + ')';
-								}
-								break;
-							default:
-								this.appWindow.setDims(-305, parseInt(getId('desktop').style.height, 10) - 370, 300, 370);
-								if (mobileMode) {
-									getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-								}
+						this.appWindow.setDims(-305, 0, 300, 370);
+						if (mobileMode) {
+							getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
 						}
+
 						this.appWindow.appIcon = 0;
 						break;
 					case "USERFILES_DONE":
@@ -6429,9 +6217,6 @@ c(function() {
 					'<i>' + langOld('settings', 'dbgExplain') + '</i><br><br>' +
 					'Long Tap Opens Context Menu: ' + this.vars.longTap + ' <button onclick="apps.settings.vars.togLongTap()">Toggle</button><br>' +
 					'<i>Only for mobile browsers, requires touch on top-level ctxmenu element (right-clicking a window will not give the desktop ctxmenu)</i><br><br>' +
-					langOld('settings', 'perfModeOn') + ': ' + apps.settings.vars.performanceMode + '<br>' +
-					langOld('settings', 'perfModeTog') + ' <button onClick="apps.settings.vars.togPerformanceMode()">Performance Mode</button><br>' +
-					'<i>' + langOld('settings', 'perfModeDesc') + '</i><hr>' +
 					'<b>' + langOld('settings', 'info') + '</b><br>' +
 					'&nbsp;<b>&copy;</b> <i>2015-2021 Aaron Adams</i><br>' +
 					'<i>' + langOld('settings', 'cookies') + '</i><br>' +
@@ -6477,12 +6262,8 @@ c(function() {
 					valuesMayBeOutdated: 'All values below are from the time the Settings app was opened.',
 					bgImgURL: 'Background Image URL',
 					imgTile: 'Images tile to cover the screen.',
-					performance: 'Performance',
 					dbgLevel: 'Debug Level',
 					dbgExplain: 'Sets how verbose aOS is in its actions. The different levels determine how often console messages appear and why.',
-					perfModeOn: 'Running in Performance Mode',
-					perfModeTog: 'If aOS is consistently running at a low FPS, try using',
-					perfModeDesc: 'Performance Mode attempts to raise framerate by lowering the CPU usage of some system functions',
 					info: 'Info',
 					cookies: 'By using this site you are accepting the small cookie the filesystem relies on and that all files you or your aOS apps generate will be saved on the aOS server for your convenience (and, mostly, for technical reasons).',
 					networkOn: 'Network Online',
@@ -6496,9 +6277,6 @@ c(function() {
 					performance: 'Functions that may Assist the Performance of the Operating System',
 					dbgLevel: 'Level of logging to the Debug Console',
 					dbgExplain: 'Determines the level of verbosity that aOS brings when referencing actions and issues. The differing levels given will determine how common messages will appear in the Console app, and the importance they must marked as to appear.',
-					perfModeOn: 'Running in enhanced-performance adjustment mode',
-					perfModeTog: 'If it appears that aOS is consistently running slowly or at a low count of frames per second, try enabling experimental',
-					perfModeDesc: 'The experimental Performance Mode attempts to lower the stress on CPU by optimising and delaying system functions',
 					info: 'Essential Information About aOS',
 					cookies: 'In the act of accessing this web site, you are hereby accepting the small, 21-character browser cookie that aOS relies heavily on for its filesystem. All text files you and your installed aOS apps happen to generate are stored solely on the aOS main server for your convenience (and, mostly, for annoying technical limitations).',
 					networkOn: 'Reported status of your browser\'s online network connectivity',
@@ -6510,61 +6288,6 @@ c(function() {
 				folder: 1,
 				folderName: 'Settings',
 				folderPath: 'apps.settings.vars.menus',
-				performance: {
-					folder: 0,
-					folderName: 'Performance',
-					folderPath: 'apps.settings.vars.menus.performance',
-					image: 'settingIcons/new/performance.png',
-					perfMode: {
-						option: 'Performance Mode',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.performanceMode)">' + numEnDis(apps.settings.vars.performanceMode) + '</span>.<br>' +
-								'Performance Mode attempts to raise framerate by lowering the intensity of some system functions.'
-						},
-						buttons: function() {
-							return '<button onClick="apps.settings.vars.togPerformanceMode()">Toggle</button>'
-						}
-					},
-					clickToMove: {
-						option: 'Legacy Window Moving',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.clickToMove)"></span>.<br>' +
-								'Legacy controls for window-moving, in which you must click the window title to select it and then click again somewhere on the screen to move it. This is useful for mobile devices which might not support dragging windows.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togClickToMove()">Toggle</button>'
-						}
-					},
-					longTap: {
-						option: 'Double Tap Opens Context Menu',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.longTap)">' + numEnDis(apps.settings.vars.longTap) + '</span>.<br>' +
-								'Only for mobile browsers, requires touch on top-level ctxmenu element (right-clicking a window will not give the desktop ctxmenu)'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togLongTap()">Toggle</button>'
-						}
-					},
-					allowStnWindow: {
-						option: 'File Browser Debug Mode',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.FILcanWin)"></span>.<br>' +
-								'Allows File Browser to access the global Window object. Dangerous!'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togFILwin()">Toggle</button>'
-						}
-					},
-					corsProxy: {
-						option: 'CORS Proxy',
-						description: function() {
-							return 'Prefix to URLs used by some apps to access non-aOS websites. If you don\'t know what this is, dont mess with it.'
-						},
-						buttons: function() {
-							return '<input id="STNcorsInput" placeholder="https://cors-anywhere.herokuapp.com/"> <button onclick="apps.settings.vars.corsProxy = getId(\'STNcorsInput\').value;apps.savemaster.vars.save(\'aos_system/apps/settings/cors_proxy\', apps.settings.vars.corsProxy, 1)">Set</button>'
-						}
-					}
-				},
 				info: {
 					folder: 0,
 					folderName: 'Information',
@@ -6746,15 +6469,6 @@ c(function() {
 						},
 						buttons: function() {
 							return '<button onclick="apps.settings.vars.toggleIconTitles();">Toggle</button>'
-						}
-					},
-					taskbarPos: {
-						option: 'Taskbar Position',
-						description: function() {
-							return 'Change the position of the taskbar on the screen.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.setTskbrPos(1)">Top</button>'
 						}
 					},
 					widgets: {
@@ -7399,26 +7113,6 @@ c(function() {
 				if (!nosave) ufsave('aos_system/noraa/speech_response_delay', apps.nora.vars.inputDelay);
 			},
 			tempArray: [],
-			performanceMode: 0,
-			togPerformanceMode: function (nosave) {
-				this.performanceMode = -1 * this.performanceMode + 1;
-				if (!nosave) ufsave('aos_system/apps/settings/performance_mode', this.performanceMode);
-				tskbrToggle.perfMode = this.performanceMode;
-
-				if (this.performanceMode) {
-					getId('monitor').style.imageRendering = 'pixelated';
-					getId('windowFrameOverlay').style.background = 'rgba(255, 255, 255, 0.1)';
-					getId('windowFrameOverlay').style.outline = '1px solid #000';
-					getId('windowFrameOverlay').style.boxShadow = 'inset 0 0 0 1px #FFF';
-					getId('windowFrameOverlay').style.borderRadius = '0';
-				} else {
-					getId('monitor').style.imageRendering = '';
-					getId('windowFrameOverlay').style.background = '';
-					getId('windowFrameOverlay').style.outline = '';
-					getId('windowFrameOverlay').style.boxShadow = '';
-					getId('windowFrameOverlay').style.borderRadius = '';
-				}
-			},
 			bgFit: 'center',
 			getWidgetList: function() {
 				var nodes = getId('time').childNodes;
@@ -7932,90 +7626,6 @@ c(function() {
 					}
 				}, 'Settings');
 			},
-			setTskbrPos: function (newPos, nosave) {
-				tskbrToggle.tskbrPos = newPos;
-				getId("tskbrAero").style.backgroundPosition = "20px " + (-1 * parseInt(getId('monitor').style.height) + 52) + "px";
-				getId("tskbrAero").style.width = parseInt(getId('monitor').style.width) + 40 + "px";
-				getId("tskbrAero").style.height = '';
-				getId('tskbrAero').style.transform = '';
-				getId('tskbrAero').style.transformOrigin = '';
-				switch (newPos) {
-					case 0:
-						getId('desktop').style.left = '';
-						getId('desktop').style.top = '';
-						getId('desktop').style.width = getId('monitor').style.width;
-						getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-						getId('taskbar').style.top = '';
-						getId('taskbar').style.left = '';
-						getId('taskbar').style.right = '';
-						getId('taskbar').style.bottom = '';
-						getId('taskbar').style.transform = '';
-						getId('taskbar').style.width = getId('monitor').style.width;
-						getId('windowFrameOverlay').style.transform = '';
-						break;
-					case 1:
-						getId('desktop').style.left = '';
-						getId('desktop').style.top = '32px';
-						getId('desktop').style.width = getId('monitor').style.width;
-				getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-				getId('taskbar').style.top = '0';
-				getId('taskbar').style.left = '';
-				getId('taskbar').style.right = '';
-				getId('taskbar').style.bottom = 'auto';
-				getId('taskbar').style.transform = '';
-						getId('taskbar').style.width = getId('monitor').style.width;
-						getId('tskbrAero').style.backgroundPosition = "20px 20px";
-						getId('windowFrameOverlay').style.transform = 'translate(0, 32px)';
-						break;
-					case 2:
-						getId('desktop').style.left = '32px';
-						getId('desktop').style.top = '';
-						getId('desktop').style.width = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-						getId('desktop').style.height = getId('monitor').style.height;
-						getId('taskbar').style.top = '0';
-						getId('taskbar').style.left = '';
-						getId('taskbar').style.right = '';
-						getId('taskbar').style.bottom = 'auto';
-						getId('taskbar').style.transform = 'rotate(90deg)';
-						getId('taskbar').style.width = getId('monitor').style.height;
-						getId('tskbrAero').style.backgroundPosition = "20px 20px";
-						getId('tskbrAero').style.transform = 'rotate(-90deg)';
-						getId('tskbrAero').style.width = '72px';
-						getId('tskbrAero').style.height = parseInt(getId('monitor').style.height) + 40 + "px";
-						getId('tskbrAero').style.transformOrigin = '35px 35px';
-						getId('windowFrameOverlay').style.transform = 'translate(32px, 0)';
-						break;
-					case 3:
-						getId('desktop').style.left = '';
-						getId('desktop').style.top = '';
-						getId('desktop').style.width = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-						getId('desktop').style.height = getId('monitor').style.height;
-						getId('taskbar').style.top = '';
-						getId('taskbar').style.left = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-						getId('taskbar').style.right = '';
-						getId('taskbar').style.bottom = '';
-						getId('taskbar').style.transform = 'rotate(-90deg)';
-						getId('taskbar').style.width = getId('monitor').style.height;
-						getId('tskbrAero').style.backgroundPosition = (-1 * parseInt(getId('monitor').style.width) + 52) + "px 20px";
-						getId('tskbrAero').style.transform = 'rotate(90deg) translateY(-' + (parseInt(getId('monitor').style.height) - 32) + 'px)';
-						getId('tskbrAero').style.width = '72px';
-						getId('tskbrAero').style.height = parseInt(getId('monitor').style.height) + 40 + "px";
-						getId('tskbrAero').style.transformOrigin = '35px 35px';
-						getId('windowFrameOverlay').style.transform = '';
-						break;
-					default:
-						apps.prompt.vars.alert('Error - unrecognised taskbar position format: ' + newPos, 'OK', function() {}, 'Settings');
-				}
-				if (!nosave) {
-					ufsave('aos_system/taskbar/position', newPos);
-				}
-				try {
-					updateBgSize();
-				} catch (err) {
-
-				}
-				openapp(apps.startMenu, 'srtup');
-			},
 			shutDown: function (arg, logout) {
 				if (arg === 'restart') {
 					apps.prompt.vars.confirm('Are you sure you wish to restart aOS?', ['No, Stay On', 'Yes, Restart'], function (btn) {
@@ -8248,14 +7858,6 @@ c(function() {
 									apps.settings.vars.currScreensaver = ufload("aos_system/screensaver/selected_screensaver");
 								}
 								apps.settings.vars.screensaverTimer = window.setInterval(apps.settings.vars.checkScreensaver, 1000);
-								if (ufload("aos_system/taskbar/position")) {
-									apps.settings.vars.setTskbrPos(parseInt(ufload("aos_system/taskbar/position"), 10), 1);
-								}
-								if (ufload("aos_system/apps/settings/performance_mode")) {
-									if (ufload("aos_system/apps/settings/performance_mode") === "1") {
-										apps.settings.vars.togPerformanceMode();
-									}
-								}
 								if (ufload("aos_system/windows/fade_distance")) {
 									setTimeout(function() {
 										apps.settings.vars.setFadeDistance(ufload("aos_system/windows/fade_distance"), 1);
@@ -8275,9 +7877,6 @@ c(function() {
 
 							// Google Play settings
 							if (sessionStorage.getItem('GooglePlay') === 'true') {
-								if (ufload("aos_system/apps/settings/performance_mode") !== "1") {
-									apps.settings.vars.togPerformanceMode(1);
-								}
 								if (ufload("aos_system/windows/blur_enabled") !== "0") {
 									apps.settings.vars.togAero(1);
 								}
@@ -10215,18 +9814,6 @@ c(function() {
 							'<p>In Settings, you can select a different look and feel for the Dashboard from a few options.</p>' +
 							'<p>* These specific files of applications are not saved, and represent their current state in JavaScript. ' +
 							'Files saved by your apps are accessible in the File Manager, in USERFILES or LOCALFILES.</p>'
-					},
-					performance: {
-						menuTitle: "Performance",
-						menuLocation: "apps.help.vars.menus.menuOptions.performance",
-						menuType: "docs",
-						menuContent: '<img class="centered" src="helpdocs/performance.png">' +
-							'<p>Certain effects and options in AaronOS can impact performance. ' +
-							'If you\'re having issues with running AaronOS, especially on a mobile device, these changes may help your performance.</p>' +
-							'<span style="font-size:1.5em">Performance Mode</span>' +
-							'<p>Available in Settings -&gt; Performance Mode, this option adjusts image rendering and some system functions in an attempt to improve performance.</p>' +
-							'<span style="font-size:1.5em">Close Unneeded Applications</span>' +
-							'<p>If you often run a large amount of applications on AaronOS or your real device, closing unneeded applications can help performance.</p>'
 					}
 				}
 			}
@@ -14070,13 +13657,6 @@ function winmove(e) {
 		}
 		winmoveOrX = apps[winmovecurrapp].appWindow.windowX;
 		winmoveOrY = apps[winmovecurrapp].appWindow.windowY;
-		if (apps.settings.vars.performanceMode) {
-			getId('windowFrameOverlay').style.display = 'block';
-			getId('windowFrameOverlay').style.left = winmoveOrX + 'px';
-			getId('windowFrameOverlay').style.top = winmoveOrY + 'px';
-			getId('windowFrameOverlay').style.width = apps[winmovecurrapp].appWindow.windowH + 'px';
-			getId('windowFrameOverlay').style.height = apps[winmovecurrapp].appWindow.windowV + 'px';
-		}
 		if (document.activeElement.tagName === "IFRAME") {
 			if (document.activeElement.getAttribute("data-parent-app")) {
 				if (e.currentTarget.id) {
@@ -14098,9 +13678,6 @@ function winmove(e) {
 				apps[winmovecurrapp].appWindow.windowH, apps[winmovecurrapp].appWindow.windowV
 			);
 		}
-		if (apps.settings.vars.performanceMode) {
-			getId('windowFrameOverlay').style.display = 'none';
-		}
 	}
 }
 getId("winmove").addEventListener("click", winmove);
@@ -14108,10 +13685,7 @@ getId("winmove").addEventListener("click", winmove);
 function winmoving(e) {
 	winmovelastx = e.pageX;
 	winmovelasty = e.pageY;
-	if (apps.settings.vars.performanceMode) {
-		getId('windowFrameOverlay').style.left = winmoveOrX + (e.pageX - winmovex) * (1 / screenScale) + 'px';
-		getId('windowFrameOverlay').style.top = winmoveOrY + (e.pageY - winmovey) * (1 / screenScale) + 'px';
-	} else if (!mobileMode) {
+	if (!mobileMode) {
 		apps[winmovecurrapp].appWindow.setDims(
 			winmoveOrX + (e.pageX - winmovex) * (1 / screenScale), winmoveOrY + (e.pageY - winmovey) * (1 / screenScale),
 			apps[winmovecurrapp].appWindow.windowH, apps[winmovecurrapp].appWindow.windowV
@@ -14206,13 +13780,6 @@ function winres(e) {
 
 		winmoveOrX = apps[winmovecurrapp].appWindow.windowH;
 		winmoveOrY = apps[winmovecurrapp].appWindow.windowV;
-		if (apps.settings.vars.performanceMode) {
-			getId('windowFrameOverlay').style.display = 'block';
-			getId('windowFrameOverlay').style.left = apps[winmovecurrapp].appWindow.windowX + 'px';
-			getId('windowFrameOverlay').style.top = apps[winmovecurrapp].appWindow.windowY + 'px';
-			getId('windowFrameOverlay').style.width = winmoveOrX + 'px';
-			getId('windowFrameOverlay').style.height = winmoveOrY + 'px';
-		}
 
 		tempwinresmode = [1, 1];
 		if (winmovex - apps[winmovecurrapp].appWindow.windowX < apps.settings.vars.winBorder * 5) {
@@ -14261,10 +13828,6 @@ function winres(e) {
 			newLeft, newTop,
 			newWidth, newHeight
 		);
-
-		if (apps.settings.vars.performanceMode) {
-			getId('windowFrameOverlay').style.display = 'none';
-		}
 	}
 }
 
@@ -14288,17 +13851,10 @@ function winresing(e) {
 		newTop = winresOrY + (e.pageY - winmovey) * (1 / screenScale)
 	}
 
-	if (apps.settings.vars.performanceMode) {
-		getId('windowFrameOverlay').style.left = newLeft + 'px';
-		getId('windowFrameOverlay').style.top = newTop + 'px';
-		getId('windowFrameOverlay').style.width = newWidth + 'px';
-		getId('windowFrameOverlay').style.height = newHeight + 'px';
-	} else {
-		apps[winmovecurrapp].appWindow.setDims(
-			newLeft, newTop,
-			newWidth, newHeight
-		);
-	}
+	apps[winmovecurrapp].appWindow.setDims(
+		newLeft, newTop,
+		newWidth, newHeight
+	);
 }
 
 function scrollHorizontally(event) {
@@ -14741,12 +14297,7 @@ function updateBgSize(noWinblur) {
 
 function calcWindowblur(win, noBgSize) {
 	if (!noBgSize) updateBgSize(1);
-	var aeroOffset = [0, 0];
-	if (tskbrToggle.tskbrPos === 1) {
-		aeroOffset[1] = -32;
-	} else if (tskbrToggle.tskbrPos === 2) {
-		aeroOffset[0] = -32;
-	}
+	var aeroOffset = [0, -32];
 	if (screenScale === 1 || screenScale < 0.25) {
 		getId('monitor').style.transform = '';
 		var numberOfScreenScale = 1;
@@ -14756,22 +14307,7 @@ function calcWindowblur(win, noBgSize) {
 	}
 	if (win === "taskbar") {
 		getId("tskbrAero").style.backgroundSize = bgSize[0] + 'px ' + bgSize[1] + 'px';
-		switch (tskbrToggle.tskbrPos) {
-			case 0:
-				getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (-1 * (window.innerHeight * (1 / numberOfScreenScale)) + 52 + bgPosition[1]) + "px";
-				break;
-			case 1:
-				getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (20 + bgPosition[1]) + "px";
-				break;
-			case 2:
-				getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (20 + bgPosition[1]) + "px";
-				break;
-			case 3:
-				getId("tskbrAero").style.backgroundPosition = (-1 * (window.innerWidth * (1 / numberOfScreenScale)) + 52 + bgPosition[0]) + "px " + (20 + bgPosition[1]) + "px";
-				break;
-			default:
-				getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (-1 * (window.innerHeight * (1 / numberOfScreenScale)) + 52 + bgPosition[1]) + "px";
-		}
+		getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (20 + bgPosition[1]) + "px";
 	} else if (win) {
 		getId('win_' + win + '_aero').style.backgroundPosition = (-1 * apps[win].appWindow.windowX + 40 + aeroOffset[0] + bgPosition[0]) + "px " + (-1 * (apps[win].appWindow.windowY * (apps[win].appWindow.windowY > -1)) + 40 + aeroOffset[1] + bgPosition[1]) + "px"
 	} else {
@@ -14780,22 +14316,7 @@ function calcWindowblur(win, noBgSize) {
 			getId('win_' + i + '_aero').style.backgroundPosition = (-1 * apps[i].appWindow.windowX + 40 + aeroOffset[0] + bgPosition[0]) + "px " + (-1 * (apps[i].appWindow.windowY * (apps[i].appWindow.windowY > -1)) + 40 + aeroOffset[1] + bgPosition[1]) + "px";
 		}
 		getId("tskbrAero").style.backgroundSize = bgSize[0] + 'px ' + bgSize[1] + 'px';
-		switch (tskbrToggle.tskbrPos) {
-			case 0:
-				getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (-1 * (window.innerHeight * (1 / numberOfScreenScale)) + 52 + bgPosition[1]) + "px";
-				break;
-			case 1:
-				getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (20 + bgPosition[1]) + "px";
-				break;
-			case 2:
-				getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (20 + bgPosition[1]) + "px";
-				break;
-			case 3:
-				getId("tskbrAero").style.backgroundPosition = (-1 * (window.innerWidth * (1 / numberOfScreenScale)) + 52 + bgPosition[0]) + "px " + (20 + bgPosition[1]) + "px";
-				break;
-			default:
-				getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (-1 * (window.innerHeight * (1 / numberOfScreenScale)) + 52 + bgPosition[1]) + "px";
-		}
+		getId("tskbrAero").style.backgroundPosition = (20 + bgPosition[0]) + "px " + (20 + bgPosition[1]) + "px";
 	}
 }
 
@@ -14825,67 +14346,18 @@ function fitWindow() {
 	getId('tskbrAero').style.transform = '';
 	getId('tskbrAero').style.transformOrigin = '';
 
-	// taskbar position checking
-	switch (tskbrToggle.tskbrPos) {
-		case 1:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '32px';
-			getId('desktop').style.width = getId('monitor').style.width;
-			getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-			getId('taskbar').style.top = '0';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = 'auto';
-			getId('taskbar').style.transform = '';
-			getId('taskbar').style.width = getId('monitor').style.width;
-			getId('tskbrAero').style.backgroundPosition = "20px 20px";
-			break;
-		case 2:
-			getId('desktop').style.left = '32px';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('desktop').style.height = getId('monitor').style.height;
-			getId('taskbar').style.top = '0';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = 'auto';
-			getId('taskbar').style.transform = 'rotate(90deg)';
-			getId('taskbar').style.width = getId('monitor').style.height;
-			getId('tskbrAero').style.backgroundPosition = "20px 20px";
-			getId('tskbrAero').style.transform = 'rotate(-90deg)';
-			getId('tskbrAero').style.width = '72px';
-			getId('tskbrAero').style.height = window.innerHeight * (1 / numberOfScreenScale) + 40 + "px";
-			getId('tskbrAero').style.transformOrigin = '35px 35px';
-			break;
-		case 3:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('desktop').style.height = getId('monitor').style.height;
-			getId('taskbar').style.top = '';
-			getId('taskbar').style.left = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = '';
-			getId('taskbar').style.transform = 'rotate(-90deg)';
-			getId('taskbar').style.width = getId('monitor').style.height;
-			getId('tskbrAero').style.backgroundPosition = (-1 * (window.innerWidth * (1 / numberOfScreenScale)) + 52) + "px 20px";
-			getId('tskbrAero').style.transform = 'rotate(90deg) translateY(-' + (window.innerHeight * (1 / numberOfScreenScale) - 32) + 'px)';
-			getId('tskbrAero').style.width = '72px';
-			getId('tskbrAero').style.height = window.innerHeight * (1 / numberOfScreenScale) + 40 + "px";
-			getId('tskbrAero').style.transformOrigin = '35px 35px'; // + (window.innerHeight * (1 / numberOfScreenScale) + 5) + 'px';
-			break;
-		default:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = getId('monitor').style.width;
-			getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-			getId('taskbar').style.top = '';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = '';
-			getId('taskbar').style.transform = '';
-			getId('taskbar').style.width = getId('monitor').style.width;
-	}
+	getId('desktop').style.left = '';
+	getId('desktop').style.top = '32px';
+	getId('desktop').style.width = getId('monitor').style.width;
+	getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
+	getId('taskbar').style.top = '0';
+	getId('taskbar').style.left = '';
+	getId('taskbar').style.right = '';
+	getId('taskbar').style.bottom = 'auto';
+	getId('taskbar').style.transform = '';
+	getId('taskbar').style.width = getId('monitor').style.width;
+	getId('tskbrAero').style.backgroundPosition = "20px 20px";
+
 	checkMobileSize();
 	arrangeDesktopIcons();
 	try {
@@ -14915,56 +14387,17 @@ function fitWindowOuter() {
 	getId('tskbrAero').style.transform = '';
 	getId('tskbrAero').style.transformOrigin = '';
 
-	// Taskbar position checking
-	switch (tskbrToggle.tskbrPos) {
-		case 1:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '32px';
-			getId('desktop').style.width = getId('monitor').style.width;
-			getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-			getId('taskbar').style.top = '0';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = 'auto';
-			getId('taskbar').style.transform = '';
-			getId('taskbar').style.width = getId('monitor').style.width;
-			break;
-		case 2:
-			getId('desktop').style.left = '32px';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('desktop').style.height = getId('monitor').style.height;
-			getId('taskbar').style.top = '0';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = 'auto';
-			getId('taskbar').style.transform = 'rotate(90deg)';
-			getId('taskbar').style.width = getId('monitor').style.height;
-			break;
-		case 3:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('desktop').style.height = getId('monitor').style.height;
-			getId('taskbar').style.top = '';
-			getId('taskbar').style.left = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = '';
-			getId('taskbar').style.transform = 'rotate(-90deg)';
-			getId('taskbar').style.width = getId('monitor').style.height;
-			break;
-		default:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = getId('monitor').style.width;
-			getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-			getId('taskbar').style.top = '';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = '';
-			getId('taskbar').style.transform = '';
-			getId('taskbar').style.width = getId('monitor').style.width;
-	}
+	getId('desktop').style.left = '';
+	getId('desktop').style.top = '32px';
+	getId('desktop').style.width = getId('monitor').style.width;
+	getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
+	getId('taskbar').style.top = '0';
+	getId('taskbar').style.left = '';
+	getId('taskbar').style.right = '';
+	getId('taskbar').style.bottom = 'auto';
+	getId('taskbar').style.transform = '';
+	getId('taskbar').style.width = getId('monitor').style.width;
+
 	checkMobileSize();
 	arrangeDesktopIcons();
 	try {
@@ -14994,56 +14427,17 @@ function fitWindowRes(newmonX, newmonY) {
 	getId('tskbrAero').style.transform = '';
 	getId('tskbrAero').style.transformOrigin = '';
 
-	// Taskbar position checking
-	switch (tskbrToggle.tskbrPos) {
-		case 1:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '32px';
-			getId('desktop').style.width = getId('monitor').style.width;
-			getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-			getId('taskbar').style.top = '0';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = 'auto';
-			getId('taskbar').style.transform = '';
-			getId('taskbar').style.width = getId('monitor').style.width;
-			break;
-		case 2:
-			getId('desktop').style.left = '32px';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('desktop').style.height = getId('monitor').style.height;
-			getId('taskbar').style.top = '0';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = 'auto';
-			getId('taskbar').style.transform = 'rotate(90deg)';
-			getId('taskbar').style.width = getId('monitor').style.height;
-			break;
-		case 3:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('desktop').style.height = getId('monitor').style.height;
-			getId('taskbar').style.top = '';
-			getId('taskbar').style.left = parseInt(getId('monitor').style.width, 10) - 32 + "px";
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = '';
-			getId('taskbar').style.transform = 'rotate(-90deg)';
-			getId('taskbar').style.width = getId('monitor').style.height;
-			break;
-		default:
-			getId('desktop').style.left = '';
-			getId('desktop').style.top = '';
-			getId('desktop').style.width = getId('monitor').style.width;
-			getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
-			getId('taskbar').style.top = '';
-			getId('taskbar').style.left = '';
-			getId('taskbar').style.right = '';
-			getId('taskbar').style.bottom = '';
-			getId('taskbar').style.transform = '';
-			getId('taskbar').style.width = getId('monitor').style.width;
-	}
+	getId('desktop').style.left = '';
+	getId('desktop').style.top = '32px';
+	getId('desktop').style.width = getId('monitor').style.width;
+	getId('desktop').style.height = parseInt(getId('monitor').style.height, 10) - 32 + "px";
+	getId('taskbar').style.top = '0';
+	getId('taskbar').style.left = '';
+	getId('taskbar').style.right = '';
+	getId('taskbar').style.bottom = 'auto';
+	getId('taskbar').style.transform = '';
+	getId('taskbar').style.width = getId('monitor').style.width;
+
 	checkMobileSize();
 	arrangeDesktopIcons();
 	try {
@@ -15239,28 +14633,6 @@ function monMouseDown(evt) {
 }
 getId("monitor").addEventListener('touchstart', monMouseDown);
 
-/*
-c(function(){
-		// print the time on the taskbar
-		window.showTimeOnTaskbar = function(){
-				timeElement.innerHTML = tskbrGetFpsStr() + tskbrGetLodStr() + tskbrGetNetStr() + tskbrGetTimeStr() + tskbrGetBatStr();
-				if(!apps.settings.vars.performanceMode){
-						window.requestAnimationFrame(showTimeOnTaskbar);
-				}else{
-						makeTimeout('aOS', 'showtimeontaskbar', 'showTimeOnTaskbar()', 1000);
-				}
-		}
-		makeTimeout("aOS", "TaskbarTime", "showTimeOnTaskbar()", 0);
-		// by default, runs every frame, but can run every second instead if it needs to
-		window.requestAnimationFrame(showTimeOnTaskbar);
-		
-		window.setTimeout(countFPS, 0);
-		// in 1 second, register network checkin with aOS task manager
-		requestAnimationFrame(function(){
-				makeInterval('aOS', 'NetwrkCheck', 'taskbarShowHardware()', 1000);
-		});
-});
-*/
 c(function() {
 	window.setTimeout(countFPS, 0);
 	requestAnimationFrame(function() {
