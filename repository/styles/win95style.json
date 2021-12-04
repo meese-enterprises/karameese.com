@@ -1,0 +1,7 @@
+{
+    "name": "Windows 95 Theme",
+    "id": "win95style",
+    "version": "1.0",
+    "appType": "stylesheet",
+    "styleLink": "customStyles/Windows95/aosCustomStyle.css"
+}
