@@ -2742,10 +2742,7 @@ widgets.network = new Widget(
 	'network',
 	function() {
 		widgetMenu('Network Widget',
-			'This widget displays your connection status to AaronOS. Additionally, it will show when you are sending / recieving data from AaronOS.<br><br>' +
-			'<button onclick="widgets.network.vars.setDisplayType(\'new\')">New Display</button> ' +
-			'<button onclick="widgets.network.vars.setDisplayType(\'old\')">Old Display</button>'
-			// TODO: DELETE THE OLD OPTION
+			'This widget displays your connection status to AaronOS. Additionally, it will show when you are sending / recieving data from AaronOS.'
 		);
 	},
 	function() {
@@ -2761,17 +2758,13 @@ widgets.network = new Widget(
 	function() {
 		if (widgets.network.vars.running) {
 			var displayStr = '';
-			if (widgets.network.vars.displayType === "new") {
-				getId('widget_network').style.lineHeight = '26px';
-				if (widgets.network.vars.onlinestrConvert[taskbarOnlineStr]) {
-					displayStr = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/' + widgets.network.vars.onlinestrConvert[taskbarOnlineStr] + '.png">';
-				} else {
-					displayStr = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/networkBad.png">';
-				}
+			getId('widget_network').style.lineHeight = '26px';
+			if (widgets.network.vars.onlinestrConvert[taskbarOnlineStr]) {
+				displayStr = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/' + widgets.network.vars.onlinestrConvert[taskbarOnlineStr] + '.png">';
 			} else {
-				getId('widget_network').style.lineHeight = '150%';
-				displayStr = taskbarOnlineStr;
+				displayStr = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/networkBad.png">';
 			}
+
 			if (displayStr !== widgets.network.vars.lastDisplayStr) {
 				getId('widget_network').innerHTML = displayStr;
 				widgets.network.vars.lastDisplayStr = displayStr;
@@ -2791,11 +2784,7 @@ widgets.network = new Widget(
 			']X[': 'networkBad'
 		},
 		lastDisplayStr: '',
-		displayType: "new",
-		setDisplayType: function (dispType) {
-			widgets.network.vars.displayType = dispType;
-			ufsave('aos_system/widgets/network/style', dispType);
-		}
+		displayType: "new"
 	}
 );
 
