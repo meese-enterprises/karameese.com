@@ -11,13 +11,11 @@ it is not my original work.
 - "Contact Me" form at the bottom of the site, that will be directed into an email
 
 ## Prerequisites
-Make sure you have PHP and a webserver like Apache or Nginx (The official aOS uses Apache) You can install them by running the following in your terminal:
+Make sure you have PHP and a webserver like Apache or Nginx. You can install them by running the following in your terminal:
 
 ```sudo apt install -y Apache2 php```
 
 ## Actually doing it
-What we are gonna do is open the ports aOS uses, grab aOS from github, move it into the correct folder, than change the folder permissions so that the userfiles php code works
-
 Note that this guide is for Ubuntu only, if you are using something else then only use this guide as a general outline
 
 First open the ports
