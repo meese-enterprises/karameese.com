@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ace Boot Script Editor</title>
+    <style>
+        ::-webkit-scrollbar{
+            width:16px;
+            background-color:#555;
+            box-shadow:inset 0 0 10px #CCC;
+            cursor:url(cursors/beta/default.png) 3 2, default;
+        }
+        ::-webkit-scrollbar-corner{
+            background-color:#555;
+            box-shadow:inset 0 0 10px #CCC;
+            cursor:url(cursors/beta/default.png) 3 2, default;
+        }
+        ::-webkit-resizer{
+            border-radius:8px;
+            background-color:#CCC;
+            box-shadow:inset 0 0 10px #555;
+            cursor:url(cursors/beta/default.png) 3 2, default;
+        }
+        ::-webkit-scrollbar-thumb{
+            border-radius:8px;
+            background-color:#CCC;
+            box-shadow:inset 0 0 10px #555;
+            cursor:url(cursors/beta/default.png) 3 2, default;
+        }
+        ::-webkit-scrollbar-button{
+            border-radius:8px;
+            background-color:#CCC;
+            box-shadow:inset 0 0 10px #555;
+            cursor:url(cursors/beta/default.png) 3 2, default;
+        }
+            .darkMode ::-webkit-scrollbar{
+                width:16px;
+                background-color:#272727;
+                box-shadow:inset 0 0 10px #383838;
+            }
+            .darkMode ::-webkit-scrollbar-corner{
+                background-color:#272727;
+                box-shadow:inset 0 0 10px #383838;
+            }
+            .darkMode ::-webkit-resizer{
+                border-radius:8px;
+                background-color:#555;
+                box-shadow:inset 0 0 10px #272727;
+            }
+            .darkMode ::-webkit-scrollbar-thumb{
+                border-radius:8px;
+                background-color:#555;
+                box-shadow:inset 0 0 10px #272727;
+            }
+            .darkMode ::-webkit-scrollbar-button{
+                border-radius:8px;
+                background-color:#555;
+                box-shadow:inset 0 0 10px #272727;
+            }
+        #editor { 
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+    <script src="../aosTools.js" data-light="true"></script>
+</head>
+<body>
+    <div id="editor"></div>
+    <script src="ace.js"></script>
+    <script src="ext-language_tools.js"></script>
+    <script defer>
+        var editor = ace.edit("editor");
+        editor.session.setMode("ace/mode/plain_text");
+        editor.setShowPrintMargin(false);
+        editor.setOptions({
+            enableBasicAutocompletion: false,
+            enableLiveAutocompletion: false
+        });
+
+        function setTheme(){
+            aosTools.getDarkMode((response) => {
+                if(response.content){
+                    document.body.classList.add("darkMode");
+                    editor.setTheme("ace/theme/clouds_midnight");
+                }else{
+                    document.body.classList.remove("darkMode");
+                    editor.setTheme("ace/theme/clouds");
+                }
+            });
+        }
+        function pasteText(data){
+            if(data.content === "pasted"){
+                editor.insert(data.pastedText);
+            }
+        }
+        // this entire func is ripped from aOS Tools for the purpose of replacing one line of its function
+        function showEditMenu(event, enablePaste, textOverride, positionOverride){
+            aosTools.waitingPasteTarget = event ? event.target : null;
+            aosTools.waitingPasteRange = event ? (event.target.selectionStart ? [event.target.selectionStart, event.target.selectionEnd] : null) : null;
+            aosTools.sendRequest({
+                action: "context:text_menu",
+                position: positionOverride || event ? [event.pageX, event.pageY] : [0, 0],
+                // editor.getSelectedText() is the only change from vanilla aOS Tools
+                selectedText: textOverride || editor.getSelectedText(),
+                enablePaste: (event ? (typeof event.target.value === "string" ? true : false) : false) ? enablePaste : 0
+            }, aosTools.recievePasteCommand);
+            if(event){
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }
+        function configureEditor(){
+            aosTools.updateStyle = setTheme;
+            aosTools.recievePasteCommand = pasteText;
+            aosTools.editMenu = showEditMenu;
+            setTheme();
+        }
+
+        window.aosTools_connectListener = configureEditor;
+        if(typeof aosTools === "object"){
+            aosTools.testConnection();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+/* Windows 10 */
+/* scrollbars */
+::-webkit-scrollbar{
+    width:16px;
+    background-color: #F0F0F0;
+    box-shadow: none;
+}
+::-webkit-scrollbar-corner{
+    background-color: #F0F0F0;
+    box-shadow: none;
+}
+::-webkit-resizer{
+    border-radius: 0;
+    background-color: #CDCDCD;
+    box-shadow: none;
+}
+::-webkit-scrollbar-thumb{
+    border-radius: 0;
+    background-color: #CDCDCD;
+    box-shadow: none;
+}
+::-webkit-scrollbar-button{
+    border-radius: 0;
+    background-color: #DADADA;
+    box-shadow: none;
+}
+/* window itself */
+.window{
+    border-radius: 0;
+}
+/* window html */
+.winHTML{
+    border-radius: 0;
+}
+/* window buttons */
+.winBig, .winShrink, .winExit, .winFld{
+    color: #FFF;
+    border-radius: 0;
+    border: none;
+    height: 31px;
+    top: 0px;
+    width: 38px;
+    font-family:aosProFont;
+    font-size:19px;
+    line-height:30px;
+    text-align:center;
+    box-shadow:none;
+}
+.winExit{
+    right: 1px;
+}
+.winExit:hover{
+    background-color:#E81123;
+    color: #FFF;
+}
+.winBig{
+    right: 40px;
+}
+.winShrink{
+    right: 80px;
+}
+.winFld{
+    left:1px;
+    width:24px;
+    line-height:38px;
+}
+.winBig:hover, .winShrink:hover, .winFld:hover{
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #FFF !important;
+}
+/* context menu */
+#ctxMenu{
+    border-color:#CCC;
+    background-color:#F2F2F2;
+}
+#ctxMenu hr{
+    background-color:#D7D7D7;
+    border-radius: 0;
+    border: none;
+    margin-left:5% !important;
+    width:90%;
+    height:1px;
+    background-image:none;
+}
+#ctxMenu p{
+    transition: 0s;
+}
+#ctxMenu p:hover{
+    transition: 0s;
+    background-color: #91C9F7;
+    color: #000;
+}
+.darkMode #ctxMenu p:hover{
+    background-color: #414141;
+}
+/* buttons */
+button{
+    border-color: #ADADAD;
+    background-color:#E1E1E1;
+    color: #000;
+    outline: none;
+    transition: 0.1s;
+    box-shadow:none !important;
+}
+button:hover{
+    border-color:#0078D7;
+    background-color:#E5F1FB;
+}
+button:active{
+    border-color:#005499;
+    background-color:#CCE4F7;
+}
+.darkMode button:hover{
+    border-color: #ADADAD;
+    background-color:#474747;
+}
+.darkMode button:active{
+    border-color: #ADADAD;
+    background-color:#6C6C6C;
+}
+
+#tskbrBimg, .winBimg{
+    background-image:none;
+}

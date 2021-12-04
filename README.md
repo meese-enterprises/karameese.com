@@ -9,3 +9,40 @@ it is not my original work.
 ### IDEAs
 - Add a dark mode slider with [this](https://github.com/chetanverma16/react-portfolio-template/pull/15)
 - "Contact Me" form at the bottom of the site, that will be directed into an email
+
+## Prerequisites
+Make sure you have PHP and a webserver like Apache or Nginx (The official aOS uses Apache) You can install them by running the following in your terminal:
+
+```sudo apt install -y Apache2 php```
+
+## Actually doing it
+What we are gonna do is open the ports aOS uses, grab aOS from github, move it into the correct folder, than change the folder permissions so that the userfiles php code works
+
+Note that this guide is for Ubuntu only, if you are using something else then only use this guide as a general outline
+
+First open the ports
+
+```sudo ufw allow "Apache Full"```
+
+Make sure you are in the right directory, than download the aOS files
+
+```
+cd
+git clone https://github.com/MineAndCraft12/AaronOS
+```
+Copy into the correct folder
+
+```sudo cp -r AaronOS/* /var/www/html/```
+
+Give ownership of directory to Apache and let Apache write to it
+
+``` 
+sudo chown -R www-data /var/www/
+sudo chmod -R 755 /var/www/html
+```
+
+The main PHP file is /aosBeta.php
+
+The main JavaScript file is /scriptBeta.js
+
+The main CSS file is /styleBeta.css

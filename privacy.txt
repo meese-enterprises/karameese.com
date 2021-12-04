@@ -1,0 +1,67 @@
+AaronOS Privacy Policy
+
+Last updated: 2021-01-22 at 2:47pm
+
+This Privacy Policy is in regards to AaronOS, as it pertains to the official servers
+	hosted at https://aaron-os-mineandcraft12.c9.io/ and https://aaronos.dev/
+For any who deploy AaronOS on their own, it is highly recommended that you follow a
+	policy similar to this one.
+
+AaronOS only collects information that is directly relied upon for AaronOS development.
+
+INFORMATION COLLECTION AND USE
+
+I will try my best to never knowingly collect data that could be used to personally
+	identify you. Any and all data collection I may perform regarding users will be performed
+	anonymously.
+
+Any ongoing data campaigns, at the time of writing, will be detailed in the Settings
+	application, under Information -> Anonymous Data Collection. This list will
+	be updated when a data collection campaign is underway, and will include a
+	list of specifically what data is being collected.
+
+In the event of suspected breach of the EULA by third-party developers, AaronOS will send limited
+    information about itself and the potential breach to Aaron, for the purposes of stopping potential
+    issues before they become problems for the parties involved.
+
+PERSONAL FILES
+
+Part of AaronOS's core functionality is that you have your own set of files hosted
+	on the AaronOS server.
+While it is possible for us to access this data at any time, we will only do so in
+	accordance with this Privacy Policy. We will only access this data with your
+	explicit permission, with the exception of any data accession required to fix a
+	major issue in AaronOS. We guarantee that you will be notified of your data being
+	accessed in any case.
+
+Keep in mind that no web security is perfect. If someone breaches my account or the
+	AaronOS server, they may be able to force access to your files.
+For this reason, DO NOT store any sensitive information on AaronOS. Examples include
+	secrets, bank information, addresses, full names, or any other things that
+	you wouldn't want people to know.
+
+COMMUNICATIONS
+
+I may contact you via various means (examples: email, Discord messaging).
+This being said, I will do my best to never contact you without good reason.
+Examples of good reason may be that you have requested that I contact you, or
+	if there is an issue that requires your attention.
+Note that I will not be collecting email addresses; the only way I'll know it
+	is if you provide it to me for the purpose of contacting you.
+
+COOKIES
+
+AaronOS leverages web cookies for parts of its core functionality.
+The main cookie AaronOS uses is a unique identifier that tells AaronOS what filesystem
+	to grab from the server when loading aOS.
+If you wish, you may configure your browser to deny cookies from AaronOS, though do note
+	that this will prevent its filesystem from persisting between sessions.
+
+CHANGES TO PRIVACY POLICY
+
+This Privacy Policy is effective as of 1/26/2019 and will remain in effect except with
+	respect to any changes in its provisions in the future, which will be in effect
+	immediately after being posted on this page.
+
+I reserve the right to update or change this Privacy Policy at any time, though I will
+	make a reasonable effort to inform the users of AaronOS if this occurs.

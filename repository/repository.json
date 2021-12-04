@@ -1,0 +1,273 @@
+{
+    "repoName": "AaronOS Official",
+    "repoID": "aaronos_official",
+    "repoAliases": ["aaronos", "aos", "official"],
+    "repoVersion": "1.1.0",
+    "packages": {
+        "guitartab": {
+            "packageName": "Guitar Tab",
+            "packageID": "guitartab",
+            "packageAliases": ["guitar", "tabulature"],
+            "version": "1.0",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/guitartab.json",
+            "icon": {
+                "foreground": "appicons/ds/aOS.png"
+            },
+            "description": "Guitar Tabulature editor."
+        },
+        "minesweeper": {
+            "packageName": "Minesweeper",
+            "packageID": "minesweeper",
+            "packageAliases": [],
+            "version": "1.1",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/minesweeper.json",
+            "icon": {
+                "foreground": "repository/webApps/minesweeper.png"
+            },
+            "description": "Minesweeper, inspired by the Windows 98 Minesweeper game."
+        },
+        "weather": {
+            "packageName": "Weather",
+            "packageID": "weather",
+            "packageAliases": ["wind", "rain", "thunder", "lightning"],
+            "version": "1.1",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/weather.json",
+            "icon": {
+                "foreground": "appicons/ds/systemApp.png"
+            },
+            "description": "Weather app, using the US Weather Service API"
+        },
+        "cookieclicker": {
+            "packageName": "Cookie Clicker",
+            "packageID": "cookieclicker",
+            "packageAliases": ["cookie", "clicker"],
+            "version": "1.0",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/cookieclicker.json",
+            "icon": {
+                "foreground": "appicons/ds/CCl.png"
+            },
+            "description": "Cookie Clicker made by Aaron and JD."
+        },
+        "blast": {
+            "packageName": "aOS Blast",
+            "packageID": "blast",
+            "packageAliases": ["game", "lasers"],
+            "version": "1.1",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/blast.json",
+            "icon": {
+                "foreground": "repository/webApps/blast.png",
+                "backgroundColor": "#000"
+            },
+            "description": "AaronOS Blast, with AI ships and a player ship shooting lasers at each other."
+        },
+        "indycar": {
+            "packageName": "Indycar Game",
+            "packageID": "indycar",
+            "packageAliases": ["game", "race", "racing", "cars"],
+            "version": "1.0",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/indycar.json",
+            "icon": {
+                "foreground": "appicons/ICr.png"
+            },
+            "description": "A small two-player racing game with some little indycars in it. WASD/X and IJKL/M control the cars."
+        },
+        "housegame": {
+            "packageName": "House Game",
+            "packageID": "housegame",
+            "packageAliases": ["game", "defend", "battle", "fight", "shoot"],
+            "version": "1.0",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/housegame.json",
+            "icon": {
+                "foreground": "appicons/HSG.png"
+            },
+            "description": "A top-down defense game where you are tasked with defending a house from invaders. (it's a bit loud)"
+        },
+        "calculator": {
+            "packageName": "Calculator",
+            "packageID": "calculator",
+            "packageAliases": [],
+            "version": "1.0",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/calculator.json",
+            "icon": {
+                "foreground": "appicons/ds/Clc.png"
+            },
+            "description": "Calculator made by Aaron while learning JavaScript. Includes some custom functions."
+        },
+        "gtk2aos": {
+            "packageName": "GTK3 Style Converter",
+            "packageID": "gtk2aos",
+            "packageAliases": ["gtk", "gtk-3.0", "gtk3"],
+            "version": "1.0",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/gtk2aos.json",
+            "icon": {
+                "foreground": "appicons/ds/GTK.png"
+            },
+            "description": "This app turns GTK3 themes into themes compatible with AaronOS. It is still a work in progress and results may vary in quality. My favorite themes to convert are Mint-Y-Dark and Arc-Dark."
+        },
+        "jspaint": {
+            "packageName": "JS Paint",
+            "packageID": "jspaint",
+            "packageAliases": ["paint", "mspaint", "ms paint", "microsoft paint"],
+            "version": "1.0",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/jspaint.json",
+            "icon": {
+                "foreground": "appicons/ds/CSE.png"
+            },
+            "description": "JS Paint was developed by Isaiah Odhner and embedded into an aOS app with his permission.\n\nFull site at https://jspaint.app"
+        },
+        "tijs": {
+            "packageName": "TI-BASIC to JS",
+            "packageID": "tijs",
+            "packageAliases": ["calculator", "prgm", "texas", "instruments", "TI-83+"],
+            "version": "1.1",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/tijs.json",
+            "icon": {
+                "foreground": "appicons/ds/Clc.png"
+            },
+            "description": "Convert TI-BASIC code into JS code compatible with a simulated text display and canvas."
+        },
+        "textToBin": {
+            "packageName": "Text to Binary",
+            "packageID": "textToBin",
+            "packageAliases": [],
+            "version": "1.1",
+            "packageType": "webApp",
+            "installURL": "repository/webApps/textToBin.json",
+            "icon": {
+                "foreground": "appicons/ds/CAM.png"
+            },
+            "description": "Convert text to / from binary code and images."
+        },
+        "aaronscustomfunctions": {
+            "packageName": "Aarons Custom Functions",
+            "packageID": "aaronscustomfunctions",
+            "packageAliases": ["context menu", "desktop", "open app"],
+            "version": "1.1",
+            "packageType": "bootscript",
+            "installURL": "repository/scripts/aaronscustomfunctions.json",
+            "icon": {
+                "foreground": "appicons/ds/aOS.png"
+            },
+            "description": "Adds a custom functions to the desktop context menu.\n\nCopy an app ID (example, apps.settings) to the first slot of the clipboard. Right click your desktop, and there will be a button to open the app in that clipboard slot."
+        },
+        "glasswindows": {
+            "packageName": "Glass Windows",
+            "packageID": "glasswindows",
+            "packageAliases": [],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/glasswindows.json",
+            "icon": {
+                "foreground": "repository/styles/glasswindows.png"
+            },
+            "description": "Extends the window caption glass into the entire window. You can see through the entire window."
+        },
+        "terminalstyle": {
+            "packageName": "Terminal Theme",
+            "packageID": "terminalstyle",
+            "packageAliases": [],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/terminalstyle.json",
+            "icon": {
+                "foreground": "repository/styles/terminalstyle.png"
+            },
+            "description": "Themes aOS to look like a movie hacker terminal."
+        },
+        "mintystyle": {
+            "packageName": "Mint Y Theme",
+            "packageID": "mintystyle",
+            "packageAliases": ["dark"],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/mintystyle.json",
+            "icon": {
+                "foreground": "repository/styles/mintystyle.png"
+            },
+            "description": "Themes aOS to look similar to Linux Mint's Y style. Includes dark theme support."
+        },
+        "win98style": {
+            "packageName": "Windows 98 Theme",
+            "packageID": "win98style",
+            "packageAliases": [],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/win98style.json",
+            "icon": {
+                "foreground": "repository/styles/win98style.png"
+            },
+            "description": "Similar theme to Microsoft Windows 98. Used with permission from Microsoft."
+        },
+        "winxpstyle": {
+            "packageName": "Windows XP Theme",
+            "packageID": "winxpstyle",
+            "packageAliases": [],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/winxpstyle.json",
+            "icon": {
+                "foreground": "repository/styles/winxpstyle.png"
+            },
+            "description": "Similar theme to Microsoft Windows XP. Used with permission from Microsoft."
+        },
+        "glassxpstyle": {
+            "packageName": "Windows XP Glass",
+            "packageID": "glassxpstyle",
+            "packageAliases": [],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/glassxpstyle.json",
+            "icon": {
+                "foreground": "repository/styles/glassxpstyle.png"
+            },
+            "description": "Similar theme to Microsoft Windows XP. Used with permission from Microsoft.\n\nThis version has glass window borders that you can color any way you like."
+        },
+        "win7style": {
+            "packageName": "Windows 7 Theme",
+            "packageID": "win7style",
+            "packageAliases": ["aero"],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/win7style.json",
+            "icon": {
+                "foreground": "repository/styles/win7style.png"
+            },
+            "description": "Similar theme to Microsoft Windows 7. Used with permission from Microsoft.\n\nRecommended settings:\nWindow Background Image: \"images/win7blur1080.png\"\nWindow Border Width: 6"
+        },
+        "win10style": {
+            "packageName": "Windows 10 Theme",
+            "packageID": "win10style",
+            "packageAliases": [],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/win10style.json",
+            "icon": {
+                "foreground": "repository/styles/win10style.png"
+            },
+            "description": "Similar theme to Microsoft Windows 10. Used with permission from Microsoft.\n\nRecommended settings:\nWindow Background Image: Disabled\nWindow Border Width: 1"
+        },
+        "highsierrastyle": {
+            "packageName": "MacOS Theme",
+            "packageID": "highsierrastyle",
+            "packageAliases": ["apple", "macbook", "air"],
+            "version": "1.0",
+            "packageType": "stylesheet",
+            "installURL": "repository/styles/highsierrastyle.json",
+            "icon": {
+                "foreground": "repository/styles/highsierrastyle.png"
+            },
+            "description": "Themes aOS to look similar to Apple MacOS&tm;. Made by ElijahZAwesome\n\nAaronOS is not endorsed by, sponsored by, or affiliated with Apple."
+        }
+    }
+}
