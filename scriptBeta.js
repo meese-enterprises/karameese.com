@@ -2003,22 +2003,24 @@ repoUpdateCallbackColored = 0;
 repoUpdateFinishFunc = null;
 
 function repoUpdate(callback, finishFunc) {
-	if (repoStagedUpdates <= 0 && repoStagedUpgrades <= 0) {
-		if (callback) {
-			repoUpdateCallback = callback;
-			repoUpdateCallbackColored = 0;
+	if (repoStagedUpdates > 0 && repoStagedUpgrades > 0) return false;
+
+	if (callback) {
+		repoUpdateCallback = callback;
+		repoUpdateCallbackColored = 0;
 		} else {
 			repoUpdateCallback = doLog;
 			repoUpdateCallbackColored = 1;
 		}
 		if (finishFunc) {
 			repoUpdateFinishFunc = finishFunc;
-		} else {
-			repoUpdateFinishFunc = null;
-		}
-		repositoryIDs = [];
-		repoUpdateOutput = [];
-		repoStagedUpdates = 0;
+	} else {
+		repoUpdateFinishFunc = null;
+	}
+
+	repositoryIDs = [];
+	repoUpdateOutput = [];
+	repoStagedUpdates = 0;
 		for (var repo in repositories) {
 			repoUpdateXHR[repo] = new XMLHttpRequest();
 			if (repo.indexOf("?") > -1) { // this URL parameter is added to beat the Chrome cache system
@@ -2028,26 +2030,24 @@ function repoUpdate(callback, finishFunc) {
 			}
 			repoUpdateXHR[repo].onreadystatechange = repoUpdateIntermediate;
 			repoUpdateXHR[repo].repositoryName = repo;
-			repoUpdateXHR[repo].send();
-			repoStagedUpdates++;
-		}
-		if (repoUpdateCallbackColored) {
-			repoUpdateCallback("| -----", "#579");
-			repoUpdateCallback("| Updating " + repoStagedUpdates + " repositories", "#579");
+		repoUpdateXHR[repo].send();
+		repoStagedUpdates++;
+	}
+
+	if (repoUpdateCallbackColored) {
+		repoUpdateCallback("| -----", "#579");
+		repoUpdateCallback("| Updating " + repoStagedUpdates + " repositories", "#579");
 			repoUpdateCallback("| ", "#579");
 		} else {
-			repoUpdateCallback("Updating " + repoStagedUpdates + " repositories");
-			repoUpdateCallback("");
-		}
-		try {
-			apps.saveMaster.vars.saving = 3;
-		} catch (err) {
-
-		}
-		return true;
-	} else {
-		return false;
+		repoUpdateCallback("Updating " + repoStagedUpdates + " repositories");
+		repoUpdateCallback("");
 	}
+
+	try {
+		apps.saveMaster.vars.saving = 3;
+	} catch (err) {}
+
+	return true;
 }
 
 var repoUpgradeXHR = {};
@@ -2071,7 +2071,7 @@ function repoUpgradeIntermediate() {
 
 function repoUpgradeInstall(targetPackage, packageData) {
 	try {
-		var repoJSON = JSON.parse(packageData);
+		let repoJSON = JSON.parse(packageData);
 		if (repoJSON.hasOwnProperty("name") &&
 			repoJSON.hasOwnProperty("id") &&
 			repoJSON.hasOwnProperty("version") &&
@@ -2107,11 +2107,11 @@ function repoUpgradeInstall(targetPackage, packageData) {
 					} else {
 						apps.appCenter.vars.compileWebApp(repoJSON, targetPackage[0] + '__' + targetPackage[1]);
 						appsSorted = [];
-						for (var i in apps) {
+						for (let i in apps) {
 							appsSorted.push(apps[i].appDesc.toLowerCase() + "|WAP_apps_sort|" + i);
 						}
 						appsSorted.sort();
-						for (var i in appsSorted) {
+						for (let i in appsSorted) {
 							var tempStr = appsSorted[i].split("|WAP_apps_sort|");
 							tempStr = tempStr[tempStr.length - 1];
 							appsSorted[i] = tempStr;
@@ -2133,24 +2133,19 @@ function repoUpgradeInstall(targetPackage, packageData) {
 function repoUpgradeFinished() {
 	try {
 		apps.saveMaster.vars.saving = 0;
-	} catch (err) {
+	} catch (err) {}
 
-	}
 	try {
 		repoUpgradeCallback("");
 		repoUpgradeCallback("Finished.");
-		//repoUpgradeCallback(repoUpgradeOutput);
 		try {
 			if (typeof repoUpgradeFinishedFunc === 'function') {
 				repoUpgradeFinishedFunc();
 			}
-		} catch (err) {
+		} catch (err) {}
+	} catch (err) {}
 
-		}
-	} catch (err) {
-
-	}
-	for (var i in repoUpgradeXHR) {
+	for (let i in repoUpgradeXHR) {
 		delete repoUpgradeXHR[i];
 	}
 	repoUpgradeXHR = {};
@@ -2163,62 +2158,55 @@ function repoUpgradeFinished() {
 }
 
 var repoUpgradeFinishedFunc = null;
-
 function repoUpgrade(callback, finishedFunc) {
-	if (repoStagedUpdates <= 0 && repoStagedUpgrades <= 0) {
-		var upgradeablePackages = repoGetUpgradeable();
-		if (upgradeablePackages.length === 0) {
-			(callback || doLog)("Aborted - no updates available. Try repo update first?");
-			return false;
-		}
-		if (callback) {
-			repoUpgradeCallback = callback;
-		} else {
-			repoUpgradeCallback = doLog;
-		}
-		if (finishedFunc) {
-			repoUpgradeFinishedFunc = finishedFunc;
-		} else {
-			repoUpgradeFinishedFunc = null;
-		}
-		repoUpgradeOutput = [];
-		repoStagedUpgrades = 0;
-		repoUpgradeCallback("Upgrading the following packages: " + upgradeablePackages.join(", "));
-		for (var i in upgradeablePackages) {
-			upgradeablePackages[i] = upgradeablePackages[i].split('.');
-		}
-		for (var i in upgradeablePackages) {
-			repoUpgradeXHR[upgradeablePackages[i][0]] = new XMLHttpRequest();
-			if (repositories[repositoryIDs[upgradeablePackages[i][0]]].packages[upgradeablePackages[i][1]].installURL.indexOf("?") > -1) {
-				repoUpgradeXHR[upgradeablePackages[i][0]].open("GET", repositories[repositoryIDs[upgradeablePackages[i][0]]].packages[upgradeablePackages[i][1]].installURL + "&ms=" + performance.now());
-			} else {
-				repoUpgradeXHR[upgradeablePackages[i][0]].open("GET", repositories[repositoryIDs[upgradeablePackages[i][0]]].packages[upgradeablePackages[i][1]].installURL + "?ms=" + performance.now());
-			}
-			repoUpgradeXHR[upgradeablePackages[i][0]].onreadystatechange = repoUpgradeIntermediate;
-			repoUpgradeXHR[upgradeablePackages[i][0]].repository = upgradeablePackages[i];
-			repoUpgradeXHR[upgradeablePackages[i][0]].send();
-			repoStagedUpgrades++;
-		}
-		repoUpgradeCallback("Total upgrades: " + repoStagedUpgrades);
-		repoUpgradeCallback("");
-		try {
-			apps.saveMaster.vars.saving = 3;
-		} catch (err) {
+	if (repoStagedUpdates > 0 && repoStagedUpgrades > 0) return false;
 
-		}
-		return true;
-	} else {
+	let upgradeablePackages = repoGetUpgradeable();
+	if (upgradeablePackages.length === 0) {
+		(callback || doLog)("Aborted - no updates available. Try repo update first?");
 		return false;
 	}
+
+	repoUpgradeCallback = callback || doLog;
+	repoUpgradeFinishedFunc = finishedFunc || null;
+	repoUpgradeOutput = [];
+	repoStagedUpgrades = 0;
+	repoUpgradeCallback("Upgrading the following packages: " + upgradeablePackages.join(", "));
+	for (let i in upgradeablePackages) {
+		upgradeablePackages[i] = upgradeablePackages[i].split('.');
+	}
+
+	for (let i in upgradeablePackages) {
+		repoUpgradeXHR[upgradeablePackages[i][0]] = new XMLHttpRequest();
+
+		let installURL = repositories[repositoryIDs[upgradeablePackages[i][0]]].packages[upgradeablePackages[i][1]].installURL;
+		let questionMark = installURL.indexOf("?") > 0;
+		repoUpgradeXHR[upgradeablePackages[i][0]].open(
+			"GET", installURL + `${questionMark ? '&' : '?'}ms=` + performance.now()
+		);
+
+		repoUpgradeXHR[upgradeablePackages[i][0]].onreadystatechange = repoUpgradeIntermediate;
+		repoUpgradeXHR[upgradeablePackages[i][0]].repository = upgradeablePackages[i];
+		repoUpgradeXHR[upgradeablePackages[i][0]].send();
+		repoStagedUpgrades++;
+	}
+
+	repoUpgradeCallback("Total upgrades: " + repoStagedUpgrades);
+	repoUpgradeCallback("");
+	try {
+		apps.saveMaster.vars.saving = 3;
+	} catch (err) {}
+	return true;
 }
 
 function repoAddRepository(url, callback, finishingFunc) {
-	for (var i in repositoryIDs) {
+	for (let i in repositoryIDs) {
 		if (repositoryIDs[i] === url) {
 			(callback || doLog)('Aborted - Repository already exists: ' + i);
 			return false;
 		}
 	}
+
 	repositories[url] = {};
 	(callback || doLog)('Added repository. Updating...');
 	repoUpdate(callback, finishingFunc);
@@ -2226,33 +2214,33 @@ function repoAddRepository(url, callback, finishingFunc) {
 }
 
 function repoRemoveRepository(query, callback, finishingFunc) {
-	var output = [];
-	var repositoriesToRemove = repoSearchPrecise(query);
+	let repositoriesToRemove = repoSearchPrecise(query);
 	if (repositoriesToRemove.indexOf('aaronos_official') !== -1) {
 		(callback || doLog)('Failed: cannot remove this repo: aaronos_official');
 		repositoriesToRemove.splice(repositoriesToRemove.indexOf('aaronos_official'), 1);
 	}
+
 	if (repositoriesToRemove.length === 0) {
 		(callback || doLog)('Nothing done, no removeable repositories found.');
 		return false;
-	} else {
-		for (var i in repositoriesToRemove) {
-			if (repositoriesToRemove[i].indexOf('Warning: No Repo ID: ') === 0) {
-				delete repositories[repositoriesToRemove[i].substring(21, repositoriesToRemove[i].length)];
-				(callback || doLog)('Deleted ' + repositoriesToRemove[i].substring(21, repositoriesToRemove[i].length));
+	}
+	
+	for (let i in repositoriesToRemove) {
+		if (repositoriesToRemove[i].indexOf('Warning: No Repo ID: ') === 0) {
+			delete repositories[repositoriesToRemove[i].substring(21, repositoriesToRemove[i].length)];
+			(callback || doLog)('Deleted ' + repositoriesToRemove[i].substring(21, repositoriesToRemove[i].length));
 			} else {
 				delete repositories[repositoryIDs[repositoriesToRemove[i]]];
 				(callback || doLog)('Deleted ' + repositoriesToRemove[i] + ": " + repositoryIDs[repositoriesToRemove[i]]);
 			}
 		}
 		(callback || doLog)('Updating...');
-		repoUpdate(callback, finishingFunc);
-		return true;
-	}
+	repoUpdate(callback, finishingFunc);
+	return true;
 }
 
 function repoAddPackage(query, callback, finishingFunc) {
-	var repoMatches = repoPackageSearchPrecise(query);
+	let repoMatches = repoPackageSearchPrecise(query);
 	if (repoMatches.length === 0) {
 		repoMatches = repoPackageSearch(query);
 		if (repoMatches.length === 0) {
@@ -2260,21 +2248,24 @@ function repoAddPackage(query, callback, finishingFunc) {
 			return false;
 		} else {
 			repoMatches.splice(0, 0, 'No packages found with that name. Maybe try again with one of these?');
-			for (var i in repoMatches) {
+			for (let i in repoMatches)
 				(callback || doLog)(repoMatches[i]);
-			}
+
 			return false;
 		}
-	} else if (repoMatches.length === 1) {
-		if (!installedPackages.hasOwnProperty(repoMatches[0].split('.')[0])) {
+	}
+	
+	if (repoMatches.length === 1) {
+		if (!installedPackages.hasOwnProperty(repoMatches[0].split('.')[0]))
 			installedPackages[repoMatches[0].split('.')[0]] = {};
-		}
+
 		installedPackages[repoMatches[0].split('.')[0]][repoMatches[0].split('.')[1]] = {
 			name: repositories[repositoryIDs[repoMatches[0].split('.')[0]]].packages[repoMatches[0].split('.')[1]].packageName,
 			id: repositories[repositoryIDs[repoMatches[0].split('.')[0]]].packages[repoMatches[0].split('.')[1]].packageID,
 			version: "UPDATE_NOW",
 			packageType: "UPDATE_THIS_PACKAGE"
 		};
+
 		(callback || doLog)('Installed package ' + repoMatches[0], 'Performing upgrade...');
 		repoUpgrade(callback, finishingFunc);
 		return true;
@@ -2288,9 +2279,9 @@ function repoAddPackage(query, callback, finishingFunc) {
 }
 
 function repoRemovePackage(query, callback) {
-	var repoMatches = [];
-	for (var i in installedPackages) {
-		for (var j in installedPackages[i]) {
+	let repoMatches = [];
+	for (let i in installedPackages) {
+		for (let j in installedPackages[i]) {
 			if (i + '.' + j === query || j === query) {
 				repoMatches.push([i, j]);
 			}
@@ -2299,7 +2290,9 @@ function repoRemovePackage(query, callback) {
 	if (repoMatches.length === 0) {
 		(callback || doLog)('No matching packages found.');
 		return false;
-	} else if (repoMatches.length === 1) {
+	}
+	
+	if (repoMatches.length === 1) {
 		// UNINSTALL HERE IF LIVE UNINSTALL IS SUPPORTED
 		var liveUninstall = 1;
 		switch (installedPackages[repoMatches[0][0]][repoMatches[0][1]].appType) {
@@ -2313,45 +2306,44 @@ function repoRemovePackage(query, callback) {
 			default:
 				liveUninstall = 0;
 		}
+
+		// TODO
 		delete installedPackages[repoMatches[0][0]][repoMatches[0][1]];
-		var repoLength = 0;
-		for (var i in installedPackages[repoMatches[0][0]]) {
+		let repoLength = 0;
+		for (let i in installedPackages[repoMatches[0][0]]) {
 			repoLength = 1;
 			break;
 		}
-		if (repoLength === 0) {
-			delete installedPackages[repoMatches[0][0]];
-		}
+
+		if (repoLength === 0) delete installedPackages[repoMatches[0][0]];
 		repoSave();
+
 		if (liveUninstall) {
 			(callback || doLog)('Package ' + repoMatches[0].join('.') + ' uninstalled. No restart required.');
 		} else {
 			(callback || doLog)('Package ' + repoMatches[0].join('.') + ' uninstalled. Restart required to complete.');
 			requireRestart();
 		}
+
 		return true;
 	} else {
 		repoMatches.splice(0, 0, ['More than one package with that name. Try again with a more specific name:']);
-		for (var i in repoMatches) {
+		for (let i in repoMatches) {
 			(callback || doLog)(repoMatches[i].join('.'));
 		}
+
 		return false;
 	}
 }
 
-// desktop vars
+// Desktop vars
 var dsktp = {};
 
 function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxAction, ctxActionArgs, nosave) {
-	if (!id) {
-		id = "uico_" + (new Date().getTime());
-	}
+	if (!id) id = "uico_" + (new Date().getTime());
 	if (!title) {
-		if (apps[owner]) {
-			title = apps[owner].appDesc;
-		} else {
-			title = "Icon";
-		}
+		// TODO: TEST THE || SYNTAX HERE
+		title = apps[owner] ? apps[owner].appDesc : "Icon";
 	}
 	if (!icon) {
 		if (apps[owner]) {
@@ -2365,10 +2357,9 @@ function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxA
 		}
 	}
 	if (typeof icon === "string") {
-		icon = {
-			foreground: icon
-		};
+		icon = { foreground: icon };
 	}
+
 	if (!action) {
 		if (apps[owner]) {
 			action = [
@@ -2383,12 +2374,9 @@ function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxA
 			actionArgs = [];
 		}
 	}
-	if (typeof action === "string") {
-		action = [action];
-	}
-	if (!actionArgs) {
-		actionArgs = [];
-	}
+
+	if (typeof action === "string") action = [action];
+	if (!actionArgs) actionArgs = [];
 	if (!ctxAction) {
 		if (apps[owner]) {
 			ctxAction = [
@@ -2404,12 +2392,9 @@ function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxA
 			ctxActionArgs = [id];
 		}
 	}
-	if (typeof ctxAction === "string") {
-		ctxAction = [ctxAction];
-	}
-	if (!ctxActionArgs) {
-		ctxActionArgs = [];
-	}
+
+	if (typeof ctxAction === "string") ctxAction = [ctxAction];
+	if (!ctxActionArgs) ctxActionArgs = [];
 	dsktp[id] = {
 		id: id,
 		owner: owner,
@@ -2424,7 +2409,7 @@ function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxA
 	if (getId("app_" + id)) {
 		getId("desktop").removeChild(getId("app_" + id));
 	}
-	var tempIco = document.createElement("div");
+	let tempIco = document.createElement("div");
 	tempIco.classList.add("app");
 	tempIco.classList.add("cursorPointer");
 	tempIco.classList.add("noselect");
@@ -2465,7 +2450,7 @@ function arrangeDesktopIcons() {
 	appTotal = 0;
 	appPosX = 8;
 	appPosY = 8;
-	for (var ico in dsktp) {
+	for (let ico in dsktp) {
 		if (!dsktp[ico].position) {
 			appTotal++;
 			getId("app_" + ico).style.left = appPosX + "px";
@@ -2515,30 +2500,29 @@ function addWidget(widgetName, nosave) {
 			totalWidgets++;
 			widgets[widgetName].start();
 			widgetsList[widgetName] = widgetName;
-			if (!nosave) {
-				ufsave('aos_system/taskbar/widget_list', JSON.stringify(widgetsList));
-			}
+
+			if (!nosave) ufsave('aos_system/taskbar/widget_list', JSON.stringify(widgetsList));
 		}
 	}
 };
 
 function removeWidget(widgetName, nosave) {
-	if (widgets[widgetName]) {
-		if (widgets[widgetName].place > -1) {
-			widgets[widgetName].end();
-			widgets[widgetName].place = -1;
-			totalWidgets--;
-			widgets[widgetName].element = null;
-			getId('widget_' + widgetName).outerHTML = '';
-			delete widgetsList[widgetName];
-			if (!nosave) {
-				ufsave('aos_system/taskbar/widget_list', JSON.stringify(widgetsList));
-			}
-		}
-	}
+	// TODO: Test this syntax, or if it needs > -1 checking
+	if (!widgets[widgetName]) return;
+	if (!widgets[widgetName].place > -1) return;
+
+	widgets[widgetName].end();
+	widgets[widgetName].place = -1;
+	totalWidgets--;
+	widgets[widgetName].element = null;
+	getId('widget_' + widgetName).outerHTML = '';
+	delete widgetsList[widgetName];
+
+	if (!nosave) ufsave('aos_system/taskbar/widget_list', JSON.stringify(widgetsList));
 };
 
 function widgetMenu(title, content) {
+	// TODO: Abstract with parameters
 	switch (tskbrToggle.tskbrPos) {
 		case 1:
 			getId('widgetMenu').style.bottom = 'auto';
@@ -2634,7 +2618,12 @@ function closeWidgetMenu() {
 	getId('widgetContent').innerHTML = '';
 }
 
-// WIDGETS HERE
+/*
+##################################
+#           WIDGETS HERE		     #
+##################################
+*/
+
 var widgetsList = {};
 widgets.time = new Widget(
 	'Time', // title
@@ -2870,6 +2859,7 @@ widgets.users = new Widget(
 		usersNames: ''
 	}
 );
+
 widgets.flow = new Widget(
 	"Flow Mode",
 	"flow",
@@ -2882,15 +2872,11 @@ widgets.flow = new Widget(
 		getId('widget_flow').style.paddingLeft = "6px";
 		getId('widget_flow').style.paddingRight = "6px";
 	},
-	function() {
-
-	},
-	function() {
-
-	}, {
-
-	}
+	function() {},
+	function() {},
+	{}
 );
+
 widgets.notifications = new Widget(
 	'Notifications',
 	'notifications',
@@ -2905,7 +2891,7 @@ widgets.notifications = new Widget(
 		}
 	},
 	function() {
-		// startup func
+		// Startup func
 		widgets.notifications.running = 1;
 		getId('widget_notifications').style.paddingLeft = "6px";
 		getId('widget_notifications').style.paddingRight = "6px";
@@ -2913,40 +2899,37 @@ widgets.notifications = new Widget(
 		widgets.notifications.frame();
 	},
 	function() {
-		// frame func
-		if (widgets.notifications.running) {
-			requestAnimationFrame(widgets.notifications.frame);
-			var notifCount = apps.prompt.vars.lastNotifsFound.length;
-			if (notifCount + ":" + apps.prompt.vars.notifsVisible !== widgets.notifications.vars.lastDisplay) {
-				if (notifCount === 0) {
-					getId('widget_notifications').innerHTML = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/popup.png">';
-				} else if (apps.prompt.vars.notifsVisible) {
-					getId('widget_notifications').innerHTML = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/message.png">';
-				} else {
-					getId('widget_notifications').innerHTML = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/notification.png">';
-				}
-				widgets.notifications.vars.lastDisplay = notifCount + ":" + apps.prompt.vars.notifsVisible;
-			}
+		// Frame func
+		if (!widgets.notifications.running) return;
+		
+		requestAnimationFrame(widgets.notifications.frame);
+		let notifCount = apps.prompt.vars.lastNotifsFound.length;
+		if (notifCount + ":" + apps.prompt.vars.notifsVisible == widgets.notifications.vars.lastDisplay) return;
+
+		if (notifCount === 0) {
+			getId('widget_notifications').innerHTML = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/popup.png">';
+		} else if (apps.prompt.vars.notifsVisible) {
+			getId('widget_notifications').innerHTML = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/message.png">';
+		} else {
+			getId('widget_notifications').innerHTML = '<img style="width:10px;filter:invert(1) brightness(1.5) drop-shadow(0px 0px 1px #000);" src="ctxMenu/beta/notification.png">';
 		}
+
+		widgets.notifications.vars.lastDisplay = notifCount + ":" + apps.prompt.vars.notifsVisible;
 	},
 	function() {
-		// disable func
+		// Disable func
 		widgets.notifications.vars.running = 0;
 	}, {
-		// vars
+		// Vars
 		running: 0,
 		lastDisplay: []
 	}
 );
 
-//text-editing functionality
+// Text-editing functionality
 function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, webAppFrame, webAppOrigin, webAppPaste) {
-	if (currentSelection.length === 0) {
-		textEditorTools.tempvar = '-';
-	} else {
-		textEditorTools.tempvar = ' ';
-	}
-	var canPasteHere = 0;
+	textEditorTools.tempvar = currentSelection.length === 0 ? '-' : ' ';
+	let canPasteHere = 0;
 	if (!fromWebApp) {
 		if ((event.target.tagName === "INPUT" && (event.target.getAttribute("type") === "text" || event.target.getAttribute("type") === "password" || event.target.getAttribute("type") === null)) || event.target.tagName === "TEXTAREA") {
 			canPasteHere = 1;
@@ -2960,12 +2943,12 @@ function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, 
 			[event.pageX, event.pageY, "ctxMenu/beta/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');getId(\'ctxMenu\').style.display = \'none\'"
 		];
 	} else {
-		var framePosition = webAppFrame.getBoundingClientRect();
+		let framePosition = webAppFrame.getBoundingClientRect();
 		textEditorTools.tmpGenArray = [
 			[webAppPosition[0] + framePosition.x, webAppPosition[1] + framePosition.y, "ctxMenu/beta/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'spoken\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'"
 		];
 	}
-	for (var i = 1; i <= textEditorTools.slots; i++) {
+	for (let i = 1; i <= textEditorTools.slots; i++) {
 		if (currentSelection.length === 0) {
 			textEditorTools.tempvar = '-';
 			textEditorTools.tempvar2 = '_';
@@ -2979,44 +2962,30 @@ function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, 
 			textEditorTools.tmpGenArray.push(textEditorTools.tempvar + 'Copy ' + i + ' (' + cleanStr(currentSelection.substring(0, 5)) + '...)');
 		}
 		textEditorTools.tmpGenArray[0].push('ctxMenu/beta/load.png');
+		// TODO: Clean up
 		if (!fromWebApp) {
 			textEditorTools.tmpGenArray.push('textEditorTools.copy(' + (i - 0) + ');getId(\'ctxMenu\').style.display = \'none\'');
 		} else {
 			textEditorTools.tmpGenArray.push('textEditorTools.copy(' + (i - 0) + ');apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'copied\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
 		}
 	}
+
 	if (canPasteHere) {
-		for (var i = 1; i <= textEditorTools.slots; i++) {
+		for (let i = 1; i <= textEditorTools.slots; i++) {
 			if (!fromWebApp) {
 				if (textEditorTools.clipboard[i - 1].length === 0 || (typeof event.target.id !== "string" || event.target.id === "") || event.target.getAttribute("disabled") !== null) {
-					if (i === 1) {
-						textEditorTools.tmpGenArray.push('_Paste ' + i + ' (' + cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5)) + '...)');
-					} else {
-						textEditorTools.tmpGenArray.push('-Paste ' + i + ' (' + cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5)) + '...)');
-					}
+					textEditorTools.tmpGenArray.push(`${i === 1 ? '_' : '-'}Paste ${i} (${cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5))}...)`);
 					textEditorTools.tmpGenArray.push('');
 				} else {
-					if (i === 1) {
-						textEditorTools.tmpGenArray.push('+Paste ' + i + ' (' + cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5)) + '...)');
-					} else {
-						textEditorTools.tmpGenArray.push(' Paste ' + i + ' (' + cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5)) + '...)');
-					}
+					textEditorTools.tmpGenArray.push(`${i === 1 ? '+' : ' '}Paste ${i} (${cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5))}...)`);
 					textEditorTools.tmpGenArray.push('textEditorTools.paste(\'' + event.target.id + '\', ' + i + ', ' + event.target.selectionStart + ',' + event.target.selectionEnd + ');getId(\'ctxMenu\').style.display = \'none\'');
 				}
 			} else {
 				if (textEditorTools.clipboard[i - 1].length === 0) {
-					if (i === 1) {
-						textEditorTools.tmpGenArray.push('_Paste ' + i + ' (' + cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5)) + '...)');
-					} else {
-						textEditorTools.tmpGenArray.push('-Paste ' + i + ' (' + cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5)) + '...)');
-					}
+					textEditorTools.tmpGenArray.push(`${i === 1 ? '_' : '-'}Paste ${i} (${cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5))}...)`);
 					textEditorTools.tmpGenArray.push('');
 				} else {
-					if (i === 1) {
-						textEditorTools.tmpGenArray.push('+Paste ' + i + ' (' + cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5)) + '...)');
-					} else {
-						textEditorTools.tmpGenArray.push(' Paste ' + i + ' (' + cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5)) + '...)');
-					}
+					textEditorTools.tmpGenArray.push(`${i === 1 ? '+' : ' '}Paste ${i} (${cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5))}...)`);
 					textEditorTools.tmpGenArray.push('apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'pasted\',pastedText:textEditorTools.clipboard[' + (i - 1) + '],conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
 				}
 			}
@@ -3027,9 +2996,6 @@ function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, 
 	ctxMenu(textEditorTools.tmpGenArray);
 }
 
-function addEditContext(element, nopaste) {
-	doLog("addEditContext is depreceated", "#FF7F00");
-}
 var textEditorTools = {
 	tempvar: '',
 	tempvar2: '',
@@ -3038,7 +3004,7 @@ var textEditorTools = {
 	slots: 2,
 	updateSlots: function() {
 		clipboard = [];
-		for (var i = 0; i < this.slots; i++) {
+		for (let i = 0; i < this.slots; i++) {
 			this.clipboard.push("");
 		}
 	},
@@ -3078,19 +3044,20 @@ var totalWaitingCodes = 0;
 var finishedWaitingCodes = 0;
 
 function checkWaitingCode() {
-	if (codeToRun.length !== 0) {
-		m('Running Waiting Code');
-		workingcodetorun = codeToRun.shift();
-		if (typeof workingcodetorun === 'function') {
-			workingcodetorun();
-		} else {
-			workingcodetorun[0](workingcodetorun[1]);
-		}
-		finishedWaitingCodes++;
-	}
-}
-var waitingCodeInterval = window.setInterval(checkWaitingCode, 0);
+	if (codeToRun.length == 0) return;
 
+	m('Running Waiting Code');
+	workingcodetorun = codeToRun.shift();
+	if (typeof workingcodetorun === 'function') {
+		workingcodetorun();
+	} else {
+		workingcodetorun[0](workingcodetorun[1]);
+	}
+
+	finishedWaitingCodes++;
+}
+
+var waitingCodeInterval = window.setInterval(checkWaitingCode, 0);
 function crashWaitingCodeInterval() {
 	window.clearInterval(waitingCodeInterval);
 }
@@ -3116,6 +3083,7 @@ c(function() {
 		hideApp: 2,
 		launchTypes: 1,
 		main: function (launchType) {
+			// TODO: Clean up
 			if (launchType === 'srtup') {
 				this.appWindow.paddingMode(0);
 				getId('win_startMenu_shrink').style.display = "none";
@@ -3394,20 +3362,16 @@ c(function() {
 			search: function (event, iblock) {
 				if (this.appElems !== null) {
 					if (event.keyCode === 13) {
-						for (var i = 0; i < this.appElems.length; i++) {
+						for (let i = 0; i < this.appElems.length; i++) {
 							if (this.appElems[i].style.display !== 'none') {
 								this.appElems[i].click();
 								break;
 							}
 						}
 					} else {
-						for (var i = 0; i < this.appElems.length; i++) {
+						for (let i = 0; i < this.appElems.length; i++) {
 							if (this.appElems[i].innerText.toLowerCase().indexOf(getId('appDsBsearch').value.toLowerCase()) > -1) {
-								if (iblock) {
-									this.appElems[i].style.display = 'inline-block';
-								} else {
-									this.appElems[i].style.display = '';
-								}
+								this.appElems[i].style.display = iblock ? 'inline-block' : '';
 							} else {
 								this.appElems[i].style.display = 'none';
 							}
@@ -3478,17 +3442,9 @@ c(function() {
 					openapp(apps.startMenu, 'tskbr');
 				}, 'ctxMenu/beta/add.png'],
 				[function (arg) {
-					if (dsktp[arg]) {
-						return ' Remove Desktop Icon';
-					} else {
-						return '-Remove Desktop Icon';
-					}
+					return `${dsktp[arg] ? ' ' : '-'}Remove Desktop Icon`;
 				}, function (arg) {
-					if (dsktp[arg]) {
-						removeDsktpIcon(arg);
-					} else {
-						newDsktpIcon(arg, arg);
-					}
+					dsktp[arg] ? removeDsktpIcon(arg) : newDsktpIcon(arg, arg);
 					openapp(apps.startMenu, 'tskbr');
 				}, 'ctxMenu/beta/x.png'],
 				['+About This App', function (arg) {
@@ -3516,27 +3472,27 @@ c(function() {
 					switch (tskbrToggle.tskbrPos) {
 						case 1:
 							this.appWindow.setDims(-305, 0, 300, 370);
-							if (mobileMode) {
+							if (mobileMode)
 								getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-							}
+
 							break;
 						case 2:
 							this.appWindow.setDims(-305, 0, 300, 370);
-							if (mobileMode) {
+							if (mobileMode)
 								getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-							}
+
 							break;
 						case 3:
 							this.appWindow.setDims(parseInt(getId('desktop').style.width, 10) - 300, parseInt(getId('desktop').style.height, 10) + 5, 300, 370);
-							if (mobileMode) {
+							if (mobileMode)
 								getId('win_startMenu_top').style.transform = 'scale(1) translate(0, ' + getId('desktop').style.height + ')';
-							}
+
 							break;
 						default:
 							this.appWindow.setDims(-305, parseInt(getId('desktop').style.height, 10) - 370, 300, 370);
-							if (mobileMode) {
+							if (mobileMode)
 								getId('win_startMenu_top').style.transform = 'scale(1) translate(-' + getId('desktop').style.width + ', 0)';
-							}
+
 					}
 					break;
 				case "checkrunning":
@@ -4905,7 +4861,6 @@ c(function() {
 					this.appWindow.setContent(
 						'<div style="font-size:12px;font-family:aosProFont, monospace;top:0;right:0;color:#7F7F7F">' + apps[launchtype].dsktpIcon + '</div>' +
 						'<div style="font-size:12px;font-family:aosProFont, monospace;top:0;left:0;color:#7F7F7F">' + launchtype + '</div>' +
-						//'<img src="' + apps[launchtype].appWindow.appImg + '" style="margin-left:calc(50% - 128px);width:256px;height:256px" onerror="this.src=\'appicons/ds/redx.png\'">' +
 						buildSmartIcon(256, apps[launchtype].appWindow.appImg, 'margin-left:calc(50% - 128px);margin-top:16px;') +
 						'<h1 style="text-align:center;">' + apps[launchtype].appDesc + '</h1>' +
 						'<hr>' + (apps[launchtype].vars.appInfo || "There is no help page for this app.")
@@ -4924,6 +4879,7 @@ c(function() {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Task Manager...';
 });
+
 c(function() {
 	m('init tMg');
 	apps.taskManager = new Application({
@@ -4939,6 +4895,7 @@ c(function() {
 				this.appWindow.alwaysOnTop(1);
 				this.appWindow.setDims("auto", "auto", 600, 500);
 			}
+
 			this.appWindow.setCaption("aOS Task Manager");
 			perfStart('tMgPerfBench');
 			this.appWindow.setContent(
@@ -4954,13 +4911,10 @@ c(function() {
 				"<p>Managed Timers:</p>" +
 				"<ul style='font-family:monospace' id='tMgTaskList'></ul>"
 			);
+
 			getId('win_taskManager_html').style.overflowY = 'scroll';
-			if (this.vars.running.tMg.MemCheck) {
-				removeInterval("tMg", "MemCheck");
-			}
-			if (this.vars.running.tMg.TskCheck) {
-				removeInterval("tMg", "TskCheck");
-			}
+			if (this.vars.running.tMg.MemCheck) removeInterval("tMg", "MemCheck");
+			if (this.vars.running.tMg.TskCheck) removeInterval("tMg", "TskCheck");
 			this.vars.updateTsk();
 			makeInterval("tMg", "TskCheck", "apps.taskManager.vars.updateTsk()", 250);
 			this.appWindow.openWindow();
@@ -4983,9 +4937,9 @@ c(function() {
 					try {
 						getId("tMgTaskList").innerHTML = "<li>APP<ul><li>TaskName | Command | Interval (ms)</li></ul></li>";
 					} catch (err) {}
-					for (var apptask in apps.taskManager.vars.running) {
+					for (let apptask in apps.taskManager.vars.running) {
 						apps.taskManager.vars.currTaskStr = "<li>" + apptask + "<ul>";
-						for (var apptasking in apps.taskManager.vars.running[apptask]) {
+						for (let apptasking in apps.taskManager.vars.running[apptask]) {
 							if (apps.taskManager.vars.running[apptask][apptasking][3] === 't') {
 								apps.taskManager.vars.currTaskStr += "<li style='color:#080' oncontextmenu='ctxMenu([[event.pageX,event.pageY, \"ctxMenu/beta/x.png\"], \" Remove Waiting Task\", \"removeTimeout(`" + apptask + "`,`" + apptasking + "`,1)\"])'>" + apptasking + " | " + apps.taskManager.vars.running[apptask][apptasking][1] + " | " + apps.taskManager.vars.running[apptask][apptasking][2] + "</li>";
 							} else if (apps.taskManager.vars.running[apptask][apptasking][3] === 'i') {
@@ -5017,9 +4971,7 @@ function makeTimeout(appname, taskname, functionname, functiontime) {
 	window.setTimeout("apps.taskManager.vars.running['" + appname + "']['" + taskname + "'][2] = 'done';apps.taskManager.vars.changed = 1;", functiontime + 10);
 	apps.taskManager.vars.changed = 1;
 }
-//c(function(){
-//makeTimeout("aOS", "TaskbarTime", "showTimeOnTaskbar()", 0);
-//});
+
 function makeInterval(appname, taskname, functionname, functiontime) {
 	if (!apps.taskManager.vars.running[appname]) {
 		apps.taskManager.vars.running[appname] = {};
@@ -5031,11 +4983,11 @@ function makeInterval(appname, taskname, functionname, functiontime) {
 function removeTimeout(appname, taskname, cnfrm) {
 	if (cnfrm) {
 		apps.prompt.vars.confirm('Are you sure you want to remove ' + appname + '\'s timeout ' + taskname + '? Removing certain functions could cause system instability.', ['No', 'Yes'], function (btn) {
-			if (btn) {
-				window.clearTimeout(apps.taskManager.vars.running[appname][taskname][0]);
-				delete apps.taskManager.vars.running[appname][taskname];
-				apps.taskManager.vars.changed = 1;
-			}
+			if (!btn) return;
+
+			window.clearTimeout(apps.taskManager.vars.running[appname][taskname][0]);
+			delete apps.taskManager.vars.running[appname][taskname];
+			apps.taskManager.vars.changed = 1;
 		}, 'Task Manager');
 	} else {
 		window.clearTimeout(apps.taskManager.vars.running[appname][taskname][0]);
@@ -5047,11 +4999,11 @@ function removeTimeout(appname, taskname, cnfrm) {
 function removeInterval(appname, taskname, cnfrm) {
 	if (cnfrm) {
 		apps.prompt.vars.confirm('Are you sure you want to remove ' + appname + '\'s interval ' + taskname + '? Removing certain functions could cause system instability.', ['No', 'Yes'], function (btn) {
-			if (btn) {
-				window.clearInterval(apps.taskManager.vars.running[appname][taskname][0]);
-				delete apps.taskManager.vars.running[appname][taskname];
-				apps.taskManager.vars.changed = 1;
-			}
+			if (!btn) return;
+
+			window.clearInterval(apps.taskManager.vars.running[appname][taskname][0]);
+			delete apps.taskManager.vars.running[appname][taskname];
+			apps.taskManager.vars.changed = 1;
 		}, 'Task Manager');
 	} else {
 		window.clearInterval(apps.taskManager.vars.running[appname][taskname][0]);
@@ -5059,12 +5011,13 @@ function removeInterval(appname, taskname, cnfrm) {
 		apps.taskManager.vars.changed = 1;
 	}
 }
-var currentSelection = "";
 
+var currentSelection = "";
 function setCurrentSelection() {
 	currentSelection = window.getSelection().toString();
 	requestAnimationFrame(setCurrentSelection);
 }
+
 requestAnimationFrame(setCurrentSelection);
 c(function() {
 	m('init jsC');
@@ -5091,10 +5044,10 @@ c(function() {
 				this.appWindow.setContent(
 					'<div id="cnsTrgt" style="width:100%; height:auto; position:relative; font-family:aosProFont,Courier,monospace; font-size:12px;"></div>' +
 					'<input id="cnsIn" autocomplete="off" spellcheck="false" onKeydown="if(event.keyCode === 13){apps.jsConsole.vars.runInput()}" placeholder="' + lang('jsConsole', 'input') + '" style="position:relative; font-family:aosProFont,Courier,monospace;display:block; padding:0; font-size:12px; width:calc(100% - 8px); padding-left:3px; margin-top:3px; height:16px;">'
-					//'<button id="cnsB" onClick="apps.jsConsole.vars.runInput()" style="font-size:12px; position:absolute; display:block; width:10%; height:18px; bottom:0px; right:0px;">' + lang('jsConsole', 'runCode') + '</button>'
 				);
-				var tempLogs = '<span style="color:' + this.vars.cnsPosts[0][1] + ';">' + this.vars.cnsPosts[0][0] + '</span>';
-				for (var j = 1; j < this.vars.cnsPosts.length; j += 1) {
+
+				let tempLogs = '<span style="color:' + this.vars.cnsPosts[0][1] + ';">' + this.vars.cnsPosts[0][0] + '</span>';
+				for (let j = 1; j < this.vars.cnsPosts.length; j += 1) {
 					tempLogs += '<br><span style="color:' + this.vars.cnsPosts[j][1] + ';">' + this.vars.cnsPosts[j][0] + '</span>';
 				}
 				getId("cnsTrgt").innerHTML = tempLogs;
@@ -5150,7 +5103,7 @@ c(function() {
 	};
 	debugArray = function (arrayPath, recursive, layer) {
 		var debugArraySize = 0;
-		for (var i in eval(arrayPath)) {
+		for (let i in eval(arrayPath)) {
 			doLog("<br>[" + (layer || 0) + "]" + arrayPath + "." + i + ": " + apps.webAppMaker.vars.sanitize(eval(arrayPath)[i]), "#55F");
 			if (typeof eval(arrayPath)[i] === "object" && recursive) {
 				debugArray(eval(arrayPath)[i], 0, (layer || 0) + 1)
@@ -5161,6 +5114,7 @@ c(function() {
 	}
 	getId('aOSloadingInfo').innerHTML = 'Bash Console';
 });
+
 c(function() {
 	apps.bash = new Application({
 		title: 'Psuedo-Bash Terminal',
@@ -5192,10 +5146,10 @@ c(function() {
 					keyCode: null
 				});
 				this.vars.currHistory = -1;
-				//getId('win_bash_html').setAttribute('onclick', 'getId("bashInput").focus()');
 				getId('win_bash_html').style.overflowY = 'scroll';
 				getId("win_bash_html").style.overflowX = 'auto';
 			}
+
 			this.appWindow.openWindow();
 		},
 		vars: {
@@ -5212,29 +5166,28 @@ c(function() {
 			workdirdepth: 0,
 			translateDir: function (origworkdir) {
 				this.workdirorig = origworkdir;
-
-				//this.workdirtrans = this.workdirorig.split('\\').join('/');
 				this.workdirtrans = this.workdirorig;
 
 				this.workdirdepth = 0;
 				if (this.workdirorig[0] === '/') {
 					this.workdirfinal = "window";
-					//this.workdirdepth = 1;
 				} else {
 					this.workdirfinal = 'window';
 					this.workdirtrans = this.workdir + '/' + this.workdirtrans;
 				}
+
 				this.workdirtemp = this.workdirtrans.split('/');
 				var cleanEscapeRun = 0;
 				while (!cleanEscapeRun) {
 					cleanEscapeRun = 1;
-					for (var i = 0; i < this.workdirtemp.length - 1; i++) {
+					for (let i = 0; i < this.workdirtemp.length - 1; i++) {
 						if (this.workdirtemp[i][this.workdirtemp[i].length - 1] === '\\') {
 							this.workdirtemp.splice(i, 2, this.workdirtemp[i].substring(0, this.workdirtemp[i].length - 1) + '/' + this.workdirtemp[i + 1]);
 							cleanEscapeRun = 0;
 							break;
 						}
 					}
+
 					if (cleanEscapeRun && this.workdirtemp.length > 0) {
 						if (this.workdirtemp[this.workdirtemp.length - 1][this.workdirtemp[this.workdirtemp.length - 1].length - 1] === '\\') {
 							this.workdirtemp.splice(i, 1, this.workdirtemp[this.workdirtemp.length - 1].substring(0, this.workdirtemp[this.workdirtemp.length - 1].length - 1) + '/');
@@ -5259,7 +5212,6 @@ c(function() {
 							if (this.workdirfinal.length === 0) {
 								this.workdirfinal = "/";
 							}
-							//this.workdirdepth++;
 						} else {
 							if (
 								isNaN(parseInt(this.workdirtemp[this.workdirdepth], 10)) &&
@@ -5280,13 +5232,6 @@ c(function() {
 								this.workdirfinal += "['" + this.workdirtemp[this.workdirdepth] + "']";
 							}
 						}
-
-						/*else if(isNaN(parseInt(this.workdirtemp[this.workdirdepth], 10))){
-								this.workdirfinal += "." + this.workdirtemp[this.workdirdepth];
-						}else{
-								this.workdirfinal += "['" + this.workdirtemp[this.workdirdepth] + "']";
-						}
-						*/
 					}
 					this.workdirdepth++;
 				}
@@ -5326,7 +5271,7 @@ c(function() {
 			getAlias: function (search, doSearch) {
 				if (doSearch) {
 					var found = -1;
-					for (var item in this.alias) {
+					for (let item in this.alias) {
 						if (item === search) {
 							found = item;
 							return this.getCmdObjects(this.alias[item]);
@@ -5478,7 +5423,7 @@ c(function() {
 						pipeGroups.push(commandObjects);
 					}
 
-					var cmdResult = "";
+					let cmdResult = "";
 					for (var i = 0; i < pipeGroups.length; i++) {
 						var currCmd = pipeGroups[i].shift();
 						var cmdID = -1;
@@ -5488,6 +5433,7 @@ c(function() {
 								break;
 							}
 						}
+
 						if (cmdID !== -1) {
 							try {
 								cmdResult = this.commands[cmdID].action(pipeGroups[i]);
@@ -5505,6 +5451,7 @@ c(function() {
 							break;
 						}
 					}
+
 					if (cmdResult && !cmd) {
 						this.echo(cmdResult);
 					} else if (cmd) {
@@ -5557,7 +5504,7 @@ c(function() {
 							return apps.bash.vars.currHelpSearch.indexOf(i.name) > -1 || i.name.indexOf(apps.bash.vars.currHelpSearch) > -1;
 						});
 						var str = "";
-						for (var i in this.vars.foundCmds) {
+						for (let i in this.vars.foundCmds) {
 							str += '\n\n' + this.vars.foundCmds[i].name + ': ' + this.vars.foundCmds[i].usage;
 							str += '\n' + this.vars.foundCmds[i].desc;
 						}
@@ -5584,10 +5531,10 @@ c(function() {
 						if (args.length > 0) {
 							if ((args[0].length > 0 && args[1] === "=") || args[0].length > 1) {
 								if (args[0].indexOf('=') === args[0].length - 1) {
-									var shifted = args.shift();
+									let shifted = args.shift();
 									apps.bash.vars.alias[shifted.substring(0, shifted.length - 1)] = args.join(" ");
 								} else if (args[1] === "=") {
-									var shifted = args.shift();
+									let shifted = args.shift();
 									args.shift();
 									apps.bash.vars.alias[shifted] = args.join(" ");
 								} else {
@@ -5596,10 +5543,11 @@ c(function() {
 							} else {
 								throw "AliasError: The alias command appears to be malformed. Make sure your alias is only one word and the = is in the correct place.";
 							}
+
 							ufsave('aos_system/apps/bash/alias', JSON.stringify(apps.bash.vars.alias));
 						} else {
-							var str = "";
-							for (var i in apps.bash.vars.alias) {
+							let str = "";
+							for (let i in apps.bash.vars.alias) {
 								str += '\n' + i + " = " + apps.bash.vars.alias[i];
 							}
 							return str.substring(1, str.length);
@@ -5633,9 +5581,7 @@ c(function() {
 							return apps.bash.vars.workdir;
 						}
 					},
-					vars: {
-
-					}
+					vars: {}
 				},
 				{
 					name: 'cd',
@@ -5646,7 +5592,7 @@ c(function() {
 							this.vars.prevworkdir = apps.bash.vars.workdir;
 							try {
 								this.vars.tempadd = args[0].split('/');
-								var cleanEscapeRun = 0;
+								let cleanEscapeRun = 0;
 								while (!cleanEscapeRun) {
 									cleanEscapeRun = 1;
 									for (var i = 0; i < this.vars.tempadd.length - 1; i++) {
@@ -5663,6 +5609,7 @@ c(function() {
 										}
 									}
 								}
+
 								this.vars.tempstart = (apps.bash.vars.workdir[0] === '/');
 								if (args[0][0] === '/' || apps.bash.vars.workdir === '/') {
 									this.vars.tempdir = [];
@@ -5670,10 +5617,11 @@ c(function() {
 								} else {
 									this.vars.tempdir = apps.bash.vars.workdir.split('/');
 								}
+
 								cleanEscapeRun = 0;
 								while (!cleanEscapeRun) {
 									cleanEscapeRun = 1;
-									for (var i = 0; i < this.vars.tempdir.length - 1; i++) {
+									for (let i = 0; i < this.vars.tempdir.length - 1; i++) {
 										if (this.vars.tempdir[i][this.vars.tempdir[i].length - 1] === '\\') {
 											this.vars.tempdir.splice(i, 2, this.vars.tempdir[i].substring(0, this.vars.tempdir[i].length) + '/' + this.vars.tempdir[i + 1]);
 											cleanEscapeRun = 0;
@@ -5687,7 +5635,7 @@ c(function() {
 										}
 									}
 								}
-								for (var i in this.vars.tempadd) {
+								for (let i in this.vars.tempadd) {
 									if (this.vars.tempadd[i] === '..') {
 										this.vars.tempdir.pop();
 									} else {
@@ -5714,13 +5662,13 @@ c(function() {
 									apps.bash.vars.workdir = this.vars.prevworkdir;
 									throw "" + badworkdir + ': Not a directory';
 								}
-								//apps.bash.vars.echo(this.vars.temppath);
+								
 								if (apps.bash.vars.workdir === '/') {
 									apps.bash.vars.prefix = '[' + SRVRKEYWORD.substring(0, 4) + '@aOS /]$ ';
 								} else {
-									//apps.bash.vars.prefix = '[' + SRVRKEYWORD + '@aOS ' + apps.bash.vars.workdir.split('/')[apps.bash.vars.workdir.split('/').length - 1] + ']$ ';
 									apps.bash.vars.prefix = '[' + SRVRKEYWORD.substring(0, 4) + '@aOS ' + lastTempAdd + ']$ ';
 								}
+
 								apps.bash.vars.pastValue = apps.bash.vars.prefix;
 								getId('bashInput').value = apps.bash.vars.prefix;
 							} catch (err) {
@@ -5763,7 +5711,6 @@ c(function() {
 					usage: 'ls [-R] [dirname]',
 					desc: 'List files in a directory.\n-R prints subdirectories up to 1 layer deep\nIf no directory is provided, current directory is used.\nWARNING: -R can be dangerous in large directories like /',
 					action: function (args) {
-						//if(apps.bash.vars.translateDir(args) !== 'window'){
 						if (args.length > 0) {
 							if (args[0] === "-R") {
 								try {
@@ -5780,7 +5727,7 @@ c(function() {
 							this.vars.selectedDir = apps.bash.vars.getRealDir('');
 							this.vars.printSub = 0;
 						}
-						// apps.bash.vars.echo('Contents of directory ' + args);
+						
 						var dirSize = 0;
 						var printBuffer = "";
 						if (typeof this.vars.selectedDir) {
@@ -5810,11 +5757,7 @@ c(function() {
 						} else {
 							throw 'Cannot access ' + args.join(' ') + ': No such file or directory';
 						}
-						//this.vars.printBuffer += '<br>Size of directory: ' + dirSize + ' items';
 						return printBuffer;
-						//}else{
-						//    apps.bash.vars.echo('Warning - root directory "/" cannot be scanned.');
-						//}
 					},
 					vars: {
 						printSub: 0,
@@ -5898,7 +5841,7 @@ c(function() {
 					desc: 'Creates empty files',
 					action: function (args) {
 						if (args.length > 0) {
-							for (var i in args) {
+							for (let i in args) {
 								if (!apps.bash.vars.getRealDir(args[i])) {
 									eval(apps.bash.vars.translateDir(args[i]) + '=""');
 								} else {
@@ -5927,7 +5870,7 @@ c(function() {
 					desc: 'Creates blank directories.',
 					action: function (args) {
 						if (args.length > 0) {
-							for (var item in args) {
+							for (let item in args) {
 								this.vars.first = 1;
 								this.vars.stack = args[item].split('/');
 								for (var i in this.vars.stack) {
@@ -6134,6 +6077,7 @@ c(function() {
 				this.appWindow.paddingMode(0);
 				this.appWindow.setCaption("CPU");
 				this.appWindow.setContent("<canvas id='cpuMonCnv' width='200' height='100' style='width:100%;height:100%;background-color:#000;'></canvas>");
+
 				if (typeof this.appWindow.dimsSet !== 'function') {
 					this.appWindow.dimsSet = function() {
 						getId('cpuMonCnv').width = apps.cpuMon.appWindow.windowH - 6;
@@ -6142,6 +6086,7 @@ c(function() {
 						apps.cpuMon.vars.height = apps.cpuMon.appWindow.windowV - 24;
 					}
 				}
+
 				this.appWindow.setDims("auto", "auto", 206, 124);
 				this.vars.cnv = getId('cpuMonCnv');
 				this.vars.ctx = this.vars.cnv.getContext('2d');
@@ -6199,6 +6144,7 @@ c(function() {
 			}
 		}
 	});
+
 	getId('aOSloadingInfo').innerHTML = 'Prompt System';
 });
 c(function() {
@@ -6303,6 +6249,7 @@ c(function() {
 						isPassword: isPassword
 					}
 				}
+
 				this.totalNotifs++;
 				this.checkNotifs();
 			},
@@ -6328,6 +6275,7 @@ c(function() {
 						callback: nCallback
 					}
 				}
+
 				this.totalNotifs++;
 				this.checkNotifs();
 			},
@@ -6570,6 +6518,7 @@ c(function() {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Settings';
 });
+
 c(function() {
 	m('init STN');
 	apps.settings = new Application({
@@ -6673,7 +6622,6 @@ c(function() {
 					networkOn: 'Network Online',
 					batteryLevel: 'Battery Level',
 					batteryDesc: 'If the amount above is -100, then your computer either has no battery or the battery could not be found.'
-
 				},
 				uv: {
 					valuesMayBeOutdated: 'Each instance of a definitive value below this line would happen to have been generated at the exact moment in time at which the app which happens to be called Settings happens to have been opened.',
@@ -6690,9 +6638,6 @@ c(function() {
 					networkOn: 'Reported status of your browser\'s online network connectivity',
 					batteryLevel: 'Approximate level of battery life remaining in your device, as reported by your browser',
 					batteryDesc: 'If it just so happens that the numerical value represented above equals -100, then it appears that your browser reports that you have no battery installed on your device, or that your browser is incapable of reporting said amount.'
-				},
-				ch: {
-
 				}
 			},
 			menus: {
@@ -6760,8 +6705,8 @@ c(function() {
 							return 'Here are several images that I have included with aOS. Note that I did not make all of these and that most of these backgrounds have their own respective owners.'
 						},
 						buttons: function() {
-							var str = '';
-							for (var i in apps.settings.vars.availableBackgrounds) {
+							let str = '';
+							for (let i in apps.settings.vars.availableBackgrounds) {
 								str += '<br>' + apps.settings.vars.availableBackgrounds[i] + '<br><a target="_blank" href="' + apps.settings.vars.availableBackgrounds[i] + '"><button>Preview in New Tab</button></a>';
 							}
 							return str;
@@ -6851,7 +6796,7 @@ c(function() {
 						option: 'Copyright Notice',
 						description: function() {
 							return 'AaronOS is &copy; 2015-2021 Aaron Adams<br><br>This software is provided FREE OF CHARGE.<br>If you were charged for the use of this software, please contact mineandcraft12@gmail.com<br><br>Original AaronOS source-code provided as-is at <a target="_blank" href="https://github.com/MineAndCraft12/AaronOS">Github</a>'
-						}, //         <-- COPYRIGHT NOTICE
+						},
 						buttons: function() {
 							return 'By using this site you are accepting the small cookie the filesystem relies on and that all files you or your aOS apps generate will be saved on the aOS server for your convenience (and, mostly, for technical reasons).' +
 								function() {
@@ -6982,16 +6927,6 @@ c(function() {
 					folderName: 'Windows',
 					folderPath: 'apps.settings.vars.menus.windows',
 					image: 'settingIcons/new/windows.png',
-					capBtnLeft: {
-						option: 'Window Controls on Left',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.captionButtonsLeft)">Disabled</span>.<br>' +
-								'Moves the window control buttons to the left side of the titlebar.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togCaptionButtonsLeft()">Toggle</button>'
-						}
-					},
 					darkMode: {
 						option: 'Dark Mode',
 						description: function() {
@@ -7187,21 +7122,21 @@ c(function() {
 							tempHTML += '<div style="position:relative;height:2em;">' +
 								'<span style="font-size:2em">Permission Descriptions</span> ' +
 								'<button onclick="if(this.innerHTML === \'v\'){this.innerHTML = \'^\';this.parentElement.style.height = \'\';}else{this.innerHTML = \'v\';this.parentElement.style.height = \'2em\';}">v</button><br><br>';
-							for (var j in apps.webAppMaker.vars.actions) {
+							for (let j in apps.webAppMaker.vars.actions) {
 								tempHTML += (apps.webAppMaker.vars.actionNames[j] || '[Unknown]') + ' (' + j + '): Permission to ' + (apps.webAppMaker.vars.actionDesc[j] || "[???]") + ".<br><ul>";
 								if (apps.webAppMaker.vars.commandDescriptions.hasOwnProperty(j)) {
-									for (var l in apps.webAppMaker.vars.commandDescriptions[j]) {
+									for (let l in apps.webAppMaker.vars.commandDescriptions[j]) {
 										tempHTML += '<li>' + apps.webAppMaker.vars.commandDescriptions[j][l] + '</li>';
 									}
 								}
 								tempHTML += '</ul>';
 							}
 							tempHTML += '</div>';
-							for (var i in apps.webAppMaker.vars.trustedApps) {
+							for (let i in apps.webAppMaker.vars.trustedApps) {
 								tempHTML += '<br><br><div style="position:relative;height:2em;">' +
 									'<span style="font-size:2em">' + i + '</span> ' +
 									'<button onclick="if(this.innerHTML === \'v\'){this.innerHTML = \'^\';this.parentElement.style.height = \'\';}else{this.innerHTML = \'v\';this.parentElement.style.height = \'2em\';}">v</button><br><br>';
-								for (var j in apps.webAppMaker.vars.actions) {
+								for (let j in apps.webAppMaker.vars.actions) {
 									tempHTML += '<select onchange="apps.webAppMaker.vars.trustedApps[\'' + i + '\'][\'' + j + '\'] = this.value;apps.webAppMaker.vars.updatePermissions()"> ';
 									if (
 										apps.webAppMaker.vars.trustedApps[i][j] === "true" ||
@@ -7274,9 +7209,9 @@ c(function() {
 						},
 						buttons: function() {
 							apps.settings.vars.screensaverBlockNames = [];
-							var tempCount = [];
-							var tempStr = '';
-							for (var i in screensaverBlocks) {
+							let tempCount = [];
+							let tempStr = '';
+							for (let i in screensaverBlocks) {
 								var tempInd = apps.settings.vars.screensaverBlockNames.indexOf(screensaverBlocks[i]);
 								if (tempInd > -1) {
 									tempCount[tempInd]++;
@@ -7285,9 +7220,11 @@ c(function() {
 									tempCount.push(1);
 								}
 							}
-							for (var i in tempCount) {
+
+							for (let i in tempCount) {
 								tempStr += "<button onclick='unblockScreensaver(apps.settings.vars.screensaverBlockNames[" + i + "]);apps.settings.vars.showMenu(apps.settings.vars.menus.screensaver)'>" + apps.settings.vars.screensaverBlockNames[i] + ": " + tempCount[i] + "</button> ";
 							}
+
 							return tempStr;
 						}
 					}
@@ -9036,16 +8973,13 @@ c(function() {
 					smartIconOptions.radiusBottomRight = tempR[3];
 					updateSmartIconStyle();
 				}
-				if (!nosave) {
-					saveSmartIconStyle();
-				}
+
+				if (!nosave) saveSmartIconStyle();
 			},
 			toggleBG: function (nosave) {
 				smartIconOptions.backgroundOpacity = Math.abs(smartIconOptions.backgroundOpacity - 1);
 				updateSmartIconStyle();
-				if (!nosave) {
-					saveSmartIconStyle();
-				}
+				if (!nosave) saveSmartIconStyle();
 			},
 			setColor: function (color, nosave) {
 				if (color) {
@@ -9055,9 +8989,8 @@ c(function() {
 					smartIconOptions.bgColor = getId("smartIconSettings_bgcolor").value;
 					updateSmartIconStyle();
 				}
-				if (!nosave) {
-					saveSmartIconStyle();
-				}
+
+				if (!nosave) saveSmartIconStyle();
 			}
 		},
 		signalHandler: function (signal) {
@@ -9099,6 +9032,7 @@ c(function() {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Desktop Icon Maker';
 })
+
 c(function() {
 	m('init icon maker');
 	apps.iconMaker = new Application({
@@ -9130,6 +9064,7 @@ c(function() {
 					'<input id="IcMpath" style="width:95%"><br><br>' +
 					'<button onclick="apps.iconMaker.vars.createIcon()">Create Desktop Icon</button>'
 				);
+
 				// Set the icon type to 0 once the function is ready
 				this.vars.setType(0);
 				getId('win_iconMaker_html').style.overflowY = 'auto';
@@ -9177,7 +9112,7 @@ c(function() {
 					var currMS = (new Date().getTime());
 					if (this.type === 0) {
 						if (apps[getId('IcMpath').value] !== undefined) {
-							var tempIconObj = {
+							let tempIconObj = {
 								id: currMS,
 								owner: getId("IcMpath").value,
 								position: [
@@ -9224,9 +9159,7 @@ c(function() {
 					apps.prompt.vars.alert('Please properly fill all fields.', 'Okay', function() {}, 'Icon Maker');
 				}
 			},
-			iconClicks: {
-
-			},
+			iconClicks: {},
 			buildIcon: function (icon, nosave) {
 				apps.iconMaker.vars.decompiled = JSON.parse(icon);
 				if (icon[0] === '[') {
@@ -9374,6 +9307,7 @@ c(function() {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Text Editor';
 });
+
 var files;
 c(function() {
 	m('init NP2');
@@ -9940,7 +9874,7 @@ c(function() {
 				var cleanEscapeRun = 0;
 				while (!cleanEscapeRun) {
 					cleanEscapeRun = 1;
-					for (var i = 0; i < this.currLoc.length - 1; i++) {
+					for (let i = 0; i < this.currLoc.length - 1; i++) {
 						if (this.currLoc[i][this.currLoc[i].length - 1] === '\\') {
 							this.currLoc.splice(i, 2, this.currLoc[i].substring(0, this.currLoc[i].length) + '/' + this.currLoc[i + 1]);
 							cleanEscapeRun = 0;
@@ -12606,7 +12540,6 @@ c(function() {
 			lastUserRecieved: '',
 			needsScroll: false,
 			notifPing: new Audio('messagingSounds/messagePing.wav'),
-			notifClick: new Audio('messagingSounds/madestThouLook.wav'),
 			soundToPlay: 0,
 			objTypes: {
 				img: function (str, param) {
@@ -12984,13 +12917,6 @@ c(function() {
 						if (ufload("aos_system/apps/messaging/chat_name")) {
 							apps.messaging.vars.name = ufload("aos_system/apps/messaging/chat_name");
 						}
-						if (!safeMode) {
-							if (ufload("aos_system/apps/messaging/easter_egg")) {
-								if (ufload("aos_system/apps/messaging/easter_egg") === "1") {
-									this.vars.canLookethOverThereSound = 1;
-								}
-							}
-						}
 						break;
 					case 'shutdown':
 
@@ -13000,6 +12926,7 @@ c(function() {
 			}
 		}
 	});
+
 	getId('aOSloadingInfo').innerHTML = 'Music Player';
 });
 
@@ -13042,12 +12969,10 @@ c(function() {
 			colorModified: 0,
 			colorWindows: function() {
 				if (apps.musicPlayer.appWindow.appIcon) {
-					var MPlTitle = getId("MPlframe").contentDocument.title;
+					let MPlTitle = getId("MPlframe").contentDocument.title;
 					if (MPlTitle.indexOf("WindowRecolor:") === 0) {
 						apps.settings.vars.setWinColor(1, MPlTitle.split(":")[1]);
-						if (!this.colorModified) {
-							this.colorModified = 1;
-						}
+						if (!this.colorModified) this.colorModified = 1;
 					} else if (this.colorModified) {
 						apps.settings.vars.setWinColor(1, ufload("aos_system/windows/border_color") || 'rgba(150, 150, 200, 0.5)');
 						this.colorModified = 0;
@@ -13060,8 +12985,10 @@ c(function() {
 			}
 		}
 	});
+
 	getId('aOSloadingInfo').innerHTML = 'Apps Browser';
 });
+
 c(function() {
 	apps.appsbrowser = new Application({
 		title: "Apps Browser",
@@ -13154,14 +13081,14 @@ c(function() {
 			currAppLaunchTypes: '',
 			currAppBuiltIn: '',
 			search: function (text) {
-				var allDivs = getId("APBdiv").getElementsByClassName('appsBrowserItem');
-				var textSplit = text.toLowerCase().split(" ");
-				for (var i = 0; i < allDivs.length; i++) {
-					var isVisible = false;
-					var texts = allDivs[i].getElementsByClassName("APB_app_content");
-					for (var txt = 0; txt < texts.length; txt++) {
-						var textFound = 0;
-						for (var j in textSplit) {
+				let allDivs = getId("APBdiv").getElementsByClassName('appsBrowserItem');
+				let textSplit = text.toLowerCase().split(" ");
+				for (let i = 0; i < allDivs.length; i++) {
+					let isVisible = false;
+					let texts = allDivs[i].getElementsByClassName("APB_app_content");
+					for (let txt = 0; txt < texts.length; txt++) {
+						let textFound = 0;
+						for (let j in textSplit) {
 							if (texts[txt].innerText.toLowerCase().indexOf(textSplit[j]) > -1) {
 								textFound++;
 							}
@@ -13182,6 +13109,7 @@ c(function() {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Sticky Note';
 });
+
 c(function() {
 	apps.postit = new Application({
 		title: "Sticky Note",

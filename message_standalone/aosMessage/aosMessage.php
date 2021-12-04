@@ -282,8 +282,6 @@
                 lastUserRecieved: '',
                 needsScroll: false,
                 notifPing: new Audio('messagePing.wav'),
-                notifMessage: new Audio('messagingSounds/lookethOverThere.wav'),
-                notifClick: new Audio('messagingSounds/madestThouLook.wav'),
                 soundToPlay: 0,
                 canLookethOverThereSound: 0,
                 objTypes: {
