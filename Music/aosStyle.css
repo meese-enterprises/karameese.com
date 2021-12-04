@@ -1,0 +1,288 @@
+@font-face{
+    font-family: "aosProFont";
+    src:
+        url('ProFont/ProFontOnline.ttf') format('truetype'),
+        url('ProFont/ProFontOnline.woff') format('woff'),
+        url('ProFont/ProFontOnline.eot'),
+        url('ProFont/ProFontOnline.svg') format('svg');
+}
+/* adapted from AaronOS */
+::-webkit-scrollbar{
+    width:16px;
+    background-color:#555;
+    box-shadow:inset 0 0 10px #CCC;
+    cursor:default;
+}
+::-webkit-scrollbar-corner{
+    background-color:#555;
+    box-shadow:inset 0 0 10px #CCC;
+    cursor:default;
+}
+::-webkit-resizer{
+    border-radius:8px;
+    background-color:#CCC;
+    box-shadow:inset 0 0 10px #555;
+    cursor:default;
+}
+::-webkit-scrollbar-thumb{
+    border-radius:8px;
+    background-color:#CCC;
+    box-shadow:inset 0 0 10px #555;
+    cursor:default;
+}
+::-webkit-scrollbar-button{
+    border-radius:8px;
+    background-color:#CCC;
+    box-shadow:inset 0 0 10px #555;
+    cursor:default;
+}
+    .darkMode ::-webkit-scrollbar{
+        width:16px;
+        background-color:#272727;
+        box-shadow:inset 0 0 10px #383838;
+    }
+    .darkMode ::-webkit-scrollbar-corner{
+        background-color:#272727;
+        box-shadow:inset 0 0 10px #383838;
+    }
+    .darkMode ::-webkit-resizer{
+        border-radius:8px;
+        background-color:#555;
+        box-shadow:inset 0 0 10px #272727;
+    }
+    .darkMode ::-webkit-scrollbar-thumb{
+        border-radius:8px;
+        background-color:#555;
+        box-shadow:inset 0 0 10px #272727;
+    }
+    .darkMode ::-webkit-scrollbar-button{
+        border-radius:8px;
+        background-color:#555;
+        box-shadow:inset 0 0 10px #272727;
+    }
+
+.marquee{
+    width:100%;
+    overflow:hidden;
+    position:relative;
+    display:block;
+    height:auto;
+}
+.marquee .marqueetext1{
+    width:100%;
+    animation:cssmarquee1 10s infinite linear;
+    position:relative;
+    height:0;
+    overflow:visible;
+}
+.marquee .marqueetext2{
+    width:100%;
+    animation:cssmarquee2 10s infinite linear;
+    position:relative;
+}
+@keyframes cssmarquee1{
+    from {
+        transform:translateX(100%);
+    }
+    to {
+        transform:translateX(0%);
+    }
+}
+@keyframes cssmarquee2{
+    from {
+        transform:translateX(0%);
+    }
+    to {
+        transform:translateX(-100%);
+    }
+}
+
+.darkMode a{
+    color:#7F9FEE;
+}
+.darkMode a:visited{
+    color:#956ADB;
+}
+
+button{
+    background-color:#FFF;
+    box-shadow:inset 0 0 5px #CCC;
+    border-radius:5px;
+    color:#333;
+    border:1px solid #333;
+    outline:none;
+    transition:0.2s;
+    cursor:inherit;
+}
+button:hover{
+    box-shadow:inset 0 0 5px #AAA;
+}
+button:focus{
+    box-shadow:inset 0 0 5px #999;
+}
+button:active{
+    box-shadow:inset 0 0 10px #999;
+}
+    .darkMode button{
+        background-color:#272727;
+        box-shadow:inset 0 0 5px #333;
+        color:#FFF;
+        border:1px solid #CCC;
+    }
+    .darkMode button:hover{
+        box-shadow:inset 0 0 5px #777;
+    }
+    .darkMode button:focus{
+        box-shadow:inset 0 0 5px #777;
+    }
+    .darkMode button:active{
+        box-shadow:inset 0 0 10px #777;
+    }
+select{
+    background-color:#FFF;
+    box-shadow:inset 0 0 5px #CCC;
+    border-radius:5px;
+    color:#333;
+    border:1px solid #333;
+    outline:none;
+    transition:0.2s;
+    cursor:inherit;
+}
+    select:hover{
+        box-shadow:inset 0 0 5px #AAA;
+    }
+    select:focus{
+        box-shadow:inset 0 0 5px #999;
+    }
+    select:active{
+        box-shadow:inset 0 0 10px #999;
+    }
+        .darkMode select{
+            background-color:#272727;
+            box-shadow:inset 0 0 5px #333;
+            color:#FFF;
+            border:1px solid #CCC;
+        }
+        .darkMode select:hover{
+            box-shadow:inset 0 0 5px #777;
+        }
+        .darkMode select:focus{
+            box-shadow:inset 0 0 5px #777;
+        }
+        .darkMode select:active{
+            box-shadow:inset 0 0 10px #777;
+        }
+input, textarea{
+    background-color:#FFF;
+    border:1px solid #333;
+    border-radius:0;
+    color:#333;
+    box-shadow:inset 0 0 5px #CCC;
+    outline:none;
+    transition:0.2s;
+}
+input:hover, textarea:hover{
+    box-shadow:inset 0 0 5px #AAA;
+}
+input:focus, textarea:focus{
+    box-shadow:inset 0 0 5px #999;
+}
+input:active, textarea:active{
+    box-shadow:inset 0 0 10px #999;
+}
+    .darkMode input, .darkMode textarea{
+        background-color:#272727;
+        border:1px solid #CCC;
+        color:#FFF;
+        box-shadow:inset 0 0 5px #333;
+    }
+    .darkMode input:hover, .darkMode textarea:hover{
+        box-shadow:inset 0 0 5px #777;
+    }
+    .darkMode input:focus, .darkMode textarea:focus{
+        box-shadow:inset 0 0 5px #777;
+    }
+    .darkMode input:active, .darkMode textarea:active{
+        box-shadow:inset 0 0 10px #777;
+    }
+hr{
+    width:100%;
+    height:2px;
+    border:none;
+    background-image:url(hr.png);
+    background-size:100% 2px;
+}
+a{
+    cursor:pointer;
+}
+#pagebody{
+    margin:0;
+}
+div{
+    position:absolute;
+    overflow:hidden;
+}
+            .winHTML{
+                width:calc(100% - 9px); /* fallback */
+                height:calc(100% - 35px); /* fallback */
+                width:calc(100% - 3px - var(--windowBorderWidth) - var(--windowBorderWidth));
+                height:calc(100% - 32px - var(--windowBorderWidth));
+                bottom:3px; /* fallback */
+                left:3px; /* fallback */
+                bottom:var(--windowBorderWidth);
+                left:var(--windowBorderWidth);
+                background-color:#FFF;
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+                padding-left:3px;
+            }
+                .winHTML.noPadding{
+                    padding-left:0;
+                    width:calc(100% - 6px); /* fallback */
+                    width:calc(100% - var(--windowBorderWidth) - var(--windowBorderWidth));
+                }
+                .darkMode .winHTML{
+                    background-color:rgb(32, 32, 32);
+                    color:#FFF;
+                }
+                .darkResponsive{
+                    background-color:#FFF;
+                    color:#000;
+                    border-color:#000;
+                }
+                .darkMode .darkResponsive{
+                    background-color:rgb(32, 32, 32);
+                    color:#FFF;
+                    border-color:#FFF;
+                }
+                .darkMode .darkInvert{
+                    filter: invert(1);
+                }
+                .monoinput{
+                    font-family:monospace;
+                }
+
+.cursorDefault{
+    cursor:default;
+}
+.cursorMove{
+    cursor:move;
+}
+.cursorOpenHand{
+    cursor:move;
+}
+.cursorCloseHand{
+    cursor:move;
+}
+.cursorPointer{
+    cursor:pointer;
+}
+.cursorLoadLight{
+    cursor:wait;
+}
+.cursorLoadDark{
+    cursor:wait;
+}
+.cursorForceLoad{
+    cursor:wait !important;
+}

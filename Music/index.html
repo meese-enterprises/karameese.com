@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html style="width:100%;height:100%;margin:0;padding:0;overflow:hidden">
+<head>
+		<title>AaronOS Music Player</title>
+		<link rel="stylesheet" href="aosStyle.css">
+		<link rel="stylesheet" href="style.css">
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+<body style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;">
+		<div class="winHTML" style="width:calc(100% - 8px);height:calc(100% - 6px);margin:0;padding:3px;padding-right:5px;overflow-y:auto;overflow-x:hidden">
+				<div id="introduction" style="padding-bottom:16px;">
+						<h1 style="text-align:center">AaronOS Music</h1>
+						<div style="text-align:center; position:relative; margin-top:-16px; margin-bottom:-16px;">
+								<div class="selectIcon">
+										<input type="file" id="folderInput" webkitdirectory directory multiple onchange="loadFolder()">
+										<img id="folderIcon" src="icons/folder.png" style="pointer-events:none;">
+										<span>Folder</span>
+								</div>
+								<div class="selectIcon">
+										<input type="file" id="fileInput" multiple accept="audio/*" onchange="loadFiles()">
+										<img id="filesIcon" src="icons/files.png" style="pointer-events:none;">
+										<span>Files</span>
+								</div>
+								<div class="selectIcon" id="systemAudioIcon">
+										<img class="cursorPointer" src="icons/system.png" onclick="loadSystemAudio()">
+										<span>System</span>
+								</div>
+								<div class="selectIcon">
+										<img id="microphoneIcon" class="cursorPointer" src="icons/microphone.png" onclick="loadMicrophone()">
+										<span>Microphone</span>
+								</div>
+								<div class="selectIcon" id="transparentModeIcon">
+										<img class="cursorPointer" src="icons/transparentMode.png" onclick="ipcRenderer.send('toggle-transparent', {x: screen.width, y: screen.height})">
+										<span>Transparent Mode</span>
+								</div>
+						</div>
+						<div style="text-align:center;max-width:500px;margin:auto;">
+								<i id="mobileDeviceText" class="disabled">Mobile devices can only use one file at a time.<br></i>
+								<h3>Visualizers exhibit flashing lights that may cause issues for people with a photosensitivity.</h3>
+								<i id="filesNotUploadedDisclaimer">
+										Uploaded files never leave your device and are not uploaded to the AaronOS server.
+										<br><br>
+								</i>
+								<i>
+										Visualizations in the list whose thumbnails use the Rainbow color scheme are modeled after the AudioVision app for Android.<br><br>
+										The AudioVision designs were created by &Scaron;tefan Schindler.
+								</i>
+						</div>
+				</div>
+				<div id="currentlyPlaying" class="disabled">No Song Playing</div>
+				<div id="controls" class="disabled">
+						<button onclick="refresh()" title="Return to welcome screen and select a new set of songs.">Reset</button> &nbsp; &nbsp; &nbsp;
+						<button onclick="openSettingsMenu()">Settings</button> &nbsp; &nbsp; &nbsp;
+						<span id="nonLiveControls">
+								Volume: <input style="width:40px" type="number" value="1" min="0" max="1" step="0.1" onchange="setVolume(this.value)" title="Can affect visualizer quality."> &nbsp; &nbsp; &nbsp;
+								<button onclick="back()"><b>|</b>&#9668;</button>
+								<button onclick="if(audio.paused){play();}else{pause();}" id="playbutton">&#9658;</button>
+								<button onclick="next()">&#9658;<b>|</b></button> &nbsp; &nbsp; &nbsp;
+								<button onclick="shuffle()">Shuffle</button> &nbsp; &nbsp; &nbsp;
+						</span>
+
+						<button id="ambienceButton" onclick="toggleAmbience()" style="border-color:#C00" title="Random delay of silence after every song, up to five minutes. Randomly selects the next song.">Ambience Mode</button>
+						<span style="display:none" id="tskbrModeRange"><span id="ambienceSpacing"> &nbsp; &nbsp; &nbsp;</span>
+								<button onclick="toggleTaskbarMode()" id="taskbarButton" style="border-color:#C00" title="Fit the visualizer to your taskbar, good for background music while working.">Taskbar</button>
+						</span>
+
+						<br>
+						Visuals: <select id="visfield" onchange="setVis(this.value)" onmousedown="if(!taskbarMode){requestAnimationFrame(()=>{this.blur()}); event.preventDefault();}" onclick="if(!taskbarMode){openVisualizerMenu(); event.preventDefault();}"></select>
+						<button id="smokeButton" onclick="toggleSmoke()" style="border-color:#C00" title="Adds a smoke and glow effect to visualizers.">Smoke</button> &nbsp; &nbsp; &nbsp;
+						Colors: <select id="colorfield" onchange="setColor(this.value)" onmousedown="if(!taskbarMode){requestAnimationFrame(()=>{this.blur()}); event.preventDefault();}" onclick="if(!taskbarMode){openColorMenu(); event.preventDefault();}"></select> &nbsp; &nbsp; &nbsp;
+						Curve: <select id="modfield" onchange="selectMod(this.value)" onmousedown="if(!taskbarMode){requestAnimationFrame(()=>{this.blur()}); event.preventDefault();}" onclick="if(!taskbarMode){openModMenu(); event.preventDefault();}" title="Processes visualizer data to increase or decrease power of visualizer movement. Power Sine tends to work best.">
+								<option value="null">None</option>
+						</select> &nbsp; &nbsp; &nbsp;
+						<button id="fullscreenButton" onclick="exclusiveFullscreen()" title="Toggle Fullscreen">F</button>
+
+				</div>
+				<div id="progressContainer" class="disabled" onclick="setProgress(event)"><div id="progress"></div></div>
+				<div id="songList" class="disabled"></div>
+				<canvas id="autoColorCanvas" style="display:none;width:512px;height:1px" width="512" height="1"></canvas>
+				<div id="visualizer" class="disabled">
+						<canvas id="smokeCanvas"></canvas>
+						<div id="smokeScreen1"></div>
+						<div id="smokeScreen2"></div>
+						<canvas id="visCanvas" onclick="toggleFullscreen()"></canvas>
+				</div>
+				<div id="selectOverlay" class="disabled">
+						<div id="selectBackground" onclick="closeMenu()"></div>
+						<div id="selectContent"></div>
+				</div>
+		</div>
+	</body>
+	<script defer src="script.js"></script>
+</html>
