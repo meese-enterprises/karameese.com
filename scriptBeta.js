@@ -442,8 +442,6 @@ var languagepacks = {
 var langContent = {
 	en: {
 		aOS: {
-			framesPerSecond: 'FPS',
-			cpuUsage: 'CPU',
 			failedVarTry: 'failed', // lowercase
 			fatalError1: 'You found an error! ',
 			fatalError2: 'Error in',
@@ -458,7 +456,6 @@ var langContent = {
 			taskManager: "Task Manager",
 			jsConsole: "JavaScript Console",
 			bash: "Psuedo-Bash Terminal",
-			cpuMon: "CPU Monitor",
 			prompt: "Application Prompt",
 			settings: "Settings",
 			iconMaker: "Desktop Icon Maker",
@@ -721,61 +718,15 @@ function formDate(dateStr) {
 	return tempDate;
 }
 
-// Functions to find FPS
-m('init FPS counter variables');
-var VFPScount = 0;
-var VFPSlastTime = formDate("S");
-var VFPSthisTime = formDate("S");
-var stringVFPS = "0FPS ";
-var stringFPSload = "0%";
-var maxVFPS = 1;
-var maxFPS = 1;
-m('init FPS counter');
-
-// Counter for video FPS
-function countVisualFPS() {
-	VFPScount++;
-	VFPSthisTime = formDate("S");
-	if (VFPSthisTime !== VFPSlastTime) {
-		stringVFPS = VFPScount + "FPS ";
-		VFPScount = 0;
-	}
-	VFPSlastTime = VFPSthisTime;
-	window.requestAnimationFrame(countVisualFPS);
-}
-m('start FPS counter');
-window.requestAnimationFrame(countVisualFPS);
-
 // Taskbar settings
 var tskbrToggle = {
 	perfMode: 0,
 	tskbrPos: 1
 };
 
-// More FPS functions
-m('init FPS display');
 var showTimeColon = 0;
 var timeElement = getId("time");
-var thisFPStime = formDate("S");
-var lastFPStime = formDate("S");
-var stringFPS = "";
-var numbFPS = 0;
 var doLog;
-
-// Count JavaScript FPS
-function countFPS() {
-	thisFPStime = formDate("S");
-	numbFPS++;
-	if (lastFPStime !== thisFPStime) {
-		stringFPS = numbFPS + "/";
-		lastFPStime = thisFPStime;
-		maxFPS = Math.max(maxFPS, parseInt(stringFPS, 10));
-		maxVFPS = Math.max(maxVFPS, parseInt(stringVFPS, 10));
-		stringFPSload = Math.round(100 - Math.min((parseInt(stringFPS, 10) / maxFPS), (parseInt(stringVFPS, 10) / maxVFPS)) * 100) + '% ' + lang('aOS', 'cpuUsage');
-		numbFPS = 0;
-	}
-	window.setTimeout(countFPS, 0);
-}
 
 // Loading the battery
 var cpuBattery = {};
@@ -2408,39 +2359,6 @@ widgets.time = new Widget(
 		lastTime: String(new Date())
 	}
 );
-widgets.fps = new Widget(
-	'FPS', // title
-	'fps', // name in widgets object
-	function() {
-		// onclick function
-		//widgetMenu('FPS Widget', 'There are no settings for this widget yet.');
-	},
-	function() {
-		// Start function
-		widgets.fps.vars.running = 1;
-		getId('widget_fps').innerHTML = '<div id="compactFPS"></div><div id="postCompactFPS" style="position:static;margin-left:26px;margin-right:6px;margin-top:-21px;font-family:Consolas,monospace;font-size:12px">&nbsp;' + lang('aOS', 'framesPerSecond') + '</div>';
-		widgets.fps.frame();
-	},
-	function() {
-		// Frame function (this.vars.frame())
-		if (widgets.fps.vars.running) {
-			if (!mobileMode) {
-				getId('compactFPS').innerHTML = stringFPS.substring(0, stringFPS.length - 1) + '<br>' + stringVFPS.substring(0, stringVFPS.length - 4);
-				getId('postCompactFPS').innerHTML = lang('aOS', 'framesPerSecond');
-			} else {
-				getId('compactFPS').innerHTML = '';
-				getId('postCompactFPS').innerHTML = '';
-			}
-			requestAnimationFrame(widgets.fps.frame);
-		}
-	},
-	function() {
-		// Stop/cleanup function
-		widgets.fps.vars.running = 0;
-	}, {
-		running: 0
-	}
-);
 
 widgets.battery = new Widget(
 	'Battery',
@@ -2523,32 +2441,6 @@ widgets.network = new Widget(
 		},
 		lastDisplayStr: '',
 		displayType: "new"
-	}
-);
-
-widgets.cpu = new Widget(
-	'CPU',
-	'cpu',
-	function() {},
-	function() {
-		widgets.cpu.vars.running = 1;
-		getId('widget_cpu').style.paddingLeft = "6px";
-		getId('widget_cpu').style.paddingRight = "6px";
-		getId('widget_cpu').style.fontFamily = 'Consolas, monospace;';
-		getId('widget_cpu').style.fontSize = '12px';
-		getId('widget_cpu').style.lineHeight = '31px';
-		widgets.cpu.frame();
-	},
-	function() {
-		if (widgets.cpu.vars.running) {
-			getId('widget_cpu').innerHTML = mobileMode ? '' : stringFPSload;
-			requestAnimationFrame(widgets.cpu.frame);
-		}
-	},
-	function() {
-		widgets.cpu.vars.running = 0;
-	}, {
-		running: 0
 	}
 );
 
@@ -3201,8 +3093,6 @@ c(function() {
 								addWidget(i, 1);
 							}
 						} else {
-							addWidget('cpu', 1);
-							addWidget('fps', 1);
 							addWidget('network', 1);
 							addWidget('battery', 1);
 							//addWidget('users', 1);  (this is now an opt-in feature)
@@ -4587,7 +4477,6 @@ c(function() {
 			running: {
 				tMg: {}
 			},
-			drawCpu: 1,
 			currTaskStr: "",
 			runningLast: {},
 			cnv: null,
@@ -5725,90 +5614,8 @@ c(function() {
 	window.sh = function (input) {
 		return apps.bash.vars.execute(input, 1);
 	}
-	getId('aOSloadingInfo').innerHTML = 'CPU Monitor';
 });
-c(function() {
-	apps.cpuMon = new Application({
-		title: "CPU Monitor",
-		abbreviation: "CPU",
-		codeName: "cpuMon",
-		image: "appicons/ds/systemApp.png",
-		hideApp: 1,
-		main: function() {
-			if (!this.appWindow.appIcon) {
-				this.appWindow.paddingMode(0);
-				this.appWindow.setCaption("CPU");
-				this.appWindow.setContent("<canvas id='cpuMonCnv' width='200' height='100' style='width:100%;height:100%;background-color:#000;'></canvas>");
 
-				if (typeof this.appWindow.dimsSet !== 'function') {
-					this.appWindow.dimsSet = function() {
-						getId('cpuMonCnv').width = apps.cpuMon.appWindow.windowH - 6;
-						getId('cpuMonCnv').height = apps.cpuMon.appWindow.windowV - 24;
-						apps.cpuMon.vars.width = apps.cpuMon.appWindow.windowH - 6;
-						apps.cpuMon.vars.height = apps.cpuMon.appWindow.windowV - 24;
-					}
-				}
-
-				this.appWindow.setDims("auto", "auto", 206, 124);
-				this.vars.cnv = getId('cpuMonCnv');
-				this.vars.ctx = this.vars.cnv.getContext('2d');
-				this.vars.drawInt = setInterval(this.vars.draw, 1000);
-			}
-			this.appWindow.openWindow();
-		},
-		vars: {
-			appInfo: 'A very simple graph of CPU usage over time. CPU usage is calculated by comparing the current FPS to the max FPS.',
-			drawInt: 0,
-			cnv: null,
-			ctx: null,
-			width: 200,
-			height: 100,
-			draw: function() {
-				apps.cpuMon.vars.ctx.drawImage(apps.cpuMon.vars.cnv, -1, 0);
-				apps.cpuMon.vars.ctx.fillStyle = '#000';
-				apps.cpuMon.vars.ctx.fillRect(apps.cpuMon.vars.width - 1, 0, 1, apps.cpuMon.vars.height);
-				apps.cpuMon.vars.ctx.fillStyle = '#0F0';
-				apps.cpuMon.vars.ctx.fillRect(apps.cpuMon.vars.width - 1, apps.cpuMon.vars.height - (parseInt(stringFPSload) / 100 * apps.cpuMon.vars.height), 1, apps.cpuMon.vars.height);
-			}
-		},
-		signalHandler: function (signal) {
-			switch (signal) {
-				case "forceclose":
-					this.appWindow.closeWindow();
-					this.appWindow.closeIcon();
-					break;
-				case "close":
-					clearInterval(this.vars.drawInt);
-					this.appWindow.closeWindow();
-					setTimeout(function() {
-						if (getId("win_" + this.objName + "_top").style.opacity === "0") {
-							this.appWindow.setContent("");
-						}
-					}.bind(this), 300);
-					break;
-				case "checkrunning":
-					if (this.appWindow.appIcon) {
-						return 1;
-					} else {
-						return 0;
-					}
-					case "shrink":
-						this.appWindow.closeKeepTask();
-						break;
-					case "USERFILES_DONE":
-						this.appWindow.alwaysOnTop(1);
-						break;
-					case 'shutdown':
-
-						break;
-					default:
-						doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'");
-			}
-		}
-	});
-
-	getId('aOSloadingInfo').innerHTML = 'Prompt System';
-});
 c(function() {
 	m('init PMT');
 	apps.prompt = new Application({
@@ -6234,7 +6041,7 @@ c(function() {
 					'<button onclick="apps.settings.vars.reqFullscreen()">Enter Fullscreen</button> <button onclick="apps.settings.vars.endFullscreen()">Exit Fullscreen</button><hr>' +
 					'<b>Taskbar</b><br>' +
 					'<i>Toggle the display of different elements of the taskbar</i><br>' +
-					'<button onclick="apps.settings.vars.togTimeComp()">Toggle Compact Time</button> <button onclick="apps.settings.vars.togNetStat()">Toggle Network Status</button> <button onclick="apps.settings.vars.togBatStat()">Toggle Battery Status</button> <button onclick="apps.settings.vars.togBatComp()">Toggle Stylish Battery</button> <button onclick="apps.settings.vars.togFpsStat()">Toggle FPS Status</button> <button onclick="apps.settings.vars.togFpsComp()">Toggle Compact FPS</button> <button onclick="apps.settings.vars.togLodStat()">Toggle CPU Status</button><hr>' +
+					'<button onclick="apps.settings.vars.togTimeComp()">Toggle Compact Time</button> <button onclick="apps.settings.vars.togNetStat()">Toggle Network Status</button> <button onclick="apps.settings.vars.togBatStat()">Toggle Battery Status</button> <button onclick="apps.settings.vars.togBatComp()">Toggle Stylish Battery</button><hr>' +
 					'<b>NORAA</b><br>' +
 					'NORAA presents graphical help boxes instead of speaking solutions, where available: ' + this.vars.noraHelpTopics + ' <button onclick="apps.settings.vars.togNoraHelpTopics()">Toggle</button><br>' +
 					'NORAA listening for you: ' + this.vars.currNoraListening + ' <button onclick="apps.settings.vars.togNoraListen()">Toggle</button><br>' +
@@ -13631,7 +13438,6 @@ function fadeResizeText() {
 	getId("timesUpdated").style.display = "none";
 }
 
-// Function to measure FPS has been moved to time function
 // Function to allow app windows to be moved
 var winmoveSelect = "";
 var winmovex = 0;
@@ -14067,16 +13873,7 @@ var baseCtx = {
 		}, '/ctxMenu/beta/battery.png'],
 		[' Toggle Stylish Battery', function(){
 				apps.settings.vars.togBatComp();
-		}, '/ctxMenu/beta/cool.png'],
-		[' Toggle FPS Status', function(){
-				apps.settings.vars.togFpsStat();
-		}, '/ctxMenu/beta/performance.png'],
-		[' Toggle Compact FPS', function(){
-				apps.settings.vars.togFpsComp();
-		}, '/ctxMenu/beta/cool.png'],
-		[' Toggle CPU Status', function(){
-				apps.settings.vars.togLodStat();
-		}, '/ctxMenu/beta/performance.png']
+		}, '/ctxMenu/beta/cool.png']
 		*/
 	],
 	appXXX: [
@@ -14631,7 +14428,6 @@ function monMouseDown(evt) {
 getId("monitor").addEventListener('touchstart', monMouseDown);
 
 c(function() {
-	window.setTimeout(countFPS, 0);
 	requestAnimationFrame(function() {
 		makeInterval('aOS', 'NtwrkCheck', 'taskbarShowHardware()', 1000);
 	});
