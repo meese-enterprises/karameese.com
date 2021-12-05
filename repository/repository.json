@@ -113,18 +113,6 @@
             },
             "description": "JS Paint was developed by Isaiah Odhner and embedded into an aOS app with his permission.\n\nFull site at https://jspaint.app"
         },
-        "textToBin": {
-            "packageName": "Text to Binary",
-            "packageID": "textToBin",
-            "packageAliases": [],
-            "version": "1.1",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/textToBin.json",
-            "icon": {
-                "foreground": "appicons/ds/CAM.png"
-            },
-            "description": "Convert text to / from binary code and images."
-        },
         "aaronscustomfunctions": {
             "packageName": "Aarons Custom Functions",
             "packageID": "aaronscustomfunctions",
