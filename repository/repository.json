@@ -4,18 +4,6 @@
     "repoAliases": ["aaronos", "aos", "official"],
     "repoVersion": "1.1.0",
     "packages": {
-        "guitartab": {
-            "packageName": "Guitar Tab",
-            "packageID": "guitartab",
-            "packageAliases": ["guitar", "tabulature"],
-            "version": "1.0",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/guitartab.json",
-            "icon": {
-                "foreground": "appicons/ds/aOS.png"
-            },
-            "description": "Guitar Tabulature editor."
-        },
         "minesweeper": {
             "packageName": "Minesweeper",
             "packageID": "minesweeper",

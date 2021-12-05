@@ -17,18 +17,6 @@
             },
             "description": "It's bing."
         },
-        "guitartab": {
-            "packageName": "Guitar Tab",
-            "packageID": "guitartab",
-            "packageAliases": ["guitar"],
-            "version": "1.0",
-            "packageType": "webApp",
-            "installURL": "repository/guitartab.json",
-            "icon": {
-                "foreground": "appicons/ds/aOS.png"
-            },
-            "description": "This version of Guitar Tab will always need to update, for testing repo features."
-        },
         "aosToolsTest": {
             "packageName": "aosTools Test App",
             "packageID": "aosToolsTest",
