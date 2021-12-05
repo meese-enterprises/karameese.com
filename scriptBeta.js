@@ -465,7 +465,6 @@ var langContent = {
 			notepad: "Text Editor",
 			properties: "Properties Viewer",
 			files: "File Manager",
-			changelog: "Changelog",
 			flashCards: "Flash Cards",
 			pngSave: "PNG Saver",
 			canvasGame: "Canvas Video Games",
@@ -9274,57 +9273,6 @@ c(function() {
 			}
 		}
 	});
-	getId('aOSloadingInfo').innerHTML = 'Changelog';
-});
-c(function() {
-	apps.changelog = new Application({
-		title: "Changelog",
-		abbreviation: "CLg",
-		codeName: "changelog",
-		hideApp: 1,
-		image: {
-			backgroundColor: "#303947",
-			foreground: "smarticons/changelog/fg.png",
-			backgroundBorder: {
-				thickness: 2,
-				color: "#252F3A"
-			}
-		},
-		main: function() {
-			if (!this.appWindow.appIcon) {
-				this.appWindow.paddingMode(0);
-				this.appWindow.setDims("auto", "auto", 700, 400, 1);
-				this.appWindow.setCaption("Changelog");
-				this.vars.cLogHTML = '';
-				for (var i in files.changelog) {
-					this.vars.cLogGroup = '';
-					for (var j = 0; j < files.changelog[i].length; j++) {
-						if (files.changelog[i][j][1] === '+') {
-							this.vars.cLogGroup += '<p class="changeLogAddition">' + files.changelog[i][j].substring(2, files.changelog[i][j].length) + '</p>';
-						} else if (files.changelog[i][j][1] === ':') {
-							this.vars.cLogGroup += '<p class="changeLogTweak">' + files.changelog[i][j].substring(2, files.changelog[i][j].length) + '</p>';
-						} else if (files.changelog[i][j][1] === '-') {
-							this.vars.cLogGroup += '<p class="changeLogRemoval">' + files.changelog[i][j].substring(2, files.changelog[i][j].length) + '</p>';
-						} else {
-							this.vars.cLogGroup += '<p class="changeLogUnknown">' + files.changelog[i][j].substring(2, files.changelog[i][j].length) + '</p>';
-						}
-					}
-					this.vars.cLogHTML = this.vars.cLogGroup + this.vars.cLogHTML;
-					this.vars.cLogHTML = '<p class="changeLogTitle">' + i.split(': ')[1] + ' <span style="font-size:12px">' + i.split(': ')[0] + '</span></p>' + this.vars.cLogHTML;
-				}
-				getId('win_changelog_html').style.overflow = 'auto';
-				this.appWindow.setContent(this.vars.cLogHTML);
-			}
-			this.appWindow.openWindow();
-		},
-		vars: {
-			appInfo: 'This is the official changelog for AaronOS. It lists all versions from the point of its creation up until the current running version.',
-			cLogSplit: [],
-			cLogHTML: '',
-			cLogGroup: ''
-		}
-	});
-	getId('aOSloadingInfo').innerHTML = 'Help';
 });
 
 c(function() {
@@ -14458,36 +14406,6 @@ c(function() {
 	initStatus = 1;
 	doLog('Took ' + (perfCheck('masterInitAOS') / 1000) + 'ms to initialize.');
 	perfStart("masterInitAOS");
-	if (window.navigator.vendor !== "Google Inc.") {
-		doLog('AaronOS works best on Chrome. Some features may act strangely.', '#F00;text-decoration:underline');
-		try {
-			if (localStorage.getItem('notifyChrome') !== "1") {
-				localStorage.setItem('notifyChrome', "1");
-				apps.prompt.vars.notify('AaronOS works best on Chrome. Some features may act strangely.', [], function() {}, 'AaronOS', 'appicons/ds/aOS.png');
-			}
-		} catch (localStorageNotSupported) {
-			apps.prompt.vars.notify('AaronOS works best on Chrome. Some features may act strangely.', [], function() {}, 'AaronOS', 'appicons/ds/aOS.png');
-		}
-	}
-
-	if (localStorageSupported) {
-		if (localStorage.getItem('latestVersion') !== aOSversion) {
-			var newestChange = Object.keys(files.changelog)[Object.keys(files.changelog).length - 1];
-			apps.prompt.vars.notify(newestChange + '<br>' + files.changelog[newestChange].join('<br>'), ['Changelog'], function (btn) {
-				if (btn === 0) {
-					openapp(apps.changelog);
-				}
-			}, 'New Update!', {
-				backgroundColor: "#303947",
-				foreground: "smarticons/changelog/fg.png",
-				backgroundBorder: {
-					thickness: 2,
-					color: "#252F3A"
-				}
-			});
-			localStorage.setItem('latestVersion', aOSversion);
-		}
-	}
 });
 
 var bootFileHTTP = new XMLHttpRequest();

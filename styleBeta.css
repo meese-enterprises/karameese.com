@@ -1437,62 +1437,6 @@ div {
 	cursor: url(cursors/beta/wait.png) 14 13, wait !important;
 }
 
-.changeLogTitle,
-.changeLogDate,
-.changeLogAddition,
-.changeLogTweak,
-.changeLogRemoval,
-.changeLogUnknown {
-	font-family: aosProFont, monospace;
-	font-size: 12px;
-	margin: 0;
-	padding-left: 3px;
-	border-bottom: 1px solid #000;
-}
-
-.darkMode .changeLogTitle,
-.darkMode .changeLogDate,
-.darkMode .changeLogAddition,
-.darkMode .changeLogTweak,
-.darkMode .changeLogRemoval,
-.darkMode .changeLogUnknown {
-	border-bottom: 1px solid #FFF;
-}
-
-.changeLogTitle {
-	font-size: 24px;
-	border-top: 1px solid #000;
-}
-
-.darkMode .changeLogTitle {
-	border-top: 1px solid #FFF;
-}
-
-.changeLogDate {
-	text-align: right;
-	margin-top: -1em;
-	border-top: none;
-	border-bottom: none;
-}
-
-.changeLogAddition {
-	background-color: #BFFFBF;
-}
-
-.changeLogRemoval {
-	background-color: #FFBFBF;
-}
-
-.changeLogTweak {
-	background-color: #BFBFFF;
-}
-
-.darkMode .changeLogAddition,
-.darkMode .changeLogRemoval,
-.darkMode .changeLogTweak {
-	color: #000;
-}
-
 .widget {
 	padding-top: 1px;
 	height: 31px;
