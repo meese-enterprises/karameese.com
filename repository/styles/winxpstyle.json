@@ -1,7 +1,0 @@
-{
-    "name": "Windows XP Theme",
-    "id": "winxpstyle",
-    "version": "1.0",
-    "appType": "stylesheet",
-    "styleLink": "customStyles/WindowsXP/aosCustomStyle.css"
-}

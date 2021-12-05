@@ -149,30 +149,6 @@
             },
             "description": "Themes aOS to look like a movie hacker terminal."
         },
-        "mintystyle": {
-            "packageName": "Mint Y Theme",
-            "packageID": "mintystyle",
-            "packageAliases": ["dark"],
-            "version": "1.0",
-            "packageType": "stylesheet",
-            "installURL": "repository/styles/mintystyle.json",
-            "icon": {
-                "foreground": "repository/styles/mintystyle.png"
-            },
-            "description": "Themes aOS to look similar to Linux Mint's Y style. Includes dark theme support."
-        },
-        "win98style": {
-            "packageName": "Windows 98 Theme",
-            "packageID": "win98style",
-            "packageAliases": [],
-            "version": "1.0",
-            "packageType": "stylesheet",
-            "installURL": "repository/styles/win98style.json",
-            "icon": {
-                "foreground": "repository/styles/win98style.png"
-            },
-            "description": "Similar theme to Microsoft Windows 98. Used with permission from Microsoft."
-        },
         "win95style": {
           "packageName": "Windows 95 Theme",
           "packageID": "win95style",
@@ -183,19 +159,7 @@
           "icon": {
               "foreground": "repository/styles/win95style.png"
           },
-          "description": "Similar theme to Microsoft Windows 95. Used with permission from Microsoft."
-        },
-        "winxpstyle": {
-            "packageName": "Windows XP Theme",
-            "packageID": "winxpstyle",
-            "packageAliases": [],
-            "version": "1.0",
-            "packageType": "stylesheet",
-            "installURL": "repository/styles/winxpstyle.json",
-            "icon": {
-                "foreground": "repository/styles/winxpstyle.png"
-            },
-            "description": "Similar theme to Microsoft Windows XP. Used with permission from Microsoft."
+          "description": "Similar theme to Microsoft Windows 95."
         },
         "glassxpstyle": {
             "packageName": "Windows XP Glass",

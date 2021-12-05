@@ -1,7 +1,0 @@
-{
-    "name": "Windows 98 Theme",
-    "id": "win98style",
-    "version": "1.0",
-    "appType": "stylesheet",
-    "styleLink": "customStyles/Windows98/aosCustomStyle.css"
-}
