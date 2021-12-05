@@ -29,18 +29,6 @@
             },
             "description": "AaronOS Blast, with AI ships and a player ship shooting lasers at each other."
         },
-        "indycar": {
-            "packageName": "Indycar Game",
-            "packageID": "indycar",
-            "packageAliases": ["game", "race", "racing", "cars"],
-            "version": "1.0",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/indycar.json",
-            "icon": {
-                "foreground": "appicons/ICr.png"
-            },
-            "description": "A small two-player racing game with some little indycars in it. WASD/X and IJKL/M control the cars."
-        },
         "housegame": {
             "packageName": "House Game",
             "packageID": "housegame",

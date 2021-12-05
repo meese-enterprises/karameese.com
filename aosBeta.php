@@ -61,7 +61,6 @@
 		</div>
 		<div id="ctxMenu" onclick="getId('ctxMenu').style.display='none'" class="backdropFilterCtxMenu noselect"></div>
 		<div id="screensaverLayer"></div>
-		<div id="petCursors"></div>
 		<?php
 			if (!isset($_COOKIE['keyword'])) {
 				echo '<div id="aOSloadingBg"></div>';
