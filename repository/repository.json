@@ -28,18 +28,6 @@
             },
             "description": "Weather app, using the US Weather Service API"
         },
-        "cookieclicker": {
-            "packageName": "Cookie Clicker",
-            "packageID": "cookieclicker",
-            "packageAliases": ["cookie", "clicker"],
-            "version": "1.0",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/cookieclicker.json",
-            "icon": {
-                "foreground": "appicons/ds/CCl.png"
-            },
-            "description": "Cookie Clicker made by Aaron and JD."
-        },
         "blast": {
             "packageName": "aOS Blast",
             "packageID": "blast",

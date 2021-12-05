@@ -488,8 +488,7 @@ var langContent = {
 			mouseControl: "Alternate Mouse Control",
 			onlineDebug: "Online Debug Connection",
 			magnifier: "Magnifier",
-			jana: "Jana",
-			cookieClicker: "Cookie Clicker"
+			jana: "Jana"
 		},
 		startMenu: {
 			power: 'Power',
