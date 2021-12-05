@@ -12,34 +12,34 @@
 	width: 16px;
 	background-color: #555;
 	box-shadow: inset 0 0 10px #CCC;
-	cursor: url(cursors/beta/default.png) 3 2, default;
+	cursor: url(./cursors/beta/default.png) 3 2, default;
 }
 
 ::-webkit-scrollbar-corner {
 	background-color: #555;
 	box-shadow: inset 0 0 10px #CCC;
-	cursor: url(cursors/beta/default.png) 3 2, default;
+	cursor: url(./cursors/beta/default.png) 3 2, default;
 }
 
 ::-webkit-resizer {
 	border-radius: 8px;
 	background-color: #CCC;
 	box-shadow: inset 0 0 10px #555;
-	cursor: url(cursors/beta/default.png) 3 2, default;
+	cursor: url(./cursors/beta/default.png) 3 2, default;
 }
 
 ::-webkit-scrollbar-thumb {
 	border-radius: 8px;
 	background-color: #CCC;
 	box-shadow: inset 0 0 10px #555;
-	cursor: url(cursors/beta/default.png) 3 2, default;
+	cursor: url(./cursors/beta/default.png) 3 2, default;
 }
 
 ::-webkit-scrollbar-button {
 	border-radius: 8px;
 	background-color: #CCC;
 	box-shadow: inset 0 0 10px #555;
-	cursor: url(cursors/beta/default.png) 3 2, default;
+	cursor: url(./cursors/beta/default.png) 3 2, default;
 }
 
 .darkMode ::-webkit-scrollbar {
@@ -1270,24 +1270,6 @@ div {
 	margin: 2px 0 1px 0px;
 }
 
-#petCursors {
-	width: 100%;
-	height: 100%;
-	background: none;
-	display: none;
-	top: 0;
-	left: 0;
-	z-index: 99999999999999999;
-	pointer-events: none;
-}
-
-#petCursors img {
-	position: absolute;
-	display: block;
-	transition: 0.1s;
-	transition-timing-function: linear;
-}
-
 #aOSloadingBg {
 	width: calc(100% + 40px);
 	height: calc(100% + 40px);
@@ -1406,35 +1388,35 @@ div {
 }
 
 .cursorDefault {
-	cursor: url(cursors/beta/default.png) 3 2, default;
+	cursor: url(./cursors/beta/default.png) 3 2, default;
 }
 
 .cursorMove {
-	cursor: url(cursors/beta/move.png) 16 15, move;
+	cursor: url(./cursors/beta/move.png) 16 15, move;
 }
 
 .cursorOpenHand {
-	cursor: url(cursors/beta/movpre.png) 15 16, move;
+	cursor: url(./cursors/beta/movpre.png) 15 16, move;
 }
 
 .cursorCloseHand {
-	cursor: url(cursors/beta/moving.png) 12 10, move;
+	cursor: url(./cursors/beta/moving.png) 12 10, move;
 }
 
 .cursorPointer {
-	cursor: url(cursors/beta/pointer.png) 11 2, pointer;
+	cursor: url(./cursors/beta/pointer.png) 11 2, pointer;
 }
 
 .cursorLoadLight {
-	cursor: url(cursors/beta/wait.png) 14 13, wait;
+	cursor: url(./cursors/beta/wait.png) 14 13, wait;
 }
 
 .cursorLoadDark {
-	cursor: url(cursors/beta/wait.png) 14 13, wait;
+	cursor: url(./cursors/beta/wait.png) 14 13, wait;
 }
 
 .cursorForceLoad {
-	cursor: url(cursors/beta/wait.png) 14 13, wait !important;
+	cursor: url(./cursors/beta/wait.png) 14 13, wait !important;
 }
 
 .widget {

@@ -312,13 +312,13 @@ function numberCommas(number) {
 }
 
 var cursors = {
-	def: 'url(cursors/default.png) 3 3, default',
-	loadLightGif: 'url(cursors/loadLight.gif) 16 16, url(cursors/loadLight.png) 16 16, wait',
-	loadDarkGif: 'url(cursors/loadDark.gif) 16 16, url(cursors/loadDark.png) 16 16, wait',
-	loadLight: 'url(cursors/loadLight.png) 16 16, wait',
-	loadDark: 'url(cursors/loadDark.png) 16 16, wait',
-	move: 'url(cursors/move.png) 14 14, move',
-	pointer: 'url(cursors/pointer.png) 9 3, pointer'
+	def: 'url(./cursors/default.png) 3 3, default',
+	loadLightGif: 'url(./cursors/loadLight.gif) 16 16, url(./cursors/loadLight.png) 16 16, wait',
+	loadDarkGif: 'url(./cursors/loadDark.gif) 16 16, url(./cursors/loadDark.png) 16 16, wait',
+	loadLight: 'url(./cursors/loadLight.png) 16 16, wait',
+	loadDark: 'url(./cursors/loadDark.png) 16 16, wait',
+	move: 'url(./cursors/move.png) 14 14, move',
+	pointer: 'url(./cursors/pointer.png) 9 3, pointer'
 }
 
 // Performance-measuring functions
@@ -7047,12 +7047,10 @@ c(function() {
 						apps.settings.vars.screensavers.randomColor.vars.canRun = 1;
 						getId('screensaverLayer').style.transition = 'background-color 6s';
 						getId('screensaverLayer').style.transitionTimingFunction = 'linear';
-						apps.petCursors.vars.aggressiveChase = 1;
 						requestAnimationFrame(apps.settings.vars.screensavers.randomColor.vars.setColor);
 					},
 					end: function() {
 						apps.settings.vars.screensavers.randomColor.vars.canRun = 0;
-						apps.petCursors.vars.aggressiveChase = 0;
 						getId('screensaverLayer').style.backgroundColor = '';
 						getId('screensaverLayer').style.transition = '';
 						getId('screensaverLayer').style.transitionTimingFunction = 'linear';
@@ -7090,13 +7088,11 @@ c(function() {
 						apps.settings.vars.screensavers.bouncyBall.vars.canRun = 1;
 						requestAnimationFrame(apps.settings.vars.screensavers.bouncyBall.vars.frame);
 						apps.settings.vars.screensavers.bouncyBall.vars.resetBall();
-						apps.petCursors.vars.aggressiveChase = 1;
 					},
 					end: function() {
 						apps.settings.vars.screensavers.bouncyBall.vars.canRun = 0;
 						apps.settings.vars.screensavers.bouncyBall.vars.ctxFg = null;
 						getId('screensaverLayer').innerHTML = '';
-						apps.petCursors.vars.aggressiveChase = 0;
 					},
 					vars: {
 						ctxFg: null,
@@ -12616,308 +12612,8 @@ c(function() {
 			}
 		}
 	});
-	getId('aOSloadingInfo').innerHTML = 'Pet Cursors';
 });
-c(function() {
-	apps.petCursors = new Application({
-		title: "Pet Cursors",
-		abbreviation: "PC",
-		codeName: "petCursors",
-		image: 'appicons/ds/GTK.png',
-		hideApp: 1,
-		main: function() {
-			if (!this.appIcon) {
-				getId('win_petCursors_html').style.overflowY = 'auto';
-				this.appWindow.setDims("auto", "auto", 800, 500);
-				this.appWindow.setCaption('Pet Cursors');
-				this.appWindow.setContent(
-					'<p>Use this app to make extra cursor "pets" that follow your mouse around the screen like, well, pets.</p>' +
-					'<hr>' +
-					'Use this button to turn the app on and off: <button onclick="apps.petCursors.vars.toggleApp()">Toggle</button><br><br>' +
-					'Add new cursors:' +
-					'<br><span id="petCursorsPresets"></span>' +
-					'Your cursors:' +
-					'<br><button onclick="apps.petCursors.vars.deleteAll()">Delete All</button>' +
-					'<br><ol id="petCursorsList"></ol>'
-				);
-				this.vars.buildPresetList();
-				this.vars.buildCursorList();
-			}
-			this.appWindow.openWindow();
-		},
-		vars: {
-			appInfo: 'Pet Cursors will give you any number of extra cursors that will follow you around as you use aOS.',
-			enabled: 0,
-			buildPresetList: function() {
-				var tempList = '';
-				for (var i in this.presets) {
-					tempList += '<img onclick="apps.petCursors.vars.addNewCursor(\'' + i + '\')" class="cursorPointer" src="' + this.presets[i].imageSource + '">&nbsp; &nbsp;';
-				}
-				tempList += '<br><button onclick="apps.petCursors.vars.addNewCursor()">Custom</button><br><br>'
-				getId('petCursorsPresets').innerHTML = tempList;
-			},
-			aggressiveChase: 0,
-			presets: {
-				breezeDefault: {
-					imageName: 'Breeze',
-					imageSource: 'cursors/beta/default.png',
-					imageSize: [41, 41],
-					imageCenter: [3, 3],
-					distance: 50,
-					speed: 25,
-					personality: 15
-				},
-				/*
-				crosshair: {
-						imageName: 'Crosshair',
-						imageSource: 'cursors/crosshair.png',
-						imageCenter: [16, 16],
-						distance: -1,
-						speed: 30,
-						personality: 5
-				},
-				*/
-				alphaDefault: {
-					imageName: 'aOS Alpha',
-					imageSource: 'cursors/default.png',
-					imageSize: [18, 25],
-					imageCenter: [3, 3],
-					distance: 50,
-					speed: 20,
-					personality: 30
-				},
-				winDefault: {
-					imageName: 'Windows',
-					imageSource: 'cursors/aeroCursor.png',
-					imageSize: [14, 21],
-					imageCenter: [0, 0],
-					distance: 35,
-					speed: 20,
-					personality: 1
-				},
-				orangeCat: {
-					imageName: 'Orange Kitten',
-					imageSource: 'cursors/cat.png',
-					imageSize: [48, 48],
-					imageCenter: [24, 24],
-					distance: 200,
-					speed: 3,
-					personality: 50
-				},
-				grayCat: {
-					imageName: 'Gray Kitten',
-					imageSource: 'cursors/cat2.png',
-					imageSize: [48, 48],
-					imageCenter: [24, 24],
-					distance: 100,
-					speed: 5,
-					personality: 20
-				},
-				foxxo: {
-					imageName: 'Foxxo',
-					imageSource: 'cursors/foxxo.png',
-					imageSize: [48, 48],
-					imageCenter: [24, 24],
-					distance: 100,
-					speed: 5,
-					personality: 50
-				}
-			},
-			buildCursorList: function() {
-				var tempList = '';
-				for (var i in this.cursors) {
-					tempList += '<li>' +
-						'Name: <input id="petCursorName_' + i + '" placeholder="Name" value="' + this.cursors[i].cursorName + '"> ' +
-						'<button onclick="apps.petCursors.vars.updateCursor(' + i + ')">Update Cursor</button> ' +
-						'<button onclick="apps.petCursors.vars.deleteCursor(' + i + ')">Delete Cursor</button>' +
-						'</li>' +
-						'<ul>' +
-						'<li>Image URL: <input id="petCursorImage_' + i + '" placeholder="https://" value="' + this.cursors[i].cursorImage + '"></li>' +
-						'<li>Image Size: <input id="petCursorSize_' + i + '" size="3" placeholder="[w, h]" value="' + JSON.stringify(this.cursors[i].cursorSize || 'null') + '"></li>' +
-						'<li>Image Center: <input id="petCursorOffset_' + i + '" size="3" placeholder="[x, y]" value="' + JSON.stringify(this.cursors[i].cursorCenter) + '"></li>' +
-						'<li>Follow Distance: <input id="petCursorDistance_' + i + '" size="1" placeholder="50" value="' + this.cursors[i].followDistance + '"></li>' +
-						'<li>Follow Speed: <input id="petCursorSpeed_' + i + '" size="1" placeholder="25" value="' + this.cursors[i].followSpeed + '"></li>' +
-						'<li>Personality: <input id="petCursorPersonality_' + i + '" size="1" placeholder="25" value="' + this.cursors[i].personality + '"></li>' +
-						'</ul>';
-				}
-				getId('petCursorsList').innerHTML = tempList;
-			},
-			cursors: [{
-				cursorName: 'Breeze',
-				cursorImage: 'cursors/beta/default.png',
-				cursorSize: [41, 41],
-				cursorCenter: [3, 3],
-				followDistance: 50,
-				followSpeed: 25,
-				personality: 15
-			}],
-			addNewCursor: function (preset) {
-				if (preset) {
-					this.cursors.push({
-						cursorName: this.presets[preset].imageName,
-						cursorImage: this.presets[preset].imageSource,
-						cursorSize: this.presets[preset].imageSize,
-						cursorCenter: this.presets[preset].imageCenter,
-						followDistance: this.presets[preset].distance,
-						followSpeed: this.presets[preset].speed,
-						personality: this.presets[preset].personality
-					});
-					this.rebuildCursors();
-					this.saveCursors();
-				} else {
-					this.cursors.push({
-						cursorName: '',
-						cursorImage: '',
-						cursorSize: null,
-						cursorCenter: [0, 0],
-						followDistance: 50,
-						followSpeed: 25,
-						personality: 15
-					});
-				}
-				this.buildCursorList();
-			},
-			updateCursor: function (id) {
-				this.cursors[id] = {
-					cursorName: getId('petCursorName_' + id).value,
-					cursorImage: getId('petCursorImage_' + id).value,
-					cursorSize: JSON.parse(getId('petCursorSize_' + id).value || 'null'),
-					cursorCenter: JSON.parse(getId('petCursorOffset_' + id).value),
-					followDistance: parseInt(getId('petCursorDistance_' + id).value),
-					followSpeed: parseFloat(getId('petCursorSpeed_' + id).value),
-					personality: parseInt(getId('petCursorPersonality_' + id).value)
-				};
-				this.buildCursorList();
-				this.rebuildCursors();
-				this.saveCursors();
-			},
-			deleteCursor: function (id) {
-				this.cursors.splice(id, 1);
-				this.buildCursorList();
-				this.rebuildCursors();
-				this.saveCursors();
-			},
-			deleteAll: function() {
-				this.cursors = [];
-				this.buildCursorList();
-				this.rebuildCursors();
-				this.saveCursors();
-			},
-			saveCursors: function() {
-				ufsave('aos_system/apps/petCursors/cursors', JSON.stringify(this.cursors));
-			},
-			toggleApp: function (nosave) {
-				if (this.enabled) {
-					this.stopCursors();
-				} else {
-					this.startCursors();
-				}
-				if (!nosave) {
-					ufsave('aos_system/apps/petCursors/app_enabled', '' + this.enabled);
-				}
-			},
-			enabled: 0,
-			rebuildCursors: function() {
-				if (this.enabled) {
-					getId('petCursors').innerHTML = '';
-					for (var i in this.cursors) {
-						getId('petCursors').innerHTML += '<img id="pet_cursor_' + i + '" src="' + this.cursors[i].cursorImage + '">';
-						getId('pet_cursor_' + i).style.left = Math.round(Math.random() * parseInt(getId('monitor').style.width) - this.cursors[i].cursorCenter[0]) + 'px';
-						getId('pet_cursor_' + i).style.top = Math.round(Math.random() * parseInt(getId('monitor').style.height) - this.cursors[i].cursorCenter[1]) + 'px';
-						getId('pet_cursor_' + i).style.width = (this.cursors[i].cursorSize || ['', ''])[0] + 'px';
-						getId('pet_cursor_' + i).style.height = (this.cursors[i].cursorSize || ['', ''])[1] + 'px';
-					}
-				}
-			},
-			startCursors: function() {
-				if (!this.enabled) {
-					this.enabled = 1;
-					this.rebuildCursors();
-					getId('petCursors').style.display = 'block';
-					requestAnimationFrame(this.moveCursors);
-				}
-			},
-			stopCursors: function() {
-				this.enabled = 0;
-				getId('petCursors').style.display = 'none';
-				getId('petCursors').innerHTML = '';
-			},
-			moveCursors: function() {
-				if (apps.petCursors.vars.enabled) {
-					var mouseX = lastPageX / screenScale;
-					var mouseY = lastPageY / screenScale;
-					for (var i in apps.petCursors.vars.cursors) {
-						if (getId('pet_cursor_' + i)) {
-							var currX = parseInt(getId('pet_cursor_' + i).style.left) + apps.petCursors.vars.cursors[i].cursorCenter[0];
-							var currY = parseInt(getId('pet_cursor_' + i).style.top) + apps.petCursors.vars.cursors[i].cursorCenter[1];
-							var distX = mouseX - currX;
-							var distY = mouseY - currY;
-							var totalDist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-							if (totalDist > apps.petCursors.vars.cursors[i].followDistance * 2 || apps.petCursors.vars.aggressiveChase) {
-								currX += distX * (apps.petCursors.vars.cursors[i].followSpeed / 100) + (Math.random() * (apps.petCursors.vars.cursors[i].personality * 2) - apps.petCursors.vars.cursors[i].personality);
-								currY += distY * (apps.petCursors.vars.cursors[i].followSpeed / 100) + (Math.random() * (apps.petCursors.vars.cursors[i].personality * 2) - apps.petCursors.vars.cursors[i].personality);
-							} else if (totalDist > apps.petCursors.vars.cursors[i].followDistance) {
-								currX += distX * (apps.petCursors.vars.cursors[i].followSpeed / 200) + (Math.random() * apps.petCursors.vars.cursors[i].personality - apps.petCursors.vars.cursors[i].personality / 2);
-								currY += distY * (apps.petCursors.vars.cursors[i].followSpeed / 200) + (Math.random() * apps.petCursors.vars.cursors[i].personality - apps.petCursors.vars.cursors[i].personality / 2);
-							} else if (Math.random() < apps.petCursors.vars.cursors[i].personality * 0.001) {
-								currX += (Math.random() * (apps.petCursors.vars.cursors[i].personality * 2) - apps.petCursors.vars.cursors[i].personality);
-								currY += (Math.random() * (apps.petCursors.vars.cursors[i].personality * 2) - apps.petCursors.vars.cursors[i].personality);
-							}
-							getId('pet_cursor_' + i).style.left = Math.round(currX) - apps.petCursors.vars.cursors[i].cursorCenter[0] + "px";
-							getId('pet_cursor_' + i).style.top = Math.round(currY) - apps.petCursors.vars.cursors[i].cursorCenter[1] + "px";
-						}
-					}
-					setTimeout(apps.petCursors.vars.moveCursors, 100);
-				}
-			}
-		},
-		signalHandler: function (signal) {
-			switch (signal) {
-				case "forceclose":
-					this.appWindow.closeWindow();
-					this.appWindow.closeIcon();
-					break;
-				case "close":
-					this.appWindow.closeWindow();
-					setTimeout(function() {
-						if (getId("win_" + this.objName + "_top").style.opacity === "0") {
-							this.appWindow.setContent("");
-						}
-					}.bind(this), 300);
-					break;
-				case "checkrunning":
-					if (this.appWindow.appIcon) {
-						return 1;
-					} else {
-						return 0;
-					}
-					case "shrink":
-						this.appWindow.closeKeepTask();
-						break;
-					case "USERFILES_DONE":
-						if (ufload("aos_system/apps/petCursors/cursors")) {
-							try {
-								this.vars.cursors = JSON.parse(ufload("aos_system/apps/petCursors/cursors"));
-							} catch (err) {
-								doLog('Pet Cursors save file is corrupt!', '#F00');
-							}
-						}
-						if (ufload("aos_system/apps/petCursors/app_enabled")) {
-							if (ufload("aos_system/apps/petCursors/app_enabled") === "1") {
-								this.vars.toggleApp(1);
-							}
-						}
-						break;
-					case 'shutdown':
 
-						break;
-					default:
-						doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00");
-			}
-		}
-	});
-	getId('aOSloadingInfo').innerHTML = 'Init aOS Hub...';
-});
 c(function() {
 	apps.appCenter = new Application({
 		title: "aOS Hub",
