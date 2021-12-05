@@ -709,16 +709,13 @@ function formDate(dateStr) {
 	tempDate = "";
 	date = new Date();
 	skipKey = 0;
-	// loops thru characters and replaces them with the date
+	// Loops thru characters and replaces them with the date
 	for (var dateKey in dateStr) {
-		if (skipKey) {
-			skipKey = 0;
+		if (skipKey) skipKey = 0;
+		if (dateForms[dateStr[dateKey]]) {
+			dateForms[dateStr[dateKey]]();
 		} else {
-			if (dateForms[dateStr[dateKey]]) {
-				dateForms[dateStr[dateKey]]();
-			} else {
-				tempDate += dateStr[dateKey];
-			}
+			tempDate += dateStr[dateKey];
 		}
 	}
 	return tempDate;

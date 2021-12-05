@@ -1,291 +1,272 @@
-@font-face{
-    font-family: "aosProFont";
-    src:
-        url('ProFont/ProFontOnline.ttf') format('truetype'),
-        url('ProFont/ProFontOnline.woff') format('woff'),
-        url('ProFont/ProFontOnline.eot'),
-        url('ProFont/ProFontOnline.svg') format('svg');
+@font-face {
+	font-family: "aosProFont";
+	src:
+		url('../ProFont/ProFontOnline.ttf') format('truetype'),
+		url('../ProFont/ProFontOnline.woff') format('woff'),
+		url('../ProFont/ProFontOnline.eot'),
+		url('../ProFont/ProFontOnline.svg') format('svg');
 }
 
-html, body{
-    background:none;
-    font-family:sans-serif;
+html,
+body {
+	background: none;
+	font-family: sans-serif;
 }
 
-.transparent{
-    background: transparent !important;
-}
-.transparentDisable{
-    display: none !important;
-}
-.transparentNoClick{
-    pointer-events: none !important;
-}
-.transparentPlatform{
-    background:#FFF;
-}
-    .darkMode .transparentPlatform{
-        background:#272727;
-    }
-
-div{
-    position:relative;
+div {
+	position: relative;
 }
 
-.selectIcon{
-    width:160px; /* 128 */
-    height:calc(128px + 4em);
-    position:relative;
-    display:inline-block;
-    margin:32px;
-    margin-left:0px;
-    overflow:visible;
-    cursor:pointer !important;
-}
-.selectIcon input, .selectIcon img{
-    width:128px;
-    height:128px;
-    margin-left:32px;
-    position:absolute;
-    display:block;
-    border:none;
-    cursor:pointer;
-    outline:1px solid #7F7F7F;
-}
-.selectIcon span{
-    font-size:2em;
-    position:absolute;
-    display:block;
-    bottom:0;
-    left:0;
-    width:192px; /* 100% */
-    height:1.5em;
-    padding-top:0.5em;
+.selectIcon {
+	width: 160px;
+	height: calc(128px + 4em);
+	position: relative;
+	display: inline-block;
+	margin: 32px;
+	margin-left: 0px;
+	overflow: visible;
+	cursor: pointer !important;
 }
 
-#autoColorCanvas{
-    position:absolute;
-    display:block;
-    bottom:32px;
-    right:32px;
+.selectIcon input,
+.selectIcon img {
+	width: 128px;
+	height: 128px;
+	margin-left: 32px;
+	position: absolute;
+	display: block;
+	border: none;
+	cursor: pointer;
+	outline: 1px solid #7F7F7F;
 }
 
-#progressContainer{
-    background:#000;
-    width:100%;
-    height:5px;
-    border:1px solid #000;
-}
-#progress{
-    background:#0F0;
-    height:5px;
-}
-#songList{
-    border:1px solid #000;
-    width:100%;
-    height:calc(100% - 75px);
-    overflow:auto;
-    font-family:aosProFont, Courier, monospace;
-    font-size:12px;
-}
-#visualizer{
-    position:absolute;
-    left:3px;
-    bottom:3px;
-    width:calc(100% - 8px);
-    height:calc(100% - 81px);
-    background:#000;
-    border:1px solid #000;
-    cursor:pointer;
-}
-#visCanvas{
-    position:absolute;
-    display:block;
-    border:none;
-    background:none;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    z-index:1000;
-}
-#smokeScreen1{
-    background:url(smoke_transparent_3.png);
-    background-repeat:repeat;
-    width:100%;
-    height:100%;
-    z-index:950;
-    position:absolute;
-    opacity:1;
-}
-#smokeScreen2{
-    background:url(smoke_transparent_3.png);
-    background-repeat:repeat;
-    width:100%;
-    height:100%;
-    z-index:950;
-    position:absolute;
-    opacity:1;
-}
-#smokeCanvas{
-    position:absolute;
-    display:block;
-    border:none;
-    background:none;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    z-index:900;
-}
-#songList div{
-    cursor:pointer;
-    padding:3px;
-    margin:3px;
-}
-#songList div:hover{
-    background:rgba(127, 127, 127, 0.25);
-}
-#currentlyPlaying{
-    width:100%;
-    height:24px;
-    max-height:24px;
-    border:1px solid #000;
-    font-family:aosProFont;
-    font-size:24px;
-}
-#controls{
-    width:100%;
-    height:38px;
-    max-height:38px;
-    text-align:center;
-    border:1px solid #000;
+.selectIcon span {
+	font-size: 2em;
+	position: absolute;
+	display: block;
+	bottom: 0;
+	left: 0;
+	width: 192px;
+	height: 1.5em;
+	padding-top: 0.5em;
 }
 
-.darkMode #progressContainer, .darkMode #songList, .darkMode #currentlyPlaying, .darkMode #controls{
-    border-color:#FFF;
+#autoColorCanvas {
+	position: absolute;
+	display: block;
+	bottom: 32px;
+	right: 32px;
 }
 
-.selected{
-    background:rgba(127, 127, 127, 0.1);
-}
-.disabled{
-    display:none !important;
-}
-.unclickable{
-    opacity: 0.25;
-    pointer-events:none;
-}
-.winHTML{
-    border-radius:0 !important;
+#progressContainer {
+	background: #000;
+	width: 100%;
+	height: 5px;
+	border: 1px solid #000;
 }
 
-#selectOverlay{
-    position:absolute;
-    z-index: 1100;
-    background: rgba(0, 0, 0, 0.75);
-    width: calc(100% - 8px);
-    height: calc(100% - 81px);
-    left: 4px;
-    bottom: 4px;
-    text-align:center;
+#progress {
+	background: #0F0;
+	height: 5px;
 }
-#selectContent{
-    height:100%;
-    overflow-y:scroll;
-    position:relative;
-    text-align:left;
-    display:inline-block;
-    color:#FFF;
-    font-family:aosProFont, monospace;
-    font-size:24px;
-    background:#000;
+
+#songList {
+	border: 1px solid #000;
+	width: 100%;
+	height: calc(100% - 75px);
+	overflow: auto;
+	font-family: aosProFont, Courier, monospace;
+	font-size: 12px;
 }
-#selectContent div{
-    width:100%;
-    /*padding-right:16px;*/
-    cursor:default;
+
+#visualizer {
+	position: absolute;
+	left: 3px;
+	bottom: 3px;
+	width: calc(100% - 8px);
+	height: calc(100% - 81px);
+	background: #000;
+	border: 1px solid #000;
+	cursor: pointer;
 }
-#selectContent .visOption{
-    transition:.3s;
-    margin-top:2px;
-    line-height:48px;
-    height:48px;
+
+#songList div {
+	cursor: pointer;
+	padding: 3px;
+	margin: 3px;
 }
-.visNone{
-    height:48px !important;
-    line-height:48px !important;
+
+#songList div:hover {
+	background: rgba(127, 127, 127, 0.25);
 }
-#selectContent .visOption:hover{
-    margin-top:2px;
-    line-height:128px;
-    height:128px;
+
+#currentlyPlaying {
+	width: 100%;
+	height: 24px;
+	max-height: 24px;
+	border: 1px solid #000;
+	font-family: aosProFont;
+	font-size: 24px;
 }
-#selectContent .modOption{
-    margin-top:2px;
-    line-height:128px;
-    height:128px;
+
+#controls {
+	width: 100%;
+	height: 38px;
+	max-height: 38px;
+	text-align: center;
+	border: 1px solid #000;
 }
-#selectContent div:hover{
-    background: rgba(255, 255, 255, 0.1);
+
+.darkMode #progressContainer,
+.darkMode #songList,
+.darkMode #currentlyPlaying,
+.darkMode #controls {
+	border-color: #FFF;
 }
-#selectContent div:active{
-    background: rgba(255, 255, 255, 0.25);
+
+.selected {
+	background: rgba(127, 127, 127, 0.1);
 }
-#selectContent .visCategory{
-    background: none !important;
+
+.disabled {
+	display: none !important;
 }
-#selectContent .hiddenCategory{
-    height:1em;
+
+.unclickable {
+	opacity: 0.25;
+	pointer-events: none;
 }
-#selectContent .visOption img{
-    transition:0.3s;
-    height:48px;
-    margin-left:143px;
-    margin-right:16px;
-    margin-bottom:-16px;
+
+.winHTML {
+	border-radius: 0 !important;
 }
-#selectContent .visOption:hover img{
-    height:128px;
-    margin-left:0px;
-    margin-right:16px;
-    margin-bottom:-52px;
+
+#selectOverlay {
+	position: absolute;
+	z-index: 1100;
+	background: rgba(0, 0, 0, 0.75);
+	width: calc(100% - 8px);
+	height: calc(100% - 81px);
+	left: 4px;
+	bottom: 4px;
+	text-align: center;
 }
-#selectContent .visOption span{
-    height:128px;
-    margin-right:246px;
+
+#selectContent {
+	height: 100%;
+	overflow-y: scroll;
+	position: relative;
+	text-align: left;
+	display: inline-block;
+	color: #FFF;
+	font-family: aosProFont, monospace;
+	font-size: 24px;
+	background: #000;
 }
-#selectContent .modOption img{
-    height:128px;
-    margin-right:16px;
-    margin-bottom:-52px;
+
+#selectContent div {
+	width: 100%;
+	cursor: default;
 }
-#selectContent .modOption span{
-    height:128px;
-    margin-right:246px;
+
+#selectContent .visOption {
+	transition: .3s;
+	margin-top: 2px;
+	line-height: 48px;
+	height: 48px;
 }
-#selectContent .visOption:hover img{
-    filter:contrast(0.9) brightness(2);
+
+.visNone {
+	height: 48px !important;
+	line-height: 48px !important;
 }
-#selectContent .modOption:hover img{
-    filter:contrast(0.8);
+
+#selectContent .visOption:hover {
+	margin-top: 2px;
+	line-height: 128px;
+	height: 128px;
 }
-#selectContent .visOption:active img{
-    filter:contrast(0.9) brightness(5);
+
+#selectContent .modOption {
+	margin-top: 2px;
+	line-height: 128px;
+	height: 128px;
 }
-#selectContent .colorOption{
-    text-align:left;
-    padding-top:8px;
-    padding-bottom:8px;
+
+#selectContent div:hover {
+	background: rgba(255, 255, 255, 0.1);
 }
-#selectContent .colorOption img{
-    width:32px;
-    height:32px;
-    margin-top:-8px;
-    margin-bottom:-10px;
+
+#selectContent div:active {
+	background: rgba(255, 255, 255, 0.25);
 }
-#selectBackground{
-    position:absolute;
-    width:100%;
-    height:100%;
+
+#selectContent .visCategory {
+	background: none !important;
+}
+
+#selectContent .hiddenCategory {
+	height: 1em;
+}
+
+#selectContent .visOption img {
+	transition: 0.3s;
+	height: 48px;
+	margin-left: 143px;
+	margin-right: 16px;
+	margin-bottom: -16px;
+}
+
+#selectContent .visOption:hover img {
+	height: 128px;
+	margin-left: 0px;
+	margin-right: 16px;
+	margin-bottom: -52px;
+}
+
+#selectContent .visOption span {
+	height: 128px;
+	margin-right: 246px;
+}
+
+#selectContent .modOption img {
+	height: 128px;
+	margin-right: 16px;
+	margin-bottom: -52px;
+}
+
+#selectContent .modOption span {
+	height: 128px;
+	margin-right: 246px;
+}
+
+#selectContent .visOption:hover img {
+	filter: contrast(0.9) brightness(2);
+}
+
+#selectContent .modOption:hover img {
+	filter: contrast(0.8);
+}
+
+#selectContent .visOption:active img {
+	filter: contrast(0.9) brightness(5);
+}
+
+#selectContent .colorOption {
+	text-align: left;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+#selectContent .colorOption img {
+	width: 32px;
+	height: 32px;
+	margin-top: -8px;
+	margin-bottom: -10px;
+}
+
+#selectBackground {
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
