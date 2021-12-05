@@ -89,18 +89,6 @@
             },
             "description": "A top-down defense game where you are tasked with defending a house from invaders. (it's a bit loud)"
         },
-        "calculator": {
-            "packageName": "Calculator",
-            "packageID": "calculator",
-            "packageAliases": [],
-            "version": "1.0",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/calculator.json",
-            "icon": {
-                "foreground": "appicons/ds/Clc.png"
-            },
-            "description": "Calculator made by Aaron while learning JavaScript. Includes some custom functions."
-        },
         "gtk2aos": {
             "packageName": "GTK3 Style Converter",
             "packageID": "gtk2aos",
@@ -124,18 +112,6 @@
                 "foreground": "appicons/ds/CSE.png"
             },
             "description": "JS Paint was developed by Isaiah Odhner and embedded into an aOS app with his permission.\n\nFull site at https://jspaint.app"
-        },
-        "tijs": {
-            "packageName": "TI-BASIC to JS",
-            "packageID": "tijs",
-            "packageAliases": ["calculator", "prgm", "texas", "instruments", "TI-83+"],
-            "version": "1.1",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/tijs.json",
-            "icon": {
-                "foreground": "appicons/ds/Clc.png"
-            },
-            "description": "Convert TI-BASIC code into JS code compatible with a simulated text display and canvas."
         },
         "textToBin": {
             "packageName": "Text to Binary",
