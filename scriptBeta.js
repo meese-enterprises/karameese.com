@@ -122,12 +122,6 @@ if (typeof document.getElementsByClassName === 'undefined') {
 var safeMode = (window.location.href.indexOf('safe=true') > -1);
 var safe = !safeMode;
 
-// Style editor template mode
-var themeEditorTemplateMode = (window.location.href.indexOf('themetemplate=true') > -1);
-if (!themeEditorTemplateMode) {
-	themeEditorTemplateMode = (window.location.href.indexOf('styletemplate=true') > -1);
-}
-
 var darkMode = 0;
 function darkSwitch(light, dark) {
 	if (darkMode) {
@@ -471,14 +465,12 @@ var langContent = {
 			internet: "The Internet",
 			aerotest: "Transparent Window",
 			savemaster: "SaveMaster",
-			mouserecord: "Mouse Recorder",
 			ti: "TI-83+ Simulator",
 			appAPI: "aOS API",
 			appmaker: "Legacy App Maker",
 			search: "Search",
 			image: "aOSimg Editor",
 			messaging: "Messaging",
-			camera: "Camera",
 			help: "aOS Help",
 			musicVis: "Music Visualiser",
 			perfMonitor: "Performance Monitor",
@@ -495,7 +487,6 @@ var langContent = {
 			extDebug: "External Debug",
 			mouseControl: "Alternate Mouse Control",
 			onlineDebug: "Online Debug Connection",
-			fileBin: "File Binary",
 			magnifier: "Magnifier",
 			jana: "Jana",
 			cookieClicker: "Cookie Clicker"
@@ -851,10 +842,9 @@ getId("icons").innerHTML = "";
 
 // Function to ping the aOS server
 m('init ping functions');
-var aOSpingxhttp = {};
-
 function aOSping(callbackScript) {
 	d(1, 'Pinging aOS...');
+	var aOSpingxhttp = {};
 	aOSpingxhttp = new XMLHttpRequest();
 	aOSpingxhttp.onreadystatechange = function() {
 		if (aOSpingxhttp.readyState === 4) {
@@ -872,7 +862,6 @@ function aOSping(callbackScript) {
 
 // Ping the CORS proxy
 var corspingxhttp = {};
-
 function corsPing(callbackScript) {
 	d(2, 'Pinging CORS...');
 	corspingxhttp = new XMLHttpRequest();
@@ -9325,7 +9314,7 @@ c(function() {
 					stepContent: '<p>AaronOS is host to many apps that don\'t come installed by default. ' +
 						'If you\'re looking for new apps, the aOS Hub is the place to look. It is easily accessible from the desktop or the Dashboard.</p>' +
 						'<button onclick="apps.help.vars.showMeHideHighlight(getId(\'app_appCenter\'));">Show Me the aOS Hub</button>' +
-						'<p>On the aOS Hub, you will be able to find both official and third-party applications, system themes, and custom scripts. ' +
+						'<p>On the aOS Hub, you will be able to find both official and third-party applications and custom scripts. ' +
 						'Installing most of these is as simple as clicking the "Install" button on their entry. ' +
 						'Don\'t worry, you won\'t need to install anything to your actual device.</p>' +
 						'<p>App developers are able to create their own entries as well, and share them on the Hub with a Repository link. ' +
@@ -9544,8 +9533,7 @@ c(function() {
 							'<p>The three buttons grouped together will minimize, maximize, or close a window. ' +
 							'The additional button on the opposite side will fold the window up into its caption, allowing you to see behind it. ' +
 							'Additionally, right-clicking the caption will show extra options, such as app information or keeping the window on top of others.</p>' +
-							'<p>Windows in AaronOS are heavily configurable in the Settings app. Among other things, you can toggle the system light / dark theme.' +
-							'Additionally, the overall system theme can be customized with Hub themes, or with the Style Editor, if you know CSS.</p>'
+							'<p>Windows in AaronOS are heavily configurable in the Settings app. Among other things, you can toggle the system light / dark theme.'
 					},
 					dashboard: {
 						menuTitle: "Dashboard",
@@ -10603,7 +10591,6 @@ c(function() {
 				readsetting: "Read Settings",
 				writesetting: "Write Settings",
 				js: "Execute JavaScript",
-				getstyle: "System Theme",
 				context: "Context Menus",
 				appwindow: "App Window",
 				bgservice: "Background Service"
@@ -10614,7 +10601,6 @@ c(function() {
 				readsetting: "read your settings on aOS",
 				writesetting: "change your settings on aOS",
 				js: "execute JavaScript code on aOS (DANGEROUS! MAKE SURE YOU COMPLETELY TRUST THE DEVELOPER!)",
-				getstyle: "read and synchronize with your system theme",
 				context: "use various context menus",
 				appwindow: "manipulate its window and block the screensaver",
 				bgservice: "run in the background"
@@ -12112,149 +12098,6 @@ c(function() {
 			}
 		}
 	});
-	getId('aOSloadingInfo').innerHTML = 'System Theme Editor';
-});
-c(function() {
-	apps.themeEdit = new Application({
-		title: "System Theme Editor",
-		abbreviation: "STE",
-		codeName: "themeEdit",
-		image: 'appicons/ds/CSE.png',
-		hideApp: 1,
-		main: function() {
-			if (!this.appWindow.appIcon) {
-				if (themeEditorTemplateMode) {
-					this.appWindow.setDims("auto", "auto", 400, 500);
-					this.appWindow.setCaption("System Theme Preview");
-					this.appWindow.setContent(
-						'<h1>Header</h1><p>Paragraph</p><hr><input placeholder="Input"> <button>Button</button><br><input type="checkbox"> <input type="checkbox" checked="checked"> <input type="radio"> <input type="radio" checked="checked"><br><textarea>Text Area</textarea>' +
-						'<hr>Hovered Element:<br>' +
-						'<span class="liveElement" style="font-family:monospace" data-live-eval="apps.themeEdit.vars.templateType">none</span><br>' +
-						'<span class="liveElement" style="font-family:monospace" data-live-eval="apps.themeEdit.vars.templateID">none</span><br>' +
-						'<span class="liveElement" style="font-family:monospace" data-live-eval="apps.themeEdit.vars.templateClass">none</span>' +
-						'<hr>Parent of Hovered Element:<br>' +
-						'<span class="liveElement" style="font-family:monospace" data-live-eval="apps.themeEdit.vars.templateParent">none</span>');
-					apps.prompt.vars.notify("Test Notification", ["Dismiss"], function() {}, "Theme Editor", "appicons/ds/CSE.png");
-					window.addEventListener("mousemove", apps.themeEdit.vars.templateCheck);
-				} else {
-					this.appWindow.paddingMode(0);
-					this.appWindow.setDims("auto", "auto", 400, 400);
-					this.appWindow.toggleFullscreen();
-					this.appWindow.setCaption('System Theme Editor');
-					this.appWindow.setContent(
-						'<iframe data-parent-app="themeEdit" src="ace/themeEdit.html" id="themeEditEnv" style="padding:0;border:none;width:calc(50% - 1px);height:90%;border-right:1px solid #7F7F7F;"></iframe>' +
-						'<iframe data-parent-app="themeEdit" src="aosBeta.php?themetemplate=true&nofiles=true" id="themeEditframe" style="position:absolute;right:0;top:0;border:none;display:block;width:50%;height:90%" onload="apps.themeEdit.vars.updateFrame()"></iframe>' +
-						'<button style="position:absolute;bottom:0;left:0;width:50%;height:10%;" onclick="apps.themeEdit.vars.saveStyleEditor()">Save</button>' +
-						'<button style="position:absolute;bottom:0;right:0;width:50%;height:10%;" onclick="apps.themeEdit.vars.helpStyleEditor()">Help</button>'
-					);
-				}
-			}
-			this.appWindow.openWindow();
-		},
-		vars: {
-			appInfo: 'Create your own system theme for aOS! It is embedded as an actual stylesheet, placed such that it overrides the default styles.<br><br>If you create something you want to be featured in aOS, please tell the developer so he can take a look!',
-			saveStyleEditor: function() {
-				ufsave('aos_system/user_custom_style', getId("themeEditEnv").contentWindow.editor.getValue());
-				getId('aosCustomStyle').innerHTML = getId("themeEditEnv").contentWindow.editor.getValue();
-			},
-			helpStyleEditor: function() {
-				apps.prompt.vars.alert('WARNING - ADVANCED USERS ONLY<br>The Custom Stylesheet is your very own set of styling rules for aOS. Use it to style aOS to your whim - theoretically, every element of the OS can be customized with this file.<br><br>You can check out style.css for the default stylesheet, and use your browser\'s developer tools to get easier access to elements as they are shown on-screen.', 'Okay, thanks.', function() {}, 'Boot Script');
-			},
-			updateFrame: function (text) {
-				if (typeof text === 'string') {
-					getId("themeEditframe").contentDocument.getElementById('aosCustomStyle').innerHTML = text;
-				} else {
-					getId("themeEditframe").contentDocument.getElementById("aosCustomStyle").innerHTML = getId("aosCustomStyle").innerHTML;
-				}
-			},
-			templateCheck: function (event) {
-				var elem = document.elementFromPoint(event.pageX, event.pageY);
-				if (elem.tagName) {
-					apps.themeEdit.vars.templateType = '&lt;' + elem.tagName.toLowerCase() + '&gt;';
-					var elemRect = elem.getBoundingClientRect();
-					getId("windowFrameOverlay").style.display = "block";
-					getId("windowFrameOverlay").style.left = elemRect.left + "px";
-					getId("windowFrameOverlay").style.top = elemRect.top + "px";
-					getId("windowFrameOverlay").style.width = elemRect.width + "px";
-					getId("windowFrameOverlay").style.height = elemRect.height + "px";
-				} else {
-					apps.themeEdit.vars.templateType = 'no element';
-				}
-				if (elem.id) {
-					apps.themeEdit.vars.templateID = '#' + elem.id;
-				} else {
-					apps.themeEdit.vars.templateID = 'no ID';
-				}
-				if (elem.classList.length > 0) {
-					var allClasses = elem.classList;
-					apps.themeEdit.vars.templateClass = '';
-					for (var i = 0; i < allClasses.length; i++) {
-						apps.themeEdit.vars.templateClass += '.' + allClasses[i] + '<br>';
-					}
-				} else {
-					apps.themeEdit.vars.templateClass = 'no class';
-				}
-				if (elem.parentNode) {
-					apps.themeEdit.vars.templateParent = '&lt;' + elem.parentNode.tagName.toLowerCase() + '&gt;';
-					if (elem.parentNode.id) {
-						apps.themeEdit.vars.templateParent += '<br>#' + elem.parentNode.id;
-					} else {
-						apps.themeEdit.vars.templateParent += '<br>no ID';
-					}
-					if (elem.parentNode.classList.length > 0) {
-						apps.themeEdit.vars.templateParent += '<br>.' + [...elem.parentNode.classList].join("<br>.");
-					} else {
-						apps.themeEdit.vars.templateParent += '<br>no class';
-					}
-				} else {
-					apps.themeEdit.vars.templateParent = 'no parent';
-				}
-			},
-			templateType: 'no element',
-			templateID: 'no ID',
-			templateClass: 'no class',
-			templateParent: 'no parent',
-		},
-		signalHandler: function (signal) {
-			switch (signal) {
-				case "forceclose":
-					this.appWindow.closeWindow();
-					this.appWindow.closeIcon();
-					break;
-				case "close":
-					this.appWindow.closeWindow();
-					setTimeout(function() {
-						if (getId("win_" + this.objName + "_top").style.opacity === "0") {
-							this.appWindow.setContent("");
-						}
-					}.bind(this), 300);
-					break;
-				case "checkrunning":
-					if (this.appWindow.appIcon) {
-						return 1;
-					} else {
-						return 0;
-					}
-					case "shrink":
-						this.appWindow.closeKeepTask();
-						break;
-					case "USERFILES_DONE":
-						if (themeEditorTemplateMode) {
-							openapp(apps.themeEdit, "dsktp");
-							setTimeout(function() {
-								toTop(apps.themeEdit);
-							}, 1000);
-						}
-						break;
-					case 'shutdown':
-
-						break;
-					default:
-						doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00");
-			}
-		}
-	});
-	getId('aOSloadingInfo').innerHTML = 'Function Grapher';
 });
 
 c(function() {
