@@ -557,21 +557,8 @@ var colors = {
 	}
 }
 
-var currColor = "karaColors";
-function setColor(newcolor) {
-	if (colors[newcolor]) {
-		currColor = newcolor;
-	} else {
-		currColor = "redgreenblue";
-	}
-	progressBar.style.outline = "2px solid " + getColor(255);
-	if (vis[currVis].sizechange) {
-		vis[currVis].sizechange();
-	}
-}
-
 function getColor(power, position) {
-	return colors[currColor].func(power, position);
+	return colors["karaColors"].func(power, position);
 }
 progressBar.style.outline = "2px solid " + getColor(255);
 
