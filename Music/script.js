@@ -70,27 +70,15 @@ function setVolume(newVolume) {
 }
 
 var analyser;
-var visDataBuffer;
 var visData;
 var songList = getId("songList");
 var progressBar = getId("progress");
-var size;
 var fileNames = [];
 var fileInfo = {};
 var currentSong = -1;
 var winsize = [window.innerWidth, window.innerHeight];
 var size = [window.innerWidth - 8, window.innerHeight - 81];
 var supportedFormats = ['aac', 'aiff', 'wav', 'm4a', 'mp3', 'amr', 'au', 'weba', 'oga', 'wma', 'flac', 'ogg', 'opus', 'webm'];
-var PowerMod = {
-	mod: function () {
-		for (var i = 0; i < 128; i++) {
-			visData[i] = Math.pow(visData[i], 2) / 255;
-		}
-	},
-	test: function (input) {
-		return Math.pow(input, 2) / 255;
-	}
-}
 
 function generateSongInfo() {
 	var tempFileInfo = {
@@ -414,14 +402,7 @@ function toggleAmbience() {
 	}
 }
 
-var winsize = [window.innerWidth, window.innerHeight];
-var size = [window.innerWidth - 8, window.innerHeight - 81];
-
-var fps = 0;
-var currFPS = "0";
-var lastSecond = 0;
 var debugColors = ["#C00", "#0A0"];
-
 var canvasElement = getId("visCanvas");
 var canvas = canvasElement.getContext("2d");
 
@@ -461,9 +442,8 @@ function globalFrame() {
 	if (currVis !== "none") {
 		analyser.getByteFrequencyData(visData);
 
-		// if the audio's volume is lowered, the visualizer can't hear it
-		// attempt to artificially bring the volume back up to full
-		// very mixed results
+		// If the audio's volume is lowered, the visualizer can't hear it, so
+		// this attempts to artificially bring the volume back up to full
 		if (audio.volume < 0.9) {
 			var gainFactor = 0.9 - audio.volume + 1;
 			for (var i = 0; i < visData.length; i++) {
@@ -471,18 +451,13 @@ function globalFrame() {
 			}
 		}
 
-		// if mod is selected, modify the data values
-		PowerMod.mod();
-
-		// do the visualizer
-		vis[currVis].frame();
-		fps++;
-		var currSecond = (new Date().getSeconds());
-		if (currSecond !== lastSecond) {
-			currFPS = fps;
-			fps = 0;
-			lastSecond = currSecond;
+		// Modify the data values with Power
+		for (let i = 0; i < 128; i++) {
+			visData[i] = Math.pow(visData[i], 2) / 255;
 		}
+
+		// Do the visualizer
+		vis[currVis].frame();
 	}
 }
 
@@ -528,37 +503,28 @@ function gcalc(grad, value) {
 	return grad[0][1];
 }
 
-const barbie = "#fe00c0";
+const barbie       = "#fe00c0";
 const cotton_candy = "#fa87f4";
-const barney = "#9701ff";
-const bsod = "#4900ff";
-const blue_razz = "#01b9ff";
-const carribbean = "#01fff8";
+const barney       = "#9701ff";
+const bsod         = "#4900ff";
+const blue_razz    = "#01b9ff";
+const carribbean   = "#01fff8";
+const VaporwaveColors = [cotton_candy, barbie, barney, bsod, blue_razz, carribbean];
 
-var colors = {
-	karaColors: {
-		name: "Kara Colors",
-		func: function (amount, position) {
-			if (typeof position === "number") {
-				var numOfCols = this.vaporwaveColors.length;
-				var selCol = Math.floor(position / 255 * numOfCols);
-				if (selCol < 0) selCol = 0;
-				if (selCol > numOfCols - 1) selCol = numOfCols;
-				return this.vaporwaveColors[selCol];
-			} else {
-				var numOfCols = this.vaporwaveColors.length;
-				var selCol = Math.floor(amount / 255 * numOfCols);
-				if (selCol < 0) selCol = 0;
-				if (selCol > numOfCols - 1) selCol = numOfCols;
-				return this.vaporwaveColors[selCol];
-			}
-		},
-		vaporwaveColors: [cotton_candy, barbie, barney, bsod, blue_razz, carribbean]
+const getColor = (amount, position) => {
+	if (typeof position === "number") {
+		let numOfCols = VaporwaveColors.length;
+		let selCol = Math.floor(position / 255 * numOfCols);
+		if (selCol < 0) selCol = 0;
+		if (selCol > numOfCols - 1) selCol = numOfCols;
+		return VaporwaveColors[selCol];
+	} else {
+		let numOfCols = VaporwaveColors.length;
+		let selCol = Math.floor(amount / 255 * numOfCols);
+		if (selCol < 0) selCol = 0;
+		if (selCol > numOfCols - 1) selCol = numOfCols;
+		return VaporwaveColors[selCol];
 	}
-}
-
-function getColor(power, position) {
-	return colors["karaColors"].func(power, position);
 }
 progressBar.style.outline = "2px solid " + getColor(255);
 
@@ -570,9 +536,7 @@ var vis = {
 			getId("visualizer").classList.add("disabled");
 			getId("songList").classList.remove("disabled");
 		},
-		frame: function () {
-
-		},
+		frame: function () {},
 		stop: function () {
 			getId("visualizer").classList.remove("disabled");
 			getId("songList").classList.add("disabled");
@@ -691,11 +655,11 @@ var vis = {
 			xdist = Math.min(xdist, ydist);
 			var colorstep = 255 / this.lineCount;
 			var ringPools = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-			for (var i = 0; i < 64; i++) {
+			for (let i = 0; i < 64; i++) {
 				var currPool = Math.floor(i / (64 / 9));
 				ringPools[currPool] = Math.max(visData[i], ringPools[currPool]);
 			}
-			for (var i = 0; i < this.lineCount; i++) {
+			for (let i = 0; i < this.lineCount; i++) {
 				var strength = ringPools[i] * 0.85;
 				canvas.strokeStyle = getColor(strength, i * colorstep);
 
@@ -756,9 +720,7 @@ var vis = {
 			canvas.lineCap = "square";
 			canvas.lineWidth = 1;
 		},
-		sizechange: function () {
-
-		},
+		sizechange: function () {},
 		lineWidth: 6,
 		lineCount: 9,
 		sqrt255: Math.sqrt(255),
@@ -775,7 +737,6 @@ var vis = {
 			var y3 = p3.y;
 
 			var a = x1 * (y2 - y3) - y1 * (x2 - x3) + x2 * y3 - x3 * y2;
-
 			var b = (x1 * x1 + y1 * y1) * (y3 - y2) +
 				(x2 * x2 + y2 * y2) * (y1 - y3) +
 				(x3 * x3 + y3 * y3) * (y2 - y1);
@@ -803,11 +764,7 @@ var vis = {
 		},
 		frame: function () {
 			canvas.clearRect(0, 0, size[0], size[1]);
-			var avg = 0;
-			for (var i = 0; i < 12; i++) {
-				avg += visData[i];
-			}
-			avg /= 12;
+			let avg = visData.reduce((sum, num) => sum + num) / visData.length;
 			this.graph.push(avg);
 			while (this.graph.length > size[0]) {
 				this.graph.shift();
@@ -838,15 +795,12 @@ var vis = {
 		frame: function () {
 			analyser.getByteTimeDomainData(this.waveArray);
 			canvas.clearRect(0, 0, size[0], size[1]);
-			var avg = 0;
-			for (var i = 0; i < 12; i++) {
-				avg += visData[i];
-			}
-			avg /= 12;
-			var multiplier = size[1] / 255;
-			var step = this.arrsize / size[0];
+			let avg = visData.reduce((sum, num) => sum + num) / visData.length;
+			let multiplier = size[1] / 255;
+			let step = this.arrsize / size[0];
 			canvas.lineWidth = 2;
-			for (var i = 0; i < size[0]; i++) {
+
+			for (let i = 0; i < size[0]; i++) {
 				canvas.strokeStyle = getColor(avg, 255 - i / size[0] * 255);
 				canvas.beginPath();
 				canvas.moveTo(size[0] - i - 1.5, size[1] - (this.waveArray[Math.round(i * step)] / 2 * multiplier) - size[1] / 4);
@@ -854,9 +808,7 @@ var vis = {
 				canvas.stroke();
 			}
 		},
-		stop: function () {
-
-		},
+		stop: function () {},
 		waveArray: new Uint8Array()
 	}
 };
