@@ -1,3 +1,6 @@
+import { getId } from "./HelperFunctions.js";
+import { AudioVisualizer } from "./AudioVisualizer.js";
+
 var aosToolsConnected = 0;
 var newScriptTag = document.createElement("script");
 newScriptTag.setAttribute("data-light", "true");
@@ -7,15 +10,10 @@ document.head.appendChild(newScriptTag);
 window.aosTools_connectListener = function () {
 	aosTools.openWindow();
 	aosToolsConnected = 1;
-	aosTools.getBorders(recieveWindowBorders);
 }
-
-// ask for window type
-var windowType = "opaque";
 
 // prevent the display from going to sleep
 var preventingSleep = 0;
-var sleepID = null;
 function blockSleep() {
 	if (!preventingSleep && aosToolsConnected) {
 		aosTools.blockScreensaver(() => {});
@@ -34,20 +32,8 @@ window.onerror = function (errorMsg, url, lineNumber) {
 	console.log("oof, u got a error\n\n" + url + '[' + lineNumber + ']:\n' + errorMsg);
 }
 
-function getId(target) {
-	return document.getElementById(target);
-}
-
-var windowBorders = [6, 35, 0];
-function recieveWindowBorders(response) {
-	windowBorders = [
-		response.content.left + response.content.right,
-		response.content.top + response.content.bottom,
-		1
-	];
-}
-
 var audio = new Audio();
+window.audio = audio;
 var audioDuration = 1;
 
 function updateProgress() {
@@ -193,6 +179,7 @@ function selectSong(id) {
 		}
 	}
 }
+window.selectSong = selectSong;
 
 function play() {
 	if (currentSong === -1) {
@@ -208,12 +195,14 @@ function play() {
 	}
 	getId("playbutton").innerHTML = "<b>&nbsp;||&nbsp;</b>";
 }
+window.play = play;
 
 function pause() {
 	audio.pause();
 	unblockSleep();
 	getId("playbutton").innerHTML = "&#9658;";
 }
+window.pause = pause;
 
 function firstPlay() {
 	audioDuration = audio.duration;
@@ -235,6 +224,7 @@ function setProgress(e) {
 		}
 	}
 }
+window.setProgress = setProgress;
 
 function back() {
 	if (audio.currentTime < 3) {
@@ -252,6 +242,7 @@ function back() {
 		}
 	}
 }
+window.back = back;
 
 var ambienceWaiting = 0;
 var ambienceTimeout = null;
@@ -276,6 +267,7 @@ function next() {
 	}
 	selectSong(currentSong);
 }
+window.next = next;
 
 function ambienceNext() {
 	if (ambienceWaiting) {
@@ -328,6 +320,7 @@ function shuffle() {
 	listSongs();
 	selectSong(0);
 }
+window.shuffle = shuffle;
 
 var ambienceMode = 0;
 function toggleAmbience() {
@@ -339,37 +332,22 @@ function toggleAmbience() {
 		songEnd();
 	}
 }
+window.toggleAmbience = toggleAmbience;
 
 var debugColors = ["#C00", "#0A0"];
-var canvasElement = getId("visCanvas");
-var canvas = canvasElement.getContext("2d");
-
-var highFreqRange = 0;
 var perfLast = performance.now();
 var perfCurrent = perfLast;
-var perfTime = 0;
-var fpsApproximate = 60;
-var fpsCompensation = 1;
 
 function globalFrame() {
 	requestAnimationFrame(globalFrame);
 	perfLast = perfCurrent;
 	perfCurrent = performance.now();
-	perfTime = perfCurrent - perfLast;
-	fpsApproximate = 1000 / perfTime;
-	fpsCompensation = 0.5 / (fpsApproximate / 60);
-
-	// fpsCompensation is a helper for adjusting timing based on the FPS
-	// multiply a value by fpsCompensation to adjust it to the current performance.
-	// 120fps = 0.5
-	// 60fps = 1
-	// 30fps = 2
 
 	if (winsize[0] !== window.innerWidth || winsize[1] !== window.innerHeight) {
 		winsize = [window.innerWidth, window.innerHeight];
-		size = [window.innerWidth - 8, window.innerHeight - 81];
-		getId("visCanvas").width = size[0];
-		getId("visCanvas").height = size[1];
+		window.size = [window.innerWidth - 8, window.innerHeight - 81];
+		getId("visCanvas").width = window.size[0];
+		getId("visCanvas").height = window.size[1];
 		if (currVis !== "none") {
 			if (vis[currVis].sizechange) {
 				vis[currVis].sizechange();
@@ -378,20 +356,20 @@ function globalFrame() {
 	}
 
 	if (currVis !== "none") {
-		analyser.getByteFrequencyData(visData);
+		window.analyser.getByteFrequencyData(window.visData);
 
 		// If the audio's volume is lowered, the visualizer can't hear it, so
 		// this attempts to artificially bring the volume back up to full
 		if (audio.volume < 0.9) {
 			var gainFactor = 0.9 - audio.volume + 1;
-			for (var i = 0; i < visData.length; i++) {
-				visData[i] = Math.floor(visData[i] * gainFactor);
+			for (var i = 0; i < window.visData.length; i++) {
+				window.visData[i] = Math.floor(window.visData[i] * gainFactor);
 			}
 		}
 
 		// Modify the data values with Power
 		for (let i = 0; i < 128; i++) {
-			visData[i] = Math.pow(visData[i], 2) / 255;
+			window.visData[i] = Math.pow(window.visData[i], 2) / 255;
 		}
 
 		// Do the visualizer
@@ -464,298 +442,17 @@ const getColor = (amount, position) => {
 		return VaporwaveColors[selCol];
 	}
 }
+window.getColor = getColor;
 progressBar.style.outline = "2px solid " + getColor(255);
 
 var currVis = null;
-var vis = {
-	none: {
-		name: "Song List",
-		start: function () {
-			getId("visualizer").classList.add("disabled");
-			getId("songList").classList.remove("disabled");
-		},
-		frame: function () {},
-		stop: function () {
-			getId("visualizer").classList.remove("disabled");
-			getId("songList").classList.add("disabled");
-		}
-	},
-	monstercat: {
-		name: "Monstercat",
-		image: "visualizers/monstercat.png",
-		start: function () {
-
-		},
-		frame: function () {
-			canvas.clearRect(0, 0, size[0], size[1]);
-			var left = size[0] * 0.1;
-			var maxWidth = size[0] * 0.8;
-			var barWidth = maxWidth / 96;
-			var barSpacing = maxWidth / 64;
-			var maxHeight = size[1] * 0.5 - size[1] * 0.2;
-
-			var monstercatGradient = canvas.createLinearGradient(0, Math.round(size[1] / 2) + 4, 0, size[1]);
-			monstercatGradient.addColorStop(0, 'rgba(0, 0, 0, 0.8)'); // 0.8
-			monstercatGradient.addColorStop(0.025, 'rgba(0, 0, 0, 0.9)'); // 0.9
-			monstercatGradient.addColorStop(0.1, 'rgba(0, 0, 0, 1)'); // 1
-
-			for (var i = 0; i < 64; i++) {
-				var strength = visData[i];
-
-				var fillColor = getColor(strength, i * 4);
-				canvas.fillStyle = fillColor;
-				canvas.fillRect(
-					Math.round(left + i * barSpacing),
-					Math.floor(size[1] / 2) - Math.round(strength / 255 * maxHeight),
-					Math.round(barWidth),
-					Math.round(strength / 255 * maxHeight + 5)
-				);
-				
-				if (strength > 10) {
-					canvas.fillRect(
-						Math.round(left + i * barSpacing),
-						Math.floor(size[1] / 2) + 4,
-						Math.round(barWidth),
-						Math.round(10 / 255 * maxHeight + 4)
-					);
-					canvas.fillRect(
-						Math.round(left + i * barSpacing - 1),
-						Math.floor(size[1] / 2) + 4 + (10 / 255 * maxHeight) + 4,
-						Math.round(barWidth + 2),
-						Math.round((strength - 10) / 255 * maxHeight)
-					);
-				} else {
-					canvas.fillRect(
-						Math.round(left + i * barSpacing),
-						Math.floor(size[1] / 2) + 4,
-						Math.round(barWidth),
-						Math.round(strength / 255 * maxHeight + 4)
-					);
-				}
-			}
-
-			canvas.fillStyle = monstercatGradient;
-			canvas.fillRect(0, Math.round(size[1] / 2) + 4, size[0], Math.round(size[1] / 2) - 4);
-
-			canvas.fillStyle = '#FFF';
-			canvas.font = (size[1] * 0.25) + 'px aosProFont, sans-serif';
-			canvas.fillText((fileNames[currentSong] || ["No Song"])[0].toUpperCase(), Math.round(left) + 0.5, size[1] * 0.75, Math.floor(maxWidth));
-		},
-		stop: function () {
-
-		},
-		sqrt255: Math.sqrt(255)
-	},
-	central: {
-		name: "Central",
-		image: "visualizers/central.png",
-		start: function () {
-
-		},
-		frame: function () {
-			canvas.clearRect(0, 0, size[0], size[1]);
-			var left = size[0] * 0.1;
-			var maxWidth = size[0] * 0.8;
-			var barWidth = maxWidth / 96;
-			var barSpacing = maxWidth / 64;
-			var maxHeight = size[1] * 0.5 - size[1] * 0.25;
-
-			for (var i = 0; i < 64; i++) {
-				var strength = visData[i];
-
-				var fillColor = getColor(strength, i * 4);
-				canvas.fillStyle = fillColor;
-				canvas.fillRect(
-					Math.round(left + i * barSpacing),
-					Math.floor(size[1] / 2) - Math.round(strength / 255 * maxHeight) - 5,
-					Math.round(barWidth),
-					Math.round(strength / 255 * maxHeight * 2 + 10)
-				);
-			}
-		},
-		stop: function () {
-
-		},
-		sqrt255: Math.sqrt(255)
-	},
-	curvedAudioVision: {
-		name: "Curved Lines",
-		image: "visualizers/curvedLines_av.png",
-		start: function () {
-
-		},
-		frame: function () {
-			canvas.clearRect(0, 0, size[0], size[1]);
-			canvas.lineCap = "round";
-			canvas.lineWidth = this.lineWidth - (0.5 * this.lineWidth);
-			var xdist = size[0] / (this.lineCount + 2) / 2;
-			var ydist = size[1] / (this.lineCount + 2) / 2;
-			xdist = Math.min(xdist, ydist);
-			var colorstep = 255 / this.lineCount;
-			var ringPools = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-			for (let i = 0; i < 64; i++) {
-				var currPool = Math.floor(i / (64 / 9));
-				ringPools[currPool] = Math.max(visData[i], ringPools[currPool]);
-			}
-			for (let i = 0; i < this.lineCount; i++) {
-				var strength = ringPools[i] * 0.85;
-				canvas.strokeStyle = getColor(strength, i * colorstep);
-
-				var circlePoints = [{
-						x: xdist * this.lineCount,
-						y: 0
-					},
-					{
-						x: xdist * this.lineCount,
-						y: 2 * xdist * this.lineCount
-					},
-					{
-						x: xdist * this.lineCount + (xdist * (i + 1)),
-						y: xdist * this.lineCount
-					}
-				]
-				var currCircle = this.circleFromThreePoints(...circlePoints);
-				var tri = [
-					Math.sqrt(
-						Math.pow(
-							circlePoints[2].x -
-							circlePoints[0].x, 2) +
-						Math.pow(
-							circlePoints[2].y -
-							circlePoints[0].y, 2)
-					),
-					currCircle.r,
-					currCircle.r
-				];
-				// (b2 + c2 − a2) / 2bc
-				var angle = Math.acos(this.deg2rad((tri[1] * tri[1] + tri[2] * tri[2] - tri[0] * tri[0]) / (2 * tri[1] * tri[2])));
-				canvas.beginPath();
-				canvas.arc(
-					currCircle.x + (size[0] - xdist * this.lineCount * 2) / 2,
-					currCircle.y + (size[1] / 2 - xdist * this.lineCount),
-					currCircle.r,
-					((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61))) * -1) * (strength / 255),
-					((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61)))) * (strength / 255)
-				);
-				canvas.stroke();
-
-				circlePoints[0].x *= -1;
-				circlePoints[1].x *= -1;
-				circlePoints[2].x *= -1;
-				currCircle = this.circleFromThreePoints(...circlePoints);
-				canvas.beginPath();
-				canvas.arc(
-					currCircle.x + (size[0] / 2 + xdist * this.lineCount),
-					currCircle.y + (size[1] / 2 - xdist * this.lineCount),
-					currCircle.r,
-					((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61))) * -1) * (strength / 255) + this.deg2rad(180),
-					((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61)))) * (strength / 255) + this.deg2rad(180)
-				);
-				canvas.stroke();
-			}
-		},
-		stop: function () {
-			canvas.lineCap = "square";
-			canvas.lineWidth = 1;
-		},
-		sizechange: function () {},
-		lineWidth: 6,
-		lineCount: 9,
-		sqrt255: Math.sqrt(255),
-		deg2rad: function (degrees) {
-			return degrees * this.piBy180;
-		},
-		piBy180: Math.PI / 180,
-		circleFromThreePoints: function (p1, p2, p3) { // from Circle.js
-			var x1 = p1.x;
-			var y1 = p1.y;
-			var x2 = p2.x;
-			var y2 = p2.y;
-			var x3 = p3.x;
-			var y3 = p3.y;
-
-			var a = x1 * (y2 - y3) - y1 * (x2 - x3) + x2 * y3 - x3 * y2;
-			var b = (x1 * x1 + y1 * y1) * (y3 - y2) +
-				(x2 * x2 + y2 * y2) * (y1 - y3) +
-				(x3 * x3 + y3 * y3) * (y2 - y1);
-
-			var c = (x1 * x1 + y1 * y1) * (x2 - x3) +
-				(x2 * x2 + y2 * y2) * (x3 - x1) +
-				(x3 * x3 + y3 * y3) * (x1 - x2);
-
-			var x = -b / (2 * a);
-			var y = -c / (2 * a);
-
-			return {
-				x: x,
-				y: y,
-				r: Math.hypot(x - x1, y - y1)
-			};
-		}
-	},
-	seismograph: {
-		name: "Beatmograph 1",
-		image: "visualizers/seismograph.png",
-		start: function () {
-			this.graph = new Array(size[0]);
-			this.graph.fill(-1, 0, size[0]);
-		},
-		frame: function () {
-			canvas.clearRect(0, 0, size[0], size[1]);
-			let avg = visData.reduce((sum, num) => sum + num) / visData.length;
-			this.graph.push(avg);
-			while (this.graph.length > size[0]) {
-				this.graph.shift();
-			}
-			var graphLength = this.graph.length;
-			var multiplier = size[1] / 255;
-			canvas.lineWidth = 2;
-			for (var i = 0; i < graphLength; i++) {
-				canvas.strokeStyle = getColor(this.graph[i], 255 - i / size[0] * 255);
-				canvas.beginPath();
-				canvas.moveTo(size[0] - i - 1.5, size[1] - (this.graph[i] * multiplier));
-				canvas.lineTo(size[0] - i - 0.5, size[1] - (((typeof this.graph[i - 1] === "number") ? this.graph[i - 1] : this.graph[i]) * multiplier));
-				canvas.stroke();
-			}
-		},
-		stop: function () {
-			this.graph = [];
-		},
-		graph: []
-	},
-	waveform: {
-		name: "Waveform",
-		image: "visualizers/waveform.png",
-		start: function () {
-			this.waveArray = new Uint8Array(analyser.fftSize);
-			this.arrsize = analyser.fftSize;
-		},
-		frame: function () {
-			analyser.getByteTimeDomainData(this.waveArray);
-			canvas.clearRect(0, 0, size[0], size[1]);
-			let avg = visData.reduce((sum, num) => sum + num) / visData.length;
-			let multiplier = size[1] / 255;
-			let step = this.arrsize / size[0];
-			canvas.lineWidth = 2;
-
-			for (let i = 0; i < size[0]; i++) {
-				canvas.strokeStyle = getColor(avg, 255 - i / size[0] * 255);
-				canvas.beginPath();
-				canvas.moveTo(size[0] - i - 1.5, size[1] - (this.waveArray[Math.round(i * step)] / 2 * multiplier) - size[1] / 4);
-				canvas.lineTo(size[0] - i - 0.5, size[1] - (((typeof this.waveArray[Math.round((i - 1) * step)] === "number") ? this.waveArray[Math.round((i - 1) * step)] / 2 : this.waveArray[Math.round(i * step)] / 2) * multiplier) - size[1] / 4);
-				canvas.stroke();
-			}
-		},
-		stop: function () {},
-		waveArray: new Uint8Array()
-	}
-};
-
+let vis = AudioVisualizer;
 function setVis(newvis) {
 	if (currVis) vis[currVis].stop();
 	currVis = vis[newvis] ? newvis : "none";
 	vis[currVis].start();
 }
+window.setVis = setVis;
 
 function loadAudio() {
 	// https://stackoverflow.com/a/55270278/6456163
@@ -809,22 +506,22 @@ function loadAudioFiles() {
 	delayNode.delayTime.value = 0.07;
 	delayNode.connect(audioContext.destination);
 
-	analyser = audioContext.createAnalyser();
-	analyser.fftSize = 2048;
-	analyser.maxDecibels = -20;
-	analyser.minDecibels = -60;
-	analyser.smoothingTimeConstant = 0.8;
+	window.analyser = audioContext.createAnalyser();
+	window.analyser.fftSize = 2048;
+	window.analyser.maxDecibels = -20;
+	window.analyser.minDecibels = -60;
+	window.analyser.smoothingTimeConstant = 0.8;
 
-	mediaSource.connect(analyser);
-	analyser.connect(delayNode);
-	visData = new Uint8Array(analyser.frequencyBinCount);
+	mediaSource.connect(window.analyser);
+	window.analyser.connect(delayNode);
+	window.visData = new Uint8Array(window.analyser.frequencyBinCount);
 
 	getId("visualizer").classList.add('disabled');
 	getId("selectOverlay").classList.add('disabled');
 	setVis("none");
 
 	winsize = [window.innerWidth, window.innerHeight];
-	size = [window.innerWidth - 8, window.innerHeight - 81];
+	window.size = [window.innerWidth - 8, window.innerHeight - 81];
 
 	requestAnimationFrame(globalFrame);
 }
@@ -870,12 +567,14 @@ function openVisualizerMenu() {
 		closeMenu();
 	}
 }
+window.openVisualizerMenu = openVisualizerMenu;
 
 function overrideVis(selectedVisualizer) {
 	getId("visfield").value = selectedVisualizer;
 	closeMenu();
 	getId("visfield").onchange();
 }
+window.overrideVis = overrideVis;
 
 function overrideColor(selectedColor) {
 	getId("colorfield").value = selectedColor;
