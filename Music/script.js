@@ -8,8 +8,6 @@ window.aosTools_connectListener = function () {
 	aosTools.openWindow();
 	aosToolsConnected = 1;
 	aosTools.getBorders(recieveWindowBorders);
-	aosTools.updateStyle = checkDarkTheme;
-	checkDarkTheme();
 }
 
 // ask for window type
@@ -49,20 +47,6 @@ function recieveWindowBorders(response) {
 	];
 }
 
-var iframeMode = 1;
-function checkDarkTheme() {
-	if (aosToolsConnected) {
-		aosTools.getDarkMode((response) => {
-			if (response.content === true) {
-				document.body.classList.add("darkMode");
-			} else {
-				document.body.classList.remove("darkMode");
-			}
-		});
-	}
-}
-checkDarkTheme();
-
 var audio = new Audio();
 var audioDuration = 1;
 
@@ -86,11 +70,6 @@ function setVolume(newVolume) {
 }
 
 var analyser;
-function setSmoothingTimeConstant(newValue) {
-	analyser.smoothingTimeConstant = newValue;
-	localStorage.setItem("AaronOSMusic_SmoothingTimeConstant", String(newValue));
-}
-
 var visDataBuffer;
 var visData;
 var songList = getId("songList");
@@ -98,7 +77,6 @@ var progressBar = getId("progress");
 var size;
 var fileNames = [];
 var fileInfo = {};
-var latencyReduction = 0;
 var currentSong = -1;
 var winsize = [window.innerWidth, window.innerHeight];
 var size = [window.innerWidth - 8, window.innerHeight - 81];
@@ -178,48 +156,6 @@ function readFileInfo(event) {
 		fileInfo = JSON.parse(event.target.result);
 	} catch (err) {
 		console.log("Error parsing file info");
-	}
-}
-
-var latencyReduction = 0;
-function setLatency(newLatency) {
-	switch (newLatency) {
-		case 0: // full fftsize
-			latencyReduction = 0;
-			analyser.fftSize = 32768;
-			analyser.smoothingTimeConstant = 0;
-			analyser.maxDecibels = -30;
-			analyser.minDecibels = -70;
-			visData = new Uint8Array(analyser.frequencyBinCount);
-			getId("latencyButton0").style.borderColor = "#0A0";
-			getId("latencyButton1").style.borderColor = "#C00";
-			getId("latencyButton2").style.borderColor = "#C00";
-			break;
-		case 1: // after sep. 22 2021 this is the only option
-			latencyReduction = 1;
-			analyser.fftSize = 2048;
-			analyser.smoothingTimeConstant = 0.8;
-			analyser.maxDecibels = -20;
-			analyser.minDecibels = -60;
-			visData = new Uint8Array(analyser.frequencyBinCount);
-			getId("latencyButton0").style.borderColor = "#C00";
-			getId("latencyButton1").style.borderColor = "#0A0";
-			getId("latencyButton2").style.borderColor = "#C00";
-			break;
-		case 2:
-			latencyReduction = 2;
-			analyser.fftSize = 1024;
-			analyser.smoothingTimeConstant = 0.8;
-			analyser.maxDecibels = -20;
-			analyser.minDecibels = -60;
-			visDataBuffer = new Uint8Array(analyser.frequencyBinCount);
-			visData = new Uint8Array(analyser.frequencyBinCount * 2);
-			getId("latencyButton0").style.borderColor = "#C00";
-			getId("latencyButton1").style.borderColor = "#C00";
-			getId("latencyButton2").style.borderColor = "#0C0";
-			break;
-		default:
-			// do nothing?
 	}
 }
 
@@ -478,62 +414,16 @@ function toggleAmbience() {
 	}
 }
 
-var performanceMode = 0;
-function togglePerformance() {
-	if (performanceMode) {
-		if (currVis !== "none") {
-			size[0] *= 2;
-			size[1] *= 2;
-			getId("visCanvas").width = size[0];
-			getId("visCanvas").height = size[1];
-			getId("visCanvas").style.imageRendering = "";
-			getId("smokeCanvas").width = size[0];
-			getId("smokeCanvas").height = size[1];
-			getId("smokeCanvas").style.imageRendering = "";
-			if (getId("performanceButton")) {
-				getId("performanceButton").style.borderColor = "#C00";
-			}
-		}
-	} else {
-		if (currVis !== "none") {
-			size[0] /= 2;
-			size[1] /= 2;
-			getId("visCanvas").width = size[0];
-			getId("visCanvas").height = size[1];
-			getId("visCanvas").style.imageRendering = "pixelated";
-			getId("smokeCanvas").width = size[0];
-			getId("smokeCanvas").height = size[1];
-			getId("smokeCanvas").style.imageRendering = "pixelated";
-			if (getId("performanceButton")) {
-				getId("performanceButton").style.borderColor = "#0A0";
-			}
-		}
-	}
-	performanceMode = Math.abs(performanceMode - 1);
-	if (vis[currVis].sizechange) {
-		vis[currVis].sizechange();
-	}
-}
-
 var winsize = [window.innerWidth, window.innerHeight];
 var size = [window.innerWidth - 8, window.innerHeight - 81];
 
 var fps = 0;
 var currFPS = "0";
 var lastSecond = 0;
-var fpsEnabled = 0;
-var debugForce = 0;
-var debugFreqs = 0; // sweeps all freqs from 0 to 255 and back again
-var debugFreqsValue = 0; // 0 to 255
-var debugFreqsDirection = -1; // 1 or -1
-var debugFreqsTimer = 0; // debug hangs at 0 and 255 for a while
 var debugColors = ["#C00", "#0A0"];
 
 var canvasElement = getId("visCanvas");
 var canvas = canvasElement.getContext("2d");
-
-var smokeElement = getId("smokeCanvas");
-var smoke = smokeElement.getContext("2d");
 
 var highFreqRange = 0;
 var perfLast = performance.now();
@@ -559,46 +449,17 @@ function globalFrame() {
 	if (winsize[0] !== window.innerWidth || winsize[1] !== window.innerHeight) {
 		winsize = [window.innerWidth, window.innerHeight];
 		size = [window.innerWidth - 8, window.innerHeight - 81];
-		if (performanceMode) {
-			size[0] /= 2;
-			size[1] /= 2;
-		}
 		getId("visCanvas").width = size[0];
 		getId("visCanvas").height = size[1];
 		if (currVis !== "none") {
-			if (smokeEnabled) {
-				resizeSmoke();
-			}
 			if (vis[currVis].sizechange) {
 				vis[currVis].sizechange();
 			}
 		}
 	}
+
 	if (currVis !== "none") {
-		if (latencyReduction !== 2) {
-			analyser.getByteFrequencyData(visData);
-		} else {
-			analyser.getByteFrequencyData(visDataBuffer);
-		}
-		if (debugFreqs) {
-			var shouldIncrement = 1;
-			if (debugFreqsValue <= 0 || debugFreqsValue >= 255) {
-				if (debugFreqsTimer === 0) { // we just arrived at the end
-					// 5 seconds between switching directions
-					shouldIncrement = 0;
-					debugFreqsTimer = performance.now() + 5000;
-				} else if (performance.now() > debugFreqsTimer) {
-					debugFreqsDirection *= -1;
-					debugFreqsTimer = 0;
-				} else {
-					shouldIncrement = 0;
-				}
-			}
-			if (shouldIncrement) {
-				debugFreqsValue += debugFreqsDirection;
-			}
-			visData.fill(debugFreqsValue);
-		}
+		analyser.getByteFrequencyData(visData);
 
 		// if the audio's volume is lowered, the visualizer can't hear it
 		// attempt to artificially bring the volume back up to full
@@ -608,9 +469,6 @@ function globalFrame() {
 			for (var i = 0; i < visData.length; i++) {
 				visData[i] = Math.floor(visData[i] * gainFactor);
 			}
-		}
-		if (smokeEnabled) {
-			smokeFrame();
 		}
 
 		// if mod is selected, modify the data values
@@ -717,7 +575,7 @@ function getColor(power, position) {
 }
 progressBar.style.outline = "2px solid " + getColor(255);
 
-var currVis = "waveform";
+var currVis = null;
 var vis = {
 	none: {
 		name: "Song List",
@@ -741,9 +599,6 @@ var vis = {
 		},
 		frame: function () {
 			canvas.clearRect(0, 0, size[0], size[1]);
-			if (smokeEnabled) {
-				smoke.clearRect(0, 0, size[0], size[1]);
-			}
 			var left = size[0] * 0.1;
 			var maxWidth = size[0] * 0.8;
 			var barWidth = maxWidth / 96;
@@ -766,7 +621,7 @@ var vis = {
 					Math.round(barWidth),
 					Math.round(strength / 255 * maxHeight + 5)
 				);
-				//canvas.fillStyle = "#000";
+				
 				if (strength > 10) {
 					canvas.fillRect(
 						Math.round(left + i * barSpacing),
@@ -788,21 +643,11 @@ var vis = {
 						Math.round(strength / 255 * maxHeight + 4)
 					);
 				}
-				if (smokeEnabled) {
-					smoke.fillStyle = fillColor;
-					smoke.fillRect(
-						Math.round(left + i * barSpacing),
-						Math.floor(size[1] / 2) - Math.round(strength / 255 * maxHeight),
-						Math.round(barWidth),
-						Math.round((strength / 255 * maxHeight + 5) * 2)
-					);
-				}
 			}
 
 			canvas.fillStyle = monstercatGradient;
 			canvas.fillRect(0, Math.round(size[1] / 2) + 4, size[0], Math.round(size[1] / 2) - 4);
 
-			//updateSmoke(left, size[1] * 0.2, maxWidth, size[1] * 0.3 + 10);
 			canvas.fillStyle = '#FFF';
 			canvas.font = (size[1] * 0.25) + 'px aosProFont, sans-serif';
 			canvas.fillText((fileNames[currentSong] || ["No Song"])[0].toUpperCase(), Math.round(left) + 0.5, size[1] * 0.75, Math.floor(maxWidth));
@@ -820,9 +665,6 @@ var vis = {
 		},
 		frame: function () {
 			canvas.clearRect(0, 0, size[0], size[1]);
-			if (smokeEnabled) {
-				smoke.clearRect(0, 0, size[0], size[1]);
-			}
 			var left = size[0] * 0.1;
 			var maxWidth = size[0] * 0.8;
 			var barWidth = maxWidth / 96;
@@ -840,15 +682,6 @@ var vis = {
 					Math.round(barWidth),
 					Math.round(strength / 255 * maxHeight * 2 + 10)
 				);
-				if (smokeEnabled) {
-					smoke.fillStyle = fillColor;
-					smoke.fillRect(
-						Math.round(left + i * barSpacing),
-						Math.floor(size[1] / 2) - Math.round(strength / 255 * maxHeight) - 5,
-						Math.round(barWidth),
-						Math.round(strength / 255 * maxHeight * 2 + 10)
-					);
-				}
 			}
 		},
 		stop: function () {
@@ -864,11 +697,8 @@ var vis = {
 		},
 		frame: function () {
 			canvas.clearRect(0, 0, size[0], size[1]);
-			smoke.clearRect(0, 0, size[0], size[1]);
 			canvas.lineCap = "round";
-			canvas.lineWidth = this.lineWidth - (performanceMode * 0.5 * this.lineWidth);
-			smoke.lineCap = "round";
-			smoke.lineWidth = this.lineWidth - (performanceMode * 0.5 * this.lineWidth);
+			canvas.lineWidth = this.lineWidth - (0.5 * this.lineWidth);
 			var xdist = size[0] / (this.lineCount + 2) / 2;
 			var ydist = size[1] / (this.lineCount + 2) / 2;
 			xdist = Math.min(xdist, ydist);
@@ -881,7 +711,6 @@ var vis = {
 			for (var i = 0; i < this.lineCount; i++) {
 				var strength = ringPools[i] * 0.85;
 				canvas.strokeStyle = getColor(strength, i * colorstep);
-				smoke.strokeStyle = getColor(strength, i * colorstep);
 
 				var circlePoints = [{
 						x: xdist * this.lineCount,
@@ -920,17 +749,6 @@ var vis = {
 					((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61)))) * (strength / 255)
 				);
 				canvas.stroke();
-				if (smokeEnabled) {
-					smoke.beginPath();
-					smoke.arc(
-						currCircle.x + (size[0] - xdist * this.lineCount * 2) / 2,
-						currCircle.y + (size[1] / 2 - xdist * this.lineCount),
-						currCircle.r,
-						((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61))) * -1) * (strength / 255),
-						((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61)))) * (strength / 255)
-					);
-					smoke.stroke();
-				}
 
 				circlePoints[0].x *= -1;
 				circlePoints[1].x *= -1;
@@ -945,24 +763,11 @@ var vis = {
 					((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61)))) * (strength / 255) + this.deg2rad(180)
 				);
 				canvas.stroke();
-				if (smokeEnabled) {
-					smoke.beginPath();
-					smoke.arc(
-						currCircle.x + (size[0] / 2 + xdist * this.lineCount),
-						currCircle.y + (size[1] / 2 - xdist * this.lineCount),
-						currCircle.r,
-						((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61))) * -1) * (strength / 255) + this.deg2rad(180),
-						((angle - this.deg2rad(Math.pow((this.lineCount - i - 1) * 1.83, 1.61)))) * (strength / 255) + this.deg2rad(180)
-					);
-					smoke.stroke();
-				}
 			}
 		},
 		stop: function () {
 			canvas.lineCap = "square";
 			canvas.lineWidth = 1;
-			smoke.lineCap = "square";
-			smoke.lineWidth = 1;
 		},
 		sizechange: function () {
 
@@ -1011,7 +816,6 @@ var vis = {
 		},
 		frame: function () {
 			canvas.clearRect(0, 0, size[0], size[1]);
-			smoke.clearRect(0, 0, size[0], size[1]);
 			var avg = 0;
 			for (var i = 0; i < 12; i++) {
 				avg += visData[i];
@@ -1024,22 +828,12 @@ var vis = {
 			var graphLength = this.graph.length;
 			var multiplier = size[1] / 255;
 			canvas.lineWidth = 2;
-			smoke.lineWidth = 2;
 			for (var i = 0; i < graphLength; i++) {
 				canvas.strokeStyle = getColor(this.graph[i], 255 - i / size[0] * 255);
 				canvas.beginPath();
 				canvas.moveTo(size[0] - i - 1.5, size[1] - (this.graph[i] * multiplier));
 				canvas.lineTo(size[0] - i - 0.5, size[1] - (((typeof this.graph[i - 1] === "number") ? this.graph[i - 1] : this.graph[i]) * multiplier));
 				canvas.stroke();
-				//canvas.fillRect(graphLength - i - 1, size[1] - (this.graph[i] * multiplier), 1, 1);
-				if (smokeEnabled) {
-					smoke.strokeStyle = getColor(this.graph[i], 255 - i / size[0] * 255);
-					smoke.beginPath();
-					smoke.moveTo(size[0] - i - 1.5, size[1] - (this.graph[i] * multiplier));
-					smoke.lineTo(size[0] - i - 1.5, size[1] - (((typeof this.graph[i - 1] === "number") ? this.graph[i - 1] : this.graph[i]) * multiplier));
-					smoke.stroke();
-					//smoke.fillRect(graphLength - i - 1, size[1] - (this.graph[i] * multiplier), 1, 1);
-				}
 			}
 		},
 		stop: function () {
@@ -1057,7 +851,6 @@ var vis = {
 		frame: function () {
 			analyser.getByteTimeDomainData(this.waveArray);
 			canvas.clearRect(0, 0, size[0], size[1]);
-			smoke.clearRect(0, 0, size[0], size[1]);
 			var avg = 0;
 			for (var i = 0; i < 12; i++) {
 				avg += visData[i];
@@ -1066,7 +859,6 @@ var vis = {
 			var multiplier = size[1] / 255;
 			var step = this.arrsize / size[0];
 			canvas.lineWidth = 2;
-			smoke.lineWidth = 2;
 			for (var i = 0; i < size[0]; i++) {
 				canvas.strokeStyle = getColor(avg, 255 - i / size[0] * 255);
 				canvas.beginPath();
@@ -1085,8 +877,6 @@ var vis = {
 function setVis(newvis) {
 	if (currVis) vis[currVis].stop();
 	currVis = vis[newvis] ? newvis : "none";
-
-	if (smokeEnabled) resizeSmoke();
 	vis[currVis].start();
 }
 
@@ -1134,22 +924,15 @@ function loadAudioFiles() {
 
 	audioContext = new AudioContext();
 	mediaSource = audioContext.createMediaElementSource(audio);
-
 	delayNode = audioContext.createDelay();
 	delayNode.delayTime.value = 0.07;
 	delayNode.connect(audioContext.destination);
 
 	analyser = audioContext.createAnalyser();
 	analyser.fftSize = 2048;
-	latencyReduction = 1;
 	analyser.maxDecibels = -20;
 	analyser.minDecibels = -60;
-	if (localStorage.getItem("AaronOSMusic_SmoothingTimeConstant")) {
-		analyser.smoothingTimeConstant = parseFloat(localStorage.getItem("AaronOSMusic_SmoothingTimeConstant"));
-		getId("currentlyPlaying").innerHTML += " | SmoothingTimeConstant is custom";
-	} else {
-		analyser.smoothingTimeConstant = 0.8;
-	}
+	analyser.smoothingTimeConstant = 0.8;
 
 	mediaSource.connect(analyser);
 	analyser.connect(delayNode);
@@ -1169,74 +952,6 @@ loadAudioFiles();
 for (var i in vis) {
 	getId('visfield').innerHTML += '<option value="' + i + '">' + vis[i].name + '</option>';
 }
-
-var smokeEnabled = 0;
-var smokePos = [0, 0];
-var smokeScreen1 = getId("smokeScreen1");
-var smokeScreen2 = getId("smokeScreen2");
-
-function toggleSmoke() {
-	if (smokeEnabled) {
-		smokeElement.style.filter = "";
-		smoke.clearRect(0, 0, size[0], size[1]);
-		smokeElement.classList.add("disabled");
-		smokeScreen1.classList.add("disabled");
-		smokeScreen2.classList.add("disabled");
-		getId("smokeButton").style.borderColor = "#C00";
-		smokeEnabled = 0;
-	} else {
-		smokeElement.classList.remove("disabled");
-		smokeScreen1.classList.remove("disabled");
-		smokeScreen2.classList.remove("disabled");
-		getId("smokeButton").style.borderColor = "#0A0";
-		smokeEnabled = 1;
-		resizeSmoke();
-		if (vis[currVis].sizechange) {
-			vis[currVis].sizechange();
-		}
-	}
-}
-
-var smokeBrightness = 1.5;
-function setSmokeBrightness(newValue) {
-	smokeBrightness = (newValue || 0);
-	resizeSmoke();
-	localStorage.setItem("AaronOSMusic_SmokeBrightness", String(newValue));
-}
-
-function resizeSmoke() {
-	smokeElement.width = size[0];
-	smokeElement.height = size[1];
-	if (smokeEnabled) {
-		if (performanceMode) {
-			smokeElement.style.filter = "blur(" + Math.round((size[0] * 2 + size[1] * 2) / 50) + "px) brightness(" + smokeBrightness + ")";
-		} else {
-			smokeElement.style.filter = "blur(" + Math.round((size[0] + size[1]) / 50) + "px) brightness(" + smokeBrightness + ")";
-		}
-	}
-}
-
-function updateSmoke(leftpos, toppos, shortwidth, shortheight) {
-	if (smokeEnabled) {
-		smoke.clearRect(0, 0, size[0], size[1]);
-		smoke.putImageData(canvas.getImageData(leftpos || 0, toppos || 0, shortwidth || size[0], shortheight || size[1]), leftpos || 0, toppos || 0);
-	}
-}
-
-function smokeFrame() {
-	smokePos[0] += 2 * fpsCompensation;
-	smokePos[1] += fpsCompensation;
-	if (smokePos[0] >= 1000) {
-		smokePos[0] -= 1000;
-	}
-	if (smokePos[1] >= 1000) {
-		smokePos[1] -= 1000;
-	}
-	smokeScreen1.style.backgroundPosition = smokePos[0] + "px " + smokePos[1] + "px";
-	smokeScreen2.style.backgroundPosition = (smokePos[1] + 250) + "px " + (smokePos[0] - 175) + "px";
-}
-
-resizeSmoke();
 
 function openVisualizerMenu() {
 	if (getId("selectOverlay").classList.contains("disabled")) {

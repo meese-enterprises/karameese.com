@@ -463,7 +463,6 @@ var langContent = {
 			pngSave: "PNG Saver",
 			canvasGame: "Canvas Video Games",
 			internet: "The Internet",
-			aerotest: "Transparent Window",
 			savemaster: "SaveMaster",
 			ti: "TI-83+ Simulator",
 			appAPI: "aOS API",
@@ -476,12 +475,10 @@ var langContent = {
 			perfMonitor: "Performance Monitor",
 			mathway: "Mathway",
 			appsbrowser: "Apps Browser",
-			indycar: "Indycar",
 			housegame: "House Game",
 			simon: "Simon",
 			postit: "Sticky Note",
 			bootScript: "Boot Script Editor",
-			bugCentral: "Bug Central",
 			rdp: "Remote Desktop Host",
 			rdpViewer: "Remote Desktop Viewer",
 			extDebug: "External Debug",
@@ -1721,20 +1718,17 @@ function repoUpdateFinished() {
 			repoUpdateCallback(repoPackageSearch("").length + " total packages available.");
 			repoUpdateCallback(repoGetUpgradeable().length + " total updates available.");
 		}
-		//repoUpdateCallback(repoUpdateOutput);
 		try {
 			if (typeof repoUpdateFinishFunc === 'function') {
 				repoUpdateFinishFunc();
 			}
-		} catch (err) {
+		} catch (err) {}
+	} catch (err) {}
 
-		}
-	} catch (err) {
-
-	}
-	for (var i in repoUpdateXHR) {
+	for (let i in repoUpdateXHR) {
 		delete repoUpdateXHR[i];
 	}
+
 	repoUpdateXHR = {};
 	repoUpdateCallback = null;
 	repoUpdateOutput = [];
@@ -1745,7 +1739,6 @@ function repoUpdateFinished() {
 }
 
 var repoUpdateXHR = {};
-
 repoUpdateCallback = null;
 repoUpdateCallbackColored = 0;
 repoUpdateFinishFunc = null;
@@ -1896,6 +1889,7 @@ function repoUpgradeFinished() {
 	for (let i in repoUpgradeXHR) {
 		delete repoUpgradeXHR[i];
 	}
+
 	repoUpgradeXHR = {};
 	repoUpgradeCallback = null;
 	repoUpgradeOutput = [];
@@ -5435,34 +5429,15 @@ c(function() {
 					}
 				},
 				{
-					name: 'sudo',
-					usage: 'sudo [command]',
-					desc: 'obselete function to run command as root; all users already root but the function still works',
-					action: function (args) {
-						return apps.bash.vars.execute(args.join(' '));
-					}
-				},
-				{
-					name: 'su',
-					usage: 'su',
-					desc: 'Obselete function to go root; does not work on aOS because all users are root',
-					action: function (args) {
-
-					}
-				},
-				{
 					name: 'cat',
-					usage: 'cat &lt;file&gt;',
+					usage: 'cat <file>',
 					desc: 'Get the contents of a file, as it appears to JavaScript.',
 					action: function (args) {
-						if (args.length > 0) {
-							if (typeof apps.bash.vars.getRealDir(args[0]) !== "undefined") {
-								return apps.bash.vars.getRealDir(args[0]);
-							} else {
-								throw args[0] + ': No such file or directory';
-							}
+						if (args.length == 0) throw 'No file provided';
+						if (typeof apps.bash.vars.getRealDir(args[0]) !== "undefined") {
+							return apps.bash.vars.getRealDir(args[0]);
 						} else {
-							throw 'No file provided';
+							throw args[0] + ': No such file or directory';
 						}
 					}
 				},
@@ -5973,7 +5948,7 @@ c(function() {
 });
 
 c(function() {
-	m('init STN');
+	m('init Settings');
 	apps.settings = new Application({
 		title: "Settings",
 		abbreviation: "STN",
@@ -6933,22 +6908,8 @@ c(function() {
 			screensaverTimer: 0,
 			screensaverEnabled: 1,
 			screensaverTime: 300000000,
-			currScreensaver: "blast",
+			currScreensaver: "phosphor",
 			screensavers: {
-				blackScreen: {
-					name: "Black Screen",
-					selected: function() {
-						apps.prompt.vars.alert("Screensaver applied.<br>There are no configuration options for this screensaver.", "Okay.", function() {}, "Black Screen Screensaver");
-					},
-					start: function() {
-						getId('screensaverLayer').style.backgroundColor = "#000";
-						lastPageX = -200;
-						lastPageY = -200;
-					},
-					end: function() {
-						getId('screensaverLayer').style.backgroundColor = "";
-					}
-				},
 				blast: {
 					name: "AaronOS Blast",
 					selected: function() {
@@ -7056,99 +7017,6 @@ c(function() {
 						canRun: 0
 					}
 				},
-				bouncyBall: {
-					name: "Bouncy Ball",
-					selected: function() {
-						apps.prompt.vars.alert("Screensaver applied.<br>There are no configuration options for this screensaver.", "Okay.", function() {}, "Bouncy Ball Screensaver");
-					},
-					start: function() {
-						apps.settings.vars.screensavers.bouncyBall.vars.scr = [parseInt(getId('monitor').style.width), parseInt(getId('monitor').style.height) - 30];
-						getId('screensaverLayer').innerHTML = '<canvas style="position:absolute;display:block;left:0;top:0" id="bbssCnv"></canvas>';
-						getId('bbssCnv').width = parseInt(getId('monitor').style.width);
-						getId('bbssCnv').height = parseInt(getId('monitor').style.height);
-						getId('bbssCnv').style.width = getId('monitor').style.width;
-						getId('bbssCnv').style.height = getId('monitor').style.height;
-						apps.settings.vars.screensavers.bouncyBall.vars.ctxFg = getId('bbssCnv').getContext('2d');
-						apps.settings.vars.screensavers.bouncyBall.vars.ball.vel = [0, 0];
-						apps.settings.vars.screensavers.bouncyBall.vars.canRun = 1;
-						requestAnimationFrame(apps.settings.vars.screensavers.bouncyBall.vars.frame);
-						apps.settings.vars.screensavers.bouncyBall.vars.resetBall();
-					},
-					end: function() {
-						apps.settings.vars.screensavers.bouncyBall.vars.canRun = 0;
-						apps.settings.vars.screensavers.bouncyBall.vars.ctxFg = null;
-						getId('screensaverLayer').innerHTML = '';
-					},
-					vars: {
-						ctxFg: null,
-						scr: [0, 0],
-						canRun: 0,
-						ball: {
-							size: 0,
-							coord: [0, 0],
-							vel: [0, 0]
-						},
-						timer: 0,
-						frame: function() {
-							if (apps.settings.vars.screensavers.bouncyBall.vars.canRun) {
-								if ((Math.abs(apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[0]) + Math.abs(apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[1])) / 2 < 0.5) {
-									apps.settings.vars.screensavers.bouncyBall.vars.timer++;
-									if (apps.settings.vars.screensavers.bouncyBall.vars.timer > 60) {
-										apps.settings.vars.screensavers.bouncyBall.vars.resetBall();
-									}
-								} else {
-									apps.settings.vars.screensavers.bouncyBall.vars.timer = 0;
-								}
-								apps.settings.vars.screensavers.bouncyBall.vars.ctxFg.clearRect(0, 0, apps.settings.vars.screensavers.bouncyBall.vars.scr[0], apps.settings.vars.screensavers.bouncyBall.vars.scr[1]);
-								apps.settings.vars.screensavers.bouncyBall.vars.ctxFg.beginPath();
-								apps.settings.vars.screensavers.bouncyBall.vars.ctxFg.arc(
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[0],
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[1],
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.size / 2,
-									0, 2 * Math.PI, false
-								);
-								apps.settings.vars.screensavers.bouncyBall.vars.ctxFg.fill();
-
-								apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[0] += apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[0];
-								apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[1] += apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[1];
-								if (
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[0] - apps.settings.vars.screensavers.bouncyBall.vars.ball.size / 2 < 0 ||
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[0] + apps.settings.vars.screensavers.bouncyBall.vars.ball.size / 2 > apps.settings.vars.screensavers.bouncyBall.vars.scr[0]
-								) {
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[0] -= apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[0];
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[0] = -0.8 * apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[0];
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[1] = 0.75 * apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[1];
-								}
-								if (
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[1] - apps.settings.vars.screensavers.bouncyBall.vars.ball.size / 2 < 0 ||
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[1] + apps.settings.vars.screensavers.bouncyBall.vars.ball.size / 2 > apps.settings.vars.screensavers.bouncyBall.vars.scr[1]
-								) {
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[1] -= apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[1];
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[0] = 0.9 * apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[0];
-									apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[1] = -0.75 * apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[1];
-								}
-								apps.settings.vars.screensavers.bouncyBall.vars.ball.vel[1] += 0.098;
-
-								lastPageX = apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[0];
-								lastPageY = apps.settings.vars.screensavers.bouncyBall.vars.ball.coord[1];
-
-								requestAnimationFrame(apps.settings.vars.screensavers.bouncyBall.vars.frame);
-							}
-						},
-						resetBall: function() {
-							apps.settings.vars.screensavers.bouncyBall.vars.ball.size = Math.floor(Math.random() * 20) + 11;
-							apps.settings.vars.screensavers.bouncyBall.vars.ball.coord = [
-								apps.settings.vars.screensavers.bouncyBall.vars.scr[0] / 2,
-								apps.settings.vars.screensavers.bouncyBall.vars.scr[1] / 2
-							];
-							apps.settings.vars.screensavers.bouncyBall.vars.ctxFg.fillStyle = 'rgb(' + (Math.floor(Math.random() * 255) + 1) + ',' + (Math.floor(Math.random() * 255) + 1) + ',' + (Math.floor(Math.random() * 255) + 1) + ')';
-							apps.settings.vars.screensavers.bouncyBall.vars.ball.vel = [
-								Math.floor(Math.random() * 80) - 39,
-								Math.floor(Math.random() * 80) - 39
-							];
-						}
-					}
-				},
 				wikiRandom: {
 					name: "Random Wikipedia Page",
 					selected: function() {
@@ -7176,34 +7044,6 @@ c(function() {
 						setSetting: function (btn) {
 							ufsave('aos_system/screensaver/wikirandom/logo_enabled', String(btn));
 						}
-					}
-				},
-				pipes: {
-					name: "Pipes",
-					selected: function() {
-						apps.prompt.vars.alert("Screensaver applied.<br>There are no configuration options for this screensaver.<br><br>Screensaver made by Isaiah Odhner.", "Okay.", function() {}, "Pipes Screensaver");
-					},
-					start: function() {
-						getId('screensaverLayer').style.backgroundColor = '#000';
-						getId('screensaverLayer').innerHTML = '<iframe src="https://1j01.github.io/pipes/#%7B%22hideUI%22:true%7D" style="pointer-events:none;border:none;width:100%;height:100%;display:block;position:absolute;left:0;top:0;"></iframe>';
-					},
-					end: function() {
-						getId('screensaverLayer').style.backgroundColor = '';
-						getId('screensaverLayer').innerHTML = '';
-					}
-				},
-				minecraftPlus: {
-					name: "Minecraft Plus",
-					selected: function() {
-						apps.prompt.vars.alert("Screensaver applied.<br>There are no configuration options for this screensaver.<br><br>Screensaver made by Mojang, original <a href='https://plus.minecraft.net/' target='_blank'>here</a>.", "Okay.", function() {}, "Minecraft Plus Screensaver");
-					},
-					start: function() {
-						getId('screensaverLayer').style.backgroundColor = '#000';
-						getId('screensaverLayer').innerHTML = '<iframe src="https://plus.minecraft.net/?autorun=window" style="pointer-events:none;border:none;width:calc(100% + 17px);height:100%;display:block;position:absolute;left:0;top:0;"></iframe>';
-					},
-					end: function() {
-						getId('screensaverLayer').style.backgroundColor = '';
-						getId('screensaverLayer').innerHTML = '';
 					}
 				}
 			},
@@ -7716,6 +7556,7 @@ c(function() {
 	}
 	getId('aOSloadingInfo').innerHTML = 'Smart Icon Settings';
 });
+
 c(function() {
 	apps.smartIconSettings = new Application({
 		title: "Smart Icon Settings",
@@ -9588,36 +9429,6 @@ c(function() {
 					default:
 						doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00");
 			}
-		}
-	});
-	getId('aOSloadingInfo').innerHTML = 'Window Test';
-});
-
-c(function() {
-	m('init TW');
-	apps.aerotest = new Application({
-		title: "Transparent Window",
-		abbreviation: "TW",
-		codeName: "aerotest",
-		image: {
-			backgroundColor: "#303947",
-			foreground: "smarticons/aerotest/fg.png",
-			backgroundBorder: {
-				thickness: 2,
-				color: "#252F3A"
-			}
-		},
-		hideApp: 2,
-		main: function() {
-			this.appWindow.setCaption("Transparent Window");
-			if (!this.appWindow.appIcon) {
-				this.appWindow.setDims("auto", "auto", 400, 300);
-			}
-			getId("win_aerotest_html").style.background = "none";
-			this.appWindow.openWindow();
-		},
-		vars: {
-			appInfo: 'This application is used for testing the performance and effect quality of WindowBlur. This app is great for testing or playing with new window colors and background blend modes.'
 		}
 	});
 	getId('aOSloadingInfo').innerHTML = 'File Saving System';

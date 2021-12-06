@@ -36,8 +36,6 @@
 			Visuals: <select id="visfield" onchange="setVis(this.value)"
 				onmousedown="requestAnimationFrame(()=>{this.blur()}); event.preventDefault();"
 				onclick="openVisualizerMenu(); event.preventDefault();"></select>
-			<button id="smokeButton" onclick="toggleSmoke()" style="border-color:#C00"
-				title="Adds a smoke and glow effect to visualizers.">Smoke</button> &nbsp; &nbsp; &nbsp;
 		</div>
 
 		<div id="progressContainer" class="disabled" onclick="setProgress(event)">
@@ -46,9 +44,6 @@
 		<div id="songList" class="disabled"></div>
 		<canvas id="autoColorCanvas" style="display:none;width:512px;height:1px" width="512" height="1"></canvas>
 		<div id="visualizer" class="disabled">
-			<canvas id="smokeCanvas"></canvas>
-			<div id="smokeScreen1"></div>
-			<div id="smokeScreen2"></div>
 			<canvas id="visCanvas" onclick=""></canvas>
 		</div>
 		<div id="selectOverlay" class="disabled">
