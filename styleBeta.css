@@ -323,15 +323,15 @@ div {
 	height: 100%;
 	background-color: #000;
 	/*
-    original = url(http://upload.wikimedia.org/wikipedia/commons/d/d2/Campania_Capri1_tango7174.jpg)
-    second   = url(http://golfunfiltered.com/wp-content/uploads/2014/10/moutains-golf-course.jpg)
-    third    = url(https://grapevineonline.files.wordpress.com/2014/12/x6vezahrpqd8lczpaogc_2014-08-27-02-46-52-1.jpg)
-    fourth   = url(https://newevolutiondesigns.com/images/freebies/nature-hd-background-9.jpg)
-        aeroFriendly1 = url(http://i40.photobucket.com/albums/e220/benjamin_allen1/lava_zpsce2852a9.gif)
-        aeroFriendly2 = url(http://i.giphy.com/g1tZmuF6BKBcA.gif)
-        aeroFriendly3 = url(http://i50.photobucket.com/albums/f331/HawaiiWirikidor/ththththStickPeople.gif)
-        interesting1 = url(http://orig11.deviantart.net/dec2/f/2012/185/9/2/tileable_futuristic_grid_by_ndugger-d55yz5h.png)
-    */
+	original = url(http://upload.wikimedia.org/wikipedia/commons/d/d2/Campania_Capri1_tango7174.jpg)
+	second   = url(http://golfunfiltered.com/wp-content/uploads/2014/10/moutains-golf-course.jpg)
+	third    = url(https://grapevineonline.files.wordpress.com/2014/12/x6vezahrpqd8lczpaogc_2014-08-27-02-46-52-1.jpg)
+	fourth   = url(https://newevolutiondesigns.com/images/freebies/nature-hd-background-9.jpg)
+		aeroFriendly1 = url(http://i40.photobucket.com/albums/e220/benjamin_allen1/lava_zpsce2852a9.gif)
+		aeroFriendly2 = url(http://i.giphy.com/g1tZmuF6BKBcA.gif)
+		aeroFriendly3 = url(http://i50.photobucket.com/albums/f331/HawaiiWirikidor/ththththStickPeople.gif)
+		interesting1 = url(http://orig11.deviantart.net/dec2/f/2012/185/9/2/tileable_futuristic_grid_by_ndugger-d55yz5h.png)
+	*/
 	background-image: url(images/pink_square.png);
 	/*background-size:cover;*/
 	background-position: 0 0;
@@ -483,12 +483,8 @@ div {
 	font-family: Consolas, Courier, monospace;
 	font-size: 16px;
 	top: 0px;
-	left: 3px;
-	/* fallback */
 	left: var(--windowBorderWidth);
 	padding-left: 23px;
-	width: calc(100% - 98px);
-	/* fallback */
 	width: calc(100% - 92px - var(--windowBorderWidth) - var(--windowBorderWidth));
 	white-space: nowrap;
 	height: 32px;
@@ -523,16 +519,8 @@ div {
 }
 
 .winHTML {
-	width: calc(100% - 9px);
-	/* fallback */
-	height: calc(100% - 35px);
-	/* fallback */
 	width: calc(100% - 3px - var(--windowBorderWidth) - var(--windowBorderWidth));
 	height: calc(100% - 32px - var(--windowBorderWidth));
-	bottom: 3px;
-	/* fallback */
-	left: 3px;
-	/* fallback */
 	bottom: var(--windowBorderWidth);
 	left: var(--windowBorderWidth);
 	background-color: #FFF;
@@ -552,8 +540,6 @@ div {
 
 .winHTML.noPadding {
 	padding-left: 0;
-	width: calc(100% - 6px);
-	/* fallback */
 	width: calc(100% - var(--windowBorderWidth) - var(--windowBorderWidth));
 }
 
@@ -840,8 +826,6 @@ div {
 }
 
 .winExit {
-	right: 3px;
-	/* fallback */
 	right: var(--windowBorderWidth);
 }
 
@@ -856,8 +840,6 @@ div {
 }
 
 .leftCaptionButtons .winExit {
-	left: 3px;
-	/* fallback */
 	left: var(--windowBorderWidth);
 	right: initial;
 }
@@ -896,21 +878,15 @@ div {
 }
 
 .winShrink {
-	right: 49px;
-	/* fallback */
 	right: calc(46px + var(--windowBorderWidth));
 }
 
 .leftCaptionButtons .winShrink {
-	left: 49px;
-	/* fallback */
 	left: calc(46px + var(--windowBorderWidth));
 	right: initial;
 }
 
 .winBig {
-	right: 26px;
-	/* fallback */
 	right: calc(23px + var(--windowBorderWidth));
 }
 
@@ -919,15 +895,11 @@ div {
 }
 
 .leftCaptionButtons .winBig {
-	left: 26px;
-	/* fallback */
 	left: calc(23px + var(--windowBorderWidth));
 	right: initial;
 }
 
 .winFld {
-	left: 3px;
-	/* fallback */
 	left: var(--windowBorderWidth);
 	line-height: 24px;
 }
@@ -937,8 +909,6 @@ div {
 }
 
 .leftCaptionButtons .winFld {
-	right: 3px;
-	/* fallback */
 	right: var(--windowBorderWidth);
 	left: initial;
 }
@@ -991,8 +961,8 @@ div {
 
 .appDesc {
 	bottom: 0;
-	color: #FFF;
-	text-shadow: 0px 0px 2px #000;
+	color: #000;
+	text-shadow: 0px 0px 2px #FFF;
 	font-family: aosProFont, sans-serif;
 	font-size: 12px;
 	text-align: center;

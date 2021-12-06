@@ -31,6 +31,17 @@
 <body style="background-color:#000" id="pagebody">
 	<!-- helps JS find scrollbar stuff -->
 	<div id="findScrollSize" style="height:100px; width:100px; overflow:scroll;"></div>
+	<div id="bootLanguage" style="display:none">
+		<?php
+			if (isset($_COOKIE['keyword'])) {
+				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/language.txt')) {
+					echo file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/language.txt');
+				}
+			} else {
+				echo 'en';
+			}
+		?>
+	</div>
 
 	<!-- aOS computer screen and content inside on startup -->
 	<div id="monitor" class="cursorDefault">
@@ -62,29 +73,24 @@
 		<div id="ctxMenu" onclick="getId('ctxMenu').style.display='none'" class="backdropFilterCtxMenu noselect"></div>
 		<div id="screensaverLayer"></div>
 		<?php
-			if (!isset($_COOKIE['keyword'])) {
+			if (isset($_COOKIE['keyword'])) {
+				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt')) {
+						if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt')) {
+							if (file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt') == '1') {
+								echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');opacity:0"></div><script defer>requestAnimationFrame(function(){getId("desktop").style.display = "";getId("taskbar").style.display = "";});window.dirtyLoadingEnabled = 1;</script>';
+							} else {
+								echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
+							}
+						} else {
+							echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
+						}
+				} else {
+					echo '<div id="aOSloadingBg"></div>';
+				}
+			} else {
 				echo '<div id="aOSloadingBg"></div>';
-				return;
 			}
-
-			if (!file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt')) {
-				echo '<div id="aOSloadingBg"></div>';
-				return;
-			}
-			
-			if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt')) {
-				echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
-				return;
-			}
-
-			if (file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt') == '1') {
-				echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');opacity:0"></div><script defer>requestAnimationFrame(function(){getId("desktop").style.display = "";getId("taskbar").style.display = "";});window.dirtyLoadingEnabled = 1;</script>';
-				return;
-			}
-
-			echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
 		?>
-
 		<div id="aOSisLoading" class="cursorLoadLight">
 			<div id="aOSisLoadingDiv">
 				<h1>AaronOS</h1>
@@ -93,8 +99,8 @@
 					<div id="aOSloadingInfo" class="liveElement"
 						data-live-eval="finishedWaitingCodes / totalWaitingCodes * 100 + '%'" data-live-target="style.width">
 						Initializing...</div>
-				</div>
-				<br><br>&nbsp;<br>
+				</div><br><br>
+				&nbsp;<br>
 				<a href="?safeMode"><button>Safe Mode</button></a><br><br>
 				<button
 					onclick="document.getElementById('aOSisLoading').style.display = 'none';document.getElementById('aOSloadingBg').style.display = 'none';document.getElementById('desktop').style.display = '';document.getElementById('taskbar').style.display = '';">Force
@@ -108,7 +114,15 @@
 </body>
 
 <?php
-	echo '<script defer src="scriptBeta.js?ms='.round(microtime(true) * 1000).'"></script>';
+	if (isset($_GET['dev'])){
+		if ($_GET['dev'] == '1' || $_GET['dev'] == 'true') {
+			echo '<script defer src="scriptDev.js?ms='.round(microtime(true) * 1000).'"></script>';
+		} else {
+			echo '<script defer src="scriptBeta.js?ms='.round(microtime(true) * 1000).'"></script>';
+		}
+	} else {
+		echo '<script defer src="scriptBeta.js?ms='.round(microtime(true) * 1000).'"></script>';
+	}
 ?>
 
 <?php
@@ -116,7 +130,6 @@
 		$changeKey = $_GET['changeKey'];
 		$changePass = $_GET['changePass'];
 	}
-
 	echo '<script defer>window.lineOfTheDay = ';
 	require 'lotd.php';
 	echo '</script>';

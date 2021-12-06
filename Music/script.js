@@ -60,72 +60,18 @@ requestAnimationFrame(updateProgress);
 var audioContext;
 var mediaSource;
 var delayNode;
-function setDelay(newDelay) {
-	delayNode.delayTime.value = (newDelay || 0);
-	localStorage.setItem("AaronOSMusic_Delay", String(newDelay));
-}
 
-function setVolume(newVolume) {
-	audio.volume = newVolume;
-}
+const setVolume = (newVolume) => audio.volume = newVolume;
+window.setVolume = setVolume;
 
-var analyser;
-var visData;
 var songList = getId("songList");
 var progressBar = getId("progress");
 var fileNames = [];
 var fileInfo = {};
 var currentSong = -1;
 var winsize = [window.innerWidth, window.innerHeight];
-var size = [window.innerWidth - 8, window.innerHeight - 81];
+window.size = [window.innerWidth - 8, window.innerHeight - 81];
 var supportedFormats = ['aac', 'aiff', 'wav', 'm4a', 'mp3', 'amr', 'au', 'weba', 'oga', 'wma', 'flac', 'ogg', 'opus', 'webm'];
-
-function generateSongInfo() {
-	var tempFileInfo = {
-		_color_tutorial: {
-			colorTypes: ['gradient', 'peak', 'solid'],
-			colorTypesExplanations: {
-				gradient: 'All colors are evenly distributed.',
-				peak: 'Same as gradient, but the last color is used as a peak of sorts, at very high volumes.',
-				solid: 'Solid color, no gradient'
-			},
-			colorFormat: [
-				"Each file requires a colorType and list of colors.",
-				"The _default_colors are selected when a specific song has no colors.",
-				[
-					'Red Channel',
-					'Green Channel',
-					'Blue Channel',
-					'Alpha Channel'
-				],
-				[
-					127,
-					255,
-					204,
-					0.8
-				]
-			]
-		},
-		_default_colors: {
-			colorType: 'peak',
-			colors: [
-				[0, 0, 255, 1],
-				[0, 255, 0, 1],
-				[255, 0, 0, 1]
-			]
-		}
-	};
-	for (var i in fileNames) {
-		tempFileInfo[fileNames[i][0]] = {
-			colorType: '',
-			colors: []
-		};
-	}
-	for (var i in fileInfo) {
-		tempFileInfo[i] = fileInfo[i];
-	}
-	getId("songInfoTemplate").value = JSON.stringify(tempFileInfo, null, '\t');
-}
 
 function listSongs() {
 	var str = "";
@@ -137,14 +83,6 @@ function listSongs() {
 	});
 
 	songList.innerHTML = str;
-}
-
-function readFileInfo(event) {
-	try {
-		fileInfo = JSON.parse(event.target.result);
-	} catch (err) {
-		console.log("Error parsing file info");
-	}
 }
 
 var currentSong = -1;
@@ -419,7 +357,7 @@ function globalFrame() {
 	perfCurrent = performance.now();
 	perfTime = perfCurrent - perfLast;
 	fpsApproximate = 1000 / perfTime;
-	fpsCompensation = 1 / (fpsApproximate / 60);
+	fpsCompensation = 0.5 / (fpsApproximate / 60);
 
 	// fpsCompensation is a helper for adjusting timing based on the FPS
 	// multiply a value by fpsCompensation to adjust it to the current performance.
@@ -829,7 +767,7 @@ function loadAudio() {
 			var parser = new DOMParser();
 			let HTML = parser.parseFromString(xhr.response, 'text/html');
 			var elements = HTML.getElementsByTagName("a");
-			for (x of elements) {
+			for (let x of elements) {
 				let fileName = x.href;
 				let fileNameParts = fileName.split("Music");
 				if (supportedFormats.includes(fileName.split(".")[2])) {
@@ -856,12 +794,16 @@ function loadAudioFiles() {
 	}
 
 	listSongs();
-	var disabledElements = document.getElementsByClassName('disabled');
+	let disabledElements = document.getElementsByClassName('disabled');
 	while (disabledElements.length > 0) {
 		disabledElements[0].classList.remove('disabled');
 	}
 
-	audioContext = new AudioContext();
+	audioContext = new AudioContext({
+		latencyHint: 'playback',
+		//sampleRate: 8000,
+	});
+	
 	mediaSource = audioContext.createMediaElementSource(audio);
 	delayNode = audioContext.createDelay();
 	delayNode.delayTime.value = 0.07;
@@ -914,11 +856,7 @@ function openVisualizerMenu() {
 					if (i === getId("visfield").value) {
 						namecolor = ' style="outline:2px solid ' + getColor(255) + ';"';
 					}
-					if (vis[i].image) {
-						tempHTML += '<div' + namecolor + ' class="visOption" onclick="overrideVis(\'' + i + '\')"><img src="' + vis[i].image + '">' + vis[i].name + '&nbsp;</div>';
-					} else {
-						tempHTML += '<div' + namecolor + ' class="visOption" onclick="overrideVis(\'' + i + '\')"><span></span>' + vis[i].name + '</div>';
-					}
+					tempHTML += '<div' + namecolor + ' class="visOption" onclick="overrideVis(\'' + i + '\')"><img src="' + vis[i].image + '">' + vis[i].name + '&nbsp;</div>';
 				}
 			} else {
 				tempHTML += '</div><div style="height:auto;background:none;"><br></div>';
