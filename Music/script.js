@@ -53,8 +53,10 @@ window.setVolume = setVolume;
 var songList = getId("songList");
 var progressBar = getId("progress");
 var fileNames = [];
+window.fileNames = fileNames;
 var fileInfo = {};
 var currentSong = -1;
+window.currentSong = currentSong;
 var winsize = [window.innerWidth, window.innerHeight];
 window.size = [window.innerWidth - 8, window.innerHeight - 81];
 var supportedFormats = ['aac', 'aiff', 'wav', 'm4a', 'mp3', 'amr', 'au', 'weba', 'oga', 'wma', 'flac', 'ogg', 'opus', 'webm'];
@@ -188,11 +190,7 @@ function play() {
 		audio.play();
 		blockSleep();
 	}
-	if (ambienceWaiting) {
-		ambienceWaiting = 0;
-		clearTimeout(ambienceTimeout);
-		getId("currentlyPlaying").innerHTML = fileNames[currentSong][1] + ": " + fileNames[currentSong][0];
-	}
+
 	getId("playbutton").innerHTML = "<b>&nbsp;||&nbsp;</b>";
 }
 window.play = play;
@@ -217,11 +215,6 @@ function setProgress(e) {
 		timeToSet /= size[0];
 		timeToSet *= audio.duration;
 		audio.currentTime = timeToSet;
-		if (ambienceWaiting) {
-			ambienceWaiting = 0;
-			clearTimeout(ambienceTimeout);
-			getId("currentlyPlaying").innerHTML = fileNames[currentSong][1] + ": " + fileNames[currentSong][0];
-		}
 	}
 }
 window.setProgress = setProgress;
@@ -235,70 +228,23 @@ function back() {
 		selectSong(currentSong);
 	} else {
 		audio.currentTime = 0;
-		if (ambienceWaiting) {
-			ambienceWaiting = 0;
-			clearTimeout(ambienceTimeout);
-			getId("currentlyPlaying").innerHTML = fileNames[currentSong][1] + ": " + fileNames[currentSong][0];
-		}
 	}
 }
 window.back = back;
 
-var ambienceWaiting = 0;
-var ambienceTimeout = null;
 function next() {
-	if (ambienceMode) {
-		if (ambienceWaiting) {
-			ambienceWaiting = 0;
-			clearTimeout(ambienceTimeout);
-		}
-		var nextAmbienceSong = Math.floor(Math.random() * fileNames.length);
-		if (fileNames.length !== 1) {
-			while (nextAmbienceSong === currentSong) {
-				nextAmbienceSong = Math.floor(Math.random() * fileNames.length);
-			}
-		}
-		currentSong = nextAmbienceSong;
-	} else {
-		currentSong++;
-		if (currentSong > fileNames.length - 1) {
-			currentSong = 0;
-		}
+	currentSong++;
+	if (currentSong > fileNames.length - 1) {
+		currentSong = 0;
 	}
 	selectSong(currentSong);
 }
 window.next = next;
 
-function ambienceNext() {
-	if (ambienceWaiting) {
-		ambienceWaiting = 0;
-		clearTimeout(ambienceTimeout);
-	}
-	var nextAmbienceSong = Math.floor(Math.random() * fileNames.length);
-	if (fileNames.length !== 1) {
-		while (nextAmbienceSong === currentSong) {
-			nextAmbienceSong = Math.floor(Math.random() * fileNames.length);
-		}
-	}
-	currentSong = nextAmbienceSong;
-	selectSong(currentSong);
-}
-
 function songEnd() {
 	var windowWillClose = checkSelfClose();
 	if (!windowWillClose) {
-		if (ambienceMode) {
-			var randomTime = Math.floor(Math.random() * 300000) + 1;
-			var randomTimeSeconds = Math.floor(randomTime / 1000);
-			var randomTimeMinutes = Math.floor(randomTimeSeconds / 60);
-			randomTimeSeconds -= randomTimeMinutes * 60;
-			getId("currentlyPlaying").innerHTML = "Next song in " + randomTimeMinutes + ":" + randomTimeSeconds;
-			ambienceTimeout = setTimeout(ambienceNext, randomTime);
-			ambienceWaiting = 1;
-			getId("playbutton").innerHTML = "&#9658;";
-		} else {
-			next();
-		}
+		next();
 	}
 }
 
@@ -321,18 +267,6 @@ function shuffle() {
 	selectSong(0);
 }
 window.shuffle = shuffle;
-
-var ambienceMode = 0;
-function toggleAmbience() {
-	ambienceMode = Math.abs(ambienceMode - 1);
-	if (getId("ambienceButton")) {
-		getId("ambienceButton").style.borderColor = debugColors[ambienceMode];
-	}
-	if (ambienceMode && currentSong === -1) {
-		songEnd();
-	}
-}
-window.toggleAmbience = toggleAmbience;
 
 var debugColors = ["#C00", "#0A0"];
 var perfLast = performance.now();

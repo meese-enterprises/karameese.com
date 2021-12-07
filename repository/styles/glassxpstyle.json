@@ -1,7 +1,0 @@
-{
-    "name": "Windows XP Glass",
-    "id": "glassxpstyle",
-    "version": "1.0",
-    "appType": "stylesheet",
-    "styleLink": "customStyles/TransparentXP/aosCustomStyle.css"
-}

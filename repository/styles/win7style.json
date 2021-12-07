@@ -1,7 +1,0 @@
-{
-    "name": "Windows 7 Theme",
-    "id": "win7style",
-    "version": "1.0",
-    "appType": "stylesheet",
-    "styleLink": "customStyles/Windows7/aosCustomStyle.css"
-}

@@ -447,12 +447,10 @@ var langContent = {
 		appNames: {
 			startMenu: "AaronOS Dashboard",
 			nora: "NORAA",
-			taskManager: "Task Manager",
 			jsConsole: "JavaScript Console",
 			bash: "Psuedo-Bash Terminal",
 			prompt: "Application Prompt",
 			settings: "Settings",
-			iconMaker: "Desktop Icon Maker",
 			windowTest: "Window Test Application",
 			testTwo: "Test App 2",
 			ragdoll: "Rag Doll",
@@ -489,7 +487,6 @@ var langContent = {
 		},
 		startMenu: {
 			power: 'Power',
-			taskManager: 'Task Manager',
 			jsConsole: 'JavaScript Console',
 			settings: 'Settings',
 			files: 'Files',
@@ -2693,6 +2690,7 @@ c(function() {
 		codeName: "startMenu",
 		image: {
 			backgroundColor: "#303947",
+			// TODO: CHANGE TO CUSTOM KARA LOGO
 			foreground: "smarticons/aOS/fg.png",
 			backgroundBorder: {
 				thickness: 2,
@@ -2742,188 +2740,46 @@ c(function() {
 
 					this.appWindow.openWindow();
 					this.vars.listOfApps = '';
-					switch (ufload("aos_system/apps/startMenu/dashboard")) {
-						case 'whisker':
-							this.appWindow.setContent(
-								'<span style="color:#FFF;font-family:aosProFont,monospace;font-size:12px">User: ' + apps.messaging.vars.parseBB(apps.messaging.vars.name) + '</span>' +
-								'<div class="darkResponsive" style="left:0;bottom:0;height:calc(100% - 3em);overflow-y:scroll;width:calc(70% - 2px);">' +
-								'<table id="appDsBtable" class="noselect" style="position:absolute;left:0;top:0;width:100%;max-width:100%;"></table>' +
-								'</div>' +
-								'<div style="right:0;top:0;height:calc(100% - 2em);width:calc(30% - 2px);max-width:calc(30% - 2px);text-align:right">' +
-								'<img class="cursorPointer" style="width:10px;height:10px;filter:invert(1)" src="ctxMenu/beta/gear.png" onclick="openapp(apps.settings,\'dsktp\')"> ' +
-								'<img class="cursorPointer" style="width:10px;height:10px;filter:invert(1)" src="ctxMenu/beta/power.png" onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})"><br><br><br>' +
-								'<button style="width:100%" onclick="openapp(apps.appCenter, \'dsktp\')">AaronOS Hub</button><br>' +
-								'<button style="width:100%" onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</button><br>' +
-								'<button style="width:100%" onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</button><br>' +
-								'<button style="width:100%" onclick="openapp(apps.files2, \'dsktp\')">' + lang('startMenu', 'files') + '</button><br>' +
-								'<button style="width:100%" onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</button>' +
-								'</div>' +
-								'<input autocomplete="off" style="position:absolute;left:0;top:1.5em;width:calc(100% - 2px);" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch"></span>'
-							);
-							if (this.vars.listOfApps.length === 0) {
-								getId('appDsBtable').innerHTML = '<tr><td></td></tr>';
-								getId('appDsBtable').classList.add('cursorLoadLight');
-								for (var appHandle in appsSorted) {
-									if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
-										apps.startMenu.vars.listOfApps += '<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' + appsSorted[appHandle] + ', \'dsktp\')" oncontextmenu="ctxMenu(apps.startMenu.vars.ctx, 1, event, \'' + appsSorted[appHandle] + '\')"><th>' + buildSmartIcon(64, apps[appsSorted[appHandle]].appWindow.appImg) + '</th><td>' + apps[appsSorted[appHandle]].appDesc + '</td></tr>';
-									}
-								}
-								getId('appDsBtable').innerHTML = apps.startMenu.vars.listOfApps;
-								getId('appDsBtable').classList.remove('cursorLoadLight');
-								apps.startMenu.vars.appElems = getId('appDsBtable').getElementsByTagName('tr');
-							} else {
-								getId('appDsBtable').innerHTML = this.vars.listOfApps;
-								this.vars.appElems = getId('appDsBtable').getElementsByClassName('dashboardSearchItem');
+					this.appWindow.setContent(
+						'<div style="width:100%;height:100%;">' +
+						'<div style="position:relative;text-align:center;">' +
+						'<button onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})">' + lang('startMenu', 'power') + '</button>  ' +
+						'<button onclick="openapp(apps.files2, \'dsktp\')">' + lang('startMenu', 'files') + '</button> ' +
+						'<button onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</button> ' +
+						'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</button><br>' +
+						'<button onclick="openapp(apps.appCenter, \'dsktp\')">AaronOS Hub</button> ' +
+						'<button onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</button> ' +
+						'<input autocomplete="off" style="width:calc(100% - 6px);margin-top:3px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
+						'</div><div id="appDsBtableWrapper" class="noselect" style="width:100%;overflow-y:scroll;background-color:rgba(' + darkSwitch('255, 255, 255', '39, 39, 39') + ', 0.5);">' +
+						'<table id="appDsBtable" style="color:#000;font-family:aosProFont, monospace; font-size:12px; width:100%;color:' + darkSwitch('#000', '#FFF') + ';"></table>' +
+						'</div></div>'
+					);
+					var outerbound = getId("win_startMenu_html").getBoundingClientRect();
+					var innerbound = getId("appDsBtableWrapper").getBoundingClientRect();
+					getId("appDsBtableWrapper").style.height = outerbound.height - (innerbound.top - outerbound.top) + "px";
+					if (this.vars.listOfApps.length === 0) {
+						getId('appDsBtable').innerHTML = '<tr><td></td></tr>';
+						getId('appDsBtable').classList.add('cursorLoadLight');
+						for (var appHandle in appsSorted) {
+							if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
+								apps.startMenu.vars.listOfApps += '<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' + appsSorted[appHandle] + ', \'dsktp\')" oncontextmenu="ctxMenu(apps.startMenu.vars.ctx, 1, event, \'' + appsSorted[appHandle] + '\')">' +
+									'<th>' + buildSmartIcon(32, apps[appsSorted[appHandle]].appWindow.appImg) + '</th>' +
+									'<td>' + apps[appsSorted[appHandle]].appDesc + '</td>' +
+									'<td style="text-align:right;opacity:0.5">' + apps[appsSorted[appHandle]].dsktpIcon + '</td>' +
+									'</tr>';
 							}
-							if (!mobileMode) {
-								getId('appDsBsearch').focus();
-							}
-							break;
-						case 'win7':
-							this.appWindow.setContent(
-								'<button style="position:absolute;right:0;bottom:8px;width:30%" onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})">Power</button>' +
-								'<div class="darkResponsive" style="left:0;top:0;height:calc(100% - 2.5em);overflow-y:scroll;width:calc(70% - 2px);border-top-left-radius:5px;border-top-right-radius:5px;">' +
-								'<table id="appDsBtable" class="noselect" style="border-top-left-radius:5px;border-top-right-radius:5px;position:absolute;left:0;top:0;width:100%;max-width:100%;"></table>' +
-								'</div>' +
-								'<div style="right:0;color:#FFF;top:0;height:calc(100% - 2em);width:calc(30% - 2px);max-width:calc(30% - 2px);">' +
-								'<img style="width:50px;margin-left:15px;" src="appicons/ds/aOS.png"><br>' +
-								'<span class="cursorPointer" style="width:100%" onclick="openapp(apps.appCenter, \'dsktp\')">AaronOS Hub</span><br><br>' +
-								'<span class="cursorPointer" style="width:100%" onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</span><hr>' +
-								'<span class="cursorPointer" style="width:100%" onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</span><br><br>' +
-								'<span class="cursorPointer" style="width:100%" onclick="openapp(apps.files2, \'dsktp\')">' + lang('startMenu', 'files') + '</span><hr>' +
-								'<span class="cursorPointer" style="width:100%" onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</span>' +
-								'</div>' +
-								'<input autocomplete="off" style="position:absolute;left:0;bottom:0;background-color:#DDD;width:calc(70% - 2px);height:3em;border:none;border-bottom-right-radius:5px;border-bottom-left-radius:5px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch"></span>'
-							);
-							if (this.vars.listOfApps.length === 0) {
-								getId('appDsBtable').innerHTML = '<tr><td></td></tr>';
-								getId('appDsBtable').classList.add('cursorLoadLight');
-								for (var appHandle in appsSorted) {
-									if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
-										apps.startMenu.vars.listOfApps += '<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' + appsSorted[appHandle] + ', \'dsktp\')" oncontextmenu="ctxMenu(apps.startMenu.vars.ctx, 1, event, \'' + appsSorted[appHandle] + '\')"><th>' + buildSmartIcon(32, apps[appsSorted[appHandle]].appWindow.appImg) + '</th><td>' + apps[appsSorted[appHandle]].appDesc + '</td></tr>';
-									}
-								}
-								getId('appDsBtable').innerHTML = apps.startMenu.vars.listOfApps;
-								getId('appDsBtable').classList.remove('cursorLoadLight');
-								apps.startMenu.vars.appElems = getId('appDsBtable').getElementsByClassName('dashboardSearchItem');
-							} else {
-								getId('appDsBtable').innerHTML = this.vars.listOfApps;
-								this.vars.appElems = getId('appDsBtable').getElementsByTagName('tr');
-							}
-							if (!mobileMode) {
-								getId('appDsBsearch').focus();
-							}
-							break;
-						case 'android':
-							this.appWindow.setContent(
-								'<div style="width:100%;height:100%;overflow-y:scroll">' +
-								'<span style="padding-bottom:4px;">&nbsp;' +
-								'<button onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})">' + lang('startMenu', 'power') + '</button>  ' +
-								'<button onclick="openapp(apps.appCenter, \'dsktp\')">AaronOS Hub</button> ' +
-								'<button onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</button> ' +
-								'<button onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</button> ' +
-								'<button onclick="openapp(apps.files2, \'dsktp\')">' + lang('startMenu', 'files') + '</button> ' +
-								'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</button><br>' +
-								'<input autocomplete="off" style="width:calc(100% - 4px);margin-top:3px" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event, 1)" id="appDsBsearch">' +
-								'</span><hr style="margin:0;margin-top:2px">' +
-								'<div id="appDsBtable" class="darkResponsive noselect" style="font-family:aosProFont, monospace; font-size:12px; width:calc(100% - 2px);"></div>' +
-								'</div>'
-							);
-							if (this.vars.listOfApps.length === 0) {
-								getId('appDsBtable').innerHTML = '';
-								getId('appDsBtable').classList.add('cursorLoadLight');
-								for (var appHandle in appsSorted) {
-									if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
-										apps.startMenu.vars.listOfApps += '<div class="cursorPointer dashboardSearchItem" style="min-height:96px;max-height:96px;display:inline-block;position:static;text-align:center;min-width:25%;max-width:25%" onClick="openapp(apps.' + appsSorted[appHandle] + ', \'dsktp\')" oncontextmenu="ctxMenu(apps.startMenu.vars.ctx, 1, event, \'' + appsSorted[appHandle] + '\')">' + buildSmartIcon(32, apps[appsSorted[appHandle]].appWindow.appImg) + '<br>' + apps[appsSorted[appHandle]].appDesc + '</div>';
-									}
-								}
-								getId('appDsBtable').innerHTML = apps.startMenu.vars.listOfApps;
-								getId('appDsBtable').classList.remove('cursorLoadLight');
-								apps.startMenu.vars.appElems = getId('appDsBtable').getElementsByClassName('dashboardSearchItem');
-							} else {
-								getId('appDsBtable').innerHTML = this.vars.listOfApps;
-								this.vars.appElems = getId('appDsBtable').getElementsByTagName('tr');
-							}
-							if (!mobileMode) {
-								getId('appDsBsearch').focus();
-							}
-							break;
-						case "legacy":
-							this.appWindow.setContent(
-								'<div style="width:100%;height:100%;overflow-y:scroll;">' +
-								'<span style="padding-bottom:4px;">&nbsp;' +
-								'<button onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})">' + lang('startMenu', 'power') + '</button>  ' +
-								'<button onclick="openapp(apps.appCenter, \'dsktp\')">AaronOS Hub</button> ' +
-								'<button onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</button> ' +
-								'<button onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</button> ' +
-								'<button onclick="openapp(apps.files2, \'dsktp\')">' + lang('startMenu', 'files') + '</button> ' +
-								'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</button><br>' +
-								'<input style="width:calc(100% - 4px);margin-top:3px" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
-								'</span><hr style="margin:0;margin-top:2px">' +
-								'<table id="appDsBtable" class="noselect" style="color:#000;font-family:aosProFont, monospace; font-size:12px; width:100%;"></table>' +
-								'</div>'
-							);
-							if (this.vars.listOfApps.length === 0) {
-								getId('appDsBtable').innerHTML = '<tr><td></td></tr>';
-								getId('appDsBtable').classList.add('cursorLoadLight');
-								for (var appHandle in appsSorted) {
-									if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
-										apps.startMenu.vars.listOfApps += '<tr class="cursorPointer dashboardSearchItem" style="background-color:rgba(' + darkSwitch('255, 255, 255', '39, 39, 39') + ', 0.5);color:' + darkSwitch('#000', '#FFF') + ';" onClick="openapp(apps.' + appsSorted[appHandle] + ', \'dsktp\')" oncontextmenu="ctxMenu(apps.startMenu.vars.ctx, 1, event, \'' + appsSorted[appHandle] + '\')"><th>' + apps[appsSorted[appHandle]].dsktpIcon + '</th><td>' + apps[appsSorted[appHandle]].appDesc + '</td></tr>';
-									}
-								}
-								getId('appDsBtable').innerHTML = apps.startMenu.vars.listOfApps;
-								getId('appDsBtable').classList.remove('cursorLoadLight');
-								apps.startMenu.vars.appElems = getId('appDsBtable').getElementsByClassName('dashboardSearchItem');
-							} else {
-								getId('appDsBtable').innerHTML = this.vars.listOfApps;
-								this.vars.appElems = getId('appDsBtable').getElementsByTagName('tr');
-							}
-							if (!mobileMode) {
-								getId('appDsBsearch').focus();
-							}
-							break;
-						default:
-							this.appWindow.setContent(
-								'<div style="width:100%;height:100%;">' +
-								'<div style="position:relative;text-align:center;">' +
-								'<button onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})">' + lang('startMenu', 'power') + '</button>  ' +
-								'<button onclick="openapp(apps.files2, \'dsktp\')">' + lang('startMenu', 'files') + '</button> ' +
-								'<button onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</button> ' +
-								'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</button><br>' +
-								'<button onclick="openapp(apps.appCenter, \'dsktp\')">AaronOS Hub</button> ' +
-								'<button onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</button> ' +
-								'<input autocomplete="off" style="width:calc(100% - 6px);margin-top:3px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
-								'</div><div id="appDsBtableWrapper" class="noselect" style="width:100%;overflow-y:scroll;background-color:rgba(' + darkSwitch('255, 255, 255', '39, 39, 39') + ', 0.5);">' +
-								'<table id="appDsBtable" style="color:#000;font-family:aosProFont, monospace; font-size:12px; width:100%;color:' + darkSwitch('#000', '#FFF') + ';"></table>' +
-								'</div></div>'
-							);
-							var outerbound = getId("win_startMenu_html").getBoundingClientRect();
-							var innerbound = getId("appDsBtableWrapper").getBoundingClientRect();
-							getId("appDsBtableWrapper").style.height = outerbound.height - (innerbound.top - outerbound.top) + "px";
-							if (this.vars.listOfApps.length === 0) {
-								getId('appDsBtable').innerHTML = '<tr><td></td></tr>';
-								getId('appDsBtable').classList.add('cursorLoadLight');
-								for (var appHandle in appsSorted) {
-									if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
-										apps.startMenu.vars.listOfApps += '<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' + appsSorted[appHandle] + ', \'dsktp\')" oncontextmenu="ctxMenu(apps.startMenu.vars.ctx, 1, event, \'' + appsSorted[appHandle] + '\')">' +
-											'<th>' + buildSmartIcon(32, apps[appsSorted[appHandle]].appWindow.appImg) + '</th>' +
-											'<td>' + apps[appsSorted[appHandle]].appDesc + '</td>' +
-											'<td style="text-align:right;opacity:0.5">' + apps[appsSorted[appHandle]].dsktpIcon + '</td>' +
-											'</tr>';
-									}
-								}
-								
-								getId('appDsBtable').innerHTML = apps.startMenu.vars.listOfApps;
-								getId('appDsBtable').innerHTML += '<tr><th><div style="width:32px;height:32px;position:relative;"></div></th><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td>';
-								getId('appDsBtable').classList.remove('cursorLoadLight');
-								apps.startMenu.vars.appElems = getId('appDsBtable').getElementsByClassName('dashboardSearchItem');
-							} else {
-								getId('appDsBtable').innerHTML = this.vars.listOfApps;
-								this.vars.appElems = getId('appDsBtable').getElementsByTagName('tr');
-							}
-							if (!mobileMode) {
-								getId('appDsBsearch').focus();
-							}
+						}
+						
+						getId('appDsBtable').innerHTML = apps.startMenu.vars.listOfApps;
+						getId('appDsBtable').innerHTML += '<tr><th><div style="width:32px;height:32px;position:relative;"></div></th><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td>';
+						getId('appDsBtable').classList.remove('cursorLoadLight');
+						apps.startMenu.vars.appElems = getId('appDsBtable').getElementsByClassName('dashboardSearchItem');
+					} else {
+						getId('appDsBtable').innerHTML = this.vars.listOfApps;
+						this.vars.appElems = getId('appDsBtable').getElementsByTagName('tr');
+					}
+					if (!mobileMode) {
+						getId('appDsBsearch').focus();
 					}
 				} else {
 					apps.startMenu.signalHandler('shrink');
@@ -2973,9 +2829,6 @@ c(function() {
 				[' ' + lang('startMenu', 'settings'), function() {
 					openapp(apps.settings, 'dsktp');
 				}, 'ctxMenu/beta/gear.png'],
-				[' ' + lang('startMenu', 'taskManager'), function() {
-					openapp(apps.taskManager, 'dsktp');
-				}, 'ctxMenu/beta/aOS.png'],
 				['+Log Out', function() {
 					apps.settings.vars.shutDown('restart', 1);
 				}, 'ctxMenu/beta/power.png'],
@@ -4189,6 +4042,7 @@ c(function() {
 				this.ddgText = text;
 			},
 			askDDG: function (query) {
+				// TODO: USE THIS AS AN ACTUAL SEARCH ENGINE FROM THE SERVER SIDE
 				apps.nora.vars.say("I'll ask DuckDuckGo for you...");
 				this.ddgQuery = query;
 				this.ddg.open('GET', 'ddgSearch.php?q=' + this.ddgText);
@@ -4407,139 +4261,8 @@ c(function() {
 			appInfo: 'This app is used to show information and help pages for AaronOS apps.'
 		}
 	});
-	getId('aOSloadingInfo').innerHTML = 'Task Manager...';
-});
-
-c(function() {
-	m('init tMg');
-	apps.taskManager = new Application({
-		title: "Task Manager",
-		abbreviation: "tMg",
-		codeName: "taskManager",
-		image: "appicons/ds/systemApp.png",
-		hideApp: 1,
-		launchTypes: 1,
-		main: function (launchtype) {
-			if (!this.appWindow.appIcon) {
-				this.appWindow.paddingMode(0);
-				this.appWindow.alwaysOnTop(1);
-				this.appWindow.setDims("auto", "auto", 600, 500);
-			}
-
-			this.appWindow.setCaption("aOS Task Manager");
-			perfStart('tMgPerfBench');
-			this.appWindow.setContent(
-				"<table id='tMgMemTable'>" +
-				"<tr><td>Script Performance Benchmark:</td><td class='liveElement' data-live-eval='perfStart(\"tMgScptBench\");perfCheck(\"tMgScptBench\")'></td></tr>" +
-				"<tr><td>Visual Performance Benchmark:</td><td class='liveElement' data-live-eval='[perfCheck(\"tMgPerfBench\"),perfStart(\"tMgPerfBench\")][0]'></td></tr>" +
-				"<tr><td>Code Pieces Waiting to Run:</td><td><span id='tMgCodeWait' class='liveElement' data-live-eval='codeToRun.length'>0</span></td></tr>" +
-				"<tr><td>Temp Speech Running:</td><td><span id='tMgSpeechRun' class='liveElement' data-live-eval='numtf(apps.nora.vars.contRecogRunning)'>false</span></td></tr>" +
-				"<tr><td>Temp Speech Storage:</td><td><span id='tMgSpeechStore' class='liveElement' data-live-eval='apps.nora.vars.currContTrans'></span></td></tr>" +
-				"<tr><td>Live Elements Loaded:</td><td><span class='liveElement' data-live-eval='liveElements.length'></span></td></tr>" +
-				"</table>" +
-				"<p>modulelast, module: <br><span id='tMgModule' style='font-family:monospace' class='liveElement' data-live-eval='modulelast + \"<br>\" + module'>?<br>?</span></p>" +
-				"<p>Managed Timers:</p>" +
-				"<ul style='font-family:monospace' id='tMgTaskList'></ul>"
-			);
-
-			getId('win_taskManager_html').style.overflowY = 'scroll';
-			if (this.vars.running.tMg.MemCheck) removeInterval("tMg", "MemCheck");
-			if (this.vars.running.tMg.TskCheck) removeInterval("tMg", "TskCheck");
-			this.vars.updateTsk();
-			makeInterval("tMg", "TskCheck", "apps.taskManager.vars.updateTsk()", 250);
-			this.appWindow.openWindow();
-		},
-		vars: {
-			appInfo: 'This is a makeshift Task Manager for aOS. It doesn\'t work that well, and sadly none of the apps actually use it.',
-			memInfo: {},
-			running: {
-				tMg: {}
-			},
-			currTaskStr: "",
-			runningLast: {},
-			cnv: null,
-			ctx: null,
-			changed: 0,
-			updateMem: function() {},
-			updateTsk: function() {
-				if (apps.taskManager.vars.changed) {
-					try {
-						getId("tMgTaskList").innerHTML = "<li>APP<ul><li>TaskName | Command | Interval (ms)</li></ul></li>";
-					} catch (err) {}
-					for (let apptask in apps.taskManager.vars.running) {
-						apps.taskManager.vars.currTaskStr = "<li>" + apptask + "<ul>";
-						for (let apptasking in apps.taskManager.vars.running[apptask]) {
-							if (apps.taskManager.vars.running[apptask][apptasking][3] === 't') {
-								apps.taskManager.vars.currTaskStr += "<li style='color:#080' oncontextmenu='ctxMenu([[event.pageX,event.pageY, \"ctxMenu/beta/x.png\"], \" Remove Waiting Task\", \"removeTimeout(`" + apptask + "`,`" + apptasking + "`,1)\"])'>" + apptasking + " | " + apps.taskManager.vars.running[apptask][apptasking][1] + " | " + apps.taskManager.vars.running[apptask][apptasking][2] + "</li>";
-							} else if (apps.taskManager.vars.running[apptask][apptasking][3] === 'i') {
-								apps.taskManager.vars.currTaskStr += "<li style='color:#008' oncontextmenu='ctxMenu([[event.pageX,event.pageY, \"ctxMenu/beta/x.png\"], \" Remove Repeating Task\", \"removeInterval(`" + apptask + "`,`" + apptasking + "`,1)\"])'>" + apptasking + " | " + apps.taskManager.vars.running[apptask][apptasking][1] + " | " + apps.taskManager.vars.running[apptask][apptasking][2] + "</li>";
-							} else {
-								apps.taskManager.vars.currTaskStr += "<li style='color:#800' oncontextmenu='ctxMenu([[event.pageX,event.pageY, \"ctxMenu/beta/sad.png\"], \" Invalid Task\", \"apps.prompt.vars.alert(`This task was incorrectly initiated and is invalid; therefore it cannot be removed.`,`Okay`,function(){},`Task Manager`)\"])'>" + apptasking + " | " + apps.taskManager.vars.running[apptask][apptasking][1] + " | " + apps.taskManager.vars.running[apptask][apptasking][2] + "</li>";
-							}
-						}
-						apps.taskManager.vars.currTaskStr += "</ul></li>";
-						try {
-							getId("tMgTaskList").innerHTML += apps.taskManager.vars.currTaskStr;
-						} catch (err) {}
-					}
-					apps.taskManager.vars.runningLast = apps.taskManager.vars.running;
-					apps.taskManager.vars.changed = 0;
-				}
-			},
-			updateMod: function() {}
-		}
-	});
 	getId('aOSloadingInfo').innerHTML = 'JavaScript Console';
 });
-
-function makeTimeout(appname, taskname, functionname, functiontime) {
-	if (!apps.taskManager.vars.running[appname]) {
-		apps.taskManager.vars.running[appname] = {};
-	}
-	apps.taskManager.vars.running[appname][taskname] = [window.setTimeout(functionname, functiontime), functionname, functiontime, 't'];
-	window.setTimeout("apps.taskManager.vars.running['" + appname + "']['" + taskname + "'][2] = 'done';apps.taskManager.vars.changed = 1;", functiontime + 10);
-	apps.taskManager.vars.changed = 1;
-}
-
-function makeInterval(appname, taskname, functionname, functiontime) {
-	if (!apps.taskManager.vars.running[appname]) {
-		apps.taskManager.vars.running[appname] = {};
-	}
-	apps.taskManager.vars.running[appname][taskname] = [window.setInterval(functionname, functiontime), functionname, functiontime, 'i'];
-	apps.taskManager.vars.changed = 1;
-}
-
-function removeTimeout(appname, taskname, cnfrm) {
-	if (cnfrm) {
-		apps.prompt.vars.confirm('Are you sure you want to remove ' + appname + '\'s timeout ' + taskname + '? Removing certain functions could cause system instability.', ['No', 'Yes'], function (btn) {
-			if (!btn) return;
-
-			window.clearTimeout(apps.taskManager.vars.running[appname][taskname][0]);
-			delete apps.taskManager.vars.running[appname][taskname];
-			apps.taskManager.vars.changed = 1;
-		}, 'Task Manager');
-	} else {
-		window.clearTimeout(apps.taskManager.vars.running[appname][taskname][0]);
-		delete apps.taskManager.vars.running[appname][taskname];
-		apps.taskManager.vars.changed = 1;
-	}
-}
-
-function removeInterval(appname, taskname, cnfrm) {
-	if (cnfrm) {
-		apps.prompt.vars.confirm('Are you sure you want to remove ' + appname + '\'s interval ' + taskname + '? Removing certain functions could cause system instability.', ['No', 'Yes'], function (btn) {
-			if (!btn) return;
-
-			window.clearInterval(apps.taskManager.vars.running[appname][taskname][0]);
-			delete apps.taskManager.vars.running[appname][taskname];
-			apps.taskManager.vars.changed = 1;
-		}, 'Task Manager');
-	} else {
-		window.clearInterval(apps.taskManager.vars.running[appname][taskname][0]);
-		delete apps.taskManager.vars.running[appname][taskname];
-		apps.taskManager.vars.changed = 1;
-	}
-}
 
 var currentSelection = "";
 function setCurrentSelection() {
@@ -6003,8 +5726,6 @@ c(function() {
 					'<button onclick="apps.settings.vars.togTimeComp()">Toggle Compact Time</button> <button onclick="apps.settings.vars.togNetStat()">Toggle Network Status</button> <button onclick="apps.settings.vars.togBatStat()">Toggle Battery Status</button> <button onclick="apps.settings.vars.togBatComp()">Toggle Stylish Battery</button><hr>' +
 					'<b>NORAA</b><br>' +
 					'NORAA presents graphical help boxes instead of speaking solutions, where available: ' + this.vars.noraHelpTopics + ' <button onclick="apps.settings.vars.togNoraHelpTopics()">Toggle</button><br>' +
-					'NORAA listening for you: ' + this.vars.currNoraListening + ' <button onclick="apps.settings.vars.togNoraListen()">Toggle</button><br>' +
-					'NORAA listens for the phrase: <input id="STNnoraphrase" placeholder="listen computer" value="' + apps.settings.vars.currNoraPhrase + '"> <button onclick="apps.settings.vars.togNoraPhrase()">Set</button><br>' +
 					'Speech Input Delay (time in ms that NORAA gives for you to cancel spoken input): <input id="STNnoraDelay" value="' + apps.nora.vars.inputDelay + '"> <button onclick="apps.settings.vars.NORAAsetDelay()">Set</button><br><br>' +
 					'<i>If NORAA won\'t speak after you speak to him, try one of these out...</i><br>' +
 					'Current Voice: ' + apps.nora.vars.lang + '<br>' +
@@ -6244,57 +5965,6 @@ c(function() {
 						}
 					}
 				},
-				dashboard: {
-					folder: 0,
-					folderName: 'Dashboard',
-					folderPath: 'apps.settings.vars.menus.dashboard',
-					image: 'settingIcons/new/dashboard.png',
-					dashDefault: {
-						option: 'Default Dashboard',
-						description: function() {
-							return 'The default Dashboard of AaronOS. Features quick shortcuts at the top and a searchable list of apps along with their icons and three-letter IDs.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.setDashboard(\'default\')">Select Default Dashboard</button>'
-						}
-					},
-					dashLegacy: {
-						option: 'Legacy Dashboard',
-						description: function() {
-							return 'Previously the default Dashboard of AaronOS, prior to Beta 1.3. Features quick shortcuts at the top and a searchable list of apps along with their three-letter IDs.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.setDashboard(\'legacy\')">Select Legacy Dashboard</button>'
-						}
-					},
-					dashWin7: {
-						option: 'Aero Dashboard',
-						description: function() {
-							return 'Make the Dashboard look similar to the Start Menu of Windows 7 Aero. Features icons, shortcut buttons, app search, and a more familiar look.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.setDashboard(\'win7\')">Select Aero Dashboard</button>'
-						}
-					},
-					dashAndroid: {
-						option: 'Android Dashboard',
-						description: function() {
-							return 'Make the Dashboard look similar to the app-drawer style of Android launchers. Features shortcut buttons, app search, and icons.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.setDashboard(\'android\')">Select Android Dashboard</button>'
-						}
-					},
-					dashWhisker: {
-						option: 'Whisker Dashboard',
-						description: function() {
-							return 'Make the Dashboard look similar to the Whiskermenu of the XFCE desktop environment. Features icons, shortcut buttons, app search, and quick access to your OS ID.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.setDashboard(\'whisker\')">Select Whisker Dashboard</button>'
-						}
-					}
-				},
 				applicationPermissions: {
 					folder: 0,
 					folderName: "App Permissions",
@@ -6477,34 +6147,6 @@ c(function() {
 							return '<button onclick="apps.settings.vars.togNoraListen()">Toggle</button>'
 						}
 					},
-					listen: {
-						option: 'NORAA Listening',
-						description: function() {
-							return 'Current: <span class="liveElement" data-live-eval="numEnDis(parseInt(apps.settings.vars.currNoraListening))">' + numtf(apps.settings.vars.currNoraListening) + '</span>.<br>' +
-								'NORAA listens for you to say a specified phrase that will activate him.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.togNoraListen()">Toggle</button>'
-						}
-					},
-					listenFor: {
-						option: 'Listening Phrase',
-						description: function() {
-							return 'This is the phrase that NORAA listens for you to say, if enabled.'
-						},
-						buttons: function() {
-							return '<input id="STNnoraphrase" placeholder="listen computer" value="' + apps.settings.vars.currNoraPhrase + '"> <button onclick="apps.settings.vars.togNoraPhrase()">Set</button>'
-						}
-					},
-					speechDelay: {
-						option: 'Speech Input Delay',
-						description: function() {
-							return 'This is the time, in milliseconds, that NORAA gives you to cancel a command, when speaking to him. Useful for if NORAA did not hear you correctly.'
-						},
-						buttons: function() {
-							return '<input id="STNnoraDelay" value="' + apps.nora.vars.inputDelay + '"> <button onclick="apps.settings.vars.NORAAsetDelay()">Set</button>'
-						}
-					},
 					voices: {
 						option: 'NORAA\'s Voice',
 						description: function() {
@@ -6652,11 +6294,6 @@ c(function() {
 				textEditorTools.slots = newSlots;
 				textEditorTools.updateSlots();
 				if (!nosave) ufsave('aos_system/clipboard_slots', newSlots);
-			},
-			setDashboard: function (dashboardName) {
-				apps.startMenu.vars.listOfApps = '';
-				apps.startMenu.vars.appElems = null;
-				ufsave('aos_system/apps/startMenu/dashboard', dashboardName);
 			},
 			setScale: function (newScale, nosave) {
 				window.screenScale = parseFloat(newScale);
@@ -7711,281 +7348,6 @@ c(function() {
 	getId('aOSloadingInfo').innerHTML = 'Desktop Icon Maker';
 })
 
-c(function() {
-	m('init icon maker');
-	apps.iconMaker = new Application({
-		title: "Desktop Icon Maker",
-		abbreviation: "IcM",
-		codeName: "iconMaker",
-		image: 'appicons/ds/IcM.png',
-		hideApp: 2,
-		launchTypes: 1,
-		main: function (launchtype) {
-			getId("win_iconMaker_html").classList.add("noselect");
-			if (launchtype.indexOf('newicon') === 0) {
-				this.newlaunch = launchtype.split(' ');
-				this.appWindow.setDims("auto", "auto", 400, 500);
-				this.appWindow.setCaption('Desktop Icon Maker');
-				this.appWindow.setContent(
-					'<p style="color:#AA0000">This tool is outdated and may not work. Create new icons by right-clicking apps on the Dashboard or taskbar.</p>' +
-					'<h1>New Icon</h1><hr>' +
-					'<span style="display:none">' +
-					'Horizontal tile position: <input id="IcMleft" value="' + (Math.round(this.newlaunch[1] / 108) + 1) + '"><br>' +
-					'Vertical tile position: <input id="IcMtop" value="' + (Math.round(this.newlaunch[2] / 98) + 1) + '"><br><br>' +
-					'</span>' +
-					'Type of shortcut: <button onclick="apps.iconMaker.vars.setType(0)" id="IcMapp">Application</button> <button onclick="apps.iconMaker.vars.setType(1)" id="IcMfile">JavaScript</button><br><br>' +
-					'Name of shortcut: <input id="IcMname"><br><br>' +
-					'For Applications:<br>' +
-					'Enter the ID of your target application below.<br>The ID can be found by right-clicking the titlebar of an application and selecting "About This App". It will be small text in the top-left corner of the popup which you can copy-paste into here.<br><br>' +
-					'For JavaScript:<br>' +
-					'Enter any JavaScript code into the field below, and it will run when you click your new desktop icon.' +
-					'<input id="IcMpath" style="width:95%"><br><br>' +
-					'<button onclick="apps.iconMaker.vars.createIcon()">Create Desktop Icon</button>'
-				);
-
-				// Set the icon type to 0 once the function is ready
-				this.vars.setType(0);
-				getId('win_iconMaker_html').style.overflowY = 'auto';
-				this.appWindow.openWindow();
-			} else {
-				this.appWindow.setDims("auto", "auto", 400, 500);
-				this.appWindow.setCaption('Desktop Icon Maker');
-				this.appWindow.setContent(
-					'<h1>Desktop Icon Maker</h1><hr>' +
-					'Position X: <input id="IcMleft"><br>' +
-					'Position Y: <input id="IcMtop"><br><br>' +
-					'Type of shortcut: <button onclick="apps.iconMaker.vars.setType(0)" id="IcMapp">Application</button> <button onclick="apps.iconMaker.vars.setType(1)" id="IcMfile">JavaScript</button><br><br>' +
-					'Name of shortcut: <input id="IcMname"><br><br>' +
-					'Enter the shortcut item path exactly as it appears in the Apps Browser, or if selected, enter JavaScript code.<br>' +
-					'<input id="IcMpath"><br><br>' +
-					'<button onclick="apps.iconMaker.vars.createIcon()">Create Desktop Icon</button>'
-				);
-
-				this.vars.setType(0);
-				getId('win_iconMaker_html').style.overflowY = 'auto';
-				this.appWindow.openWindow();
-			}
-		},
-		vars: {
-			appInfo: 'This app is used to create desktop icons. You can get app names from the File Manager app.',
-			newlaunch: '',
-			type: 0,
-			compiledIcon: '',
-			decompiled: [],
-			setType: function (newtype) {
-				this.type = newtype;
-				if (newtype) {
-					getId('IcMfile').style.opacity = '1';
-					getId('IcMapp').style.opacity = '0.6';
-				} else {
-					getId('IcMapp').style.opacity = '1';
-					getId('IcMfile').style.opacity = '0.6';
-				}
-			},
-			createIcon: function (icon, id) {
-				let donotsave = 0;
-				if (icon) donotsave = 1;
-
-				if (parseInt(getId('IcMleft').value) > 0 && parseInt(getId('IcMtop').value) > 0 && getId('IcMname').value.length > 0 && getId('IcMpath').value.length > 0) {
-					var currMS = (new Date().getTime());
-					if (this.type === 0) {
-						if (apps[getId('IcMpath').value] !== undefined) {
-							let tempIconObj = {
-								id: currMS,
-								owner: getId("IcMpath").value,
-								position: [
-									(parseInt(getId('IcMleft').value) - 1) * 108 + 8,
-									(parseInt(getId('IcMtop').value) - 1) * 98 + 8
-								],
-								title: getId('IcMname').value,
-								icon: null,
-								action: null,
-								actionArgs: null,
-								ctxAction: null,
-								ctxActionArgs: null
-							};
-							this.compiledIcon = JSON.stringify(tempIconObj);
-							this.buildIcon(this.compiledIcon);
-						} else {
-							apps.prompt.vars.alert('The specified app could not be found. Please check that the file path to your app is spelled correctly.', 'Okay', function() {}, 'Icon Maker')
-						}
-					} else {
-						var tempIconObj = {
-							id: currMS,
-							owner: null,
-							position: [
-								(parseInt(getId('IcMleft').value) - 1) * 108 + 8,
-								(parseInt(getId('IcMtop').value) - 1) * 98 + 8
-							],
-							title: getId('IcMname').value,
-							icon: apps.jsConsole.appWindow.appImg,
-							action: [
-								getId("IcMpath").value
-							],
-							actionArgs: null,
-							ctxAction: [
-								"arg1",
-								"ctxMenu(baseCtx.appXXXjs, 1, event, [event, arg1]);"
-							],
-							ctxActionArgs: [currMS],
-							donotsave
-						};
-						this.compiledIcon = JSON.stringify(tempIconObj);
-						this.buildIcon(this.compiledIcon);
-					}
-				} else {
-					apps.prompt.vars.alert('Please properly fill all fields.', 'Okay', function() {}, 'Icon Maker');
-				}
-			},
-			iconClicks: {},
-			buildIcon: function (icon, nosave) {
-				apps.iconMaker.vars.decompiled = JSON.parse(icon);
-				if (icon[0] === '[') {
-					if (apps.iconMaker.vars.decompiled[3] === 0) {
-						newDsktpIcon(
-							apps.iconMaker.vars.decompiled[0],
-							apps.iconMaker.vars.decompiled[5].substring(5),
-							[apps.iconMaker.vars.decompiled[1], apps.iconMaker.vars.decompiled[2]],
-							apps.iconMaker.vars.decompiled[4],
-							apps[apps.iconMaker.vars.decompiled[5].substring(5)].appWindow.appImg,
-							[
-								'arg',
-								'openapp(apps[arg], "dsktp")'
-							],
-							[apps.iconMaker.vars.decompiled[5].substring(5)],
-							[
-								"arg1",
-								"ctxMenu(baseCtx.appXXX, 1, event, [event, arg1]);"
-							],
-							[apps.iconMaker.vars.decompiled[0]]
-						);
-					} else if (apps.iconMaker.vars.decompiled[3] === 1) {
-						newDsktpIcon(
-							apps.iconMaker.vars.decompiled[0],
-							null,
-							[apps.iconMaker.vars.decompiled[1], apps.iconMaker.vars.decompiled[2]],
-							apps.iconMaker.vars.decompiled[4],
-							apps.jsConsole.appWindow.appImg,
-							[
-								apps.iconMaker.vars.decompiled[5]
-							],
-							[],
-							[
-								"arg1",
-								"ctxMenu(baseCtx.appXXXjs, 1, event, [event, arg1]);"
-							],
-							[apps.iconMaker.vars.decompiled[0]]
-						);
-					}
-				} else if (icon[0] === '{') {
-					if (apps.iconMaker.vars.decompiled.removed) {
-						removeDsktpIcon(apps.iconMaker.vars.decompiled.id, 1);
-					} else {
-						newDsktpIcon(
-							apps.iconMaker.vars.decompiled.id,
-							apps.iconMaker.vars.decompiled.owner,
-							apps.iconMaker.vars.decompiled.position,
-							apps.iconMaker.vars.decompiled.title,
-							apps.iconMaker.vars.decompiled.icon,
-							apps.iconMaker.vars.decompiled.action,
-							apps.iconMaker.vars.decompiled.actionArgs,
-							apps.iconMaker.vars.decompiled.ctxAction,
-							apps.iconMaker.vars.decompiled.ctxActionArgs,
-							nosave
-						);
-					}
-				}
-			},
-			moveSelect: '0',
-			moveTo: [0, 0],
-			replaceObj: [],
-			moveIcon: function (element, movedata) {
-				this.moveTo = eval(movedata);
-				this.moveSelect = element.substring(3, element.length);
-				this.replaceObj = eval(ufload("aos_system/desktop/user_icons/uico_" + this.moveSelect));
-				this.replaceObj[1] = this.moveTo[0];
-				this.replaceObj[2] = this.moveTo[1];
-				this.createIcon('[' + this.replaceObj[0] + ', ' +
-					this.replaceObj[1] + ', ' +
-					this.replaceObj[2] + ', ' +
-					this.replaceObj[3] + ', "' +
-					this.replaceObj[4] + '", "' +
-					this.replaceObj[5] + '"]', this.moveSelect
-				);
-			},
-			deleteElem: 0,
-			deleteIcon: function (element) {
-				this.deleteElem = element;
-				apps.prompt.vars.confirm('Are you sure you wish to delete this icon?', ['No, Keep Icon', 'Yes, Delete Icon'], function (btn) {
-					if (btn) {
-						getId('app' + apps.iconMaker.vars.deleteElem).style.display = 'none';
-						ufdel('aos_system/desktop/user_icons/uico_' + apps.iconMaker.vars.deleteElem);
-					}
-				}, 'aOS');
-			}
-		},
-		signalHandler: function (signal) {
-			switch (signal) {
-				case "forceclose":
-					this.appWindow.closeWindow();
-					this.appWindow.closeIcon();
-					break;
-				case "close":
-					this.appWindow.closeWindow();
-					setTimeout(function() {
-						if (getId("win_" + this.objName + "_top").style.opacity === "0") {
-							this.appWindow.setContent("");
-						}
-					}.bind(this), 300);
-					break;
-				case "checkrunning":
-					if (this.appWindow.appIcon) {
-						return 1;
-					} else {
-						return 0;
-					}
-					case "shrink":
-						this.appWindow.closeKeepTask();
-						break;
-					case "USERFILES_DONE":
-						setTimeout(function() {
-							if (!safeMode) {
-								var iconsFolder = ufload("aos_system/desktop/user_icons/");
-								if (iconsFolder) {
-									for (var file in iconsFolder) {
-										if (file.indexOf('ico_') === 0) {
-											try {
-												apps.iconMaker.vars.buildIcon(iconsFolder[file]);
-											} catch (err) {
-												var temperrmsg = JSON.parse(iconsFolder[file]);
-												apps.prompt.vars.alert("Could not restore desktop icon for " + temperrmsg.title + ". Make sure " + temperrmsg.owner + " is installed.", "Okay", function() {}, "AaronOS");
-											}
-										}
-										if (file.indexOf('uico_') === 0) {
-											try {
-												apps.iconMaker.vars.buildIcon(iconsFolder[file]);
-												ufdel('aos_system/desktop/user_icons/' + file);
-											} catch (err) {
-												var temperrmsg = JSON.parse(iconsFolder[file]);
-												apps.prompt.vars.alert("Could not restore desktop icon for " + temperrmsg[4] + ". Make sure " + temperrmsg[5] + " is installed.", "Okay", function() {}, "AaronOS");
-											}
-										}
-									}
-								}
-							}
-						}, 3);
-						break;
-					case 'shutdown':
-
-						break;
-					default:
-						doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'");
-			}
-		}
-	});
-	getId('aOSloadingInfo').innerHTML = 'Text Editor';
-});
-
 var files;
 c(function() {
 	m('init NP2');
@@ -8874,7 +8236,6 @@ c(function() {
 									// if item is a folder
 									if (this.currDirList[item][this.currDirList[item].length - 1] === "/" && this.currDirList[item][this.currDirList[item].length - 2] !== "\\") {
 										temphtml += '<div class="cursorPointer" onclick="apps.files2.vars.next(\'' + this.currDirList[item] + '\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/beta/window.png\', \'ctxMenu/beta/file.png\', \'ctxMenu/beta/x.png\'], \' Open App\', \'openapp(apps.' + this.currDirList[item].substring(0, this.currDirList[item].length - 1) + ', \\\'dsktp\\\')\', \'+Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + (this.currLoc + this.currDirList[item]) + '\\\');toTop(apps.properties)\', \'_Delete\', \'\'])">' +
-											//'<img class="FIL2aosAppIcon" src="' + (apps[this.currDirList[item].split('/')[0]].appWindow.appImg || "appicons/ds/redx.png") + '"> ' +
 											buildSmartIcon(16, apps[this.currDirList[item].split('/')[0]].appWindow.appImg) + ' ' +
 											this.currDirList[item].split('\\/').join('/') +
 											'</div>';
@@ -9016,7 +8377,6 @@ c(function() {
 						var currName = currPath[currPath.length - 1];
 						if (currPath.indexOf("apps") === 0 && currPath.length === 2) {
 							tempHTML += '<div class="cursorPointer" onclick="apps.files2.vars.currLoc = \'' + this.favorites[i] + '\';apps.files2.vars.update()" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/beta/file.png\', \'ctxMenu/beta/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + this.favorites[i] + '\\\');toTop(apps.properties)\', \'+Remove Favorite\', \'apps.files2.vars.toggleFavorite(\\\'' + this.favorites[i] + '\\\')\', \'_Delete\', \'\'])">' +
-								//'<img class="FIL2aosAppIcon" src="' + (apps[currName] || {appWindow:{appImg:"appicons/ds/redx.png"}}).appWindow.appImg + '"> ' +
 								buildSmartIcon(16, (apps[currName] || {
 									appWindow: {
 										appImg: {
@@ -9374,19 +8734,6 @@ c(function() {
 							'The additional button on the opposite side will fold the window up into its caption, allowing you to see behind it. ' +
 							'Additionally, right-clicking the caption will show extra options, such as app information or keeping the window on top of others.</p>' +
 							'<p>Windows in AaronOS are heavily configurable in the Settings app. Among other things, you can toggle the system light / dark theme.'
-					},
-					dashboard: {
-						menuTitle: "Dashboard",
-						menuLocation: "apps.help.vars.menus.menuOptions.dashboard",
-						menuType: "docs",
-						menuContent: '<img class="centered" src="helpdocs/dashboard.png">' +
-							'<p>The AaronOS Dashboard is home to most of your apps, several shortcuts, and logout options.</p>' +
-							'<p>At the top of the default dashboard, multiple shortcuts are available to important applications. ' +
-							'The rest of the dashboard is occupied by a list of most apps on the system. The list is searchable by name, or by an app\'s specific abbreviation. ' +
-							'Right-clicking an app in this list will display options to create a desktop icon, view information about the app, or view the app\'s files*.</p>' +
-							'<p>In Settings, you can select a different look and feel for the Dashboard from a few options.</p>' +
-							'<p>* These specific files of applications are not saved, and represent their current state in JavaScript. ' +
-							'Files saved by your apps are accessible in the File Manager, in USERFILES or LOCALFILES.</p>'
 					}
 				}
 			}
@@ -9874,6 +9221,7 @@ c(function() {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Web App Maker';
 });
+
 c(function() {
 	apps.webAppMaker = new Application({
 		title: "Web App Maker",
@@ -10834,7 +10182,6 @@ c(function() {
 					}
 				}
 				if (!invalid) {
-					//apps.savemaster.vars.save('WAP_APPS_DATABASE_' + (new Date().getTime()), JSON.stringify(tempObj), 1);
 					ufsave('aos_system/wap_apps/webApp' + apps.webAppMaker.vars.numberOfApps, JSON.stringify(tempObj));
 					apps.webAppMaker.vars.numberOfApps++;
 					apps.prompt.vars.alert('Finished. Restart aOS to use your new app!', 'Okay', function() {}, 'Web App Maker');
@@ -11510,7 +10857,8 @@ c(function() {
 				});
 			}
 			this.appWindow.setCaption('Music Player');
-			this.appWindow.setDims("auto", "auto", 1038, 626);
+			// MUSIC PLAYER DIMENSIONS
+			this.appWindow.setDims("auto", "auto", 600, 350);
 			blockScreensaver("apps.musicVis");
 			if (this.appWindow.appIcon) {
 				this.appWindow.openWindow();
@@ -12702,7 +12050,6 @@ function icnmove(e, elem) {
 		var newYCoord = icomoveOrY + (e.pageY - icomovey) * (1 / screenScale);
 		newXCoord = Math.round(newXCoord / 108) * 108 + 8;
 		newYCoord = Math.round(newYCoord / 98) * 98 + 8;
-		apps.iconMaker.vars.moveIcon(icomoveSelect, '[' + newXCoord + ',' + newYCoord + ']');
 		getId(icomoveSelect).style.left = newXCoord + "px";
 		getId(icomoveSelect).style.top = newYCoord + "px";
 	}
@@ -13006,27 +12353,10 @@ var baseCtx = {
 		[' ' + lang('ctxMenu', 'jsConsole'), function() {
 			openapp(apps.jsConsole, 'dsktp');
 		}, 'ctxMenu/beta/console.png'],
-		[' ' + lang('appNames', 'taskManager'), function() {
-			openapp(apps.taskManager, 'dsktp');
-		}, 'ctxMenu/beta/aOS.png'],
 		['+' + lang('ctxMenu', 'taskbarSettings'), function() {
 			openapp(apps.settings, 'dsktp');
 			apps.settings.vars.showMenu(apps.settings.vars.menus.taskbar);
 		}, 'ctxMenu/beta/gear.png']
-		/*
-		['+Toggle Compact Time', function(){
-				apps.settings.vars.togTimeComp();
-		}, '/ctxMenu/beta/cool.png'],
-		[' Toggle Network Status', function(){
-				apps.settings.vars.togNetStat();
-		}, '/ctxMenu/beta/wifi.png'],
-		[' Toggle Battery Status', function(){
-				apps.settings.vars.togBatStat();
-		}, '/ctxMenu/beta/battery.png'],
-		[' Toggle Stylish Battery', function(){
-				apps.settings.vars.togBatComp();
-		}, '/ctxMenu/beta/cool.png']
-		*/
 	],
 	appXXX: [
 		[' ' + lang('ctxMenu', 'openApp'), function (args) {

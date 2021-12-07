@@ -228,36 +228,6 @@ export const AudioVisualizer = {
 			};
 		}
 	},
-	seismograph: {
-		name: "Beatmograph 1",
-		image: "visualizers/seismograph.png",
-		start: function () {
-			this.graph = new Array(window.size[0]);
-			this.graph.fill(-1, 0, window.size[0]);
-		},
-		frame: function () {
-			canvas.clearRect(0, 0, window.size[0], window.size[1]);
-			let avg = window.visData.reduce((sum, num) => sum + num) / window.visData.length;
-			this.graph.push(avg);
-			while (this.graph.length > window.size[0]) {
-				this.graph.shift();
-			}
-			var graphLength = this.graph.length;
-			var multiplier = window.size[1] / 255;
-			canvas.lineWidth = 2;
-			for (var i = 0; i < graphLength; i++) {
-				canvas.strokeStyle = getColor(this.graph[i], 255 - i / window.size[0] * 255);
-				canvas.beginPath();
-				canvas.moveTo(window.size[0] - i - 1.5, window.size[1] - (this.graph[i] * multiplier));
-				canvas.lineTo(window.size[0] - i - 0.5, window.size[1] - (((typeof this.graph[i - 1] === "number") ? this.graph[i - 1] : this.graph[i]) * multiplier));
-				canvas.stroke();
-			}
-		},
-		stop: function () {
-			this.graph = [];
-		},
-		graph: []
-	},
 	waveform: {
 		name: "Waveform",
 		image: "visualizers/waveform.png",
