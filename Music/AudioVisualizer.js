@@ -1,6 +1,7 @@
 import { getId } from "./HelperFunctions.js";
 var canvasElement = getId("visCanvas");
 var canvas = canvasElement.getContext("2d");
+const clearVis = () => canvas.clearRect(0, 0, window.size[0], window.size[1]);
 
 export const AudioVisualizer = {
 	none: {
@@ -22,7 +23,7 @@ export const AudioVisualizer = {
 
 		},
 		frame: function () {
-			canvas.clearRect(0, 0, window.size[0], window.size[1]);
+			clearVis();
 			var left = window.size[0] * 0.1;
 			var maxWidth = window.size[0] * 0.8;
 			var barWidth = maxWidth / 96;
@@ -88,7 +89,7 @@ export const AudioVisualizer = {
 
 		},
 		frame: function () {
-			canvas.clearRect(0, 0, window.size[0], window.size[1]);
+			clearVis();
 			var left = window.size[0] * 0.1;
 			var maxWidth = window.size[0] * 0.8;
 			var barWidth = maxWidth / 96;
@@ -120,7 +121,7 @@ export const AudioVisualizer = {
 
 		},
 		frame: function () {
-			canvas.clearRect(0, 0, window.size[0], window.size[1]);
+			clearVis();
 			canvas.lineCap = "round";
 			canvas.lineWidth = this.lineWidth - (0.5 * this.lineWidth);
 			var xdist = window.size[0] / (this.lineCount + 2) / 2;
@@ -237,7 +238,7 @@ export const AudioVisualizer = {
 		},
 		frame: function () {
 			window.analyser.getByteTimeDomainData(this.waveArray);
-			canvas.clearRect(0, 0, window.size[0], window.size[1]);
+			clearVis();
 			let avg = window.visData.reduce((sum, num) => sum + num) / window.visData.length;
 			let multiplier = window.size[1] / 255;
 			let step = this.arrsize / window.size[0];

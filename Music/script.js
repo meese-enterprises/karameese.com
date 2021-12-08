@@ -1,5 +1,7 @@
 import { getId } from "./HelperFunctions.js";
 import { AudioVisualizer } from "./AudioVisualizer.js";
+const vis = AudioVisualizer;
+const currVis = "waveform";
 
 var aosToolsConnected = 0;
 var newScriptTag = document.createElement("script");
@@ -209,50 +211,40 @@ function firstPlay() {
 audio.addEventListener("canplaythrough", firstPlay);
 
 function setProgress(e) {
-	if (currentSong !== -1) {
-		var timeToSet = e.pageX - 5;
-		if (timeToSet < 5) timeToSet = 0;
-		timeToSet /= size[0];
-		timeToSet *= audio.duration;
-		audio.currentTime = timeToSet;
-	}
+	if (currentSong == -1) return;
+
+	let timeToSet = e.pageX - 5;
+	if (timeToSet < 5) timeToSet = 0;
+	timeToSet /= size[0];
+	timeToSet *= audio.duration;
+	audio.currentTime = timeToSet;
 }
 window.setProgress = setProgress;
 
 function back() {
-	if (audio.currentTime < 3) {
-		currentSong--;
-		if (currentSong < 0) {
-			currentSong = fileNames.length - 1;
-		}
-		selectSong(currentSong);
-	} else {
-		audio.currentTime = 0;
-	}
+	if (audio.currentTime >= 3) return audio.currentTime = 0;
+	currentSong--;
+	if (currentSong < 0) currentSong = fileNames.length - 1;
+	selectSong(currentSong);
 }
 window.back = back;
 
 function next() {
 	currentSong++;
-	if (currentSong > fileNames.length - 1) {
-		currentSong = 0;
-	}
+	if (currentSong > fileNames.length - 1) currentSong = 0;
 	selectSong(currentSong);
 }
 window.next = next;
 
 function songEnd() {
-	var windowWillClose = checkSelfClose();
-	if (!windowWillClose) {
-		next();
-	}
+	if (!willWindowClose()) next();
 }
 
 audio.addEventListener("ended", songEnd);
 function shuffleArray(array) {
-	for (var i = array.length - 1; i > 0; i--) {
-		var j = Math.floor(Math.random() * (i + 1));
-		var temp = array[i];
+	for (let i = array.length - 1; i > 0; i--) {
+		let j = Math.floor(Math.random() * (i + 1));
+		let temp = array[i];
 		array[i] = array[j];
 		array[j] = temp;
 	}
@@ -268,7 +260,6 @@ function shuffle() {
 }
 window.shuffle = shuffle;
 
-var debugColors = ["#C00", "#0A0"];
 var perfLast = performance.now();
 var perfCurrent = perfLast;
 
@@ -280,35 +271,33 @@ function globalFrame() {
 	if (winsize[0] !== window.innerWidth || winsize[1] !== window.innerHeight) {
 		winsize = [window.innerWidth, window.innerHeight];
 		window.size = [window.innerWidth - 8, window.innerHeight - 81];
-		getId("visCanvas").width = window.size[0];
-		getId("visCanvas").height = window.size[1];
-		if (currVis !== "none") {
-			if (vis[currVis].sizechange) {
-				vis[currVis].sizechange();
-			}
+		// TODO!
+		getId("visCanvas").width = window.size[0]; // * 0.7;
+		getId("visCanvas").height = window.size[1]; // * 0.7;
+		if (currVis !== "none" && vis[currVis].sizechange) {
+			vis[currVis].sizechange();
 		}
 	}
 
-	if (currVis !== "none") {
-		window.analyser.getByteFrequencyData(window.visData);
+	if (currVis == "none") return;
+	window.analyser.getByteFrequencyData(window.visData);
 
-		// If the audio's volume is lowered, the visualizer can't hear it, so
-		// this attempts to artificially bring the volume back up to full
-		if (audio.volume < 0.9) {
-			var gainFactor = 0.9 - audio.volume + 1;
-			for (var i = 0; i < window.visData.length; i++) {
-				window.visData[i] = Math.floor(window.visData[i] * gainFactor);
-			}
+	// If the audio's volume is lowered, the visualizer can't hear it, so
+	// this attempts to artificially bring the volume back up to full
+	if (audio.volume < 0.9) {
+		var gainFactor = 0.9 - audio.volume + 1;
+		for (let i = 0; i < window.visData.length; i++) {
+			window.visData[i] = Math.floor(window.visData[i] * gainFactor);
 		}
-
-		// Modify the data values with Power
-		for (let i = 0; i < 128; i++) {
-			window.visData[i] = Math.pow(window.visData[i], 2) / 255;
-		}
-
-		// Do the visualizer
-		vis[currVis].frame();
 	}
+
+	// Modify the data values with Power
+	for (let i = 0; i < 128; i++) {
+		window.visData[i] = Math.pow(window.visData[i], 2) / 255;
+	}
+
+	// Do the visualizer
+	vis[currVis].frame();
 }
 
 var automaticColorCtx = null;
@@ -316,41 +305,6 @@ var automaticColor = {
 	colorType: 'peak',
 	colorArr: ['#005500', '#00FF00', '#FF0000'],
 	resultList: new Array(512)
-}
-
-/*
-    // a gradient is a set of points from 0 to 255
-    // each point has a value (0 - 1, 0 - 255, 0 - 360, etc)
-    // one gradient represents one color channel
-    grad: {
-        r: [],
-        g: [],
-        b: [],
-        a: []
-    },
-
-    example:
-    r: [[0, 127], [127, 64], [255, 192]]
-    [[point, value], [point, value], ...]
-
-    // to calculate a point in the gradient:
-    // supply the gradient and the value
-    gcalc(this.grad.r, value)
-
-    // if the value is before the first gradient point, first point is used.
-    // if the value is after the first gradient point, last point is used.
-*/
-function gcalc(grad, value) {
-	for (var point = grad.length - 1; point >= 0; point--) {
-		if (grad[point][0] <= value) {
-			if (point === grad.length - 1 || grad[point][0] === value) {
-				return grad[point][1];
-			}
-			var weight = (value - grad[point][0]) / (grad[point + 1][0] - grad[point][0]);
-			return grad[point][1] * (1 - weight) + grad[point + 1][1] * weight;
-		}
-	}
-	return grad[0][1];
 }
 
 const barbie       = "#fe00c0";
@@ -379,35 +333,23 @@ const getColor = (amount, position) => {
 window.getColor = getColor;
 progressBar.style.outline = "2px solid " + getColor(255);
 
-var currVis = null;
-let vis = AudioVisualizer;
-function setVis(newvis) {
-	if (currVis) vis[currVis].stop();
-	currVis = vis[newvis] ? newvis : "none";
-	vis[currVis].start();
-}
-window.setVis = setVis;
-
 function loadAudio() {
 	// https://stackoverflow.com/a/55270278/6456163
 	let files = [];
-	var xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 	xhr.open("GET", "./audio", false);
 	xhr.onload = () => {
-		if (xhr.status === 200) {
-			var parser = new DOMParser();
-			let HTML = parser.parseFromString(xhr.response, 'text/html');
-			var elements = HTML.getElementsByTagName("a");
-			for (let x of elements) {
-				let fileName = x.href;
-				let fileNameParts = fileName.split("Music");
-				if (supportedFormats.includes(fileName.split(".")[2])) {
-					files.push(fileNameParts[0] + "Music/audio" + fileNameParts[1]);
-				}
-			};
-		} else {
-			alert('Request failed. Returned status of ' + xhr.status);
-		}
+		if (xhr.status !== 200) return alert('Request failed. Returned status of ' + xhr.status);
+		let parser = new DOMParser();
+		let HTML = parser.parseFromString(xhr.response, 'text/html');
+		let elements = HTML.getElementsByTagName("a");
+		for (let x of elements) {
+			let fileName = x.href;
+			let fileNameParts = fileName.split("Music");
+			if (supportedFormats.includes(fileName.split(".")[2])) {
+				files.push(fileNameParts[0] + "Music/audio" + fileNameParts[1]);
+			}
+		};
 	}
 
 	xhr.send();
@@ -417,7 +359,7 @@ function loadAudio() {
 function loadAudioFiles() {
 	audio.pause();
 	currentSong = -1;
-	let filePaths = loadAudio();
+	const filePaths = loadAudio();
 
 	for (let i = 0; i < filePaths.length; i++) {
 		let fileName = filePaths[i].split('audio/')[1].split(".")[0];
@@ -425,7 +367,7 @@ function loadAudioFiles() {
 	}
 
 	listSongs();
-	let disabledElements = document.getElementsByClassName('disabled');
+	const disabledElements = document.getElementsByClassName('disabled');
 	while (disabledElements.length > 0) {
 		disabledElements[0].classList.remove('disabled');
 	}
@@ -450,106 +392,25 @@ function loadAudioFiles() {
 	window.analyser.connect(delayNode);
 	window.visData = new Uint8Array(window.analyser.frequencyBinCount);
 
-	getId("visualizer").classList.add('disabled');
-	getId("selectOverlay").classList.add('disabled');
-	setVis("none");
-
 	winsize = [window.innerWidth, window.innerHeight];
 	window.size = [window.innerWidth - 8, window.innerHeight - 81];
 
+	vis[currVis].start();
 	requestAnimationFrame(globalFrame);
 }
 loadAudioFiles();
 
-for (var i in vis) {
-	getId('visfield').innerHTML += '<option value="' + i + '">' + vis[i].name + '</option>';
-}
-
-function openVisualizerMenu() {
-	if (getId("selectOverlay").classList.contains("disabled")) {
-		getId("selectOverlay").classList.remove("disabled");
-		var tempHTML = '';
-		var namecolor = "";
-		if ('none' === getId("visfield").value) {
-			namecolor = ' style="outline:2px solid ' + getColor(255) + ';"';
-		}
-		if (vis.none.image) {
-			tempHTML += '<div' + namecolor + ' class="visOption visNone" onclick="overrideVis(\'' + i + '\')"><img src="' + vis.none.image + '">' + vis.none.name + '</div>';
-		} else {
-			tempHTML += '<div' + namecolor + ' class="visOption visNone" onclick="overrideVis(\'' + i + '\')"><span></span>' + vis.none.name + '</div>';
-		}
-		tempHTML += '<div style="height:auto;background:none;"><hr></div>';
-		tempHTML += '<div class="visCategory">&nbsp;<button onclick="this.parentElement.classList.toggle(\'hiddenCategory\')">&nbsp; v &nbsp;</button> Featured<br>';
-		for (var i in vis) {
-			if (i.indexOf("SEPARATOR") === -1) {
-				if (i !== 'none') {
-					var namecolor = "";
-					if (i === getId("visfield").value) {
-						namecolor = ' style="outline:2px solid ' + getColor(255) + ';"';
-					}
-					tempHTML += '<div' + namecolor + ' class="visOption" onclick="overrideVis(\'' + i + '\')"><img src="' + vis[i].image + '">' + vis[i].name + '&nbsp;</div>';
-				}
-			} else {
-				tempHTML += '</div><div style="height:auto;background:none;"><br></div>';
-				tempHTML += '<div class="visCategory hiddenCategory">&nbsp;<button onclick="this.parentElement.classList.toggle(\'hiddenCategory\')">&nbsp; v &nbsp;</button> ' + vis[i].name + '<br>';
-			}
-		}
-		tempHTML += '</div>';
-		getId("selectContent").innerHTML = tempHTML;
-		getId("selectContent").scrollTop = 0;
-	} else {
-		closeMenu();
-	}
-}
-window.openVisualizerMenu = openVisualizerMenu;
-
-function overrideVis(selectedVisualizer) {
-	getId("visfield").value = selectedVisualizer;
-	closeMenu();
-	getId("visfield").onchange();
-}
-window.overrideVis = overrideVis;
-
-function overrideColor(selectedColor) {
-	getId("colorfield").value = selectedColor;
-	closeMenu();
-	getId("colorfield").onchange();
-}
-
-function overrideMod(selectedMod) {
-	getId("modfield").value = selectedMod;
-	closeMenu();
-	getId("modfield").onchange();
-}
-
-function closeMenu() {
-	getId("selectContent").innerHTML = "";
-	getId("selectOverlay").classList.add("disabled");
-}
-
 var selfCloseEnabled = 0;
 var selfCloseSongs = 10;
 
-function toggleSelfClose() {
-	selfCloseEnabled = Math.abs(selfCloseEnabled - 1);
-	if (getId("selfclosebutton")) {
-		getId("selfclosebutton").style.borderColor = debugColors[selfCloseEnabled];
-	}
-}
+function willWindowClose() {
+	if (!selfCloseEnabled) return 0;
 
-function checkSelfClose() {
-	if (selfCloseEnabled) {
-		selfCloseSongs--;
-		if (selfCloseSongs <= 0) {
-			getId("currentlyPlaying").innerHTML = "Window will close in 5 seconds."
-			setTimeout(() => {
-				remote.getCurrentWindow().close();
-			}, 5000);
-			return 1;
-		} else {
-			return 0;
-		}
-	} else {
-		return 0;
-	}
+	selfCloseSongs--;
+	if (selfCloseSongs > 0) return 0;
+	getId("currentlyPlaying").innerHTML = "Window will close in 5 seconds."
+	setTimeout(() => {
+		remote.getCurrentWindow().close();
+	}, 5000);
+	return 1;
 }

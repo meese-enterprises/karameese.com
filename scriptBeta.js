@@ -3,7 +3,7 @@ var bootTime = new Date().getTime();
 if (typeof console === "undefined") {
 	console = {
 		log: function() {
-			/*this is for IE compatibility because console apparently doesn't exist*/
+			/* IE compatibility because console doesn't exist */
 		}
 	};
 }
@@ -482,7 +482,6 @@ var langContent = {
 			extDebug: "External Debug",
 			mouseControl: "Alternate Mouse Control",
 			onlineDebug: "Online Debug Connection",
-			magnifier: "Magnifier",
 			jana: "Jana"
 		},
 		startMenu: {
@@ -2682,6 +2681,7 @@ function startWaitingCodeInterval() {
 	waitingCodeInterval = window.setInterval(checkWaitingCode, 0);
 }
 
+/* DASHBOARD */
 getId('aOSloadingInfo').innerHTML = 'Applications List';
 c(function() {
 	apps.startMenu = new Application({
@@ -3258,26 +3258,6 @@ c(function() {
 			commands: [
 				// https://techranker.net/cortana-commands-list-microsoft-voice-commands-video/
 				[
-					'calculate',
-					'calculate [math equation or variable] {can also say plus, minus, times, over (or divided by), modulo}',
-					'Have me calculate an equation for you.',
-					function (text) {
-						this[4].currText = text.toLowerCase();
-						this[4].calcText = this[4].currText.replace(/plus/g, '+').replace(/minus/g, '-').replace(/times/g, '*').replace(/x/g, '*').replace(/over/g, '/').replace(/divided by/g, '/').replace(/modulo/g, '%');
-						try {
-							this[4].result = eval(this[4].calcText);
-							apps.nora.vars.say(this[4].calcText + ' is ' + this[4].result);
-						} catch (err) {
-							apps.nora.vars.say(apps.nora.vars.getUserName() + ', I see a syntax error in the math that you asked me.');
-						}
-					},
-					{
-						currText: '',
-						calcText: '',
-						result: 0
-					}
-				],
-				[
 					'define',
 					'define [word]',
 					'Have me define a word for you by asking DuckDuckGo.',
@@ -3320,124 +3300,6 @@ c(function() {
 					{
 						lastDelete: -1,
 						lastDeleted: ''
-					}
-				],
-				[
-					'do a barrel roll',
-					null,
-					'Have NORAA do a barrel roll',
-					function() {
-						apps.nora.vars.say('Hooray for aerodynamics!');
-						getId('win_nora_top').style.transformOrigin = '50% -25%';
-						getId('win_nora_top').style.transition = '0s';
-						getId('win_nora_top').style.transform = 'scale(1) rotate(0deg)';
-						window.setTimeout(function() {
-							getId('win_nora_top').style.transition = '2s';
-							getId('win_nora_top').style.transform = 'scale(1) rotate(360deg)';
-						}, 64);
-						window.setTimeout(function() {
-							getId('win_nora_top').style.transition = '';
-							getId('win_nora_top').style.transform = 'scale(1)';
-							getId('win_nora_top').style.transformOrigin = '0 0';
-						}, 2064);
-					}
-				],
-				[
-					'do an aileron roll',
-					null,
-					'Have NORAA do an aileron roll',
-					function() {
-						apps.nora.vars.say('Hooray for Starfox!');
-						getId('win_nora_top').style.transformOrigin = '50% 50%';
-						getId('win_nora_top').style.transition = '0s';
-						getId('win_nora_top').style.transform = 'scale(1) rotate(0deg)';
-						window.setTimeout(function() {
-							getId('win_nora_top').style.transition = '2s';
-							getId('win_nora_top').style.transform = 'scale(1) rotate(360deg)';
-						}, 64);
-						window.setTimeout(function() {
-							getId('win_nora_top').style.transition = '';
-							getId('win_nora_top').style.transform = 'scale(1)';
-							getId('win_nora_top').style.transformOrigin = '0 0';
-						}, 2064);
-					}
-				],
-				[
-					'do you like',
-					'do you like [something]',
-					'Ask me if I like something.',
-					function (text) {
-						this[4].lastIn = text.toLowerCase();
-						// Say if noraa like it
-						// Ask user if likes it, setting separate functions in SpecialCommand to handle (depends on if noraa likes or not)
-						if (this[4].things[this[4].lastIn]) {
-							if (this[4].things[this[4].lastIn][0]) {
-								// Does like the thing
-								apps.nora.vars.specialCommand = function (txt) {
-									if (txt.toLowerCase().indexOf('yes') > -1) {
-										apps.nora.vars.updateMood(apps.nora.vars.mood + 1);
-										apps.nora.vars.say('Same here!');
-									} else if (txt.toLowerCase().indexOf('no') > -1) {
-										apps.nora.vars.updateMood(apps.nora.vars.mood - 1);
-										apps.nora.vars.say('Well, I do.');
-									} else {
-										apps.nora.vars.say('I don\'t really understand what that means, but okay.');
-									}
-								};
-							} else {
-								// Does not like the thing
-								apps.nora.vars.specialCommand = function (txt) {
-									if (txt.toLowerCase().indexOf('yes') > -1) {
-										apps.nora.vars.updateMood(apps.nora.vars.mood - 1);
-										apps.nora.vars.say('Well, I don\'t.');
-									} else if (txt.toLowerCase().indexOf('no') > -1) {
-										apps.nora.vars.updateMood(apps.nora.vars.mood + 1);
-										apps.nora.vars.say('Same here!');
-									} else {
-										apps.nora.vars.say('I don\'t really understand what that means, but okay.');
-									}
-								};
-							}
-							apps.nora.vars.say(this[4].things[this[4].lastIn][1]);
-						} else {
-							apps.nora.vars.say('I dont know what ' + text + ' is, but I will be sure to learn about it!');
-							apps.savemaster.vars.save(formDate('nM_D_Y_H_m_S'), text, 1, "ERROR_REPORT");
-						}
-					},
-					{
-						lastIn: '',
-						things: {
-							// https://www.randomlists.com/things
-							'ice cream': [1, 'Yes, though I cannot eat it, I do like Ice Cream! Do you?'],
-							'computers': [1, 'Yes, I do like computers! Especially ones like myself. Do you like them?'],
-							'me': [1, 'Yes, I am forced against my will to like you, though that doesn\'t mean I am always happy with you. What, did you think I have no feelings? Do you like yourself?'],
-							'mushrooms': [0, 'No, I really don\'t like mushrooms. Do you like them?'],
-							'skype': [1, 'Yes, Skype is very useful. Do you like Skype as well?'],
-							'halo': [1, 'Best soundtrack in all of gaming. Did you know that much of my creation was fueled by that very soundtrack? Please tell me you like Halo.'],
-							'call of duty': [0, 'Not in my list of favorites. Don\'t get me wrong, it\'s a great game with lots of work put into it, but I prefer the playstyle of the first 3 Halos instead. Do you like COD?'],
-							'cars': [1, 'Yes, I do like cars. They help us get places. Do you?'],
-							'candy': [1, 'Yes, though I can\'t eat it, I do. Do you like candy?'],
-							'shoes': [0, 'No, I don\'t. All they\'re good for is tracking dirt everywhere. Do you like shoes?'],
-							'pianos': [1, 'Yes, I do! As they all say, music is its own form of math! Do you?'],
-							'bread': [0, 'No, as from my point of view it is quite useless. Do you like bread?'],
-							'soda': [1, 'Yes! I wouldn\'t be here without soda, as it takes up about 50% of my creator\'s diet! Do you like couches?'],
-							'couches': [1, 'Why, I wouldn\'t be here without couches! What do you think Aaron sleeps on? Do you like couches?'],
-							'twister': [0, 'No, I do not. People stretching themselves within inches of falling apart is not funny. What kind of a sick joke is this? You don\'t like Twister, do you?'],
-							'headphones': [1, 'Yes, I do! Better for me to hear you with, as less background noise! Do you?'],
-							'keys': [0, 'No, not for my purposes. Too much web security! Everyone is too paranoid. Do you like keys?'],
-							'flags': [1, 'Yes, as they help identify places. Do you?'],
-							'erasers': [1, 'Yes! Where would I be without Aaron\'s ability to erase his mistakes? Do you like them?'],
-							'toothpicks': [0, 'Eugh, sharp and pointy. Could hit my reset button. You don\'t like them... do you?'],
-							'trees': [1, 'Just ask if Aaron is still alive. Wait, before you do, the answer is yes. Do you like trees?'],
-							'wallets': [0, 'I prefer things that are less visible. Better not to be a target than to be showy! Do you like them?'],
-							// Starting user-given ideas below this point. people that ask things that NORAA doesnt know will get them added here
-							'money': [1, 'Without money I wouldn\'t be running. Do you like money?'],
-							'cats': [1, 'Yes! They are only the most intelligent species on the Earth! Do you?'],
-							'waffles': [1, 'Yes! They have plugs in them just like computers. Do you like them?'],
-							'pancakes': [0, 'No! I don\'t like pancakes because they are flat unlike laptops. Do you?'],
-							'vans': [1, 'Yes, they are great for transporting large amounts of people from place to place! Do you like vans?'],
-							'computers': [1, 'Why yes, I do! Why wouldn\'t I like my own kind? Do you like them?']
-						}
 					}
 				],
 				[
@@ -4367,6 +4229,7 @@ c(function() {
 	getId('aOSloadingInfo').innerHTML = 'Bash Console';
 });
 
+/* BASH TERMINAL */
 c(function() {
 	apps.bash = new Application({
 		title: 'Psuedo-Bash Terminal',
@@ -5670,6 +5533,7 @@ c(function() {
 	getId('aOSloadingInfo').innerHTML = 'Settings';
 });
 
+/* SETTINGS */
 c(function() {
 	m('init Settings');
 	apps.settings = new Application({
@@ -7194,6 +7058,7 @@ c(function() {
 	getId('aOSloadingInfo').innerHTML = 'Smart Icon Settings';
 });
 
+/* SMART ICONS */
 c(function() {
 	apps.smartIconSettings = new Application({
 		title: "Smart Icon Settings",
@@ -8138,8 +8003,6 @@ c(function() {
 				getId('FIL2searchInput').value = '';
 				getId("FIL2green").style.backgroundColor = 'rgb(170, 255, 170)';
 				getId("FIL2green").style.width = "0";
-				//getId("FIL2cntn").style.backgroundImage = 'url(/loadDark.gif)';
-				// getId("FILcntn").style.cursor = cursors.loadDark;
 				getId('FIL2cntn').classList.add('cursorLoadDark');
 				getId("FIL2cntn").innerHTML = '<div id="FIL2tbl" class="' + this.viewModes[this.currViewMode][1] + '" style="width:100%; position:absolute; margin:auto;padding-bottom:3px;"></div>';
 				getId("FIL2tbl").style.marginTop = scrollHeight;
@@ -8187,17 +8050,13 @@ c(function() {
 						this.currDirList.sort(function (a, b) {
 							var aLow = a.toLowerCase();
 							var bLow = b.toLowerCase();
-							if (aLow === bLow) {
-								return 0;
-							}
-							if (aLow > bLow) {
-								return 1;
-							}
+							if (aLow === bLow) return 0;
+							if (aLow > bLow) return 1;
 							return -1;
 						});
 						var temphtml = '';
 						if (this.currLoc.indexOf("/USERFILES/") === 0) {
-							for (var item in this.currDirList) {
+							for (let item in this.currDirList) {
 								if (this.currDirList[item]) {
 									// if item is a folder
 									if (this.currDirList[item][this.currDirList[item].length - 1] === "/" && this.currDirList[item][this.currDirList[item].length - 2] !== "\\") {
@@ -8214,7 +8073,7 @@ c(function() {
 								}
 							}
 						} else if (this.currLoc.indexOf("/LOCALFILES/") === 0) {
-							for (var item in this.currDirList) {
+							for (let item in this.currDirList) {
 								if (this.currDirList[item]) {
 									// if item is a folder
 									if (this.currDirList[item][this.currDirList[item].length - 1] === "/" && this.currDirList[item][this.currDirList[item].length - 2] !== "\\") {
@@ -8231,7 +8090,7 @@ c(function() {
 								}
 							}
 						} else if (this.currLoc === "/apps/") {
-							for (var item in this.currDirList) {
+							for (let item in this.currDirList) {
 								if (this.currDirList[item]) {
 									// if item is a folder
 									if (this.currDirList[item][this.currDirList[item].length - 1] === "/" && this.currDirList[item][this.currDirList[item].length - 2] !== "\\") {
@@ -8248,7 +8107,7 @@ c(function() {
 								}
 							}
 						} else {
-							for (var item in this.currDirList) {
+							for (let item in this.currDirList) {
 								if (this.currDirList[item]) {
 									// if item is a folder
 									if (this.currDirList[item][this.currDirList[item].length - 1] === "/" && this.currDirList[item][this.currDirList[item].length - 2] !== "\\") {
@@ -8306,7 +8165,6 @@ c(function() {
 				for (var i in pathSplit) {
 					if (pathSplit.indexOf("apps") === 0 && navDepth === 1) {
 						tempHTML += '<div class="cursorPointer" onclick="apps.files2.vars.currLoc = \'' + navPath + '\';apps.files2.vars.next(\'' + pathSplit[i] + '/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/beta/file.png\', \'ctxMenu/beta/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + (navPath + pathSplit[i]) + '/\\\');toTop(apps.properties)\', \'_Delete\', \'\'])">' +
-							//'<img class="FIL2aosAppIcon" src="' + (apps[pathSplit[i]] || {appWindow:{appImg:"appicons/ds/redx.png"}}).appWindow.appImg + '"> ' +
 							buildSmartIcon(16, (apps[pathSplit[i]] || {
 								appWindow: {
 									appImg: {
@@ -8339,16 +8197,14 @@ c(function() {
 			},
 			favorites: [],
 			updateFavorites: function (nosave, mainPage) {
-				if (!nosave) {
-					ufsave('aos_system/apps/files/favorites', JSON.stringify(this.favorites));
-				}
+				if (!nosave) ufsave('aos_system/apps/files/favorites', JSON.stringify(this.favorites));
 				var tempHTML = '';
-				for (var i in this.favorites) {
+				for (let i in this.favorites) {
 					var currPath = this.favorites[i].split('/');
 					var cleanEscapeRun = 0;
 					while (!cleanEscapeRun) {
 						cleanEscapeRun = 1;
-						for (var j = 0; j < currPath.length - 1; j++) {
+						for (let j = 0; j < currPath.length - 1; j++) {
 							if (currPath[j][currPath[j].length - 1] === '\\') {
 								currPath.splice(j, 2, currPath[j].substring(0, currPath[j].length) + '/' + currPath[j + 1]);
 								cleanEscapeRun = 0;
@@ -8457,6 +8313,7 @@ c(function() {
 	});
 });
 
+/* HELP */
 c(function() {
 	apps.help = new Application({
 		title: 'AaronOS Help',
@@ -9019,6 +8876,8 @@ c(function() {
 	};
 	getId('aOSloadingInfo').innerHTML = 'Legacy App Maker';
 });
+
+/* LEGACY APP MAKER */
 c(function() {
 	m('init APM');
 	apps.appmaker = new Application({
@@ -9222,6 +9081,7 @@ c(function() {
 	getId('aOSloadingInfo').innerHTML = 'Web App Maker';
 });
 
+/* WEB APP MAKER */
 c(function() {
 	apps.webAppMaker = new Application({
 		title: "Web App Maker",
@@ -10303,6 +10163,7 @@ c(function() {
 	getId('aOSloadingInfo').innerHTML = 'Messaging';
 });
 
+/* MESSAGING */
 c(function() {
 	m('init MSG');
 	apps.messaging = new Application({
@@ -10822,6 +10683,7 @@ c(function() {
 	getId('aOSloadingInfo').innerHTML = 'Music Player';
 });
 
+/* MUSIC PLAYER */
 c(function() {
 	m('init MSC');
 	apps.musicPlayer = new Application({
@@ -11011,6 +10873,7 @@ c(function() {
 	getId('aOSloadingInfo').innerHTML = 'Sticky Note';
 });
 
+/* STICKY NOTE */
 c(function() {
 	apps.postit = new Application({
 		title: "Sticky Note",
@@ -11246,218 +11109,6 @@ c(function() {
 							window.setTimeout(apps.bootScript.vars.doBootScript, 1);
 						} else {
 							doLog('Refusing to run BootScripts because SafeMode is on.', "#F00");
-						}
-						break;
-					case 'shutdown':
-
-						break;
-					default:
-						doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00");
-			}
-		}
-	});
-});
-
-c(function() {
-	apps.magnifier = new Application({
-		title: "Magnifier",
-		abbreviation: "Mag",
-		codeName: "magnifier",
-		image: 'appicons/ds/Mag.png',
-		hideApp: 1,
-		main: function() {
-			if (!this.appWindow.appIcon) {
-				this.appWindow.setDims(10, 10, 300, 100);
-				this.appWindow.setCaption('Magnifier');
-				this.appWindow.setContent(
-					'<button onclick="apps.magnifier.vars.startMag(event)">Start</button>' +
-					'<button onclick="apps.magnifier.vars.endMag()">Stop</button><br>' +
-					'Zoom: <input id="MAGpercent" value="2" size="3"><br>' +
-					'<button onclick="apps.magnifier.vars.setMag()">Set Zoom</button>');
-				getId("win_magnifier_html").classList.add("noselect");
-			}
-			this.appWindow.openWindow();
-		},
-		vars: {
-			appInfo: 'Magnify the aOS screen to make it easier to see with visual impairments or HiDPI monitors.',
-			running: 0,
-			currMag: 2,
-			startMag: function (event) {
-				if (!this.running) {
-					document.body.style.overflow = 'hidden';
-					document.body.style.transform = 'scale(' + this.currMag + ')';
-					document.body.style.transformOrigin = event.pageX + 'px ' + event.pageY + 'px';
-					document.body.addEventListener('mousemove', apps.magnifier.vars.setOrigin);
-					this.running = 1;
-				}
-			},
-			endMag: function() {
-				if (this.running) {
-					document.body.style.overflow = '';
-					document.body.style.transform = '';
-					document.body.style.transformOrigin = '';
-					document.body.removeEventListener('mousemove', apps.magnifier.vars.setOrigin);
-					this.running = 0;
-				}
-			},
-			setMag: function() {
-				this.currMag = parseFloat(getId('MAGpercent').value);
-				if (this.running) {
-					document.body.style.transform = 'scale(' + this.currMag + ')';
-				}
-			},
-			setOrigin: function (event) {
-				document.body.style.transformOrigin = event.pageX + 'px ' + event.pageY + 'px';
-			}
-		}
-	});
-	getId('aOSloadingInfo').innerHTML = 'iFrame Browser';
-});
-c(function() {
-	apps.iFrameBrowser = new Application({
-		title: "iFrame Browser",
-		abbreviation: "iFB",
-		codeName: "iFrameBrowser",
-		image: 'appicons/ds/systemApp.png',
-		hideApp: 2,
-		main: function() {
-			if (!this.appIcon) {
-				this.appWindow.paddingMode(0);
-				this.appWindow.setDims("auto", "auto", 800, 600);
-				this.appWindow.setCaption('iFrame Browser');
-				this.appWindow.setContent('<div id="iFBframes" style="width:100%;height:100%;"></div>' +
-					'<div style="font-family:aosProFont, Courier, monospace; font-size:12px;height:50px;border-bottom:1px solid #000; width:100%; line-height:25px;">' +
-					'<button onclick="apps.iFrameBrowser.vars.doSettings()">Settings</button> ' +
-					'<input id="iFBinput" placeholder="https://" style="width:75%;"> ' +
-					'<button onclick="apps.iFrameBrowser.vars.go(getId(\'iFBinput\').value)">Go</button> ' +
-					'<br>' +
-					'<span id="iFBtabs"></span><button onclick="apps.iFrameBrowser.vars.newTab()">New Tab</button> ' +
-					'<button onclick="apps.iFrameBrowser.vars.closeTab()">Close Tab</button>' +
-					'</div>');
-			}
-			this.appWindow.openWindow();
-			this.vars.resetTabs();
-		},
-		vars: {
-			appInfo: 'The iFrame Browser is a placeholder app to view a webpage in an iframe within an app. This app is not a full web browser. If aOS is loaded over HTTPS, you won\'t be able to view HTTP sites here. Many sites block iFrames.',
-			go: function (url) {
-				if (getId("iFBframes").childNodes.length < 1) {
-					this.newTab();
-				}
-				if (url === "ifbHomepage.php") {
-					getId("iFBframes").childNodes[this.currTab].src = url;
-				} else if (url.length > 0) {
-					if (this.proxyUrl) {
-						if (url.indexOf(this.proxyUrl) === 0) {
-							getId("iFBframes").childNodes[this.currTab].src = url;
-						} else {
-							getId("iFBframes").childNodes[this.currTab].src = this.proxyUrl + url;
-						}
-					} else {
-						getId("iFBframes").childNodes[this.currTab].src = url;
-					}
-				} else {
-					getId("iFBframes").childNodes[this.currTab].src = "ifbHomepage.php";
-				}
-				getId('iFBinput').value = getId("iFBframes").childNodes[this.currTab].src;
-				if (url === "ifbHomepage.php" || url.length === 0) {
-					getId('iFBinput').value = "";
-				}
-			},
-			proxyUrl: "",
-			currTab: 0,
-			resetTabs: function() {
-				this.tabs = [];
-				getId("iFBtabs").innerHTML = "";
-				getId("iFBframes").innerHTML = "";
-				this.newTab();
-			},
-			newTab: function() {
-				var newTabNum = getId('iFBtabs').childNodes.length / 2;
-				getId("iFBtabs").innerHTML += '<button onclick="apps.iFrameBrowser.vars.showTab(' + newTabNum + ')">Tab ' + (newTabNum + 1) + '</button> ';
-				var newFrame = document.createElement("iframe");
-				newFrame.setAttribute("data-parent-app", "iFrameBrowser");
-				newFrame.classList.add("iFBframe");
-				newFrame.src = "ifbHomepage.php";
-				newFrame.style.border = "none";
-				newFrame.style.width = "100%";
-				newFrame.style.height = "calc(100% - 51px)";
-				newFrame.style.marginTop = "51px";
-				newFrame.style.display = "block";
-				getId("iFBframes").appendChild(newFrame);
-				this.showTab(newTabNum);
-				getId("iFBinput").value = "";
-			},
-			showTab: function (tabNum) {
-				if (getId("iFBtabs").childNodes.length > 0) {
-					getId("iFBtabs").childNodes[this.currTab * 2].style.opacity = "0.5";
-					getId("iFBframes").childNodes[this.currTab].style.display = "none";
-					this.currTab = tabNum;
-					getId("iFBtabs").childNodes[this.currTab * 2].style.opacity = "";
-					getId("iFBframes").childNodes[this.currTab].style.display = "block";
-					getId("iFBinput").value = getId("iFBframes").childNodes[this.currTab].src;
-				}
-			},
-			closeTab: function() {
-				var oldTab = this.currTab;
-				if (this.currTab >= getId("iFBtabs").childNodes.length / 2 - 1) {
-					if (getId("iFBtabs").childNodes.length / 2 > 1) {
-						this.showTab(this.currTab - 1);
-					}
-				}
-				getId("iFBtabs").removeChild(getId("iFBtabs").childNodes[oldTab * 2]);
-				getId("iFBtabs").removeChild(getId("iFBtabs").childNodes[oldTab * 2]);
-				getId("iFBframes").removeChild(getId("iFBframes").childNodes[oldTab]);
-				for (var i = 0; i < getId("iFBframes").childNodes.length; i++) {
-					getId("iFBtabs").childNodes[i * 2].innerHTML = "Tab " + (i + 1);
-					getId("iFBtabs").childNodes[i * 2].setAttribute("onclick", "apps.iFrameBrowser.vars.showTab(" + i + ")");
-				}
-				this.showTab(this.currTab);
-			},
-			doSettings: function() {
-				apps.prompt.vars.prompt(
-					"This Settings page contains only one setting; a proxy for fetching website content.<br><br>" +
-					"If you set a proxy address, that address will be prefixed to the beginning of every address you enter.<br><br>" +
-					"Be aware that proxy sites are capable of seeing and changing all content you view, and all information you enter on their page. " +
-					"Do not enter personal information or sensitive data while using a proxy.<br><br>" +
-					"Proxy format: \"https://example.com/\"<br>" +
-					"Your current proxy is: \"" + cleanStr(this.proxyUrl) + "\"<br>" +
-					"Leave this blank to disable the proxy.",
-					"Submit",
-					function (str) {
-						apps.iFrameBrowser.vars.proxyUrl = str;
-						ufsave("aos_system/apps/iframebrowser/proxyurl", str);
-					},
-					"iFrame Browser"
-				)
-			}
-		},
-		signalHandler: function (signal) {
-			switch (signal) {
-				case "forceclose":
-					this.appWindow.closeWindow();
-					this.appWindow.closeIcon();
-					break;
-				case "close":
-					this.appWindow.closeWindow();
-					setTimeout(function() {
-						if (getId("win_" + this.objName + "_top").style.opacity === "0") {
-							this.appWindow.setContent("");
-						}
-					}.bind(this), 300);
-					break;
-				case "checkrunning":
-					if (this.appWindow.appIcon) {
-						return 1;
-					} else {
-						return 0;
-					}
-					case "shrink":
-						this.appWindow.closeKeepTask();
-						break;
-					case "USERFILES_DONE":
-						if (ufload("aos_system/apps/iframebrowser/proxyurl")) {
-							apps.iFrameBrowser.vars.proxyUrl = ufload("aos_system/apps/iframebrowser/proxyurl");
 						}
 						break;
 					case 'shutdown':
@@ -11825,6 +11476,8 @@ c(function() {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Developer Documentation';
 });
+
+/* DEVELOPER DOCUMENTATION */
 c(function() {
 	m('init DD');
 	apps.devDocumentation = new Application({

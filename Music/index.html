@@ -9,39 +9,28 @@
 	<script type="module" src="script.js"></script>
 </head>
 
-<body>
-	<div class="winHTML">
-		<div id="currentlyPlaying" class="disabled">No Song Playing</div>
-		<div id="controls" class="disabled">
-			<span id="nonLiveControls">
-				Volume: <input id="volume" type="range" value="1" min="0" max="1" step="0.1"
-					onchange="setVolume(this.value)" title="Can affect visualizer quality.">
+<body class="winHTML">
+	<div id="currentlyPlaying" class="disabled">No Song Playing</div>
+	<div id="controls" class="disabled">
+		<span id="nonLiveControls">
+			Volume: <input id="volume" type="range" value="1" min="0" max="1" step="0.1"
+				onchange="setVolume(this.value)" title="Can affect visualizer quality.">
 
-				<button onclick="back()"><b>|</b>&#9668;</button>
-				<button onclick="if(audio.paused){play();}else{pause();}" id="playbutton">&#9658;</button>
-				<button onclick="next()">&#9658;<b>|</b></button>
+			<button onclick="back()"><b>|</b>&#9668;</button>
+			<button onclick="if(audio.paused){play();}else{pause();}" id="playbutton">&#9658;</button>
+			<button onclick="next()">&#9658;<b>|</b></button>
 
-				<button onclick="shuffle()">Shuffle</button>
-			</span>
+			<button onclick="shuffle()">Shuffle</button>
+		</span>
+	</div>
 
-			Visuals: <select id="visfield" onchange="setVis(this.value)"
-				onmousedown="requestAnimationFrame(()=>{this.blur()}); event.preventDefault();"
-				onclick="openVisualizerMenu(); event.preventDefault();"></select>
-		</div>
+	<div id="progressContainer" class="disabled" onclick="setProgress(event)">
+		<div id="progress"></div>
+	</div>
 
-		<div id="progressContainer" class="disabled" onclick="setProgress(event)">
-			<div id="progress"></div>
-		</div>
-
-		<div id="songList" class="disabled"></div>
-		<div id="visualizer" class="disabled">
-			<canvas id="visCanvas" onclick=""></canvas>
-		</div>
-
-		<div id="selectOverlay" class="disabled">
-			<div id="selectBackground" onclick="closeMenu()"></div>
-			<div id="selectContent"></div>
-		</div>
+	<div id="songList" class="disabled"></div>
+	<div id="visualizer">
+		<canvas id="visCanvas"></canvas>
 	</div>
 </body>
 
