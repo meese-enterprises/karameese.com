@@ -185,6 +185,8 @@ function selectSong(id) {
 }
 window.selectSong = selectSong;
 
+/** Play or pause audio, depending on which state was previously in play. */
+window.toggleAudioState = () => audio.paused ? play() : pause();
 function play() {
 	if (currentSong === -1) {
 		selectSong(0);
@@ -195,14 +197,11 @@ function play() {
 
 	getId("playbutton").innerHTML = "<b>&nbsp;||&nbsp;</b>";
 }
-window.play = play;
-
 function pause() {
 	audio.pause();
 	unblockSleep();
 	getId("playbutton").innerHTML = "&#9658;";
 }
-window.pause = pause;
 
 function firstPlay() {
 	audioDuration = audio.duration;
@@ -367,11 +366,6 @@ function loadAudioFiles() {
 	}
 
 	listSongs();
-	const disabledElements = document.getElementsByClassName('disabled');
-	while (disabledElements.length > 0) {
-		disabledElements[0].classList.remove('disabled');
-	}
-
 	audioContext = new AudioContext({
 		latencyHint: 'playback',
 		//sampleRate: 8000,

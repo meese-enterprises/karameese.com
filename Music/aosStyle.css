@@ -276,16 +276,8 @@ div {
 }
 
 .winHTML {
-	width: calc(100% - 9px);
-	/* fallback */
-	height: calc(100% - 35px);
-	/* fallback */
 	width: calc(100% - 3px - var(--windowBorderWidth) - var(--windowBorderWidth));
 	height: calc(100% - 32px - var(--windowBorderWidth));
-	bottom: 3px;
-	/* fallback */
-	left: 3px;
-	/* fallback */
 	bottom: var(--windowBorderWidth);
 	left: var(--windowBorderWidth);
 	background-color: #FFF;
@@ -296,8 +288,6 @@ div {
 
 .winHTML.noPadding {
 	padding-left: 0;
-	width: calc(100% - 6px);
-	/* fallback */
 	width: calc(100% - var(--windowBorderWidth) - var(--windowBorderWidth));
 }
 

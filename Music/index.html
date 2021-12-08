@@ -10,21 +10,19 @@
 </head>
 
 <body class="winHTML">
-	<div id="currentlyPlaying" class="disabled">No Song Playing</div>
-	<div id="controls" class="disabled">
-		<span id="nonLiveControls">
-			Volume: <input id="volume" type="range" value="1" min="0" max="1" step="0.1"
-				onchange="setVolume(this.value)" title="Can affect visualizer quality.">
+	<div id="currentlyPlaying">No Song Playing</div>
+	<div id="controls">
+		Volume: <input id="volume" type="range" value="1" min="0" max="1" step="0.1"
+			onchange="setVolume(this.value)" title="Can affect visualizer quality.">
 
-			<button onclick="back()"><b>|</b>&#9668;</button>
-			<button onclick="if(audio.paused){play();}else{pause();}" id="playbutton">&#9658;</button>
-			<button onclick="next()">&#9658;<b>|</b></button>
+		<button onclick="back()"><b>|</b>&#9668;</button>
+		<button onclick="toggleAudioState()" id="playbutton">&#9658;</button>
+		<button onclick="next()">&#9658;<b>|</b></button>
 
-			<button onclick="shuffle()">Shuffle</button>
-		</span>
+		<button onclick="shuffle()">Shuffle</button>
 	</div>
 
-	<div id="progressContainer" class="disabled" onclick="setProgress(event)">
+	<div id="progressContainer" onclick="setProgress(event)">
 		<div id="progress"></div>
 	</div>
 
