@@ -1,4 +1,5 @@
 import { getId } from "./HelperFunctions.js";
+import { getColor } from "./Color.js";
 import { AudioVisualizer } from "./AudioVisualizer.js";
 const vis = AudioVisualizer;
 const currVis = "waveform";
@@ -306,30 +307,6 @@ var automaticColor = {
 	resultList: new Array(512)
 }
 
-const barbie       = "#fe00c0";
-const cotton_candy = "#fa87f4";
-const barney       = "#9701ff";
-const bsod         = "#4900ff";
-const blue_razz    = "#01b9ff";
-const carribbean   = "#01fff8";
-const VaporwaveColors = [cotton_candy, barbie, barney, bsod, blue_razz, carribbean];
-
-const getColor = (amount, position) => {
-	if (typeof position === "number") {
-		let numOfCols = VaporwaveColors.length;
-		let selCol = Math.floor(position / 255 * numOfCols);
-		if (selCol < 0) selCol = 0;
-		if (selCol > numOfCols - 1) selCol = numOfCols;
-		return VaporwaveColors[selCol];
-	} else {
-		let numOfCols = VaporwaveColors.length;
-		let selCol = Math.floor(amount / 255 * numOfCols);
-		if (selCol < 0) selCol = 0;
-		if (selCol > numOfCols - 1) selCol = numOfCols;
-		return VaporwaveColors[selCol];
-	}
-}
-window.getColor = getColor;
 progressBar.style.outline = "2px solid " + getColor(255);
 
 function loadAudio() {

@@ -1,4 +1,5 @@
 import { getId } from "./HelperFunctions.js";
+import { getColor } from "./Color.js";
 var canvasElement = getId("visCanvas");
 var canvas = canvasElement.getContext("2d");
 const clearVis = () => canvas.clearRect(0, 0, window.size[0], window.size[1]);
