@@ -507,7 +507,6 @@ var langContent = {
 			hideApp: 'Hide',
 			closeApp: 'Close',
 			fold: 'Fold',
-			fullscreen: 'Toggle Fullscreen',
 			stayOnTop: 'Stay On Top',
 			stopOnTop: 'Stop Staying On Top',
 			copyText: 'Copy',
@@ -1327,7 +1326,6 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 			setContent: function (newHTML) {
 				getId("win_" + this.objName + "_html").innerHTML = newHTML;
 			},
-			fullscreentempvars: [0, 0, 0, 0],
 			toggleFullscreen: function() {
 				d(1, 'Setting Maximise.');
 				if (this.fullscreen) {
@@ -5583,7 +5581,6 @@ c(function() {
 					'Your Window Resolution: ' + window.innerWidth + 'px by ' + window.innerHeight + 'px <button onclick="fitWindow()">Fit aOS to Window</button><br>' +
 					'Your Screen Resolution: ' + window.outerWidth + 'px by ' + window.outerHeight + 'px <button onclick="fitWindowOuter()">Fit aOS to Screen</button><br>' +
 					'Set Custom Resolution:<br><input id="STNscnresX">px by <input id="STNscnresY">px <button onclick="fitWindowRes(getId(\'STNscnresX\').value, getId(\'STNscnresY\').value)">Set aOS Screen Res</button><br>' +
-					'<button onclick="apps.settings.vars.reqFullscreen()">Enter Fullscreen</button> <button onclick="apps.settings.vars.endFullscreen()">Exit Fullscreen</button><hr>' +
 					'<b>Taskbar</b><br>' +
 					'<i>Toggle the display of different elements of the taskbar</i><br>' +
 					'<button onclick="apps.settings.vars.togTimeComp()">Toggle Compact Time</button> <button onclick="apps.settings.vars.togNetStat()">Toggle Network Status</button> <button onclick="apps.settings.vars.togBatStat()">Toggle Battery Status</button> <button onclick="apps.settings.vars.togBatComp()">Toggle Stylish Battery</button><hr>' +
@@ -5730,15 +5727,6 @@ c(function() {
 					folderName: 'Display',
 					folderPath: 'apps.settings.vars.menus.screenRes',
 					image: 'settingIcons/new/resolution.png',
-					fullscreen: {
-						option: 'Full Screen',
-						description: function() {
-							return 'Show AaronOS in fullscreen, outside of browser UI. A more stable way to achieve this is with the F11 key.'
-						},
-						buttons: function() {
-							return '<button onclick="apps.settings.vars.reqFullscreen()">Enter Fullscreen</button> <button onclick="apps.settings.vars.endFullscreen()">Exit Fullscreen</button>'
-						}
-					},
 					mobileMode: {
 						option: 'Mobile Mode',
 						description: function() {
