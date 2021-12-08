@@ -315,3 +315,7 @@ hr {
 #tskbrBimg {
 	display: none !important;
 }
+
+.closedWindow {
+	border: 0px;
+}
