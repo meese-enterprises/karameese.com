@@ -11822,8 +11822,9 @@ getId("icons").addEventListener("wheel", scrollHorizontally);
 
 function highlightWindow(app) {
 	getId('windowFrameOverlay').style.display = 'block';
+	// The 32 is to compensate for the absoltely positioned top bar, which isn't factored in by default
+	getId('windowFrameOverlay').style.top = apps[app].appWindow.windowY + 32 + "px";
 	getId('windowFrameOverlay').style.left = apps[app].appWindow.windowX + "px";
-	getId('windowFrameOverlay').style.top = apps[app].appWindow.windowY + "px";
 	getId('windowFrameOverlay').style.width = apps[app].appWindow.windowH + "px";
 	getId('windowFrameOverlay').style.height = apps[app].appWindow.windowV + "px";
 }
