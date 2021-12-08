@@ -6410,6 +6410,7 @@ c(function() {
 			screensaverEnabled: 1,
 			screensaverTime: 300000000,
 			currScreensaver: "phosphor",
+			// TODO
 			screensavers: {
 				blast: {
 					name: "AaronOS Blast",
@@ -10187,7 +10188,6 @@ c(function() {
 				this.appWindow.setDims("auto", "auto", 800, 500);
 			}
 			this.appWindow.setCaption('Messaging');
-			getId('win_messaging_html').setAttribute('onclick', 'if(apps.messaging.vars.soundToPlay && apps.messaging.vars.canLookethOverThereSound){apps.messaging.vars.notifClick.play(); apps.messaging.vars.soundToPlay = 0;}');
 			if (launchType === 'dsktp') {
 				this.appWindow.setContent(
 					'<div id="MSGdiv" style="width:100%;height:calc(100% - 52px);overflow-y:scroll;padding-top:32px;"></div>' +
@@ -10271,16 +10271,15 @@ c(function() {
 						this.sendfd.append('c', this.lastMessage);
 						this.sendhttp.open('POST', 'messager.php');
 						this.sendhttp.onreadystatechange = function() {
-							if (apps.messaging.vars.sendhttp.readyState === 4) {
-								if (apps.messaging.vars.sendhttp.status === 200) {
-									if (apps.messaging.vars.sendhttp.responseText === 'Error - Password incorrect.') {
-										apps.prompt.vars.alert('Could not send message. Your password is incorrect.<br><br>If you recently set a new password, try to reset aOS and see if that fixes the issue. If the issue persists, please contact the developer via email.', 'Okay.', function() {}, 'Messaging');
-									} else if (apps.messaging.vars.sendhttp.responseText.indexOf('Error - ') === 0) {
-										apps.prompt.vars.alert('Error sending message:<br><br>' + apps.messaging.vars.sendhttp.responseText, 'Okay.', function() {}, 'Messaging');
-									}
-								} else {
-									apps.prompt.vars.alert('Could not send message. Network error code ' + apps.messaging.vars.sendhttp.status + '.<br><br>Try again in a minute or so. If it still doesn\'t work, contact the developer via the  email.', 'Okay.', function() {}, 'Messaging');
+							if (apps.messaging.vars.sendhttp.readyState !== 4) return;
+							if (apps.messaging.vars.sendhttp.status === 200) {
+								if (apps.messaging.vars.sendhttp.responseText === 'Error - Password incorrect.') {
+									apps.prompt.vars.alert('Could not send message. Your password is incorrect.<br><br>If you recently set a new password, try to reset aOS and see if that fixes the issue. If the issue persists, please contact the developer via email.', 'Okay.', function() {}, 'Messaging');
+								} else if (apps.messaging.vars.sendhttp.responseText.indexOf('Error - ') === 0) {
+									apps.prompt.vars.alert('Error sending message:<br><br>' + apps.messaging.vars.sendhttp.responseText, 'Okay.', function() {}, 'Messaging');
 								}
+							} else {
+								apps.prompt.vars.alert('Could not send message. Network error code ' + apps.messaging.vars.sendhttp.status + '.<br><br>Try again in a minute or so. If it still doesn\'t work, contact the developer via the  email.', 'Okay.', function() {}, 'Messaging');
 							}
 						}
 						this.sendhttp.send(this.sendfd);
@@ -10293,7 +10292,6 @@ c(function() {
 			lastUserRecieved: '',
 			needsScroll: false,
 			notifPing: new Audio('messagingSounds/messagePing.wav'),
-			soundToPlay: 0,
 			objTypes: {
 				img: function (str, param) {
 					return '<img onclick="this.classList.toggle(\'MSGdivGrowPic\');this.parentNode.classList.toggle(\'MSGdivGrowPicParent\')" style="max-width:calc(100% - 6px);max-height:400px;padding-left:3px;padding-right:3px;" src="' + str + '">';
@@ -10594,29 +10592,24 @@ c(function() {
 					if (this.needsScroll) {
 						getId('MSGdiv').scrollTop = getId('MSGdiv').scrollHeight;
 					}
-					if (this.canLookethOverThereSound) {
-						this.notifMessage.play();
-						this.soundToPlay = 1;
-					} else {
-						if (!document.hasFocus() || getId('win_messaging_top').style.display === 'none') {
-							this.notifPing.play();
-							if (getId('win_messaging_top').style.display === 'none') {
-								apps.prompt.vars.notify(apps.messaging.vars.parseBB(this.lastResponseObject.n, 1) + ' said:<br><br>' + this.parseBB(this.lastResponseObject.c),
-									['Show App', 'Dismiss'],
-									function (btn) {
-										if (btn === 0) {
-											openapp(apps.messaging, 'tskbr');
-										}
-									},
-									'Messaging',
-									'appicons/ds/MSG.png'
-								);
-							}
+					if (!document.hasFocus() || getId('win_messaging_top').style.display === 'none') {
+						this.notifPing.play();
+						if (getId('win_messaging_top').style.display === 'none') {
+							apps.prompt.vars.notify(apps.messaging.vars.parseBB(this.lastResponseObject.n, 1) + ' said:<br><br>' + this.parseBB(this.lastResponseObject.c),
+								['Show App', 'Dismiss'],
+								function (btn) {
+									if (btn === 0) {
+										openapp(apps.messaging, 'tskbr');
+									}
+								},
+								'Messaging',
+								'appicons/ds/MSG.png'
+							);
 						}
 					}
-					apps.messaging.vars.xhttpDelay = makeTimeout('MSG', 'requestMessage', 'apps.messaging.vars.requestMessage()', 10);
+					apps.messaging.vars.xhttpDelay = window.setTimeout('apps.messaging.vars.requestMessage()', 10);
 				} else {
-					apps.messaging.vars.xhttpDelay = makeTimeout('MSG', 'requestMessage', 'apps.messaging.vars.requestMessage()', 1000);
+					apps.messaging.vars.xhttpDelay = window.setTimeout('apps.messaging.vars.requestMessage()', 1000);
 				}
 			},
 			lastResponseTime: 0,
@@ -10889,11 +10882,16 @@ c(function() {
 		},
 		hideApp: 1,
 		main: function() {
+			const margins = 15;
+			const width = 250;
+			const height = 150;
+			const x = parseInt(getId("desktop").style.width) - width - margins;
+			
 			this.appWindow.setCaption('Sticky Note');
 			if (!this.appWindow.appIcon) {
 				this.appWindow.alwaysOnTop(1);
 				this.appWindow.paddingMode(0);
-				this.appWindow.setDims(parseInt(getId("desktop").style.width) - 210, 10, 200, 200);
+				this.appWindow.setDims(x, margins, width, height);
 				this.appWindow.setContent('<textarea id="stickyNotePad" onblur="apps.postit.vars.savePost()" style="padding:0;color:#000;font-family:Comic Sans MS;font-weight:bold;border:none;resize:none;display:block;width:100%;height:100%;background-color:#FF7;"></textarea>');
 				if (ufload("aos_system/apps/postit/saved_note")) {
 					getId('stickyNotePad').value = ufload("aos_system/apps/postit/saved_note");
@@ -10913,6 +10911,8 @@ c(function() {
 	});
 	getId('aOSloadingInfo').innerHTML = 'Bootscript App';
 });
+
+/* BOOT SCRIPT */
 c(function() {
 	apps.bootScript = new Application({
 		title: "Boot Script Editor",
@@ -12564,7 +12564,8 @@ getId("monitor").addEventListener('touchstart', monMouseDown);
 
 c(function() {
 	requestAnimationFrame(function() {
-		makeInterval('aOS', 'NtwrkCheck', 'taskbarShowHardware()', 1000);
+		// TODO: TALK TO KARA ABOUT WIFI ICON
+		//makeInterval('aOS', 'NtwrkCheck', 'taskbarShowHardware()', 1000);
 	});
 })
 

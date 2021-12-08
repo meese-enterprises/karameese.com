@@ -41,6 +41,6 @@ sudo chmod -R 755 /var/www/html
 
 The main PHP file is /aosBeta.php
 
-The main JavaScript file is /scriptBeta.js
+The main JavaScript file is /main.js
 
 The main CSS file is /styleBeta.css

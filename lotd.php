@@ -9,7 +9,7 @@
     if($oldLine[0] == $datestr){
         echo json_encode(array($oldLine[1], $oldLine[2]));
     }else{
-        $jsLines = file('scriptBeta.js');
+        $jsLines = file('main.js');
         $selectedLine = array_rand($jsLines);
         while(strlen(trim($jsLines[$selectedLine])) < 5){
             $selectedLine = array_rand($jsLines);

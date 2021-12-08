@@ -118,10 +118,10 @@
 		if ($_GET['dev'] == '1' || $_GET['dev'] == 'true') {
 			echo '<script defer src="scriptDev.js?ms='.round(microtime(true) * 1000).'"></script>';
 		} else {
-			echo '<script defer src="scriptBeta.js?ms='.round(microtime(true) * 1000).'"></script>';
+			echo '<script defer src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
 		}
 	} else {
-		echo '<script defer src="scriptBeta.js?ms='.round(microtime(true) * 1000).'"></script>';
+		echo '<script defer src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
 	}
 ?>
 
