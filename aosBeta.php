@@ -124,10 +124,8 @@
 
 	echo '<script src="./widgets/battery.js"></script>';
 	echo '<script src="./widgets/flow.js"></script>';
-	echo '<script src="./widgets/network.js"></script>';
 	echo '<script src="./widgets/notifications.js"></script>';
 	echo '<script src="./widgets/time.js"></script>';
-	echo '<script src="./widgets/users.js"></script>';
 
 	echo '<script src="./apps/app_browser.js"></script>';
 	echo '<script src="./apps/app_center.js"></script>';

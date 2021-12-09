@@ -62,7 +62,7 @@ if (isset($changeKey) && isset($changePass)) {
 				// if password is correct
 				if (password_verify($changePass, $targetPass)) {
 					// tell the browser the new user name
-					setcookie('keyword', $changeKey, time() + 321408000); // time() + 321408000);
+					setcookie('keyword', $changeKey, time() + 321408000);
 					$_COOKIE['keyword'] = $changeKey;
 				} else {
 					$refreshMessage = 'Failed to swap, incorrect password.';
@@ -82,25 +82,9 @@ if (isset($changeKey) && isset($changePass)) {
 $newUser = 0;
 $lettertypes = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
 
-// if user not logged in
-if (!isset($_COOKIE['keyword'])) {
-		$newUser = 1;
-		// create a new userkey
-		$newcode = 'blank';
-		while ($newcode === 'blank' || is_dir('USERFILES/' . $newcode)) {
-			$newcode = '';
-			for ($i = 0; $i < 21; $i++) { // capacity for 41-trillion, 107-billion, 996-million, 877-thousand, 935-hundred, 680 unique web-browser keys
-				$newcode = $newcode . $lettertypes[random_int(0, strlen($lettertypes) - 1)];
-			}
-		}
-
-		// tell the browser
-		setcookie('keyword', $newcode, time() + 321408000);
-		$_COOKIE['keyword'] = $newcode;
-}
-
-// if user has weird keyword
-if (preg_match('/[^A-Za-z0-9_-]/', $_COOKIE['keyword'])) {
+// 1. if the user is not logged in
+// 2. if the user has a weird keyword
+if (!isset($_COOKIE['keyword']) || preg_match('/[^A-Za-z0-9_-]/', $_COOKIE['keyword'])) {
 	$newUser = 1;
 	// create a new userkey
 	$newcode = 'blank';
@@ -131,37 +115,37 @@ if (file_exists('USERFILES/' . $_COOKIE['keyword'] . '/aOSpassword.txt')) {
 // Push javascript to set server variables
 echo 'window.SRVRKEYWORD="' . $_COOKIE['keyword'] . '";';
 if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-		echo 'window.IPADDRESS="' . $_SERVER['HTTP_X_FORWARDED_FOR'] . '";';
+	echo 'window.IPADDRESS="' . $_SERVER['HTTP_X_FORWARDED_FOR'] . '";';
 } else {
-		echo 'window.IPADDRESS="undefined";';
+	echo 'window.IPADDRESS="undefined";';
 }
 
 // If it needs to be refreshed, tell the client via js
 if ($needtorefresh) {
-		echo 'localStorage.setItem("login_failmessage", "'+$refreshMessage+'");window.location = "aosBeta.php?refreshed="+Math.round(Math.random()*1000);doLog("Moving");';
+	echo 'localStorage.setItem("login_failmessage", "'+$refreshMessage+'");window.location = "aosBeta.php?refreshed="+Math.round(Math.random()*1000);doLog("Moving");';
 }
 // If user folder not exist, create it
 if (!(is_dir('USERFILES/' . $_COOKIE['keyword']))) {
-		$newUser = 1;
-		mkdir('USERFILES/' . $_COOKIE['keyword']);
+	$newUser = 1;
+	mkdir('USERFILES/' . $_COOKIE['keyword']);
 }
 
 $newUsers = fopen('USERFILES/newUsers.txt', 'r');
 if (filesize('USERFILES/newUsers.txt') === 0) {
-		$newUsersList = array();
+	$newUsersList = array();
 } else {
-		$newUsersList = explode("\n", fread($newUsers, filesize('USERFILES/newUsers.txt')));
+	$newUsersList = explode("\n", fread($newUsers, filesize('USERFILES/newUsers.txt')));
 }
 
 fclose($newUsers);
 $newList = array();
 foreach ($newUsersList as $user) {
-		if ((int) substr($user, strpos($user, '=') + 1, strlen($user)) >= round(microtime(true) * 1000) - 120000) {
-				array_push($newList, $user);
-		}
+	if ((int) substr($user, strpos($user, '=') + 1, strlen($user)) >= round(microtime(true) * 1000) - 120000) {
+		array_push($newList, $user);
+	}
 }
 if ($newUser) {
-		array_push($newList, $_COOKIE['keyword'] . '=' . round(microtime(true) * 1000));
+	array_push($newList, $_COOKIE['keyword'] . '=' . round(microtime(true) * 1000));
 }
 unset($user);
 $newUsers = fopen('USERFILES/newUsers.txt', 'w');
@@ -170,3 +154,5 @@ fclose($newUsers);
 
 // renew your keyword cookie
 setcookie('keyword', $_COOKIE['keyword'], time() + 321408000);
+
+?>

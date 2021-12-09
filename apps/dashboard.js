@@ -240,9 +240,7 @@ apps.startMenu = new Application({
 							addWidget(i, 1);
 						}
 					} else {
-						addWidget('network', 1);
 						addWidget('battery', 1);
-						addWidget('users', 1);
 						addWidget('notifications', 1);
 						addWidget('time', 1);
 						addWidget('flow', 1);
