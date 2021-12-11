@@ -111,6 +111,9 @@
 		</div>
 	</div>
 	<img style="display:none" id="bgSizeElement" src="images/pink_square.png" onload="try{updateBgSize()}catch(err){}">
+	<!--<div class="visitor-count">
+		<?php include "viewCounter.php"; ?>
+	</div>-->
 </body>
 
 <?php

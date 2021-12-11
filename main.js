@@ -1124,7 +1124,6 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 
 // Desktop vars
 var dsktp = {};
-
 function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxAction, ctxActionArgs, nosave) {
 	if (!id) id = "uico_" + (new Date().getTime());
 	if (!title) {
