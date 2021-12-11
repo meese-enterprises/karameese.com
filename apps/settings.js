@@ -305,11 +305,11 @@ apps.settings = new Application({
 				enable: {
 					option: "Enable Screen Saver",
 					description: function() {
-						return "Current: " + !!apps.settings.vars.screensaverEnabled + ".<br>" +
+						return "Current: " + apps.settings.vars.screensaverEnabled + ".<br>" +
 							"This is an animation or other screen that appears when you're away from your computer."
 					},
 					buttons: function() {
-						return '<button onclick="apps.settings.vars.togScreensaver()">Toggle</button>'
+						return "";
 					}
 				},
 				time: {
@@ -320,42 +320,6 @@ apps.settings = new Application({
 					},
 					buttons: function() {
 						return '<input id="STNscreensaverTime"> <button onclick="apps.settings.vars.setScreensaverTime(parseFloat(getId(\'STNscreensaverTime\').value) * 1000 * 1000 * 60)">Set</button>'
-					}
-				},
-				type: {
-					option: "Type of Screensaver",
-					description: function() {
-						return 'Current: ' + apps.settings.vars.currScreensaver + ".<br>" +
-							"This is the type of screensaver that aOS will display."
-					},
-					buttons: function() {
-						return apps.settings.vars.grabScreensavers()
-					}
-				},
-				blocks: {
-					option: "Screensaver Blockers",
-					description: function() {
-						return "If the screensaver is being blocked temporarily, the handles used to do so are displayed below. If you wish, you can click one to delete it, though this may lead to unexpected behavior."
-					},
-					buttons: function() {
-						apps.settings.vars.screensaverBlockNames = [];
-						let tempCount = [];
-						let tempStr = '';
-						for (let i in screensaverBlocks) {
-							var tempInd = apps.settings.vars.screensaverBlockNames.indexOf(screensaverBlocks[i]);
-							if (tempInd > -1) {
-								tempCount[tempInd]++;
-							} else {
-								apps.settings.vars.screensaverBlockNames.push(screensaverBlocks[i]);
-								tempCount.push(1);
-							}
-						}
-
-						for (let i in tempCount) {
-							tempStr += "<button onclick='unblockScreensaver(apps.settings.vars.screensaverBlockNames[" + i + "]);apps.settings.vars.showMenu(apps.settings.vars.menus.screensaver)'>" + apps.settings.vars.screensaverBlockNames[i] + ": " + tempCount[i] + "</button> ";
-						}
-
-						return tempStr;
 					}
 				}
 			},
@@ -791,23 +755,11 @@ apps.settings = new Application({
 			}
 		},
 		screensaverTimer: 0,
-		screensaverEnabled: 1,
+		screensaverEnabled: false,
 		screensaverTime: 300000000,
 		currScreensaver: "phosphor",
 		// TODO
 		screensavers: {
-			blast: {
-				name: "AaronOS Blast",
-				selected: function() {
-					apps.prompt.vars.alert("Screensaver applied.<br>Configuration options are coming soon for this screensaver.", "Okay.", function() {}, "AaronOS Blast Screensaver");
-				},
-				start: function() {
-					getId('screensaverLayer').innerHTML = '<iframe src="blast/?noBackground=true&player=false&shipCount=10&zoom=0.5&shipLabels=false&scoreboard=false" style="pointer-events:none;border:none;width:100%;height:100%;display:block;position:absolute;left:0;top:0;"></iframe>';
-				},
-				end: function() {
-					getId('screensaverLayer').innerHTML = '';
-				}
-			},
 			phosphor: {
 				name: "Phosphor",
 				selected: function() {
@@ -940,10 +892,6 @@ apps.settings = new Application({
 				this.scnsavList += '<button onclick="apps.settings.vars.setScreensaver(\'' + item + '\')">' + this.screensavers[item].name + '</button> ';
 			}
 			return this.scnsavList;
-		},
-		togScreensaver: function() {
-			this.screensaverEnabled = -1 * this.screensaverEnabled + 1;
-			ufsave("aos_system/screensaver/enabled", this.screensaverEnabled);
 		},
 		setScreensaverTime: function (newTime) {
 			this.screensaverTime = newTime;
@@ -1100,7 +1048,7 @@ apps.settings = new Application({
 		winFadeDistance: '0.5',
 		setFadeDistance: function (newDist, nosave) {
 			this.winFadeDistance = newDist;
-			for (var app in apps) {
+			for (let app in apps) {
 				if (getId('win_' + apps[app].objName + '_top').style.opacity !== "1") {
 					getId('win_' + apps[app].objName + '_top').style.transform = 'scale(' + newDist + ')';
 					getId('win_' + apps[app].objName + '_top').style.opacity = '0';

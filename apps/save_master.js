@@ -53,7 +53,6 @@ apps.savemaster = new Application({
 					getId("mastersaveframe").src = "filesaver.php/?k=" + SRVRKEYWORD + "&f=" + filepath + "&c=" + filecontent;
 				} else {
 					this.saving = 2;
-					taskbarShowHardware();
 					if (errorreport === 'ERROR_REPORT') {
 						this.xf['fd' + this.savePerf] = new FormData();
 						this.xf['fd' + this.savePerf].append('k', SRVRKEYWORD);
@@ -63,7 +62,6 @@ apps.savemaster = new Application({
 						this.xf['xhttp' + this.savePerf].onreadystatechange = function() {
 							if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].readyState === 4) {
 								apps.savemaster.vars.saving = 0;
-								taskbarShowHardware();
 								if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].status !== 200) {
 									apps.prompt.vars.alert('Error saving file:<br><br>Could not contact server.', 'Okay', function() {}, 'SaveMaster');
 								} else if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].responseText.indexOf('Error - ') === 0) {
@@ -86,7 +84,6 @@ apps.savemaster = new Application({
 						this.xf['xhttp' + this.savePerf].onreadystatechange = function() {
 							if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].readyState === 4) {
 								apps.savemaster.vars.saving = 0;
-								taskbarShowHardware();
 								if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].status !== 200) {
 									apps.prompt.vars.alert('Error saving file:<br><br>Could not contact server.', 'Okay', function() {}, 'SaveMaster');
 								} else if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].responseText.indexOf('Error - ') === 0) {
@@ -105,7 +102,6 @@ apps.savemaster = new Application({
 						this.xf['xhttp' + this.savePerf].onreadystatechange = function() {
 							if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].readyState === 4) {
 								apps.savemaster.vars.saving = 0;
-								taskbarShowHardware();
 								if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].status !== 200) {
 									apps.prompt.vars.alert('Error saving file:<br><br>Could not contact server.', 'Okay', function() {}, 'SaveMaster');
 								} else if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].responseText.indexOf('Error - ') === 0) {
@@ -131,7 +127,6 @@ apps.savemaster = new Application({
 						this.xf['xhttp' + this.savePerf].onreadystatechange = function() {
 							if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].readyState === 4) {
 								apps.savemaster.vars.saving = 0;
-								taskbarShowHardware();
 								if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].status !== 200) {
 									apps.prompt.vars.alert('Error saving file:<br><br>Could not contact server.', 'Okay', function() {}, 'SaveMaster');
 								} else if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].responseText.indexOf('Error - ') === 0) {
@@ -177,7 +172,6 @@ apps.savemaster = new Application({
 				this.xf['xhttp' + this.savePerf].onreadystatechange = function() {
 					if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].readyState === 4) {
 						apps.savemaster.vars.saving = 0;
-						taskbarShowHardware();
 						if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].status !== 200) {
 							apps.prompt.vars.alert('Error saving directory:<br><br>Could not contact server.', 'Okay', function() {}, 'SaveMaster');
 						} else if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].responseText.indexOf('Error - ') === 0) {
@@ -195,7 +189,6 @@ apps.savemaster = new Application({
 			this.savePerf = Math.floor(performance.now());
 			if (!noUserFiles) {
 				apps.savemaster.vars.saving = 2;
-				taskbarShowHardware();
 				apps.savemaster.vars.xf['fd' + apps.savemaster.vars.savePerf] = new FormData();
 				apps.savemaster.vars.xf['fd' + apps.savemaster.vars.savePerf].append('k', SRVRKEYWORD);
 				apps.savemaster.vars.xf['fd' + apps.savemaster.vars.savePerf].append('f', filepath);
@@ -203,7 +196,6 @@ apps.savemaster = new Application({
 				apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].onreadystatechange = function() {
 					if (apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].readyState === 4) {
 						apps.savemaster.vars.saving = 0;
-						taskbarShowHardware();
 					}
 				};
 				apps.savemaster.vars.xf['xhttp' + apps.savemaster.vars.savePerf].open('POST', 'filedeleter.php');
