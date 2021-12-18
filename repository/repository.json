@@ -4,18 +4,6 @@
     "repoAliases": ["aaronos", "aos", "official"],
     "repoVersion": "1.1.0",
     "packages": {
-        "minesweeper": {
-            "packageName": "Minesweeper",
-            "packageID": "minesweeper",
-            "packageAliases": [],
-            "version": "1.1",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/minesweeper.json",
-            "icon": {
-                "foreground": "repository/webApps/minesweeper.png"
-            },
-            "description": "Minesweeper, inspired by the Windows 98 Minesweeper game."
-        },
         "blast": {
             "packageName": "aOS Blast",
             "packageID": "blast",
