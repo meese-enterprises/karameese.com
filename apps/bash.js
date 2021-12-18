@@ -19,12 +19,12 @@ apps.bash = new Application({
 			this.appWindow.setCaption(lang('appNames', 'bash'));
 			this.appWindow.setDims("auto", "auto", 662, 504);
 			this.appWindow.setContent(
-				'<span id="bashContent" style="display:block;line-height:1em;font-family:aosProFont;font-size:12px;width:100%;">' +
+				'<span id="bashContent" style="display:block;line-height:1em;font-family:W95FA;font-size:12px;width:100%;">' +
 				'This terminal is a work-in-progress. Some features are incomplete.<br>' +
 				'Use "help" for a list of commands or for information of a specific command.<br>' +
 				'Click on the prompt\'s line to begin typing.' +
 				'</span>' +
-				'<input id="bashInput" onkeydown="apps.bash.vars.checkPrefix(event, 1)" onkeypress="apps.bash.vars.checkPrefix(event)" onkeyup="apps.bash.vars.checkPrefix(event);if(event.keyCode === 13){apps.bash.vars.execute()}" style="background:none;color:inherit;box-shadow:none;display:block;line-height:1em;font-family:aosProFont;font-size:12px;border:none;outline:none;padding:0;width:100%;">'
+				'<input id="bashInput" onkeydown="apps.bash.vars.checkPrefix(event, 1)" onkeypress="apps.bash.vars.checkPrefix(event)" onkeyup="apps.bash.vars.checkPrefix(event);if(event.keyCode === 13){apps.bash.vars.execute()}" style="background:none;color:inherit;box-shadow:none;display:block;line-height:1em;font-family:W95FA;font-size:12px;border:none;outline:none;padding:0;width:100%;">'
 			);
 			this.vars.checkPrefix({
 				keyCode: null

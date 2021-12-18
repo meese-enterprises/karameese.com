@@ -1,5 +1,5 @@
 @font-face{
-    font-family: "aosProFont";
+    font-family: "W95FA";
     src:
         url('../ProFont/ProFontOnline.ttf') format('truetype'),
         url('../ProFont/ProFontOnline.woff') format('woff'),
@@ -89,7 +89,7 @@ body, html{
     padding-left:3px;
 }
 .docPage pre{
-    font-family:aosProFont, monospace;
+    font-family:W95FA, monospace;
     font-size:12px;
     padding:12px;
     width:80%;

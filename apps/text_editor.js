@@ -25,10 +25,10 @@ apps.notepad = new Application({
 			this.appWindow.setContent(
 				'<iframe id="np2Env" src="ace/textEdit.html" data-parent-app="notepad" onload="apps.notepad.vars.catchError()" style="width:100%; height:calc(100% - 17px); position:absolute; border:none; bottom:0px;"></iframe>' +
 				'<div class="darkResponsive" style="width:100%; border-bottom:1px solid; height:16px;">' +
-				'<input class="darkResponsive" id="np2Load" placeholder="file name" style="padding-left:3px; font-family: aosProFont, monospace; font-size:12px; left: 16px; border:none; height:16px; border-left:1px solid; border-right:1px solid; position:absolute; top:0; width:calc(100% - 115px);"></input>' +
-				'<div id="np2Mode" onclick="apps.notepad.vars.toggleFileMode()" class="cursorPointer noselect" style="color:#7F7F7F; font-family:aosProFont, monospace; font-size:12px; height:16px;line-height:16px; padding-right:3px; padding-left: 3px; right:95px">Text Mode</div>' +
-				'<div class="darkResponsive" onclick="apps.notepad.vars.openFile(getId(\'np2Load\').value)" class="cursorPointer noselect" style="font-family:aosProFont, monospace; font-size:12px; height:16px; line-height:16px; top:0; right:55px; text-align:center;width:38px; border-left:1px solid; border-right:1px solid;">Load</div> ' +
-				'<div class="darkResponsive" onclick="apps.notepad.vars.saveFile(getId(\'np2Load\').value)" class="cursorPointer noselect" style="font-family:aosProFont, monospace; font-size:12px; height:16px; line-height:16px; top:0; right:16px; text-align:center;width:38px; border-left:1px solid; border-right:1px solid;">Save</div> ' +
+				'<input class="darkResponsive" id="np2Load" placeholder="file name" style="padding-left:3px; font-family: W95FA, monospace; font-size:12px; left: 16px; border:none; height:16px; border-left:1px solid; border-right:1px solid; position:absolute; top:0; width:calc(100% - 115px);"></input>' +
+				'<div id="np2Mode" onclick="apps.notepad.vars.toggleFileMode()" class="cursorPointer noselect" style="color:#7F7F7F; font-family:W95FA, monospace; font-size:12px; height:16px;line-height:16px; padding-right:3px; padding-left: 3px; right:95px">Text Mode</div>' +
+				'<div class="darkResponsive" onclick="apps.notepad.vars.openFile(getId(\'np2Load\').value)" class="cursorPointer noselect" style="font-family:W95FA, monospace; font-size:12px; height:16px; line-height:16px; top:0; right:55px; text-align:center;width:38px; border-left:1px solid; border-right:1px solid;">Load</div> ' +
+				'<div class="darkResponsive" onclick="apps.notepad.vars.saveFile(getId(\'np2Load\').value)" class="cursorPointer noselect" style="font-family:W95FA, monospace; font-size:12px; height:16px; line-height:16px; top:0; right:16px; text-align:center;width:38px; border-left:1px solid; border-right:1px solid;">Save</div> ' +
 				'</div>'
 			);
 			this.vars.filemode = "string";

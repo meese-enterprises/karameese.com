@@ -415,7 +415,7 @@ apps.settings = new Application({
 			if (menu === 'oldMenu') return openapp(apps.settings, 'oldMenu');
 
 			apps.settings.appWindow.setContent(
-				'<div id="STNmenuDiv" style="font-family:aosProFont, monospace;font-size:12px;width:calc(100% - 3px);height:100%;overflow:auto">' +
+				'<div id="STNmenuDiv" style="font-family:W95FA, monospace;font-size:12px;width:calc(100% - 3px);height:100%;overflow:auto">' +
 				'<p id="STNmenuTitle" class="noselect" style="font-size:36px;margin:8px;">' + menu.folderName +
 				'<button id="STNhomeButton" onclick="apps.settings.vars.showMenu(apps.settings.vars.menus)" style="float:left;margin:8px;top:8px;left:0;position:absolute;display:none;">Home</button>' +
 				'</p><br></div>'
@@ -870,7 +870,7 @@ apps.settings = new Application({
 							if (ufload("aos_system/screensaver/wikirandom/logo_enabled") === '0') {
 								getId('screensaverLayer').innerHTML = '<iframe src="https://en.wikipedia.org/wiki/Special:Random" style="pointer-events:none;border:none;width:100%;height:100%;"></iframe>';
 							} else {
-								getId('screensaverLayer').innerHTML = '<iframe src="https://en.wikipedia.org/wiki/Special:Random" style="pointer-events:none;border:none;width:100%;height:100%;"></iframe><div style="top:10px;right:200px;font-size:108px;color:#557;font-family:aosProFont"><img src="appicons/ds/aOS.png" style="width:128px;height:128px"><i>Screensaver</i></div>';
+								getId('screensaverLayer').innerHTML = '<iframe src="https://en.wikipedia.org/wiki/Special:Random" style="pointer-events:none;border:none;width:100%;height:100%;"></iframe><div style="top:10px;right:200px;font-size:108px;color:#557;font-family:W95FA"><img src="appicons/ds/aOS.png" style="width:128px;height:128px"><i>Screensaver</i></div>';
 							}
 							setTimeout(apps.settings.vars.screensavers.wikiRandom.vars.canRun, 180000);
 						}

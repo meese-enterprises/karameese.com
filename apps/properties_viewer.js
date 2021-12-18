@@ -35,7 +35,7 @@ apps.properties = new Application({
 			}
 
 			this.appWindow.setContent(
-				'<div style="font-family:aosProFont, monospace;font-size:12px; width:calc(100% - 3px); overflow:visible">' +
+				'<div style="font-family:W95FA, monospace;font-size:12px; width:calc(100% - 3px); overflow:visible">' +
 				'<span style="font-size:36px;">' + fileName + '</span><br>' +
 				'<span style="font-size:24px;">' + apps.files.vars.filetype(typeof apps.bash.vars.getRealDir(fileToOpen)) + ' / ' + (typeof apps.bash.vars.getRealDir(fileToOpen)) + '</span><br><br><br>' +
 				fileDescription + "<br><br>" +

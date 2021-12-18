@@ -1,5 +1,5 @@
 @font-face {
-	font-family: "aosProFont";
+	font-family: "W95FA";
 	src:
 		url('../ProFont/ProFontOnline.ttf') format('truetype'),
 		url('../ProFont/ProFontOnline.woff') format('woff'),
@@ -93,7 +93,7 @@ div {
 	width: 100%;
 	height: calc(100% - 75px);
 	overflow: auto;
-	font-family: aosProFont, Courier, monospace;
+	font-family: W95FA, Courier, monospace;
 	font-size: 12px;
 }
 
@@ -135,7 +135,7 @@ div {
 	height: 24px;
 	max-height: 24px;
 	border: 1px solid #000;
-	font-family: aosProFont;
+	font-family: W95FA;
 	font-size: 24px;
 }
 
@@ -200,7 +200,7 @@ div {
 	text-align: left;
 	display: inline-block;
 	color: #FFF;
-	font-family: aosProFont, monospace;
+	font-family: W95FA, monospace;
 	font-size: 24px;
 	background: #000;
 }

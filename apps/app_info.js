@@ -16,8 +16,8 @@ apps.appInfo = new Application({
 			try {
 				this.appWindow.setCaption('App Info: ' + apps[launchtype].appDesc);
 				this.appWindow.setContent(
-					'<div style="font-size:12px;font-family:aosProFont, monospace;top:0;right:0;color:#7F7F7F">' + apps[launchtype].dsktpIcon + '</div>' +
-					'<div style="font-size:12px;font-family:aosProFont, monospace;top:0;left:0;color:#7F7F7F">' + launchtype + '</div>' +
+					'<div style="font-size:12px;font-family:W95FA, monospace;top:0;right:0;color:#7F7F7F">' + apps[launchtype].dsktpIcon + '</div>' +
+					'<div style="font-size:12px;font-family:W95FA, monospace;top:0;left:0;color:#7F7F7F">' + launchtype + '</div>' +
 					buildSmartIcon(256, apps[launchtype].appWindow.appImg, 'margin-left:calc(50% - 128px);margin-top:16px;') +
 					'<h1 style="text-align:center;">' + apps[launchtype].appDesc + '</h1>' +
 					'<hr>' + (apps[launchtype].vars.appInfo || "There is no help page for this app.")

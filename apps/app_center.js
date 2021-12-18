@@ -142,7 +142,7 @@ apps.appCenter = new Application({
 					finalhtml += "<div style='position:relative;width:calc(100% - 35px);min-height:128px;padding:16px;border-top:2px solid #7F7F7F;'>";
 					finalhtml += "<div style='position:relative;height:128px;width:128px;'>" + buildSmartIcon(128, selectedPackage.icon) + "</div><div style='position:relative;width:calc(100% - 144px);margin-left:160px;margin-top:-128px;'>"
 					finalhtml += "<b>" + selectedPackage.packageName + " <span id='APPCENTER_NOTICE_" + repositories[packageList[i][1]].repoID + "_" + packageList[i][2] + "' style='color:#A00'></span></b><br>" +
-						"<span style='font-family:aosProFont, monospace; font-size:12px'>" + repositories[packageList[i][1]].repoID + "." + selectedPackage.packageID + "</span><br>" +
+						"<span style='font-family:W95FA, monospace; font-size:12px'>" + repositories[packageList[i][1]].repoID + "." + selectedPackage.packageID + "</span><br>" +
 						(selectedPackage.description || "No Description.").split("\n").join("<br>");
 					finalhtml += "<br><br></div><div style='right:16px;text-align:right;bottom:16px;'>"
 					if (installedPackages.hasOwnProperty(repositories[packageList[i][1]].repoID)) {
@@ -181,7 +181,7 @@ apps.appCenter = new Application({
 			for (var repo in repositories) {
 				finalhtml += "<div style='position:relative;width:calc(100% - 35px);padding:16px;border-top:2px solid #7F7F7F;'>" +
 					"<b>" + repositories[repo].repoName + "</b><br>" +
-					"<span style='font-family:aosProFont, monospace; font-size:12px'>" + repositories[repo].repoID + "</span><br><br>" +
+					"<span style='font-family:W95FA, monospace; font-size:12px'>" + repositories[repo].repoID + "</span><br><br>" +
 					repo + "<br><br>" +
 					"<div style='right:16px;text-align:right;bottom:16px;'>";
 				finalhtml += '<button data-appcenter-repo="' + repo + '" onclick="apps.appCenter.vars.removeRepo(this)">Remove</button>' +
@@ -216,7 +216,7 @@ apps.appCenter = new Application({
 				var selectedPackage = installedPackages[currUpdates[i][0]][currUpdates[i][1]];
 				finalhtml += "<div style='position:relative;width:calc(100% - 35px);padding:16px;border-top:2px solid #7F7F7F;'>";
 				finalhtml += "<b>" + selectedPackage.name + "</b><br>" +
-					"<span style='font-family:aosProFont, monospace; font-size:12px'>" + currUpdates[i][0] + "." + selectedPackage.id + "</span><br>";
+					"<span style='font-family:W95FA, monospace; font-size:12px'>" + currUpdates[i][0] + "." + selectedPackage.id + "</span><br>";
 				finalhtml += "</div>";
 			}
 			getId("APPCENTER_packages").innerHTML = finalhtml;

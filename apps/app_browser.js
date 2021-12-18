@@ -19,7 +19,7 @@ apps.appsbrowser = new Application({
 			this.appWindow.setDims("auto", "auto", 400, 500);
 			this.appWindow.setCaption('Apps Browser');
 			this.appWindow.setContent(
-				'<div id="APBdiv" class="darkResponsive" style="width:100%;height:100%;overflow-y:auto;font-family:aosProFont;">' +
+				'<div id="APBdiv" class="darkResponsive" style="width:100%;height:100%;overflow-y:auto;font-family:W95FA;">' +
 				'<div class="noselect" style="overflow-y:auto;font-size:12px;width:100%;height:40px;border-bottom:1px solid;position:relative;">' +
 				'&nbsp;List of all applications installed on AaronOS.<br>' +
 				'&nbsp;<input class="canselect" placeholder="Search" onkeyup="apps.appsbrowser.vars.search(this.value)">' +
