@@ -1147,27 +1147,6 @@ div {
 	width: 30px;
 }
 
-#stylishBattery {
-	display: inline;
-	border: 1px solid #FFF;
-	background: #000;
-	width: 50px;
-	height: 21px;
-}
-
-#batteryWidgetFrame {
-	width: 25px;
-	height: 11px;
-	position: static;
-	margin-top: 10px;
-	margin-left: 6px;
-	margin-right: 8px;
-	outline: 1px solid #FFF;
-	font-family: aosProFont, monospace;
-	font-size: 12px;
-	text-align: right;
-}
-
 #ctxMenu {
 	background-color: #FFF;
 	border: 1px solid #7F7F7F;

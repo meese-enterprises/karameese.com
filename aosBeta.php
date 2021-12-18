@@ -125,7 +125,6 @@
 	echo '<script src="./widgetFunctions.js"></script>';
 	echo '<script src="./windowFunctions.js"></script>';
 
-	echo '<script src="./widgets/battery.js"></script>';
 	echo '<script src="./widgets/flow.js"></script>';
 	echo '<script src="./widgets/notifications.js"></script>';
 	echo '<script src="./widgets/time.js"></script>';

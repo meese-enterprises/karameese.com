@@ -561,113 +561,6 @@ var showTimeColon = 0;
 var timeElement = getId("time");
 var doLog;
 
-// Loading the battery
-var cpuBattery = {};
-var taskbarOnlineStr = " }|[";
-var taskbarBatteryStr = "????";
-var batteryLevel = -1;
-
-// If battery is not supported, place a fake function to replace it
-if (!window.navigator.getBattery) {
-	window.navigator.getBattery = function() {
-		return {
-			then: function (callback) {
-				callback({
-					level: ' ? ',
-					addEventListener: function (eventname, eventcallback) {
-						return false;
-					}
-				});
-			}
-		};
-	};
-}
-
-var batterySetupAttempts = 1;
-var batterySetupSuccess = 0;
-
-// Load the battery
-function setupBattery() {
-	window.navigator.getBattery().then(function(battery) {
-		cpuBattery = battery;
-		if (cpuBattery.level !== ' ? ') {
-			batteryLevel = cpuBattery.level;
-			taskbarBatteryStr = Math.round(cpuBattery.level * 100);
-			if (taskbarBatteryStr < 10) {
-				taskbarBatteryStr = "00" + taskbarBatteryStr;
-			} else if (taskbarBatteryStr !== 100) {
-				taskbarBatteryStr = "0" + taskbarBatteryStr;
-			}
-			if (cpuBattery.charging) {
-				taskbarBatteryStr = taskbarBatteryStr + "+";
-			} else {
-				taskbarBatteryStr = taskbarBatteryStr + "-";
-			}
-			cpuBattery.addEventListener('levelchange', function() {
-				d(2, 'Battery level changed.');
-				batteryLevel = cpuBattery.level;
-				taskbarBatteryStr = Math.round(cpuBattery.level * 100);
-				if (taskbarBatteryStr < 10) {
-					taskbarBatteryStr = "00" + taskbarBatteryStr;
-				} else if (taskbarBatteryStr !== 100) {
-					taskbarBatteryStr = "0" + taskbarBatteryStr;
-				}
-				if (cpuBattery.charging) {
-					taskbarBatteryStr = taskbarBatteryStr + "+";
-				} else {
-					taskbarBatteryStr = taskbarBatteryStr + "-";
-				}
-			});
-			cpuBattery.addEventListener('chargingchange', function() {
-				d(2, 'Battery charging changed.');
-				batteryLevel = cpuBattery.level;
-				taskbarBatteryStr = Math.round(cpuBattery.level * 100);
-
-				if (taskbarBatteryStr < 10) {
-					taskbarBatteryStr = "00" + taskbarBatteryStr;
-				} else if (taskbarBatteryStr !== 100) {
-					taskbarBatteryStr = "0" + taskbarBatteryStr;
-				}
-
-				if (cpuBattery.charging) {
-					taskbarBatteryStr = taskbarBatteryStr + "+";
-				} else {
-					taskbarBatteryStr = taskbarBatteryStr + "-";
-				}
-			});
-		}
-	});
-}
-setTimeout(setupBattery, 500);
-
-// If failed, retry again
-function retryBattery() {
-	if (cpuBattery === undefined || cpuBattery.level === ' ? ' || objLength(cpuBattery) === 0) {
-		setupBattery();
-	} else if (!batterySetupSuccess) {
-		batterySetupSuccess = 1;
-	}
-}
-
-// Battery will be tested 10 times
-for (let i = 1000; i < 5500; i += 500) {
-	setTimeout(retryBattery, i);
-}
-
-// Give up on the battery
-function failBattery() {
-	if (cpuBattery === undefined || cpuBattery.level === ' ? ' || objLength(cpuBattery) === 0) {
-		doLog('Battery setup aborted. [' + [(cpuBattery === undefined), (cpuBattery.level === ' ? '), (objLength(cpuBattery) === 0)] + ']', '#F00');
-		if (!USERFILES.WIDGETLIST) {
-			removeWidget('battery', 1);
-		}
-	} else if (!batterySetupSuccess) {
-		doLog('Battery setup success! [' + [(cpuBattery === undefined), (cpuBattery.level === ' ? '), (objLength(cpuBattery) === 0)] + ']', '#FF0');
-		batterySetupSuccess = 1;
-	}
-}
-setTimeout(failBattery, 5500);
-
 getId("icons").innerHTML = "";
 
 // Function to ping the aOS server
@@ -1253,7 +1146,6 @@ function arrangeDesktopIcons() {
 }
 
 var widgetsList = {};
-BatteryWidget();
 FlowWidget();
 NotificationsWidget();
 TimeWidget();

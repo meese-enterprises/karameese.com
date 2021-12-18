@@ -1440,8 +1440,6 @@
             <li><img src="../ctxMenu/beta/add.png"> add</li>
             <li><img src="../ctxMenu/beta/agent.png"> agent</li>
             <li><img src="../ctxMenu/beta/aOS.png"> aOS</li>
-            <li><img src="../ctxMenu/beta/battery.png"> battery</li>
-            <li><img src="../ctxMenu/beta/battery2.png"> battery2</li>
             <li><img src="../ctxMenu/beta/blank.png"> blank</li>
             <li><img src="../ctxMenu/beta/circle.png"> circle</li>
             <li><img src="../ctxMenu/beta/console.png"> console</li>

@@ -32,9 +32,7 @@ apps.settings = new Application({
 				dbgLevel: 'Debug Level',
 				dbgExplain: 'Sets how verbose aOS is in its actions. The different levels determine how often console messages appear and why.',
 				info: 'Info',
-				cookies: 'By using this site you are accepting the small cookie the filesystem relies on and that all files you or your aOS apps generate will be saved on the aOS server for your convenience (and, mostly, for technical reasons).',
-				batteryLevel: 'Battery Level',
-				batteryDesc: 'If the amount above is -100, then your computer either has no battery or the battery could not be found.'
+				cookies: 'By using this site you are accepting the small cookie the filesystem relies on and that all files you or your aOS apps generate will be saved on the aOS server for your convenience (and, mostly, for technical reasons).'
 			},
 			uv: {
 				valuesMayBeOutdated: 'Each instance of a definitive value below this line would happen to have been generated at the exact moment in time at which the app which happens to be called Settings happens to have been opened.',
@@ -44,9 +42,7 @@ apps.settings = new Application({
 				dbgLevel: 'Level of logging to the Debug Console',
 				dbgExplain: 'Determines the level of verbosity that aOS brings when referencing actions and issues. The differing levels given will determine how common messages will appear in the Console app, and the importance they must marked as to appear.',
 				info: 'Essential Information About aOS',
-				cookies: 'In the act of accessing this web site, you are hereby accepting the small, 21-character browser cookie that aOS relies heavily on for its filesystem. All text files you and your installed aOS apps happen to generate are stored solely on the aOS main server for your convenience (and, mostly, for annoying technical limitations).',
-				batteryLevel: 'Approximate level of battery life remaining in your device, as reported by your browser',
-				batteryDesc: 'If it just so happens that the numerical value represented above equals -100, then it appears that your browser reports that you have no battery installed on your device, or that your browser is incapable of reporting said amount.'
+				cookies: 'In the act of accessing this web site, you are hereby accepting the small, 21-character browser cookie that aOS relies heavily on for its filesystem. All text files you and your installed aOS apps happen to generate are stored solely on the aOS main server for your convenience (and, mostly, for annoying technical limitations).'
 			}
 		},
 		menus: {

@@ -258,14 +258,6 @@ hr {
 	text-shadow: none;
 }
 
-#widget_battery div {
-	border-color: #000 !important;
-}
-
-#batteryWidgetFrame {
-	outline-color: #000;
-}
-
 /* context menu */
 #ctxMenu {
 	border-top: var(--window-border-top);
