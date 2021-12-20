@@ -457,7 +457,7 @@ var langContent = {
 			appsbrowser: "Apps Browser",
 			housegame: "House Game",
 			simon: "Simon",
-			postit: "Sticky Note",
+			accredation: "Accredation",
 			bootScript: "Boot Script Editor",
 			rdp: "Remote Desktop Host",
 			rdpViewer: "Remote Desktop Viewer",
@@ -1388,11 +1388,11 @@ c(function() {
 
 c(function() {
 	AppBrowser();
-	getId('aOSloadingInfo').innerHTML = 'Sticky Note';
+	getId('aOSloadingInfo').innerHTML = 'Accredation';
 });
 
 c(function() {
-	StickyNote();
+	Accredation();
 	getId('aOSloadingInfo').innerHTML = 'Bootscript App';
 });
 

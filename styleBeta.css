@@ -1553,3 +1553,24 @@ div {
 	width: 100%;
 	pointer-events: none;
 }
+
+#accredationDisplay {
+	padding: 0;
+	color: #000;
+	/*font-family: Comic Sans MS;*/
+	border: none;
+	resize: none;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #01fff8;
+	text-align: center;
+}
+
+#adage {
+	display: block;
+	width: 100%;
+	margin: auto;
+	margin-top: 5px;
+	font-weight: bold;
+}

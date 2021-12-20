@@ -129,6 +129,7 @@
 	echo '<script src="./widgets/notifications.js"></script>';
 	echo '<script src="./widgets/time.js"></script>';
 
+	echo '<script src="./apps/accredation.js"></script>';
 	echo '<script src="./apps/app_browser.js"></script>';
 	echo '<script src="./apps/app_center.js"></script>';
 	echo '<script src="./apps/app_info.js"></script>';
@@ -146,7 +147,6 @@
 	echo '<script src="./apps/save_master.js"></script>';
 	echo '<script src="./apps/settings.js"></script>';
 	echo '<script src="./apps/smart_icon_settings.js"></script>';
-	echo '<script src="./apps/sticky_note.js"></script>';
 	echo '<script src="./apps/text_editor.js"></script>';
 	echo '<script src="./apps/web_app_maker.js"></script>';
 	echo '<script src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
