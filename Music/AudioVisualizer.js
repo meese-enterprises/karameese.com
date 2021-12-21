@@ -5,18 +5,6 @@ var canvas = canvasElement.getContext("2d");
 const clearVis = () => canvas.clearRect(0, 0, window.size[0], window.size[1]);
 
 export const AudioVisualizer = {
-	none: {
-		name: "Song List",
-		start: function () {
-			getId("visualizer").classList.add("disabled");
-			getId("songList").classList.remove("disabled");
-		},
-		frame: function () {},
-		stop: function () {
-			getId("visualizer").classList.remove("disabled");
-			getId("songList").classList.add("disabled");
-		}
-	},
 	monstercat: {
 		name: "Monstercat",
 		image: "visualizers/monstercat.png",
@@ -110,17 +98,13 @@ export const AudioVisualizer = {
 				);
 			}
 		},
-		stop: function () {
-
-		},
+		stop: function () {},
 		sqrt255: Math.sqrt(255)
 	},
 	curvedAudioVision: {
 		name: "Curved Lines",
 		image: "visualizers/curvedLines_av.png",
-		start: function () {
-
-		},
+		start: function () {},
 		frame: function () {
 			clearVis();
 			canvas.lineCap = "round";
@@ -195,7 +179,6 @@ export const AudioVisualizer = {
 			canvas.lineCap = "square";
 			canvas.lineWidth = 1;
 		},
-		sizechange: function () {},
 		lineWidth: 6,
 		lineCount: 9,
 		sqrt255: Math.sqrt(255),
