@@ -136,7 +136,7 @@ function globalFrame() {
 
 	if (winsize[0] !== window.innerWidth || winsize[1] !== window.innerHeight) {
 		winsize = [window.innerWidth, window.innerHeight];
-		window.size = [window.innerWidth - 8, window.innerHeight - 81];
+		window.size = [window.innerWidth, window.innerHeight];
 		getId("visCanvas").width = window.size[0];
 		getId("visCanvas").height = window.size[1];
 	}

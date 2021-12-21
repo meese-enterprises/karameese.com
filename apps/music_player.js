@@ -31,7 +31,7 @@ apps.musicPlayer = new Application({
 		}
 		this.appWindow.setCaption('Music Player');
 		// MUSIC PLAYER DIMENSIONS
-		this.appWindow.setDims("auto", "auto", 600, 350);
+		this.appWindow.setDims("auto", "auto", 500, 150);
 		blockScreensaver("apps.musicVis");
 		if (this.appWindow.appIcon) {
 			this.appWindow.openWindow();

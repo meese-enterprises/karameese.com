@@ -18,283 +18,106 @@ body {
 	overflow: hidden;
 }
 
-.transparent {
-	background: transparent !important;
-}
-
-.transparentDisable {
-	display: none !important;
-}
-
-.transparentNoClick {
-	pointer-events: none !important;
-}
-
-.transparentPlatform {
-	background: #FFF;
-}
-
-.darkMode .transparentPlatform {
-	background: #272727;
+.winHTML {
+	padding: 0 !important;
+	margin: 0 !important;
 }
 
 div {
 	position: relative;
 }
 
-.selectIcon {
-	width: 160px;
-	height: calc(128px + 4em);
-	position: relative;
-	display: inline-block;
-	margin: 32px;
-	margin-left: 0px;
-	overflow: visible;
-	cursor: pointer !important;
-}
-
-.selectIcon input,
-.selectIcon img {
-	width: 128px;
-	height: 128px;
-	margin-left: 32px;
-	position: absolute;
-	display: block;
-	border: none;
-	cursor: pointer;
-	outline: 1px solid #7F7F7F;
-}
-
-.selectIcon span {
-	font-size: 2em;
-	position: absolute;
-	display: block;
-	bottom: 0;
-	left: 0;
-	width: 192px;
-	height: 1.5em;
-	padding-top: 0.5em;
-}
-
-#songList {
-	border: 1px solid #000;
-	width: 100%;
-	height: calc(100% - 75px);
-	overflow: auto;
-	font-family: W95FA, Courier, monospace;
-	font-size: 12px;
-}
-
 #visualizer {
 	position: absolute;
-	left: 3px;
-	bottom: 3px;
-	width: calc(100% - 8px);
-	height: calc(100% - 81px);
+	width: 50%;
+	height: 100%;
 	background: #000;
-	border: 1px solid #000;
-	cursor: pointer;
 }
 
 #visCanvas {
-	position: absolute;
-	display: block;
 	border: none;
 	background: none;
-	left: 0;
-	top: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 1000;
 }
 
-#songList div {
-	cursor: pointer;
-	padding: 3px;
-	margin: 3px;
-}
-
-#songList div:hover {
-	background: rgba(127, 127, 127, 0.25);
-}
-
-#currentlyPlaying {
-	width: 100%;
-	height: 24px;
-	max-height: 24px;
-	border: 1px solid #000;
-	font-family: W95FA;
-	font-size: 24px;
+#songInfo {
+	position: absolute;
+	right: 0;
+	width: 50%;
+	height: 100%;
+	text-align: center;
 }
 
 #controls {
-	width: 100%;
-	height: 38px;
-	max-height: 38px;
-	text-align: center;
-	border: 1px solid #000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 18px;
+}
+
+#controls button {
+	padding: 5px;
+	margin: 5px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	box-shadow: none;
+}
+
+#currentlyPlaying {
+	width: 95%;
+	margin: auto;
+	margin-top: 2px;
+	font-family: W95FA;
+	font-size: 24px;
+	height: 26px;
+}
+
+#playpauseicon {
+	width: 24px;
+	height: 24px;
 }
 
 #volume {
-	width: 40px;
+	width: calc(100vh - 24px - 15px);
+	position: absolute;
+	bottom: calc((100vh - 24px - 15px) / 2);
+	-webkit-appearance: none;
+	transform: rotate(270deg);
+	border: none;
+	box-shadow: none;
+	right: -30px;
 }
 
-.darkMode #songList,
-.darkMode #currentlyPlaying,
-.darkMode #controls {
-	border-color: #FFF;
+/* https://stackoverflow.com/a/38163892/6456163 */
+input[type='range']::-webkit-slider-runnable-track {
+	-webkit-appearance: none;
+	background: #fa87f4;
+	border-radius: 10px;
+	height: 10px;
+	margin-top: -1px;
 }
 
-.selected {
-	background: rgba(127, 127, 127, 0.1);
+input[type='range']::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 10px;
+	height: 10px;
+	cursor: ns-resize;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.5) inset,
+	0 0 0 99px #fe00c0 inset;
+	border-radius: 5px;
 }
 
 .disabled {
 	display: none !important;
 }
 
-.unclickable {
-	opacity: 0.25;
-	pointer-events: none;
-}
-
 .winHTML {
 	border-radius: 0 !important;
-	width: calc(100% - 8px);
-	height: calc(100% - 6px);
+	width: 100%;
+	height: 100%;
 	margin: 0;
-	padding: 3px;
-	padding-right: 5px;
 	overflow-y: auto;
 	overflow-x: hidden
-}
-
-#selectOverlay {
-	position: absolute;
-	z-index: 1100;
-	background: rgba(0, 0, 0, 0.75);
-	width: calc(100% - 8px);
-	height: calc(100% - 81px);
-	left: 4px;
-	bottom: 4px;
-	text-align: center;
-}
-
-#selectContent {
-	height: 100%;
-	overflow-y: scroll;
-	position: relative;
-	text-align: left;
-	display: inline-block;
-	color: #FFF;
-	font-family: W95FA, monospace;
-	font-size: 24px;
-	background: #000;
-}
-
-#selectContent div {
-	width: 100%;
-	cursor: default;
-}
-
-#selectContent .visOption {
-	transition: .3s;
-	margin-top: 2px;
-	line-height: 48px;
-	height: 48px;
-}
-
-.visNone {
-	height: 48px !important;
-	line-height: 48px !important;
-}
-
-#selectContent .visOption:hover {
-	margin-top: 2px;
-	line-height: 128px;
-	height: 128px;
-}
-
-#selectContent .modOption {
-	margin-top: 2px;
-	line-height: 128px;
-	height: 128px;
-}
-
-#selectContent div:hover {
-	background: rgba(255, 255, 255, 0.1);
-}
-
-#selectContent div:active {
-	background: rgba(255, 255, 255, 0.25);
-}
-
-#selectContent .visCategory {
-	background: none !important;
-}
-
-#selectContent .hiddenCategory {
-	height: 1em;
-}
-
-#selectContent .visOption img {
-	transition: 0.3s;
-	height: 48px;
-	margin-left: 143px;
-	margin-right: 16px;
-	margin-bottom: -16px;
-}
-
-#selectContent .visOption:hover img {
-	height: 128px;
-	margin-left: 0px;
-	margin-right: 16px;
-	margin-bottom: -52px;
-}
-
-#selectContent .visOption span {
-	height: 128px;
-	margin-right: 246px;
-}
-
-#selectContent .modOption img {
-	height: 128px;
-	margin-right: 16px;
-	margin-bottom: -52px;
-}
-
-#selectContent .modOption span {
-	height: 128px;
-	margin-right: 246px;
-}
-
-#selectContent .visOption:hover img {
-	filter: contrast(0.9) brightness(2);
-}
-
-#selectContent .modOption:hover img {
-	filter: contrast(0.8);
-}
-
-#selectContent .visOption:active img {
-	filter: contrast(0.9) brightness(5);
-}
-
-#selectContent .colorOption {
-	text-align: left;
-	padding-top: 8px;
-	padding-bottom: 8px;
-}
-
-#selectContent .colorOption img {
-	width: 32px;
-	height: 32px;
-	margin-top: -8px;
-	margin-bottom: -10px;
-}
-
-#selectBackground {
-	position: absolute;
-	width: 100%;
-	height: 100%;
 }
