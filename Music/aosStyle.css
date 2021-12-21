@@ -80,32 +80,38 @@
 }
 
 .marquee .marqueetext1 {
-	width: 100%;
-	animation: cssmarquee1 10s infinite linear;
-	position: relative;
-	height: 0;
-	overflow: visible;
+	animation: cssmarquee1 12s infinite linear;
+	/*position: relative;*/
+	margin: 0;
+	display: inline-block;
 }
 
 .marquee .marqueetext2 {
-	width: 100%;
-	animation: cssmarquee2 10s infinite linear;
-	position: relative;
+	animation: cssmarquee2 12s infinite linear;
+	/*position: relative;*/
+	margin: 0;
+	display: inline-block;
 }
 
 @keyframes cssmarquee1 {
 	from {
-		transform: translateX(100%);
-	}
-
-	to {
 		transform: translateX(0%);
+		opacity: 0;
+	}
+	5% {
+		opacity: 1;
+	}
+	25% {
+		transform: translateX(0%);
+	}
+	to {
+		transform: translateX(-100%);
 	}
 }
 
 @keyframes cssmarquee2 {
 	from {
-		transform: translateX(0%);
+		transform: translateX(100%);
 	}
 
 	to {

@@ -55,7 +55,9 @@ function selectSong(id) {
 	audio.currentTime = 0;
 	audio.src = fileNames[id][2];
 	blockSleep();
-	getId("currentlyPlaying").innerHTML = fileNames[id][0];
+	getId("currentlyPlaying").innerHTML = `
+		<p class="marqueetext1">${fileNames[id][0]}</p>
+	`;
 	if (aosToolsConnected) {
 		aosTools.sendRequest({
 			action: "appwindow:set_caption",
@@ -220,5 +222,6 @@ function loadAudioFiles() {
 
 	vis[currVis].start();
 	requestAnimationFrame(globalFrame);
+	shuffle();
 }
 loadAudioFiles();
