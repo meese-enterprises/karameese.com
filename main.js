@@ -2160,3 +2160,8 @@ c(function() {
 	addEventListener("blur", iframeblurcheck);
 });
 totalWaitingCodes = codeToRun.length;
+
+// Open apps on startup
+c(function() {
+	openapp(apps.accreditation, 'dsktp');
+});
