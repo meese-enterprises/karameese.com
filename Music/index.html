@@ -10,23 +10,21 @@
 </head>
 
 <body class="winHTML">
-	<div id="currentlyPlaying">No Song Playing</div>
-	<div id="controls">
-		Volume: <input id="volume" type="range" value="1" min="0" max="1" step="0.1"
-			onchange="setVolume(this.value)" title="Can affect visualizer quality.">
+	<div id="songInfo">
+		<div id="currentlyPlaying">No Song Playing</div>
 
-		<button onclick="back()"><b>|</b>&#9668;</button>
-		<button onclick="toggleAudioState()" id="playbutton">&#9658;</button>
-		<button onclick="next()">&#9658;<b>|</b></button>
+		<div id="controls">
+			<button onclick="back()">&#9668;&#9668;</button>
+			<button onclick="toggleAudioState()" id="playpausebutton">
+				<img id="playpauseicon" src="play.svg" alt="Play/Pause">
+			</button>
+			<button onclick="next()">&#9658;&#9658;</button>
+		</div>
 
-		<button onclick="shuffle()">Shuffle</button>
+		<input id="volume" type="range" value="1" min="0" max="1" step="0.01"
+			onchange="setVolume(this.value)" title="Can affect visualizer quality." orient="vertical">
 	</div>
 
-	<div id="progressContainer" onclick="setProgress(event)">
-		<div id="progress"></div>
-	</div>
-
-	<div id="songList" class="disabled"></div>
 	<div id="visualizer">
 		<canvas id="visCanvas"></canvas>
 	</div>

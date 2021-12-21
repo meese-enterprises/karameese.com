@@ -76,18 +76,6 @@ div {
 	padding-top: 0.5em;
 }
 
-#progressContainer {
-	background: #000;
-	width: 100%;
-	height: 5px;
-	border: 1px solid #000;
-}
-
-#progress {
-	background: #0F0;
-	height: 5px;
-}
-
 #songList {
 	border: 1px solid #000;
 	width: 100%;
@@ -151,7 +139,6 @@ div {
 	width: 40px;
 }
 
-.darkMode #progressContainer,
 .darkMode #songList,
 .darkMode #currentlyPlaying,
 .darkMode #controls {
