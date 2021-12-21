@@ -14,6 +14,7 @@
 	<style id="smartIconStyle"></style>
 	<style id="cursorStyle"></style>
 	<style id="aosCustomStyle"></style>
+	<script src="./ghostCursor.js"></script>
 
 	<svg>
 		<defs>
@@ -129,7 +130,7 @@
 	echo '<script src="./widgets/notifications.js"></script>';
 	echo '<script src="./widgets/time.js"></script>';
 
-	echo '<script src="./apps/accredation.js"></script>';
+	echo '<script src="./apps/accreditation.js"></script>';
 	echo '<script src="./apps/app_browser.js"></script>';
 	echo '<script src="./apps/app_center.js"></script>';
 	echo '<script src="./apps/app_info.js"></script>';

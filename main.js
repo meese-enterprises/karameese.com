@@ -457,7 +457,7 @@ var langContent = {
 			appsbrowser: "Apps Browser",
 			housegame: "House Game",
 			simon: "Simon",
-			accredation: "Accredation",
+			accreditation: "Accreditation",
 			bootScript: "Boot Script Editor",
 			rdp: "Remote Desktop Host",
 			rdpViewer: "Remote Desktop Viewer",
@@ -1388,11 +1388,11 @@ c(function() {
 
 c(function() {
 	AppBrowser();
-	getId('aOSloadingInfo').innerHTML = 'Accredation';
+	getId('aOSloadingInfo').innerHTML = 'Accreditation';
 });
 
 c(function() {
-	Accredation();
+	Accreditation();
 	getId('aOSloadingInfo').innerHTML = 'Bootscript App';
 });
 

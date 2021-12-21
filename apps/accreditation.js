@@ -1,12 +1,12 @@
-const Accredation = () => {
+const Accreditation = () => {
 
-apps.accredation = new Application({
-	title: "Accredation",
+apps.accreditation = new Application({
+	title: "Accreditation",
 	abbreviation: "aDN",
-	codeName: "accredation",
+	codeName: "accreditation",
 	image: {
 		backgroundColor: "#01fff8",
-		foreground: "smarticons/accredation/fg.png",
+		foreground: "smarticons/accreditation/fg.png",
 		backgroundBorder: {
 			thickness: 2,
 			color: "#252F3A"
@@ -19,12 +19,12 @@ apps.accredation = new Application({
 		const height = 400;
 		const x = parseInt(getId("desktop").style.width) - width - margins;
 		
-		this.appWindow.setCaption('Accredation');
+		this.appWindow.setCaption('Accreditation');
 		if (!this.appWindow.appIcon) {
 			this.appWindow.alwaysOnTop(1);
 			this.appWindow.paddingMode(0);
 			this.appWindow.setDims(x, margins, width, height);
-			this.appWindow.setContent('<div id="accredationDisplay"></div>');
+			this.appWindow.setContent('<div id="accreditationDisplay"></div>');
 			this.appWindow.alwaysOnTop(1);
 		}
 		this.appWindow.openWindow();
@@ -33,11 +33,11 @@ apps.accredation = new Application({
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4) {
-				let elmnt = document.getElementById('accredationDisplay');
+				let elmnt = document.getElementById('accreditationDisplay');
 				if (this.status == 200) {elmnt.innerHTML = this.responseText;}
 			}
 		}
-		xhttp.open("GET", "./apps/accredation.html", true);
+		xhttp.open("GET", "./apps/accreditation.html", true);
 		xhttp.send();
 	}
 });

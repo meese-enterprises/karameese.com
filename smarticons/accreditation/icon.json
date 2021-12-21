@@ -1,6 +1,6 @@
 {
 	backgroundColor: "#303947",
-	foreground: "smarticons/accredation/fg.png",
+	foreground: "smarticons/accreditation/fg.png",
 	backgroundBorder: {
 		thickness: 2,
 		color: "#252F3A"
