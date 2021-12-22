@@ -42,8 +42,6 @@ apps.jsConsole = new Application({
 	vars: {
 		appInfo: 'This is a JavaScript console for quick debugging without having to open DevTools. It also has extra features like colored text and HTML formatting support.',
 		cnsPosts: [
-			['Source Code Line of the Day: ' + lineOfTheDay[0], '#7F7F7F'],
-			[cleanStr(lineOfTheDay[1].trim()), '#7F7F7F'],
 			['', '#7F7F7F'],
 			['Took ' + timeToPageLoad + 'ms to fetch primary script.', '']
 		],
