@@ -29,18 +29,6 @@
             },
             "description": "JS Paint was developed by Isaiah Odhner and embedded into an aOS app with his permission.\n\nFull site at https://jspaint.app"
         },
-        "aaronscustomfunctions": {
-            "packageName": "Aarons Custom Functions",
-            "packageID": "aaronscustomfunctions",
-            "packageAliases": ["context menu", "desktop", "open app"],
-            "version": "1.1",
-            "packageType": "bootscript",
-            "installURL": "repository/scripts/aaronscustomfunctions.json",
-            "icon": {
-                "foreground": "appicons/ds/aOS.png"
-            },
-            "description": "Adds a custom functions to the desktop context menu.\n\nCopy an app ID (example, apps.settings) to the first slot of the clipboard. Right click your desktop, and there will be a button to open the app in that clipboard slot."
-        },
         "glasswindows": {
             "packageName": "Glass Windows",
             "packageID": "glasswindows",
