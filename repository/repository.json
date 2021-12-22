@@ -29,18 +29,6 @@
             },
             "description": "JS Paint was developed by Isaiah Odhner and embedded into an aOS app with his permission.\n\nFull site at https://jspaint.app"
         },
-        "glasswindows": {
-            "packageName": "Glass Windows",
-            "packageID": "glasswindows",
-            "packageAliases": [],
-            "version": "1.0",
-            "packageType": "stylesheet",
-            "installURL": "repository/styles/glasswindows.json",
-            "icon": {
-                "foreground": "repository/styles/glasswindows.png"
-            },
-            "description": "Extends the window caption glass into the entire window. You can see through the entire window."
-        },
         "terminalstyle": {
             "packageName": "Terminal Theme",
             "packageID": "terminalstyle",
