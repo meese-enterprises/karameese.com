@@ -29,18 +29,6 @@
             },
             "description": "A top-down defense game where you are tasked with defending a house from invaders. (it's a bit loud)"
         },
-        "gtk2aos": {
-            "packageName": "GTK3 Style Converter",
-            "packageID": "gtk2aos",
-            "packageAliases": ["gtk", "gtk-3.0", "gtk3"],
-            "version": "1.0",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/gtk2aos.json",
-            "icon": {
-                "foreground": "appicons/ds/GTK.png"
-            },
-            "description": "This app turns GTK3 themes into themes compatible with AaronOS. It is still a work in progress and results may vary in quality. My favorite themes to convert are Mint-Y-Dark and Arc-Dark."
-        },
         "jspaint": {
             "packageName": "JS Paint",
             "packageID": "jspaint",
