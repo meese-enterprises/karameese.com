@@ -455,7 +455,6 @@ var langContent = {
 			perfMonitor: "Performance Monitor",
 			mathway: "Mathway",
 			appsbrowser: "Apps Browser",
-			housegame: "House Game",
 			simon: "Simon",
 			accreditation: "Accreditation",
 			bootScript: "Boot Script Editor",
@@ -1009,9 +1008,7 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 		getId("win_" + appPath + "_fold").setAttribute("onClick", "apps." + appPath + ".appWindow.foldWindow()");
 		getId("win_" + appPath + "_cap").setAttribute("oncontextmenu", "ctxMenu(baseCtx.winXXXc, 1, event, '" + appPath + "')");
 	} catch (err) {
-		if (doLog) {
-			doLog(err, '#F00');
-		}
+		if (doLog) doLog(err, '#F00');
 	}
 };
 

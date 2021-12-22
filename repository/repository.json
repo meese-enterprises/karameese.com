@@ -17,18 +17,6 @@
             },
             "description": "AaronOS Blast, with AI ships and a player ship shooting lasers at each other."
         },
-        "housegame": {
-            "packageName": "House Game",
-            "packageID": "housegame",
-            "packageAliases": ["game", "defend", "battle", "fight", "shoot"],
-            "version": "1.0",
-            "packageType": "webApp",
-            "installURL": "repository/webApps/housegame.json",
-            "icon": {
-                "foreground": "appicons/HSG.png"
-            },
-            "description": "A top-down defense game where you are tasked with defending a house from invaders. (it's a bit loud)"
-        },
         "jspaint": {
             "packageName": "JS Paint",
             "packageID": "jspaint",
