@@ -1575,7 +1575,7 @@ div {
 	font-weight: bold;
 }
 
-#MPlframe {
+#MPlframe, #VWcframe {
 	border: none;
 	display: block;
 	width: 100%;

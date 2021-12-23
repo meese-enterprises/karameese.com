@@ -1407,11 +1407,15 @@ c(function() {
 	DeveloperDocumentation();
 	getId('aOSloadingInfo').innerHTML = 'Finalizing...';
 });
+c(function() {
+	ViewCount();
+});
 m('init finalizing');
 
 // Function to open apps
 var currTopApp = '';
 function toTop(appToNudge, dsktpClick) {
+	if (!appToNudge) return;
 	m('Moving App ' + appToNudge.dsktpIcon + ' to Top');
 	currTopApp = '';
 	if (dsktpClick !== 2) {
@@ -1469,6 +1473,7 @@ function toTop(appToNudge, dsktpClick) {
 }
 
 function openapp(appToOpen, launchTypeUsed) {
+	if (!appToOpen) return;
 	m('Opening App ' + appToOpen.dsktpIcon);
 	if (appToOpen.launchTypes) {
 		appToOpen.main(launchTypeUsed);
@@ -2161,4 +2166,5 @@ totalWaitingCodes = codeToRun.length;
 // Open apps on startup
 c(function() {
 	openapp(apps.accreditation, 'dsktp');
+	openapp(apps.viewCount, 'dsktp');
 });

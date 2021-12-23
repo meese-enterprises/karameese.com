@@ -112,9 +112,7 @@
 		</div>
 	</div>
 	<img style="display:none" id="bgSizeElement" src="images/pink_square.png" onload="try{updateBgSize()}catch(err){}">
-	<!--<div class="visitor-count">
-		<?php include "viewCounter.php"; ?>
-	</div>-->
+	<?php include "updateViewCounter.php"; ?>
 </body>
 
 <?php
@@ -149,6 +147,7 @@
 	echo '<script src="./apps/settings.js"></script>';
 	echo '<script src="./apps/smart_icon_settings.js"></script>';
 	echo '<script src="./apps/text_editor.js"></script>';
+	echo '<script src="./apps/view_count.js"></script>';
 	echo '<script src="./apps/web_app_maker.js"></script>';
 	echo '<script src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
 ?>
