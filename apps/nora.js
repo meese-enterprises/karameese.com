@@ -1147,5 +1147,6 @@ function textspeech(message) {
 	apps.nora.vars.lastSpoken = 1;
 	apps.nora.vars.say(message);
 }
+window.textspeech = textspeech;
 
 } // End initial variable declaration

@@ -330,31 +330,6 @@ apps.settings = new Application({
 				}
 
 			},
-			clipboard: {
-				folder: 0,
-				folderName: 'Clipboard',
-				folderPath: 'apps.settings.vars.menus.clipboard',
-				image: 'settingIcons/new/clipboard.png',
-				size: {
-					option: 'Clipboard Slots',
-					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="textEditorTools.slots">' + textEditorTools.slots + '</span>.<br>' +
-							'Number of slots in your clipboard. An excessively large clipboard may be difficult to manage and can cause context menu scrollbars.'
-					},
-					buttons: function() {
-						return '<input id="STNclipboardSlots"> <button onclick="apps.settings.vars.setClipboardSlots(getId(\'STNclipboardSlots\').value)">Set</button>'
-					}
-				},
-				clear: {
-					option: 'Clear Clipboard',
-					description: function() {
-						return 'Clear the persistent keyboard of aOS. Useful for if you have a cluttered clipboard. If you do not copy anything to the clipboard until you shut down, then the next time you boot aOS, the clipboard will be empty. Think of this as a fallback for if clicking this button was an accident. Just copy something to the clipboard and nothing will disappear. It is also one last chance to use the stuff you have copied before it is cleared.'
-					},
-					buttons: function() {
-						return '<button onclick="ufsave(\'aos_system/clipboard\', \'_cleared_clipboard_\');">Clear</button>'
-					}
-				}
-			},
 			noraa: {
 				folder: 0,
 				folderName: 'NORAA',
@@ -488,11 +463,6 @@ apps.settings = new Application({
 				getId("icons").classList.add("noIconTitles");
 			}
 			if (!nosave) ufsave("aos_system/taskbar/iconTitles", String(this.iconTitlesEnabled));
-		},
-		setClipboardSlots: function (newSlots, nosave) {
-			textEditorTools.slots = newSlots;
-			textEditorTools.updateSlots();
-			if (!nosave) ufsave('aos_system/clipboard_slots', newSlots);
 		},
 		setScale: function (newScale, nosave) {
 			window.screenScale = parseFloat(newScale);
@@ -1234,20 +1204,6 @@ apps.settings = new Application({
 							if (ufload("aos_system/apps/settings/ctxmenu_two_fingers")) {
 								if (ufload("aos_system/apps/settings/ctxmenu_two_fingers") === "1") {
 									apps.settings.vars.togLongTap(1);
-								}
-							}
-							if (ufload("aos_system/clipboard_slots")) {
-								textEditorTools.slots = parseInt(ufload("aos_system/clipboard_slots"));
-								textEditorTools.updateSlots();
-							}
-							if (ufload("aos_system/clipboard")) {
-								if (ufload("aos_system/clipboard") !== '_cleared_clipboard_') {
-									textEditorTools.clipboard = JSON.parse(ufload("aos_system/clipboard"));
-									if (textEditorTools.clipboard.length < textEditorTools.slots) {
-										while (textEditorTools.clipboard.length < textEditorTools.slots) {
-											textEditorTools.clipboard.push("");
-										}
-									}
 								}
 							}
 							apps.settings.vars.setScale(lfload("aos_system/apps/settings/ui_scale") || "1", 1);
