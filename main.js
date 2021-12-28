@@ -711,7 +711,7 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 			appDesc = appIcon.title || "Application";
 			appIcon = appIcon.abbreviation || "App";
 		}
-		
+
 		// this used to be used in HTML elements but now is just an abbreviation
 		this.dsktpIcon = appIcon;
 		// now HTML elements match the codename of apps
@@ -723,11 +723,7 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 		}
 		this.main = mainFunction;
 		this.signalHandler = signalHandlerFunction;
-		if (handlesLaunchTypes) {
-			this.launchTypes = 1;
-		} else {
-			this.launchTypes = 0;
-		}
+		this.launchTypes = handlesLaunchTypes ? 1 : 0;
 		this.vars = appVariables;
 		this.appWindow = {
 			/*
@@ -735,15 +731,15 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 					pretend in this case the app is called "settings"
 					anything below that says "settings" can be replaced with the name of your app
 					
-					div .window #win_settings_top           Topmost window div, contains entire window
-							div .winBimg   #win_settings_img        Texture of window borders
-							div .winres    #win_settings_size       Handle to resize window
-							div .winCap    #win_settings_cap        Window caption with title and icon
-							div .winFld    #win_settings_fold       Button to fold window (compare to Shade in linux)
-							div .winHTML   #win_settings_html       HTML content of window, this is where your actual content goes
-							div .winBig    #win_settings_big        Button to maximize the window (make the window "big"ger)
-							div .winShrink #win_settings_shrink     Button to shrink, or hide, the window
-							div .winExit   #win_settings_exit       Button to close window
+					div .window    #win_settings_top        Topmost window div, contains entire window
+					div .winBimg   #win_settings_img        Texture of window borders
+					div .winres    #win_settings_size       Handle to resize window
+					div .winCap    #win_settings_cap        Window caption with title and icon
+					div .winFld    #win_settings_fold       Button to fold window (compare to Shade in linux)
+					div .winHTML   #win_settings_html       HTML content of window, this is where your actual content goes
+					div .winBig    #win_settings_big        Button to maximize the window (make the window "big"ger)
+					div .winShrink #win_settings_shrink     Button to shrink, or hide, the window
+					div .winExit   #win_settings_exit       Button to close window
 			*/
 			dsktpIcon: appIcon,
 			objName: appPath,
@@ -803,7 +799,7 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 						if (!this.folded) {
 							getId("win_" + this.objName + "_top").style.height = ySiz + "px";
 						}
-						
+
 						getId("win_" + this.objName + "_aero").style.height = ySiz + 80 + "px";
 						this.windowV = ySiz;
 					}
@@ -813,7 +809,7 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 					} catch (err) {
 						getId("win_" + this.objName + "_aero").style.backgroundPosition = (-1 * xOff + 40 + aeroOffset[0]) + "px " + (-1 * (yOff * (yOff > -1)) + 40 + aeroOffset[1]) + "px";
 					}
-					
+
 					if (typeof this.dimsSet === 'function' && !ignoreDimsSet) {
 						this.dimsSet();
 					}
@@ -991,6 +987,7 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 				'<div class="iconImg">' + appIcon +
 				'</div></div>';
 		}
+
 		getId("win_" + appPath + "_cap").setAttribute("onmousedown", "if(!apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winmove(event);}event.preventDefault();return false;}");
 		getId("win_" + appPath + "_size").setAttribute("onmousedown", "if(!apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winres(event);}event.preventDefault();return false;}");
 		getId("win_" + appPath + "_cap").setAttribute("onclick", "if(apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winmove(event);}event.preventDefault();return false;}");
