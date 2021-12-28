@@ -13,6 +13,7 @@ apps.musicPlayer = new Application({
 		}
 	},
 	hideApp: 0,
+	resizeable: false,
 	main: function() {
 		if (!this.appWindow.appIcon) {
 			this.appWindow.paddingMode(0);
@@ -29,7 +30,6 @@ apps.musicPlayer = new Application({
 			});
 		}
 		this.appWindow.setCaption('Music Player');
-		// MUSIC PLAYER DIMENSIONS
 		this.appWindow.setDims("auto", "auto", 500, 150);
 		blockScreensaver("apps.musicVis");
 		if (this.appWindow.appIcon) {

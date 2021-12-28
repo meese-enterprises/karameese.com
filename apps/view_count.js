@@ -6,6 +6,7 @@ apps.viewCount = new Application({
 	codeName: "viewCounter",
 	image: 'appicons/ds/systemApp.png',
 	hideApp: 0,
+	resizeable: false,
 	main: function(launchtype) {
 		const margins = 15;
 		const size = 250;

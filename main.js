@@ -662,9 +662,21 @@ var appTotal = 0;
 var appPosX = 8;
 var appPosY = 8;
 var finishedMakingAppClicks = 0;
-var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, signalHandlerFunction, appVariables, keepOffDesktop, appPath, appImg) {
+var Application = function (
+	appIcon,
+	appDesc,
+	handlesLaunchTypes,
+	mainFunction,
+	signalHandlerFunction,
+	appVariables,
+	keepOffDesktop,
+	appPath,
+	appImg,
+	resizeable = true
+) {
 	try {
 		if (typeof appIcon === "object") {
+			if (appIcon.hasOwnProperty('resizeable')) resizeable = appIcon.resizeable;
 			appImg = appIcon.image || "appicons/ds/aOS.png";
 			appPath = appIcon.codeName;
 			if (typeof appIcon.hideApp === "number") {
@@ -725,6 +737,7 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 		this.signalHandler = signalHandlerFunction;
 		this.launchTypes = handlesLaunchTypes ? 1 : 0;
 		this.vars = appVariables;
+		this.resizeable = resizeable;
 		this.appWindow = {
 			/*
 					these are the elements that make up a window...
@@ -988,10 +1001,13 @@ var Application = function (appIcon, appDesc, handlesLaunchTypes, mainFunction, 
 				'</div></div>';
 		}
 
+		if (this.resizeable) {
+			getId("win_" + appPath + "_size").setAttribute("onmousedown", "if(!apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winres(event);}event.preventDefault();return false;}");
+			getId("win_" + appPath + "_size").setAttribute("onclick", "if(apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winres(event);}event.preventDefault();return false;}");
+		}
+		
 		getId("win_" + appPath + "_cap").setAttribute("onmousedown", "if(!apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winmove(event);}event.preventDefault();return false;}");
-		getId("win_" + appPath + "_size").setAttribute("onmousedown", "if(!apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winres(event);}event.preventDefault();return false;}");
 		getId("win_" + appPath + "_cap").setAttribute("onclick", "if(apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winmove(event);}event.preventDefault();return false;}");
-		getId("win_" + appPath + "_size").setAttribute("onclick", "if(apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winres(event);}event.preventDefault();return false;}");
 		getId("icn_" + appPath).setAttribute("onClick", "openapp(apps." + appPath + ", function(){if(apps." + appPath + ".appWindow.appIcon){return 'tskbr'}else{return 'dsktp'}}())");
 		getId("win_" + appPath + "_top").setAttribute("onClick", "toTop(apps." + appPath + ")");
 		if (appPath !== 'startMenu' && appPath !== 'nora') {

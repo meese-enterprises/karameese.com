@@ -1205,9 +1205,6 @@ apps.settings = new Application({
 							if (ufload("aos_system/apps/settings/cors_proxy")) {
 								apps.settings.vars.corsProxy = ufload("aos_system/apps/settings/cors_proxy");
 							}
-							if (ufload("aos_system/user_custom_style")) {
-								getId('aosCustomStyle').innerHTML = ufload("aos_system/user_custom_style");
-							}
 							if (ufload("aos_system/windows/dark_mode")) {
 								if (ufload("aos_system/windows/dark_mode") === "1") {
 									apps.settings.vars.togDarkMode(1);
