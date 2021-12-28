@@ -2167,4 +2167,5 @@ totalWaitingCodes = codeToRun.length;
 c(function() {
 	openapp(apps.accreditation, 'dsktp');
 	openapp(apps.viewCount, 'dsktp');
+	openapp(apps.musicPlayer, 'dsktp');
 });

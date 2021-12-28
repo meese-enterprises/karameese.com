@@ -86,10 +86,11 @@ function pause() {
 	getId("playpauseicon").src = "play.svg";
 }
 
-function firstPlay() {
+audio.addEventListener("canplaythrough", play);
+window.addEventListener('load', function() {
+	console.log('All audio assets are loaded...')
 	play();
-}
-audio.addEventListener("canplaythrough", firstPlay);
+});
 
 function back() {
 	if (audio.currentTime >= 3) return audio.currentTime = 0;
@@ -222,6 +223,5 @@ function loadAudioFiles() {
 
 	vis[currVis].start();
 	requestAnimationFrame(globalFrame);
-	shuffle();
 }
 loadAudioFiles();
