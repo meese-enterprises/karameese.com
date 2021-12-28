@@ -129,15 +129,6 @@ apps.settings = new Application({
 						return '<button onclick="apps.settings.vars.togDirtyLoad()">Toggle</button>'
 					}
 				},
-				profont: {
-					option: 'ProFont License',
-					description: function() {
-						return 'ProFont is used across many different UI elements of AaronOS.';
-					},
-					buttons: function() {
-						return 'ProFont is licensed under the <a target="_blank" href="ProFont/MIT_LICENSE.txt">MIT License</a>.';
-					}
-				},
 			},
 			screenRes: {
 				folder: 0,

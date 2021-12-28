@@ -1,10 +1,9 @@
 @font-face {
 	font-family: "W95FA";
 	src:
-		url('../ProFont/ProFontOnline.ttf') format('truetype'),
-		url('../ProFont/ProFontOnline.woff') format('woff'),
-		url('../ProFont/ProFontOnline.eot'),
-		url('../ProFont/ProFontOnline.svg') format('svg');
+		url('../W95FA/W95FA.otf') format('opentype'),
+		url('../W95FA/w95fa.woff') format('woff'),
+		url('../W95FA/w95fa.woff2');
 }
 
 /* adapted from AaronOS */
