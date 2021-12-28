@@ -147,15 +147,15 @@
             &lt;head&gt;
                 &lt;title&gt;Page Title&lt;/title&gt;
                 &lt;link rel="stylesheet" href="style.css"&gt;
-                &lt;!-- aosTools.js is grabbed from aaronos.dev --&gt;
+                &lt;!-- aosTools.js is grabbed from aaronos.dev ->
                 &lt;script defer src="https://aaronos.dev/AaronOS/aosTools.js"&gt;&lt;/script&gt;
                 &lt;script defer src="script.js"&gt;&lt;/script&gt;
             &lt;/head&gt;
             &lt;body&gt;
-                &lt;!-- theme compatibility wrapper --&gt;
+                &lt;!-- theme compatibility wrapper ->
                 &lt;div class="winHTML"&gt;
                     &lt;p&gt;Page content&lt;/p&gt;
-                    &lt;!-- a test button is an easy way to see if theme support is working --&gt;
+                    &lt;!-- a test button is an easy way to see if theme support is working ->
                     &lt;button&gt;Button&lt;/button&gt;
                 &lt;/div&gt;
             &lt;/body&gt;
@@ -501,7 +501,7 @@
     <hr>
     <h1 class="docHeader" id="doc_wacomm_setup_aostools">Setting up aosTools</h1>
     <p>
-        <i>If you already read Web Apps -&gt; Getting Started, you can skip this section.</i>
+        <i>If you already read Web Apps > Getting Started, you can skip this section.</i>
     </p>
     <p>
         aosTools does require a bit of setup to get started.
@@ -518,15 +518,15 @@
             &lt;head&gt;
                 &lt;title&gt;Page Title&lt;/title&gt;
                 &lt;link rel="stylesheet" href="style.css"&gt;
-                &lt;!-- aosTools.js is grabbed from aaronos.dev --&gt;
+                &lt;!-- aosTools.js is grabbed from aaronos.dev ->
                 &lt;script defer src="https://aaronos.dev/AaronOS/aosTools.js"&gt;&lt;/script&gt;
                 &lt;script defer src="script.js"&gt;&lt;/script&gt;
             &lt;/head&gt;
             &lt;body&gt;
-                &lt;!-- theme compatibility wrapper --&gt;
+                &lt;!-- theme compatibility wrapper ->
                 &lt;div class="winHTML"&gt;
                     &lt;p&gt;Page content&lt;/p&gt;
-                    &lt;!-- a test button is an easy way to see if theme support is working --&gt;
+                    &lt;!-- a test button is an easy way to see if theme support is working ->
                     &lt;button&gt;Button&lt;/button&gt;
                 &lt;/div&gt;
             &lt;/body&gt;
@@ -1252,9 +1252,6 @@
         Enabling the default context menu will cause the AaronOS context menu to appear when your user clicks somewhere in your app that doesn't have a menu assigned.
         Disabling the default context menu will cause the web browser's native context menu to appear instead.
     </p>
-    <p>
-        This option is enabled by default. The default context menu allows users to copy selected text to their aOS clipboard, paste text from their aOS clipboard into any input or textarea, or speak selected text out loud with NORAA.
-    </p>
     <h2>Function Call</h2>
     <pre><code>
         // enable the default context menu
@@ -1274,11 +1271,6 @@
     </p>
     <input class="aosTools_try" oncontextmenu="aosTools.editMenu(event, true)" value="Try It - Right Click"><br>
     <button class="aosTools_try" onclick="aosTools.editMenu(event, false, 'Big text that is very long and would be difficult to select manually')">Try It - Left Click</button>
-    <p>
-        This action will trigger the default aOS text editing context menu, granting your user the ability to copy and paste text, or speak text aloud via NORAA.
-        It is most commonly used if the default context menu is disabled, but you want the user to be able to use their aOS clipboard on a specific field in your app.
-        It can also be used to help the user copy a very long or complex string of text by simply pressing a button.
-    </p>
     <h2>Easy Request</h2>
     <pre><code>
         aosTools.editMenu(
@@ -1316,7 +1308,6 @@
         <code>selectedText</code>: <i>(optional)</i>
         <ul>
             <li>If this is not specified, this will default to whatever text the user has selected on your page.</li>
-            <li>string: When specified, this is the string that AaronOS will allow the user to copy to their clipboard.</li>
         </ul>
         <code>position</code>: <i>(optional)</i>
         <ul>
@@ -1332,14 +1323,7 @@
     <p>
         <code>response.content</code>
         <ul>
-            <li><code>"copied"</code>: The user copied the text to their aOS clipboard.</li>
-            <li><code>"pasted"</code>: The user chose to paste text from their clipboard into your app.</li>
             <li><code>"spoken"</code>: The user asked NORAA to speak the text out loud.</li>
-        </ul>
-        <code>response.pastedText</code>
-        <ul>
-            <li>string: This is the text pasted from the user's clipboard, if any.</li>
-            <li><code>undefined</code>: The user chose not to paste text from their clipboard.</li>
         </ul>
     </p>
     <hr>

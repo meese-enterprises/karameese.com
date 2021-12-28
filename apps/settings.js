@@ -1129,7 +1129,7 @@ apps.settings = new Application({
 										openapp(apps.settings, "dsktp");
 										apps.settings.vars.showMenu(apps.settings.vars.menus.info);
 									} else {
-										apps.prompt.vars.notify("In the future, you can go to Settings -&gt; Information to set a password on your account.", ["Okay"], function() {}, 'AaronOS', 'appicons/ds/aOS.png');
+										apps.prompt.vars.notify("In the future, you can go to Settings > Information to set a password on your account.", ["Okay"], function() {}, 'AaronOS', 'appicons/ds/aOS.png');
 									}
 								}, 'AaronOS', 'appicons/ds/aOS.png');
 								localStorage.setItem("askedPassword", "1");

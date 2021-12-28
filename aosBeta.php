@@ -94,7 +94,7 @@
 		?>
 		<div id="aOSisLoading" class="cursorLoadLight">
 			<div id="aOSisLoadingDiv">
-				<h1>AaronOS</h1>
+				<h1>KaraOS</h1>
 				<hr>
 				<div id="aOSloadingInfoDiv">
 					<div id="aOSloadingInfo" class="liveElement"

@@ -36,7 +36,7 @@ apps.messaging = new Application({
 		this.vars.requestMessage();
 	},
 	vars: {
-		appInfo: 'The official AaronOS Messenger. Chat with the entire aOS community, all at once.<br><br>To set your name, go to Settings -&gt; 1, and enter a chat name.<br><br>To view past messages, go to Settings -&gt; 2, and enter in the number of past messages you wish to view.',
+		appInfo: 'The official AaronOS Messenger. Chat with the entire aOS community, all at once.<br><br>To set your name, go to Settings > 1, and enter a chat name.<br><br>To view past messages, go to Settings > 2, and enter in the number of past messages you wish to view.',
 		lastMsgRecieved: '-9',
 		nameTemp: 'Anonymous',
 		name: 'Anonymous',
