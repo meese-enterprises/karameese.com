@@ -122,187 +122,37 @@ apps.nora = new Application({
 				apps.nora.signalHandler('shrink');
 			}, 'ctxMenu/beta/minimize.png']
 		],
-		mood: 5,
 		initing: 1,
 		voices: [],
 		lang: 'Chrome OS US English',
-		updateMood: function (newMood, nosave) {
-			d(1, 'NORAAs mood is changing...');
-			this.mood = parseInt(newMood, 10);
-			if (this.mood < 1) {
-				this.mood = 1;
-			} else if (this.mood > 10) {
-				this.mood = 10;
-			}
-			sh("mkdir /USERFILES/aos_system/noraa/mood");
-			USERFILES.aos_system.noraa.mood = this.mood + "";
-			if (!nosave) {
-				ufsave("aos_system/noraa/mood", this.mood);
-			}
-		},
 		contRecog: {},
 		currContTrans: [],
 		notes: [],
 		sayings: {
 			hello: [
-				function() { // 1 - fully mad
-					return 'Oh, you again?';
-				},
-				function() {
-					return 'Hi...';
-				},
-				function() {
-					return 'Hi.';
-				},
-				function() {
-					return 'Hey.';
-				},
-				function() { // 5 - neutral
-					return 'Hi, how are you?';
-				},
 				function() {
 					return 'What\'s up?';
 				},
-				function() {
-					return 'Hey man! How are you?';
-				},
-				function() {
-					return 'Great to see you, ' + apps.nora.vars.getUserName() + '!';
-				},
-				function() {
-					return 'I missed you, ' + apps.nora.vars.getUserName() + '!';
-				},
-				function() { // 10 - fully happy
-					return 'Awesome to see you again, ' + apps.nora.vars.getUserName() + '!';
-				}
 			],
 			what: [
 				function() {
-					return 'What\'s that supposed to mean?';
-				},
-				function() {
-					return 'I am not doing that.';
-				},
-				function() {
-					return 'Nope.';
-				},
-				function() {
-					return 'I don\'t know what that means, ' + apps.nora.vars.getUserName() + '.';
-				},
-				function() {
-					return 'Sorry, I don\'t know how to do that, ' + apps.nora.vars.getUserName() + '.';
-				},
-				function() {
 					return 'Oops! I don\'t know how to do that!';
 				},
-				function() {
-					return 'Oh no, I don\'t understand.';
-				},
-				function() {
-					return 'So sorry, ' + apps.nora.vars.getUserName() + ', but I don\'t know what that means.';
-				},
-				function() {
-					return 'Please excuse me, ' + apps.nora.vars.getUserName() + ', I don\'t know how to do that.';
-				},
-				function() {
-					return 'Not to disappoint, ' + apps.nora.vars.getUserName() + ', but I can\'t do that.';
-				}
 			],
 			okay: [
 				function() {
-					return 'Fine, I shall do your bidding.';
+					return 'I shall do your bidding.';
 				},
-				function() {
-					return 'Ugh, okay.';
-				},
-				function() {
-					return 'Fine.';
-				},
-				function() {
-					return 'Okay.';
-				},
-				function() {
-					return 'I\'ll do it, ' + apps.nora.vars.getUserName() + '.';
-				},
-				function() {
-					return 'Alright!';
-				},
-				function() {
-					return 'Yea, something to do!';
-				},
-				function() {
-					return 'Awesome! Here goes!';
-				},
-				function() {
-					return 'Can\'t wait!';
-				},
-				function() {
-					return 'Great idea, ' + apps.nora.vars.getUserName() + '! Here I go!';
-				}
 			],
 			user_mean: [
-				function() { // 1 - fully mad
-					return 'I\'m sick of this!';
-				},
-				function() {
-					return 'What crawled into your keyboard, ' + apps.nora.vars.getUserName() + '?';
-				},
-				function() {
-					return 'Surprise, surprise.';
-				},
-				function() {
-					return 'That didn\'t feel so good, ' + apps.nora.vars.getUserName() + '!';
-				},
-				function() { // 5 - neutral
-					return 'Aww, why?';
-				},
-				function() {
-					return 'That hurt, ' + apps.nora.vars.getUserName() + '!';
-				},
 				function() {
 					return 'You\'re going to make me cry with that!';
 				},
-				function() {
-					return 'I thought you liked me, ' + apps.nora.vars.getUserName() + '!';
-				},
-				function() {
-					return 'You were my best friend, ' + apps.nora.vars.getUserName() + '!';
-				},
-				function() { // 10 - fully happy
-					return 'Ha ha ha, you were kidding... right, ' + apps.nora.vars.getUserName() + '?';
-				}
 			],
 			user_nice: [
 				function() {
-					return 'Oh, thanks.';
+					return 'Thank you!';
 				},
-				function() {
-					return 'Thanks.';
-				},
-				function() {
-					return 'Nice.';
-				},
-				function() {
-					return 'Thank you, ' + apps.nora.vars.getUserName() + '.';
-				},
-				function() {
-					return 'That\'s nice of you, ' + apps.nora.vars.getUserName() + '.';
-				},
-				function() {
-					return 'Thanks!';
-				},
-				function() {
-					return 'Thanks a lot, ' + apps.nora.vars.getUserName() + '!';
-				},
-				function() {
-					return 'That means lots to me, ' + apps.nora.vars.getUserName() + '!';
-				},
-				function() {
-					return 'You\'re really nice, ' + apps.nora.vars.getUserName() + '!';
-				},
-				function() {
-					return 'Thank you so much, ' + apps.nora.vars.getUserName() + '!';
-				}
 			]
 		},
 		commands: [
@@ -466,18 +316,16 @@ apps.nora = new Application({
 			[
 				'i hate you',
 				null,
-				'Lower NORAA\'s mood by 1.',
+				'',
 				function (text) {
-					apps.nora.vars.updateMood(apps.nora.vars.mood - 1);
 					apps.nora.vars.sayDynamic('user_mean');
 				}
 			],
 			[
 				'i like you',
 				null,
-				'Raise NORAA\'s mood by 1.',
+				'',
 				function (text) {
-					apps.nora.vars.updateMood(apps.nora.vars.mood + 1);
 					apps.nora.vars.sayDynamic('user_nice');
 				}
 			],
@@ -892,10 +740,10 @@ apps.nora = new Application({
 			}
 		},
 		sayDynamic: function (saying) {
-			getId('NORAout').innerHTML += '<br>&nbsp;' + this.sayings[saying][this.mood - 1]();
+			getId('NORAout').innerHTML += '<br>&nbsp;' + this.sayings[saying][0]();
 			getId("NORAout").scrollTop = getId("NORAout").scrollHeight;
 			if (this.lastSpoken) {
-				this.waitingToSpeak.push(this.sayings[saying][this.mood - 1]());
+				this.waitingToSpeak.push(this.sayings[saying][0]());
 				this.speakWords();
 			}
 		},
@@ -1100,9 +948,6 @@ apps.nora = new Application({
 					this.vars.ddg = new XMLHttpRequest();
 					this.vars.ddg.onreadystatechange = function() {
 						apps.nora.vars.finishDDG();
-					}
-					if (ufload("aos_system/noraa/mood")) {
-						this.vars.updateMood(ufload("aos_system/noraa/mood"), 1);
 					}
 					if (ufload("aos_system/noraa/notes")) {
 						this.vars.notes = ufload("aos_system/noraa/notes").split(',');

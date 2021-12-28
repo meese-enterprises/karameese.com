@@ -319,7 +319,6 @@ apps.settings = new Application({
 						return '<button onclick="openapp(apps.smartIconSettings, \'dsktp\')">Smart Icon Settings</button>';
 					}
 				}
-
 			},
 			noraa: {
 				folder: 0,
@@ -334,15 +333,6 @@ apps.settings = new Application({
 					},
 					buttons: function() {
 						return '<button onclick="apps.settings.vars.togNoraListen()">Toggle</button>'
-					}
-				},
-				voices: {
-					option: 'NORAA\'s Voice',
-					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="apps.nora.vars.lang">' + apps.nora.vars.lang + '</span>. This is the voice NORAA uses to speak to you. Choose from one of the voices below that are supported by your browser.'
-					},
-					buttons: function() {
-						return apps.settings.vars.getVoicesForNORAA()
 					}
 				}
 			},
@@ -653,20 +643,6 @@ apps.settings = new Application({
 
 			if (!nosave) ufsave("aos_system/windows/border_texture", this.currWinImg);
 			d(1, perfCheck('settings') + '&micro;s to set windowbgimg');
-		},
-		getVoicesForNORAA: function() {
-			this.currVoiceStr = '';
-			if (apps.nora.vars.voices !== []) {
-				for (let i in apps.nora.vars.voices) {
-					this.currVoiceStr += '<button onclick="apps.nora.vars.lang = \'' + apps.nora.vars.voices[i].name + '\';window.speechSynthesis.onvoiceschanged();apps.settings.vars.saveNORAAvoice()">' + apps.nora.vars.voices[i].name + '</button> ';
-				}
-				return this.currVoiceStr;
-			} else {
-				return '<i>Voices not available - try reopening Settings</i>';
-			}
-		},
-		saveNORAAvoice: function() {
-			ufsave('aos_system/noraa/speech_voice', apps.nora.vars.lang);
 		},
 		NORAAsetDelay: function (nosave) {
 			apps.nora.vars.inputDelay = parseInt(getId('STNnoraDelay').value, 10);
