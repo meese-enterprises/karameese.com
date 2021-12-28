@@ -28,30 +28,6 @@
                 "foreground": "appicons/ds/CSE.png"
             },
             "description": "JS Paint was developed by Isaiah Odhner and embedded into an aOS app with his permission.\n\nFull site at https://jspaint.app"
-        },
-        "terminalstyle": {
-            "packageName": "Terminal Theme",
-            "packageID": "terminalstyle",
-            "packageAliases": [],
-            "version": "1.0",
-            "packageType": "stylesheet",
-            "installURL": "repository/styles/terminalstyle.json",
-            "icon": {
-                "foreground": "repository/styles/terminalstyle.png"
-            },
-            "description": "Themes aOS to look like a movie hacker terminal."
-        },
-        "win95style": {
-          "packageName": "Windows 95 Theme",
-          "packageID": "win95style",
-          "packageAliases": [],
-          "version": "1.0",
-          "packageType": "stylesheet",
-          "installURL": "repository/styles/win95style.json",
-          "icon": {
-              "foreground": "repository/styles/win95style.png"
-          },
-          "description": "Similar theme to Microsoft Windows 95."
         }
     }
 }

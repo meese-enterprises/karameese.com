@@ -306,13 +306,6 @@ apps.appCenter = new Application({
 										customCSS.id = "customstyle_appcenter_" + repository + "_" + package;
 										customCSS.innerHTML = installedPackages[repository][package].styleContent;
 										document.head.appendChild(customCSS);
-									} else {
-										var customCSS = document.createElement("link");
-										customCSS.setAttribute("rel", "stylesheet");
-										customCSS.href = installedPackages[repository][package].styleLink;
-										customCSS.classList.add("customstyle_appcenter");
-										customCSS.id = "customstyle_appcenter_" + repository + "_" + package;
-										document.head.appendChild(customCSS);
 									}
 								}
 							}
