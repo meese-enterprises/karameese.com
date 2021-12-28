@@ -10,16 +10,7 @@
 
 <body class="winHTML">
 	<h1>viewer count:</h1>
-	<div id="viewerCount">
-		<?php
-			$fileName = "../counter.txt";
-			$handle = fopen($fileName, "r");
-			$counter = (int) fread($handle, 20);
-			fclose($handle);
-
-			echo str_pad($counter, 6, "0", STR_PAD_LEFT);
-		?>
-	</div>
+	<div id="viewerCount"></div>
 </body>
 
 <script type="module" src="script.js"></script>
