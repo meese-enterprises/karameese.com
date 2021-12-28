@@ -37,21 +37,6 @@ function addWidget(widgetName, nosave) {
 	}
 };
 
-function removeWidget(widgetName, nosave) {
-	// TODO: Test this syntax, or if it needs > -1 checking
-	if (!widgets[widgetName]) return;
-	if (!widgets[widgetName].place > -1) return;
-
-	widgets[widgetName].end();
-	widgets[widgetName].place = -1;
-	totalWidgets--;
-	widgets[widgetName].element = null;
-	getId('widget_' + widgetName).outerHTML = '';
-	delete widgetsList[widgetName];
-
-	if (!nosave) ufsave('aos_system/taskbar/widget_list', JSON.stringify(widgetsList));
-};
-
 function widgetMenu(title, content) {
 	// TODO: Abstract with parameters
 	getId('widgetMenu').style.bottom = 'auto';

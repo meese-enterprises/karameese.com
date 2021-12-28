@@ -80,7 +80,6 @@ apps.appCenter = new Application({
 			"Apps": "App",
 			"Styles": "stylesheet",
 			"Scripts": "bootscript",
-			//"Widgets": "widget"
 		},
 		doSearch: function (searchQuery) {
 			for (var i = 0; i < getId("APPCENTER_packages").childNodes.length; i++) {

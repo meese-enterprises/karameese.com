@@ -222,15 +222,6 @@ apps.settings = new Application({
 					buttons: function() {
 						return '<button onclick="apps.settings.vars.toggleIconTitles();">Toggle</button>'
 					}
-				},
-				widgets: {
-					option: 'Widgets',
-					description: function() {
-						return '<ol id="STNwidgets">' + apps.settings.vars.getWidgetList() + '</ol>'
-					},
-					buttons: function() {
-						return apps.settings.vars.getWidgetButtons()
-					}
 				}
 			},
 			applicationPermissions: {
@@ -722,25 +713,6 @@ apps.settings = new Application({
 		},
 		tempArray: [],
 		bgFit: 'center',
-		getWidgetList: function() {
-			var nodes = getId('time').childNodes;
-			var str = '<li>';
-			for (let i = 0; i < nodes.length; i++) {
-				str += widgets[nodes[i].getAttribute('data-widget-name')].name + '</li><li>';
-			}
-			return str + '</li>';
-		},
-		getWidgetButtons: function() {
-			var str = '';
-			for (let i in widgets) {
-				if (widgets[i].place === -1) {
-					str += '<button onclick="addWidget(\'' + widgets[i].codeName + '\');apps.settings.vars.showMenu(apps.settings.vars.menus.taskbar);">Add ' + widgets[i].name + ' Widget</button><br>';
-				} else {
-					str += '<button onclick="removeWidget(\'' + widgets[i].codeName + '\');apps.settings.vars.showMenu(apps.settings.vars.menus.taskbar);">Remove ' + widgets[i].name + ' Widget</button><br>';
-				}
-			}
-			return str + '';
-		},
 		checkScreensaver: function() {
 			if (apps.settings.vars.screensaverEnabled && !screensaverRunning && screensaverBlocks.length === 0) {
 				if (perfCheck('userActivity') > apps.settings.vars.screensaverTime) {
