@@ -288,21 +288,12 @@ apps.appCenter = new Application({
 					repoLoad();
 					for (var repository in installedPackages) {
 						for (var package in installedPackages[repository]) {
-							if (installedPackages[repository][package].appType === "webApp") {
-								try {
-									apps.appCenter.vars.compileWebApp(installedPackages[repository][package], repository + '__' + package);
-								} catch (err) {
-									doLog("Failed initializing " + repository + '.' + package + ":", "#F00");
-									doLog(err, "#F00");
-								}
-							} else if (installedPackages[repository][package].appType === "stylesheet") {
-								if (installedPackages[repository][package].hasOwnProperty("styleContent")) {
-									var customCSS = document.createElement("style");
-									customCSS.classList.add("customstyle_appcenter");
-									customCSS.id = "customstyle_appcenter_" + repository + "_" + package;
-									customCSS.innerHTML = installedPackages[repository][package].styleContent;
-									document.head.appendChild(customCSS);
-								}
+							try {
+								//NOTE
+								apps.appCenter.vars.compileWebApp(installedPackages[repository][package], repository + '__' + package);
+							} catch (err) {
+								doLog("Failed initializing " + repository + '.' + package + ":", "#F00");
+								doLog(err, "#F00");
 							}
 						}
 						c(() => {

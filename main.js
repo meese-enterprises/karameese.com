@@ -37,16 +37,10 @@ if (window.performance === undefined) {
 			return (new Date).getTime() * 1000;
 		}
 	};
-	window.requestAnimationFrame(function() {
-		console.log('performance.now is not supported by your browser. It has been replaced by function(){return (new Date).getTime() * 1000}', '#F00')
-	});
 } else if (window.performance.now === undefined) {
 	window.performance.now = function() {
 		return (new Date).getTime() * 1000;
 	};
-	window.requestAnimationFrame(function() {
-		console.log('performance.now is not supported by your browser. It has been replaced by function(){return (new Date).getTime() * 1000}', '#F00')
-	});
 }
 
 // Approximately how long it took to load the page
@@ -61,9 +55,6 @@ if (window.requestAnimationFrame === undefined) {
 	window.requestAnimationFrame = function (func) {
 		window.setTimeout(func, 0);
 	};
-	window.requestAnimationFrame(function() {
-		console.log('requestAnimationFrame is not supported by your browser. It has been replaced by function(func){setTimeout(func, 0)}', '#F00')
-	});
 }
 
 (function (win, doc) {
@@ -164,8 +155,6 @@ function checkMonitorMovement() {
 }
 requestAnimationFrame(checkMonitorMovement);
 
-// This section helps to handle errors, assuming the browser supports it.
-// This is user's answer to send error report - 0 or 1. 2 means never been asked
 var lasterrorconfirmation = 0;
 // List of error messages
 var errorMessages = [
@@ -312,7 +301,7 @@ function perfCheck(name) {
 	d(2, 'Checked Performance: ' + name);
 	return Math.round(perfObj[name][2] * 1000);
 }
-// Start measuring aos boot time (lol, 220 lines in)
+// Start measuring boot time
 perfStart('masterInit');
 
 // Screensaver system
@@ -608,14 +597,6 @@ function checkLiveElements() {
 	requestAnimationFrame(checkLiveElements);
 }
 requestAnimationFrame(checkLiveElements);
-
-function logLiveElement(str) {
-	doLog('<span class="liveElement" data-live-eval="' + str + '"></span>');
-};
-
-function makeLiveElement(str) {
-	return '<span class="liveElement" data-live-eval="' + str + '"></span>';
-}
 
 // List of pinned apps
 var pinnedApps = [];
