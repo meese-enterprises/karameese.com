@@ -3,7 +3,7 @@ const ViewCount = () => {
 apps.viewCount = new Application({
 	title: "View Counter",
 	abbreviation: "vwC",
-	codeName: "viewCounter",
+	codeName: "viewCount",
 	image: 'appicons/ds/systemApp.png',
 	hideApp: 0,
 	resizeable: false,
@@ -22,7 +22,7 @@ apps.viewCount = new Application({
 				src="./ViewCount/index.php"
 			></iframe>
 		`);
-		getId("icn_viewCounter").style.display = "inline-block";
+		getId("icn_viewCount").style.display = "inline-block";
 		this.appWindow.setCaption("View Counter");
 		blockScreensaver("apps.viewCount");
 		this.appWindow.openWindow();
