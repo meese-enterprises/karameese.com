@@ -469,7 +469,7 @@ apps.settings = new Application({
 						allFrames[i].contentWindow.postMessage({
 							type: "response",
 							content: "Update style information",
-							conversation: "aosTools_Subscribed_Style_Update"
+							conversation: "devTools_Subscribed_Style_Update"
 						});
 					}
 				} catch (err) {

@@ -3,29 +3,29 @@ import { AudioVisualizer } from "./AudioVisualizer.js";
 const vis = AudioVisualizer;
 const currVis = "waveform";
 
-var aosToolsConnected = 0;
+var devToolsConnected = 0;
 var newScriptTag = document.createElement("script");
 newScriptTag.setAttribute("data-light", "true");
-newScriptTag.src = "../aosTools.js";
+newScriptTag.src = "../devTools.js";
 document.head.appendChild(newScriptTag);
 
-window.aosTools_connectListener = function () {
-	aosTools.openWindow();
-	aosToolsConnected = 1;
+window.devTools_connectListener = function () {
+	devTools.openWindow();
+	devToolsConnected = 1;
 }
 
 // prevent the display from going to sleep
 var preventingSleep = 0;
 function blockSleep() {
-	if (!preventingSleep && aosToolsConnected) {
-		aosTools.blockScreensaver(() => {});
+	if (!preventingSleep && devToolsConnected) {
+		devTools.blockScreensaver(() => {});
 		preventingSleep = 1;
 	}
 }
 
 function unblockSleep() {
-	if (preventingSleep && aosToolsConnected) {
-		aosTools.unblockScreensaver(() => {});
+	if (preventingSleep && devToolsConnected) {
+		devTools.unblockScreensaver(() => {});
 		preventingSleep = 0;
 	}
 }
@@ -58,8 +58,8 @@ function selectSong(id) {
 	getId("currentlyPlaying").innerHTML = `
 		<p class="marqueetext1">${fileNames[id][0]}</p>
 	`;
-	if (aosToolsConnected) {
-		aosTools.sendRequest({
+	if (devToolsConnected) {
+		devTools.sendRequest({
 			action: "appwindow:set_caption",
 			content: "Music Player",
 			conversation: "set_caption"

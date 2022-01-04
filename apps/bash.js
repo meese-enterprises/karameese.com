@@ -1,7 +1,7 @@
 const Bash = () => {
 
 apps.bash = new Application({
-	title: 'Psuedo-Bash Terminal',
+	title: 'Pseudo-Bash Terminal',
 	abbreviation: "sh",
 	codeName: "bash",
 	image: {

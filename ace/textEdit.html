@@ -64,7 +64,7 @@
             left: 0;
         }
     </style>
-    <script src="../aosTools.js" data-light="true"></script>
+    <script src="../devTools.js" data-light="true"></script>
 </head>
 <body>
     <div id="editor"></div>
@@ -80,7 +80,7 @@
         });
 
         function setTheme(){
-            aosTools.getDarkMode((response) => {
+            devTools.getDarkMode((response) => {
                 if(response.content){
                     document.body.classList.add("darkMode");
                     editor.setTheme("ace/theme/clouds_midnight");
@@ -97,30 +97,30 @@
         }
         // this entire func .is ripped from aOS Tools for the purpose of replacing one line of its function
         function showEditMenu(event, enablePaste, textOverride, positionOverride){
-            aosTools.waitingPasteTarget = event ? event.target : null;
-            aosTools.waitingPasteRange = event ? (event.target.selectionStart ? [event.target.selectionStart, event.target.selectionEnd] : null) : null;
-            aosTools.sendRequest({
+            devTools.waitingPasteTarget = event ? event.target : null;
+            devTools.waitingPasteRange = event ? (event.target.selectionStart ? [event.target.selectionStart, event.target.selectionEnd] : null) : null;
+            devTools.sendRequest({
                 action: "context:text_menu",
                 position: positionOverride || event ? [event.pageX, event.pageY] : [0, 0],
                 // editor.getSelectedText() is the only change from vanilla aOS Tools
                 selectedText: textOverride || editor.getSelectedText(),
                 enablePaste: (event ? (typeof event.target.value === "string" ? true : false) : false) ? enablePaste : 0
-            }, aosTools.recievePasteCommand);
+            }, devTools.recievePasteCommand);
             if(event){
                 event.preventDefault();
                 event.stopPropagation();
             }
         }
         function configureEditor(){
-            aosTools.updateStyle = setTheme;
-            aosTools.recievePasteCommand = pasteText;
-            aosTools.editMenu = showEditMenu;
+            devTools.updateStyle = setTheme;
+            devTools.recievePasteCommand = pasteText;
+            devTools.editMenu = showEditMenu;
             setTheme();
         }
 
-        window.aosTools_connectListener = configureEditor;
-        if(typeof aosTools === "object"){
-            aosTools.testConnection();
+        window.devTools_connectListener = configureEditor;
+        if(typeof devTools === "object"){
+            devTools.testConnection();
         }
     </script>
 </body>

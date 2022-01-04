@@ -708,14 +708,14 @@ apps.webAppMaker = new Application({
 								var loopMessage = {
 									messageType: "response",
 									data: [],
-									conversation: "aosTools_get_page_id"
+									conversation: "devTools_get_page_id"
 								}
 								var randomIDChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 								var tempStr = "";
 								for (var i = 0; i < 16; i++) {
 									tempStr += randomIDChars[Math.floor(Math.random() * randomIDChars.length)];
 								}
-								apps.webAppMaker.vars.pageIDsToVerify[tempStr] = msg.data.aosToolsFrameID;
+								apps.webAppMaker.vars.pageIDsToVerify[tempStr] = msg.data.devToolsFrameID;
 								apps.webAppMaker.vars.frameIDsToVerify[tempStr] = [];
 								apps.webAppMaker.vars.framesToVerify[tempStr] = [];
 
@@ -738,7 +738,7 @@ apps.webAppMaker = new Application({
 							if (msg.data.action === "page_id:respond") {
 								if (apps.webAppMaker.vars.frameIDsToVerify.hasOwnProperty(msg.data.content[0])) {
 									if (apps.webAppMaker.vars.frameIDsToVerify[msg.data.content[0]].indexOf(msg.data.content[1]) > -1) {
-										if (msg.data.aosToolsFrameID === apps.webAppMaker.vars.pageIDsToVerify[msg.data.content[0]]) {
+										if (msg.data.devToolsFrameID === apps.webAppMaker.vars.pageIDsToVerify[msg.data.content[0]]) {
 											// the correct frame is identified
 											apps.webAppMaker.vars.verifiedFrames[apps.webAppMaker.vars.pageIDsToVerify[msg.data.content[0]]] = apps.webAppMaker.vars.framesToVerify[msg.data.content[0]][apps.webAppMaker.vars.frameIDsToVerify[msg.data.content[0]].indexOf(msg.data.content[1])];
 											apps.webAppMaker.vars.verifiedFrames[apps.webAppMaker.vars.pageIDsToVerify[msg.data.content[0]]].setAttribute("data-frame-id", apps.webAppMaker.vars.pageIDsToVerify[msg.data.content[0]]);
@@ -748,7 +748,7 @@ apps.webAppMaker = new Application({
 												data: true
 											};
 											if (msg.data.conversation) {
-												returnMessage.conversation = "aosTools_verify_page_id";
+												returnMessage.conversation = "devTools_verify_page_id";
 											}
 											apps.webAppMaker.vars.postReply(returnMessage, (msg.origin !== "null" ? msg.origin : "*"), msg.source);
 											delete apps.webAppMaker.vars.pageIDsToVerify[msg.data.content[0]];
@@ -884,7 +884,7 @@ apps.webAppMaker = new Application({
 							if (msg.data.conversation) {
 								returnMessage.conversation = msg.data.conversation;
 							}
-							returnMessage.content = apps.webAppMaker.vars.actions[msg.data.action.split(":")[0]][msg.data.action.split(":")[1]](msg.data, (apps.webAppMaker.vars.verifiedFrames[msg.data.aosToolsFrameID] || msg.data.aosToolsFrameID), (msg.origin !== "null" ? msg.origin : "*"));
+							returnMessage.content = apps.webAppMaker.vars.actions[msg.data.action.split(":")[0]][msg.data.action.split(":")[1]](msg.data, (apps.webAppMaker.vars.verifiedFrames[msg.data.devToolsFrameID] || msg.data.devToolsFrameID), (msg.origin !== "null" ? msg.origin : "*"));
 							if (returnMessage.content !== "APPMAKER_DO_NOT_REPLY") {
 								apps.webAppMaker.vars.postReply(returnMessage, (msg.origin !== "null" ? msg.origin : "*"), msg.source);
 							}

@@ -1,10 +1,10 @@
 {
-    "name": "aosTools Test",
-    "id": "aosToolsTest",
+    "name": "devTools Test",
+    "id": "devToolsTest",
     "version": "1.1",
     "abbreviation": "aTT",
     "appType": "webApp",
-    "homeURL": "aosToolsTest.php",
+    "homeURL": "devToolsTest.php",
     "icon": {
         "foreground": "appicons/ds/aOS.png"
     },

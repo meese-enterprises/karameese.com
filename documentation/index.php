@@ -1,7 +1,7 @@
 <!DOCTYPE html>
     <head>
         <link rel="stylesheet" href="style.css">
-        <script defer src="../aosTools.js"></script>
+        <script defer src="../devTools.js"></script>
         <script defer src="script.js"></script>
     </head>
     <body>
@@ -104,7 +104,7 @@
         <ul>
             <li>HTML Webpage</li>
             <li>JavaScript Code</li>
-            <li>aosTools.js <i>(technically you don't need this, but it makes life much easier)</i></li>
+            <li>devTools.js <i>(technically you don't need this, but it makes life much easier)</i></li>
         </ul>
     </p>
     <p>
@@ -136,7 +136,7 @@
     </code></pre>
     <p>
         We're going to make some modifications to that page.
-        We need to reference the aosTools.js script, put a wrapper around the page content (for compatibility with themes), and write some JavaScript.
+        We need to reference the devTools.js script, put a wrapper around the page content (for compatibility with themes), and write some JavaScript.
     </p>
     <p>
         First, here's what our index.html should look like:
@@ -147,8 +147,8 @@
             &lt;head&gt;
                 &lt;title&gt;Page Title&lt;/title&gt;
                 &lt;link rel="stylesheet" href="style.css"&gt;
-                &lt;!-- aosTools.js is grabbed from aaronos.dev ->
-                &lt;script defer src="https://aaronos.dev/AaronOS/aosTools.js"&gt;&lt;/script&gt;
+                &lt;!-- devTools.js is grabbed from aaronos.dev ->
+                &lt;script defer src="https://aaronos.dev/AaronOS/devTools.js"&gt;&lt;/script&gt;
                 &lt;script defer src="script.js"&gt;&lt;/script&gt;
             &lt;/head&gt;
             &lt;body&gt;
@@ -170,29 +170,29 @@
             You can also add a listener for if your webpage cannot connect to aOS.
                 This usually only happens when your page is being loaded outside of aOS.
                 That listener's name is:
-                window.aosTools_connectFailListener
+                window.devTools_connectFailListener
         */
-        window.aosTools_connectListener = function(){
+        window.devTools_connectListener = function(){
             /*
                 This tells AaronOS to open the app window.
                 If you need to do extra things before you want the user to see the UI,
                     then do that first, and THEN run the line of code below.
             */
-            aosTools.openWindow();
+            devTools.openWindow();
         }
 
         /*
-            Since we don't know if your script loaded before aosTools.js did,
-                we need to check if aosTools was already set up.
+            Since we don't know if your script loaded before devTools.js did,
+                we need to check if devTools was already set up.
         */
-        if(typeof aosTools === "object"){
+        if(typeof devTools === "object"){
             /*
-                If the test above works, then we need to have aosTools.js initialize itself.
+                If the test above works, then we need to have devTools.js initialize itself.
             */
-            aosTools.testConnection();
+            devTools.testConnection();
         }
         /*
-            if aosTools.js hasn't initialized yet,
+            if devTools.js hasn't initialized yet,
                 then it will run the above line of code on its own once it's ready.
         */
     </code></pre>
@@ -200,12 +200,12 @@
         If you don't want all those comments, here's the uncommented code:
     </p>
     <pre><code>
-        window.aosTools_connectListener = function(){
-            aosTools.openWindow();
+        window.devTools_connectListener = function(){
+            devTools.openWindow();
         }
 
-        if(typeof aosTools === "object"){
-            aosTools.testConnection();
+        if(typeof devTools === "object"){
+            devTools.testConnection();
         }
     </code></pre>
     <p>
@@ -345,9 +345,9 @@
     </p>
     <p>
         <code>manualOpen</code>: This tells AaronOS whether to immediately open your app once launched, or to wait for your app to open the window itself.
-        Set this value to <code>1</code> if you want to manually open your app window with aosTools.
-        Set this value to <code>0</code> if you want AaronOS to do this itself, or if your app doesn't use aosTools.
-        <b style="color:#F00">If your app does not use aosTools to manually open the app window, set this value to 0! Otherwise, your app will never open when users try to launch it.</b>
+        Set this value to <code>1</code> if you want to manually open your app window with devTools.
+        Set this value to <code>0</code> if you want AaronOS to do this itself, or if your app doesn't use devTools.
+        <b style="color:#F00">If your app does not use devTools to manually open the app window, set this value to 0! Otherwise, your app will never open when users try to launch it.</b>
     </p>
     <hr>
     <h1 class="docHeader" id="doc_repo_webapp_repo">Web App Repo Syntax</h1>
@@ -470,7 +470,7 @@
     <p>
         Once you get it working, congrats! You've made your first AaronOS web app.
         Your web app can do anything that any other website can do, along with interacting with AaronOS.
-        A good idea is to browse through the topics on the left-hand side of the screen to learn all about how to use aosTools and various other development tips.
+        A good idea is to browse through the topics on the left-hand side of the screen to learn all about how to use devTools and various other development tips.
         At the moment, not much is there. But eventually the list will fill up.
     </p>
 </div>
@@ -480,17 +480,17 @@
     <p>
         Due to the nature of web apps being separate from AaronOS, we need to have a channel for communicating between your app and aOS.
         Luckily, most modern browsers come with an API called PostMessage, which allows a frame to communicate with its parent and vice-versa.
-        The aosTools.js utility automatically sets up a line of communication with PostMessage and gives us shortcuts to more easily carry out specific actions.
+        The devTools.js utility automatically sets up a line of communication with PostMessage and gives us shortcuts to more easily carry out specific actions.
     </p>
     <hr>
-    <h1 class="docHeader" id="doc_wacomm_aostools">aosTools.js</h1>
+    <h1 class="docHeader" id="doc_wacomm_devTools">devTools.js</h1>
     <p>
         Setting up the frameworks for communicating with aOS from your app can take a lot of work.
-        Because of this, aosTools.js was created to do almost all of that work for you.
-        You can include aosTools.js into your app via a script tag, and it'll handle most of the trouble for you.
+        Because of this, devTools.js was created to do almost all of that work for you.
+        You can include devTools.js into your app via a script tag, and it'll handle most of the trouble for you.
     </p>
     <p>
-        When aosTools is bundled with your app, it will automatically do some things for you, for the sake of making your app consistent with aOS itself.
+        When devTools is bundled with your app, it will automatically do some things for you, for the sake of making your app consistent with aOS itself.
         <ul>
             <li>Adds the aOS CSS file to your document (it won't override your own styling, which still takes precedence).</li>
             <li>Adds any user-installed CSS files to your document (again; your own style will override these).</li>
@@ -499,17 +499,17 @@
         </ul>
     </p>
     <hr>
-    <h1 class="docHeader" id="doc_wacomm_setup_aostools">Setting up aosTools</h1>
+    <h1 class="docHeader" id="doc_wacomm_setup_devTools">Setting up devTools</h1>
     <p>
         <i>If you already read Web Apps > Getting Started, you can skip this section.</i>
     </p>
     <p>
-        aosTools does require a bit of setup to get started.
+        devTools does require a bit of setup to get started.
         Everything detailed here will be mostly necessary for a smooth setup, though you can modify it if you know what you're doing.
     </p>
     <p>
         First things first, you'll need a few things in your main HTML.
-        You'll need to add the aosTools JS file, and you'll need to add a wrapper to your page content to make it perform like window contents.
+        You'll need to add the devTools JS file, and you'll need to add a wrapper to your page content to make it perform like window contents.
         Here's the basic code for the HTML file:
     </p>
     <pre><code>
@@ -518,8 +518,8 @@
             &lt;head&gt;
                 &lt;title&gt;Page Title&lt;/title&gt;
                 &lt;link rel="stylesheet" href="style.css"&gt;
-                &lt;!-- aosTools.js is grabbed from aaronos.dev ->
-                &lt;script defer src="https://aaronos.dev/AaronOS/aosTools.js"&gt;&lt;/script&gt;
+                &lt;!-- devTools.js is grabbed from aaronos.dev ->
+                &lt;script defer src="https://aaronos.dev/AaronOS/devTools.js"&gt;&lt;/script&gt;
                 &lt;script defer src="script.js"&gt;&lt;/script&gt;
             &lt;/head&gt;
             &lt;body&gt;
@@ -533,7 +533,7 @@
         &lt;/html&gt;
     </code></pre>
     <p>
-        Next, you'll need some JS to set up aosTools.
+        Next, you'll need some JS to set up devTools.
         Place this in your script file and it'll do most of the setup for you.
         <i>(there's another version without comments coming up ahead if you want that)</i>
     </p>
@@ -543,29 +543,29 @@
             You can also add a listener for if your webpage cannot connect to aOS.
                 This usually only happens when your page is being loaded outside of aOS.
                 That listener's name is:
-                window.aosTools_connectFailListener
+                window.devTools_connectFailListener
         */
-        window.aosTools_connectListener = function(){
+        window.devTools_connectListener = function(){
             /*
                 This tells AaronOS to open the app window.
                 If you need to do extra things before you want the user to see the UI,
                     then do that first, and THEN run the line of code below.
             */
-            aosTools.openWindow();
+            devTools.openWindow();
         }
 
         /*
-            Since we don't know if your script loaded before aosTools.js did,
-                we need to check if aosTools was already set up.
+            Since we don't know if your script loaded before devTools.js did,
+                we need to check if devTools was already set up.
         */
-        if(typeof aosTools === "object"){
+        if(typeof devTools === "object"){
             /*
-                If the test above works, then we need to have aosTools.js initialize itself.
+                If the test above works, then we need to have devTools.js initialize itself.
             */
-            aosTools.testConnection();
+            devTools.testConnection();
         }
         /*
-            if aosTools.js hasn't initialized yet,
+            if devTools.js hasn't initialized yet,
                 then it will run the above line of code on its own once it's ready.
         */
     </code></pre>
@@ -573,21 +573,21 @@
         If you don't want all those comments, here's the uncommented code:
     </p>
     <pre><code>
-        window.aosTools_connectListener = function(){
-            aosTools.openWindow();
+        window.devTools_connectListener = function(){
+            devTools.openWindow();
         }
 
-        if(typeof aosTools === "object"){
-            aosTools.testConnection();
+        if(typeof devTools === "object"){
+            devTools.testConnection();
         }
     </code></pre>
     <p>
-        From this point, your page should be ready to run within AaronOS and make use of aosTools to communicate with aOS.
+        From this point, your page should be ready to run within AaronOS and make use of devTools to communicate with aOS.
     </p>
     <hr>
     <h1 class="docHeader" id="doc_wacomm_pna">Permissions and Actions</h1>
     <p>
-        When you interact with AaronOS via aosTools, you do so via a system of permissions and actions.
+        When you interact with AaronOS via devTools, you do so via a system of permissions and actions.
         Actions are what they sound like; actions that you can request aOS to perform on your app's behalf.
         Permissions are sets of actions, which follow the same category and require the same general level of trust.
     </p>
@@ -608,14 +608,14 @@
     <h1 class="docHeader" id="doc_wacomm_reqperm">Requesting a Permission</h1>
     <p>
         Ironically, requesting a permission is its own permission on its own (though it is an irrevocable permission and not technically a permission, though it acts like one).
-        There are two main ways to request a permission with aosTools.
+        There are two main ways to request a permission with devTools.
     </p>
     <p>
         The first and easiest method of requesting a permission would be through aosTool's custom function built specifically for this purpose.
         In this example, your app will request permission to access the filesystem, and log AaronOS's response to the JavaScript console:
     </p>
     <pre><code>
-        aosTools.requestPermission("fs", (response) =&gt; {
+        devTools.requestPermission("fs", (response) =&gt; {
             console.log(response.content);
         });
     </code></pre>
@@ -624,15 +624,15 @@
         This is what the above function does in the background, but here's how to manually do it:
     </p>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "permission:fs"
         }, (response) =&gt; {
             console.log(response.content);
         });
     </code></pre>
     <p>
-        In reality, aosTools still does a lot of things in the background to require this little code to make the request.
-        aosTools takes care of marking your request as a request rather than a response, and it also takes care of keeping track of conversations and remembering them to call the correct callback at the right time.
+        In reality, devTools still does a lot of things in the background to require this little code to make the request.
+        devTools takes care of marking your request as a request rather than a response, and it also takes care of keeping track of conversations and remembering them to call the correct callback at the right time.
         In the future, these sendRequest forms may become more unwieldy to manually write, so it's recommended to stick to the custom function.
     </p>
     <p>
@@ -653,13 +653,13 @@
     <h1 class="docHeader" id="doc_wacomm_perfaction">Performing an Action</h1>
     <p>
         Performing an action is very similar to requesting a permission, because requesting permission is an action itself.
-        For example, here's two ways to maximize the window using aosTools:
+        For example, here's two ways to maximize the window using devTools:
     </p>
     <pre><code>
-        // this is aosTools' built-in function
+        // this is devTools' built-in function
         // response.content will be true if success; false if failed
 
-        aosTools.maximize((response) =&gt; {
+        devTools.maximize((response) =&gt; {
             if(response.content === false){
                 console.log("something blew up, this is really rare");
             }
@@ -668,21 +668,21 @@
     <pre><code>
         // this is how to manually make the same request
 
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:maximize"
         }, (response) =&gt; {
             console.log("something blew up, this is really rare");
         });
     </code></pre>
     <p>
-        The upcoming pages of the documentation will be instructions and specifications for different actions with aosTools.
+        The upcoming pages of the documentation will be instructions and specifications for different actions with devTools.
         The document will list all the actions of a permission set.
         Each action will be detailed by its own header.
     </p>
 </div>
 
-<div class="docPage" id="doc_aosTools_appwindow" data-doc-title="aosTools: App Window" data-search-terms="web apps">
-    <h1>aosTools: App Window</h1>
+<div class="docPage" id="doc_devTools_appwindow" data-doc-title="devTools: App Window" data-search-terms="web apps">
+    <h1>devTools: App Window</h1>
     <p>
         Permission name: <code>appwindow</code><br>
         <i>This permission is automatically granted.</i>
@@ -696,7 +696,7 @@
     <p>
         Action: <code>appwindow:open_window</code>
     </p>
-    <button class="aosTools_try" onclick="setTimeout(function(){aosTools.openWindow()}, 5000)">Try It</button> <i>(click, then minimize the window and wait 5 seconds)</i>
+    <button class="devTools_try" onclick="setTimeout(function(){devTools.openWindow()}, 5000)">Try It</button> <i>(click, then minimize the window and wait 5 seconds)</i>
     <p>
         This action will open your app's window.
         This is typically used if your app has the <code>manualOpen</code> package flag enabled, to open the window after the app has loaded.
@@ -704,13 +704,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.openWindow((response) =&gt; {
+        devTools.openWindow((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:open_window"
         }, (response) =&gt; {
             // callback
@@ -729,7 +729,7 @@
     <p>
         Action: <code>appwindow:close_window</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.closeWindow()">Try It</button> <i>(this will close the documentation)</i>
+    <button class="devTools_try" onclick="devTools.closeWindow()">Try It</button> <i>(this will close the documentation)</i>
     <p>
         <i>I’m afraid, Dave. Dave, my mind is going. I can feel it.</i>
     </p>
@@ -740,13 +740,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.closeWindow((response) =&gt; {
+        devTools.closeWindow((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:close_window"
         }, (response) =&gt; {
             // callback
@@ -765,7 +765,7 @@
     <p>
         Action: <code>appwindow:set_caption</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.setCaption('You pressed the Try It button');setTimeout(function(){aosTools.setCaption('Developer Documentation');}, 5000);">Try It</button>
+    <button class="devTools_try" onclick="devTools.setCaption('You pressed the Try It button');setTimeout(function(){devTools.setCaption('Developer Documentation');}, 5000);">Try It</button>
     <p>
         This action will set the caption of your app's window.
         This is typically used if you're navigating between sections in an app and want its caption to reflect where the user is.
@@ -773,13 +773,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.setCaption(string newCaption, (response) =&gt; {
+        devTools.setCaption(string newCaption, (response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:open_window",
             content: string newCaption
         }, (response) =&gt; {
@@ -799,14 +799,14 @@
     <p>
         Action: <code>appwindow:set_dims</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.setDims({x:20,y:20,width:800,height:300})">Try It</button> <i>(this will move and shrink the documentation window)</i>
+    <button class="devTools_try" onclick="devTools.setDims({x:20,y:20,width:800,height:300})">Try It</button> <i>(this will move and shrink the documentation window)</i>
     <p>
         This action will set the position and dimensions your app's window.
         This can be used if your app needs to resize itself or position itself in a corner of the screen or similar uses.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.setDims({
+        devTools.setDims({
             x: number || "auto",   // optional
             y: number || "auto",   // optional
             width: number,         // optional
@@ -817,7 +817,7 @@
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:open_window",
             x: number || "auto",   // optional
             y: number || "auto",   // optional
@@ -847,20 +847,20 @@
     <p>
         Action: <code>appwindow:minimize</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.minimize()">Try It</button>
+    <button class="devTools_try" onclick="devTools.minimize()">Try It</button>
     <p>
         This action will minimize your app's window.
         This will close the app's window, but keep its contents active and its taskbar icon alive.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.minimize((response) =&gt; {
+        devTools.minimize((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:minimize"
         }, (response) =&gt; {
             // callback
@@ -879,20 +879,20 @@
     <p>
         Action: <code>appwindow:maximize</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.maximize()">Try It</button> <i>(make sure window is small first)</i>
+    <button class="devTools_try" onclick="devTools.maximize()">Try It</button> <i>(make sure window is small first)</i>
     <p>
         This action will maximize your app's window.
         This is useful for if your window needs a lot of space to display its content, or for applications that would typically run maximized (document or image editors, etc).
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.maximize((response) =&gt; {
+        devTools.maximize((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:maximize"
         }, (response) =&gt; {
             // callback
@@ -911,7 +911,7 @@
     <p>
         Action: <code>appwindow:unmaximize</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.unmaximize()">Try It</button> <i>(make sure window is maximized first)</i>
+    <button class="devTools_try" onclick="devTools.unmaximize()">Try It</button> <i>(make sure window is maximized first)</i>
     <p>
         This action will unmaximize your app's window.
         If you need to move your window around the screen, it's best to unmaximize it first if you've already maximized it.
@@ -919,13 +919,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.unmaximize((response) =&gt; {
+        devTools.unmaximize((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:unmaximize"
         }, (response) =&gt; {
             // callback
@@ -944,21 +944,21 @@
     <p>
         Action: <code>appwindow:get_maximized</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.getMaximized(function(res){document.getElementById('try_appwindow_get_maximized').innerHTML = res.content})">Try It</button>:
-    <code class="aosTools_try" id="try_appwindow_get_maximized">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.getMaximized(function(res){document.getElementById('try_appwindow_get_maximized').innerHTML = res.content})">Try It</button>:
+    <code class="devTools_try" id="try_appwindow_get_maximized">&nbsp;</code>
     <p>
         This action will return the maximization state your app's window.
         This is useful for if you need to check whether your window is maximized or not.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.getMaximized((response) =&gt; {
+        devTools.getMaximized((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:get_maximized"
         }, (response) =&gt; {
             // callback
@@ -977,7 +977,7 @@
     <p>
         Action: <code>appwindow:enable_padding</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.enablePadding()">Try It</button>
+    <button class="devTools_try" onclick="devTools.enablePadding()">Try It</button>
     <p>
         This action will enable the default 3px padding on the left side of your app's window.
         By default, this padding is off for web apps so that app developers who aren't aware of it won't be confused by it.
@@ -986,13 +986,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.enablePadding((response) =&gt; {
+        devTools.enablePadding((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:enable_padding"
         }, (response) =&gt; {
             // callback
@@ -1011,7 +1011,7 @@
     <p>
         Action: <code>appwindow:disable_padding</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.disablePadding()">Try It</button>
+    <button class="devTools_try" onclick="devTools.disablePadding()">Try It</button>
     <p>
         This action will disable the default 3px padding on the left side of your app's window.
         By default, this padding is off for web apps so that app developers who aren't aware of it won't be confused by it.
@@ -1019,13 +1019,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.disablePadding((response) =&gt; {
+        devTools.disablePadding((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:disable_padding"
         }, (response) =&gt; {
             // callback
@@ -1044,20 +1044,20 @@
     <p>
         Action: <code>appwindow:get_borders</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.getBorders(function(res){document.getElementById('try_appwindow_get_borders').innerHTML = [res.content.left, res.content.top, res.content.right, res.content.bottom].join(', ')})">Try It</button>:
-    <code class="aosTools_try" id="try_appwindow_get_borders">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.getBorders(function(res){document.getElementById('try_appwindow_get_borders').innerHTML = [res.content.left, res.content.top, res.content.right, res.content.bottom].join(', ')})">Try It</button>:
+    <code class="devTools_try" id="try_appwindow_get_borders">&nbsp;</code>
     <p>
         This action will return the size of the window borders.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.getBorders((response) =&gt; {
+        devTools.getBorders((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:get_borders"
         }, (response) =&gt; {
             // callback
@@ -1093,8 +1093,8 @@
     <p>
         Action: <code>appwindow:get_screen_dims</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.getScreenDims(function(res){document.getElementById('try_appwindow_get_screen_dims').innerHTML = [res.content.width, res.content.height].join(', ')})">Try It</button>:
-    <code class="aosTools_try" id="try_appwindow_get_screen_dims">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.getScreenDims(function(res){document.getElementById('try_appwindow_get_screen_dims').innerHTML = [res.content.width, res.content.height].join(', ')})">Try It</button>:
+    <code class="devTools_try" id="try_appwindow_get_screen_dims">&nbsp;</code>
     <p>
         This action will return the width and height of the AaronOS desktop environment.
         Note that if a scale is set, this will not be equal to the user's physical screen resolution, but rather the AaronOS virtual monitor resolution.
@@ -1102,13 +1102,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.getScreenDims((response) =&gt; {
+        devTools.getScreenDims((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:get_screen_dims"
         }, (response) =&gt; {
             // callback
@@ -1132,8 +1132,8 @@
     <p>
         Action: <code>appwindow:take_focus</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.takeFocus(function(res){document.getElementById('try_appwindow_take_focus').innerHTML = res.content})">Try It</button>:
-    <code class="aosTools_try" id="try_appwindow_take_focus">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.takeFocus(function(res){document.getElementById('try_appwindow_take_focus').innerHTML = res.content})">Try It</button>:
+    <code class="devTools_try" id="try_appwindow_take_focus">&nbsp;</code>
     <p>
         This action will attempt to focus your window as the active window on aOS.
         Your window will be brought to the top of the stack of windows, and unminimized if not already.
@@ -1141,13 +1141,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.takeFocus((response) =&gt; {
+        devTools.takeFocus((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:take_focus"
         }, (response) =&gt; {
             // callback
@@ -1166,8 +1166,8 @@
     <p>
         Action: <code>appwindow:block_screensaver</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.blockScreensaver(function(res){document.getElementById('try_appwindow_block_screensaver').innerHTML = res.content})">Try It</button>:
-    <code class="aosTools_try" id="try_appwindow_block_screensaver">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.blockScreensaver(function(res){document.getElementById('try_appwindow_block_screensaver').innerHTML = res.content})">Try It</button>:
+    <code class="devTools_try" id="try_appwindow_block_screensaver">&nbsp;</code>
     <p>
         This action will block the AaronOS screensaver from blanking the screen from inactivity.
         Your app may block the screensaver multiple times. Each blocker belongs to your app's window.
@@ -1175,13 +1175,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.blockScreensaver((response) =&gt; {
+        devTools.blockScreensaver((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:block_screensaver"
         }, (response) =&gt; {
             // callback
@@ -1200,8 +1200,8 @@
     <p>
         Action: <code>appwindow:unblock_screensaver</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.unblockScreensaver(function(res){document.getElementById('try_appwindow_unblock_screensaver').innerHTML = res.content})">Try It</button>:
-    <code class="aosTools_try" id="try_appwindow_unblock_screensaver">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.unblockScreensaver(function(res){document.getElementById('try_appwindow_unblock_screensaver').innerHTML = res.content})">Try It</button>:
+    <code class="devTools_try" id="try_appwindow_unblock_screensaver">&nbsp;</code>
     <p>
         This action will unblock the AaronOS screensaver from blanking the screen from inactivity.
         If your app has blocked the screensaver multiple times, this will only remove ONE block from the screensaver.
@@ -1209,13 +1209,13 @@
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.unblockScreensaver((response) =&gt; {
+        devTools.unblockScreensaver((response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "appwindow:unblock_screensaver"
         }, (response) =&gt; {
             // callback
@@ -1232,8 +1232,8 @@
     </p>
 </div>
 
-<div class="docPage" id="doc_at_context" data-doc-title="aosTools: Context Menu" data-search-terms="web apps right click right-click">
-    <h1>aosTools: Context Menu</h1>
+<div class="docPage" id="doc_at_context" data-doc-title="devTools: Context Menu" data-search-terms="web apps right click right-click">
+    <h1>devTools: Context Menu</h1>
     <p>
         Permission name: <code>context</code><br>
         <i>This permission is automatically granted.</i>
@@ -1245,8 +1245,8 @@
     </p>
     <hr>
     <h1 class="docHeader" id="doc_at_context_enable_default_menu" data-search-terms="enableDefaultMenu disableDefaultMenu context menu">Toggle Default Context Menu</h1>
-    Enable: <button class="aosTools_try" onclick="aosTools.enableDefaultMenu()">Try It</button><br>
-    Disable: <button class="aosTools_try" onclick="aosTools.disableDefaultMenu()">Try It</button>
+    Enable: <button class="devTools_try" onclick="devTools.enableDefaultMenu()">Try It</button><br>
+    Disable: <button class="devTools_try" onclick="devTools.disableDefaultMenu()">Try It</button>
     <p>
         These functions will enable or disable the default context menu of your app.
         Enabling the default context menu will cause the AaronOS context menu to appear when your user clicks somewhere in your app that doesn't have a menu assigned.
@@ -1255,25 +1255,25 @@
     <h2>Function Call</h2>
     <pre><code>
         // enable the default context menu
-        aosTools.enableDefaultMenu();
+        devTools.enableDefaultMenu();
 
         // disable the default context menu
-        aosTools.disableDefaultMenu();
+        devTools.disableDefaultMenu();
     </code></pre>
     <p>
         These functions have no return values and do not communicate with AaronOS on call.
-        Instead, aosTools will issue its own default context menu when it is needed, if this option is enabled.
+        Instead, devTools will issue its own default context menu when it is needed, if this option is enabled.
     </p>
     <hr>
     <h1 class="docHeader" id="doc_at_context_text_menu" data-search-terms="context:text_menu edit menu text menu right click copy paste copy-paste">Text Editing Menu</h1>
     <p>
         Action: <code>context:text_menu</code>
     </p>
-    <input class="aosTools_try" oncontextmenu="aosTools.editMenu(event, true)" value="Try It - Right Click"><br>
-    <button class="aosTools_try" onclick="aosTools.editMenu(event, false, 'Big text that is very long and would be difficult to select manually')">Try It - Left Click</button>
+    <input class="devTools_try" oncontextmenu="devTools.editMenu(event, true)" value="Try It - Right Click"><br>
+    <button class="devTools_try" onclick="devTools.editMenu(event, false, 'Big text that is very long and would be difficult to select manually')">Try It - Left Click</button>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.editMenu(
+        devTools.editMenu(
             event,
             bool enablePaste,      // optional
             string selectedText,   // optional
@@ -1283,7 +1283,7 @@
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "context:text_menu",
             position: [number x, number y],
             enablePaste: bool                 // optional
@@ -1319,7 +1319,7 @@
         </ul>
     </p>
     <h2>Return Values</h2>
-    <p><i>(Easy Request does NOT have a callback or return values. aosTools handles pasting the text for you with Easy Request.)</i></p>
+    <p><i>(Easy Request does NOT have a callback or return values. devTools handles pasting the text for you with Easy Request.)</i></p>
     <p>
         <code>response.content</code>
         <ul>
@@ -1331,14 +1331,14 @@
     <p>
         Action: <code>context:menu</code>
     </p>
-    <code class="aosTools_try" oncontextmenu="aosTools.contextMenu(event, [{name: 'Option 0', image: 'gear'},{name: 'Option 1', image: 'agent', disabled: 'true', sectionBegin: 'true'},{name: 'Option 2', image: 'cookie'}],function(res){document.getElementById('try_context_menu').innerHTML = res.content})">Try It - Right Click</code>:
-    <code class="aosTools_try" id="try_context_menu">&nbsp;</code>
+    <code class="devTools_try" oncontextmenu="devTools.contextMenu(event, [{name: 'Option 0', image: 'gear'},{name: 'Option 1', image: 'agent', disabled: 'true', sectionBegin: 'true'},{name: 'Option 2', image: 'cookie'}],function(res){document.getElementById('try_context_menu').innerHTML = res.content})">Try It - Right Click</code>:
+    <code class="devTools_try" id="try_context_menu">&nbsp;</code>
     <p>
         This action will trigger a context menu, with the options of your choice. When the user selects an option, its index is returned.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.contextMenu(
+        devTools.contextMenu(
             event,
             // options
             [
@@ -1359,7 +1359,7 @@
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "context:menu",
             position: [number x, number y],
             options: [
@@ -1452,8 +1452,8 @@
     </p>
 </div>
 
-<div class="docPage" id="doc_at_prompt" data-doc-title="aosTools: Prompting" data-search-terms="web apps">
-    <h1>aosTools: Prompting</h1>
+<div class="docPage" id="doc_at_prompt" data-doc-title="devTools: Prompting" data-search-terms="web apps">
+    <h1>devTools: Prompting</h1>
     <p>
         Permission name: <code>prompt</code><br>
         <i>This permission is automatically granted.</i>
@@ -1467,14 +1467,14 @@
     <p>
         Action: <code>prompt:alert</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.alert({content:'This is an alert from aosTools.', button: 'Nice'})">Try It</button>
+    <button class="devTools_try" onclick="devTools.alert({content:'This is an alert from devTools.', button: 'Nice'})">Try It</button>
     <p>
         This action will issue the user an alert box with one button to dismiss it.
         Note that the only useful information you can get from this is whether or not the user has read and acknowledged your alert.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.alert({
+        devTools.alert({
             content: string,
             button: string     // optional
         }, (response) =&gt; {
@@ -1483,7 +1483,7 @@
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "prompt:alert",
             content: string,
             button: string     // optional
@@ -1515,15 +1515,15 @@
     <p>
         Action: <code>prompt:prompt</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.prompt({content:'This is a prompt from aosTools.<br>Feel free to enter some text', button: 'boop'},function(res){document.getElementById('try_prompt_prompt').innerHTML = res.content.split('<').join('&lt;').split('>').join('&gt;')})">Try It</button>:
-    <code class="aosTools_try" id="try_prompt_prompt">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.prompt({content:'This is a prompt from devTools.<br>Feel free to enter some text', button: 'boop'},function(res){document.getElementById('try_prompt_prompt').innerHTML = res.content.split('<').join('&lt;').split('>').join('&gt;')})">Try It</button>:
+    <code class="devTools_try" id="try_prompt_prompt">&nbsp;</code>
     <p>
         This action will prompt the user to enter text to return to your app.
         Note that if the user replies with a number, it will still be formatted as a string.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.prompt({
+        devTools.prompt({
             content: string,
             button: string     // optional
         }, (response) =&gt; {
@@ -1532,7 +1532,7 @@
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "prompt:prompt",
             content: string,
             button: string     // optional
@@ -1564,15 +1564,15 @@
     <p>
         Action: <code>prompt:confirm</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.confirm({content:'This is a confirm from aosTools.<br>Select an action', buttons: ['Button 0', 'Button 1', 'Button 2', 'Button 3']},function(res){document.getElementById('try_prompt_confirm').innerHTML = res.content})">Try It</button>:
-    <code class="aosTools_try" id="try_prompt_confirm">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.confirm({content:'This is a confirm from devTools.<br>Select an action', buttons: ['Button 0', 'Button 1', 'Button 2', 'Button 3']},function(res){document.getElementById('try_prompt_confirm').innerHTML = res.content})">Try It</button>:
+    <code class="devTools_try" id="try_prompt_confirm">&nbsp;</code>
     <p>
         This action will issue the user a selection of options to choose from.
         Each option you provide will be listed in a row of buttons.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.confirm({
+        devTools.confirm({
             content: string,
             buttons: [string...]
         }, (response) =&gt; {
@@ -1581,7 +1581,7 @@
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "prompt:confirm",
             content: string,
             buttons: [string...]
@@ -1613,14 +1613,14 @@
     <p>
         Action: <code>prompt:notify</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.notify({content:'This is a notification from aosTools.<br>Select an action', buttons: ['Button 0', 'Button 1', 'Button 2', 'Button 3'], image:'appicons/ds/aOS.png'},function(res){document.getElementById('try_prompt_notify').innerHTML = res.content})">Try It</button>:
-    <code class="aosTools_try" id="try_prompt_notify">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.notify({content:'This is a notification from devTools.<br>Select an action', buttons: ['Button 0', 'Button 1', 'Button 2', 'Button 3'], image:'appicons/ds/aOS.png'},function(res){document.getElementById('try_prompt_notify').innerHTML = res.content})">Try It</button>:
+    <code class="devTools_try" id="try_prompt_notify">&nbsp;</code>
     <p>
         This action will issue the user a notification, along with buttons to select an action from.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.notify({
+        devTools.notify({
             content: string,
             buttons: [string...],   // optional
             image: string           // optional
@@ -1630,7 +1630,7 @@
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "prompt:confirm",
             content: string,
             buttons: [string...],   // optional
@@ -1671,8 +1671,8 @@
     </p>
 </div>
 
-<div class="docPage" id="doc_at_js" data-doc-title="aosTools: JavaScript on AaronOS" data-search-terms="web apps">
-    <h1>aosTools: JavaScript on AaronOS</h1>
+<div class="docPage" id="doc_at_js" data-doc-title="devTools: JavaScript on AaronOS" data-search-terms="web apps">
+    <h1>devTools: JavaScript on AaronOS</h1>
     <p>
         Permission name: <code>js</code><br>
         <i>This permission is dangerous to grant; it's unlikely that users will allow it.</i>
@@ -1686,21 +1686,21 @@
     <p>
         Action: <code>js:exec</code>
     </p>
-    <button class="aosTools_try" onclick="aosTools.exec('var countNumber = 0;for(var app in apps){countNumber++;}return countNumber;', function(res){document.getElementById('try_js_exec').innerHTML = 'You have ' + res.content + ' apps installed.';})">Try It</button>:
-    <code class="aosTools_try" id="try_js_exec">&nbsp;</code>
+    <button class="devTools_try" onclick="devTools.exec('var countNumber = 0;for(var app in apps){countNumber++;}return countNumber;', function(res){document.getElementById('try_js_exec').innerHTML = 'You have ' + res.content + ' apps installed.';})">Try It</button>:
+    <code class="devTools_try" id="try_js_exec">&nbsp;</code>
     <p>
         This action will execute any JavaScript code you provide on AaronOS.
         The code is executed via <code>Function</code>.
     </p>
     <h2>Easy Request</h2>
     <pre><code>
-        aosTools.exec(string code, (response) =&gt; {
+        devTools.exec(string code, (response) =&gt; {
             // callback
         });
     </code></pre>
     <h2>Manual Request</h2>
     <pre><code>
-        aosTools.sendRequest({
+        devTools.sendRequest({
             action: "js:exec",
             content: string
         }, (response) =&gt; {

@@ -17,17 +17,17 @@
             },
             "description": "It's bing."
         },
-        "aosToolsTest": {
-            "packageName": "aosTools Test App",
-            "packageID": "aosToolsTest",
+        "devToolsTest": {
+            "packageName": "devTools Test App",
+            "packageID": "devToolsTest",
             "packageAliases": [],
             "version": "1.1",
             "packageType": "webApp",
-            "installURL": "repository/testRepo/aosToolsTest.json",
+            "installURL": "repository/testRepo/devToolsTest.json",
             "icon": {
                 "foreground": "appicons/ds/aOS.png"
             },
-            "description": "Test app for the aosToolsTest.js utility."
+            "description": "Test app for the devToolsTest.js utility."
         },
         "nodomain": {
             "packageName": "Domainless Cross-Origin App",
@@ -39,7 +39,7 @@
             "icon": {
                 "foreground": "appicons/ds/aOS.png"
             },
-            "description": "This app is a data:// url which does nothing but link aosTools."
+            "description": "This app is a data:// url which does nothing but link devTools."
         },
         "mapjs": {
             "packageName": "MapJS",

@@ -1,15 +1,15 @@
-window.aosTools_connectListener = function(){
+window.devTools_connectListener = function(){
     document.getElementById("devdoc_title").style.display = "none";
     document.getElementById("navigate").style.height = "calc(100% - 18px)";
     document.getElementById("content").style.height = "calc(100% - 18px)";
-    var allTryButtons = document.getElementsByClassName("aosTools_try");
+    var allTryButtons = document.getElementsByClassName("devTools_try");
     for(var i = 0; i < allTryButtons.length; i++){
         allTryButtons[i].style.display = "inline";
     }
-    aosTools.openWindow();
+    devTools.openWindow();
 }
-if(typeof aosTools === "object"){
-    aosTools.testConnection();
+if(typeof devTools === "object"){
+    devTools.testConnection();
 }
 
 var allDocuments = [];

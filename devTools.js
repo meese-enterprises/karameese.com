@@ -1,89 +1,89 @@
-window.aosTools = {
+window.devTools = {
 	light: 0,
 	connected: -1,
-	fallbackMessageListener: window.aosTools_fallbackMessageListener || null,
-	connectListener: window.aosTools_connectListener || null,
-	connectFailListener: window.aosTools_connectFailListener || null,
+	fallbackMessageListener: window.devTools_fallbackMessageListener || null,
+	connectListener: window.devTools_connectListener || null,
+	connectFailListener: window.devTools_connectFailListener || null,
 
 	pageID: "",
 	connectionAlreadyTested: 0,
 	testConnection: function () {
-		if (!aosTools.connectionAlreadyTested) {
-			console.log("Initializing aosTools...");
+		if (!devTools.connectionAlreadyTested) {
+			console.log("Initializing devTools...");
 			if (document.currentScript) {
 				if (document.currentScript.getAttribute("data-light") === "true") {
-					aosTools.light = 1;
+					devTools.light = 1;
 				}
 			}
 		}
-		if (window.aosTools_fallbackMessageListener) {
-			aosTools.fallbackMessageListener = aosTools_fallbackMessageListener;
+		if (window.devTools_fallbackMessageListener) {
+			devTools.fallbackMessageListener = devTools_fallbackMessageListener;
 		}
-		if (window.aosTools_connectListener) {
-			aosTools.connectListener = aosTools_connectListener;
+		if (window.devTools_connectListener) {
+			devTools.connectListener = devTools_connectListener;
 		}
-		if (window.aosTools_connectFailListener) {
-			aosTools.connectFailListener = aosTools_connectFailListener;
+		if (window.devTools_connectFailListener) {
+			devTools.connectFailListener = devTools_connectFailListener;
 		}
 
-		if (!aosTools.connectionAlreadyTested) {
+		if (!devTools.connectionAlreadyTested) {
 			var randomIDChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 			var tempStr = "";
 			for (var i = 0; i < 16; i++) {
 				tempStr += randomIDChars[Math.floor(Math.random() * randomIDChars.length)];
 			}
-			aosTools.pageID = tempStr;
+			devTools.pageID = tempStr;
 
 			if (window.self !== window.top) {
-				aosTools.sendRequest({
+				devTools.sendRequest({
 					action: "page_id:create",
-					conversation: "aosTools_verify_page_id"
-				}, aosTools.testConnected);
+					conversation: "devTools_verify_page_id"
+				}, devTools.testConnected);
 			} else {
-				aosTools.connected = 0;
+				devTools.connected = 0;
 				console.log("Warning - page is not loaded in a frame and aOS is not connected.");
-				if (aosTools.connectFailListener) {
-					aosTools.connectFailListener();
+				if (devTools.connectFailListener) {
+					devTools.connectFailListener();
 				}
 			}
 		} else {
-			console.log("aosTools already started initializing. Skipping some initialization work.");
-			if (aosTools.connected === 1) {
-				aosTools.connectListener();
-			} else if (aosTools.connected === 0) {
-				aosTools.connectFailListener();
+			console.log("devTools already started initializing. Skipping some initialization work.");
+			if (devTools.connected === 1) {
+				devTools.connectListener();
+			} else if (devTools.connected === 0) {
+				devTools.connectFailListener();
 			}
 		}
-		aosTools.connectionAlreadyTested = 1;
+		devTools.connectionAlreadyTested = 1;
 	},
 	testConnected: function (data) {
 		if (data.content === "pending" || data.content === "ignore") {
 			return;
 		}
 		if (typeof data.content === "boolean") {
-			aosTools.connected = 1;
+			devTools.connected = 1;
 			if (data.content === true) {
-				if (aosTools.light) {
+				if (devTools.light) {
 					console.log("AaronOS is connected. Light mode, not updating stylesheet.");
 				} else {
 					console.log("AaronOS is connected. Updating stylesheet.");
 				}
 			} else {
-				if (aosTools.light) {
+				if (devTools.light) {
 					console.log("AaronOS is connected, but no parent app found! App-Window-related requests may not work. Light mode, not updating stylesheet.");
 				} else {
 					console.log("AaronOS is connected, but no parent app found! App-Window-related requests may not work. Updating stylesheet.");
 				}
 			}
-			aosTools.updateStyle();
-			if (aosTools.connectListener) {
-				aosTools.connectListener();
+			devTools.updateStyle();
+			if (devTools.connectListener) {
+				devTools.connectListener();
 			}
 		} else {
-			aosTools.connected = 0;
+			devTools.connected = 0;
 			console.log("Warning - Requests will not reach aOS; parent frame does not seem to be AaronOS.");
-			if (aosTools.connectFailListener) {
-				aosTools.connectFailListener();
+			if (devTools.connectFailListener) {
+				devTools.connectFailListener();
 			}
 		}
 	},
@@ -98,7 +98,7 @@ window.aosTools = {
 				this.totalRequests++;
 				requestData.conversation = "" + this.totalRequests;
 			}
-			requestData.aosToolsFrameID = aosTools.pageID;
+			requestData.devToolsFrameID = devTools.pageID;
 			this.callbacks[this.totalRequests] = callback || function () {};
 			window.parent.postMessage(requestData, "*");
 		} else {
@@ -111,95 +111,95 @@ window.aosTools = {
 	recieveRequest: function (event) {
 		if (typeof event.data === "object") {
 			if (event.data.conversation) {
-				if (event.data.conversation === "aosTools_Subscribed_Style_Update") {
-					aosTools.updateStyle();
-				} else if (event.data.conversation === "aosTools_get_page_id") {
-					aosTools.sendRequest({
+				if (event.data.conversation === "devTools_Subscribed_Style_Update") {
+					devTools.updateStyle();
+				} else if (event.data.conversation === "devTools_get_page_id") {
+					devTools.sendRequest({
 						action: "page_id:respond",
 						content: event.data.content
 					}, function () {});
-				} else if (event.data.conversation === "aosTools_verify_page_id") {
-					aosTools.testConnected(event.data);
+				} else if (event.data.conversation === "devTools_verify_page_id") {
+					devTools.testConnected(event.data);
 				} else {
-					if (typeof aosTools.callbacks[event.data.conversation] === "function") {
-						aosTools.callbacks[event.data.conversation](event.data);
-						aosTools.callbacks[event.data.conversation] = null;
+					if (typeof devTools.callbacks[event.data.conversation] === "function") {
+						devTools.callbacks[event.data.conversation](event.data);
+						devTools.callbacks[event.data.conversation] = null;
 					} else {
-						if (aosTools.fallbackMessageListener) {
-							aosTools.fallbackMessageListener(event);
+						if (devTools.fallbackMessageListener) {
+							devTools.fallbackMessageListener(event);
 						}
 					}
 				}
-			} else if (aosTools.fallbackMessageListener) {
-				aosTools.fallbackMessageListener(event);
+			} else if (devTools.fallbackMessageListener) {
+				devTools.fallbackMessageListener(event);
 			}
-		} else if (aosTools.fallbackMessageListener) {
-			aosTools.fallbackMessageListener(event);
+		} else if (devTools.fallbackMessageListener) {
+			devTools.fallbackMessageListener(event);
 		}
 	},
 	callbacks: {},
 
 	requestPermission: function (permission, callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "permission:" + permission
 		}, callback);
 	},
 
 	exec: function (codeStr, callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "js:exec",
 			content: codeStr
 		}, callback);
 	},
 
 	openWindow: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:open_window"
 		}, callback);
 	},
 	closeWindow: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:close_window"
 		}, callback);
 	},
 	setCaption: function (newCaption, callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:set_caption",
 			content: newCaption
 		}, callback);
 	},
 	enablePadding: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:enable_padding"
 		}, callback);
 	},
 	disablePadding: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:disable_padding"
 		}, callback)
 	},
 	maximize: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:maximize"
 		}, callback);
 	},
 	unmaximize: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:unmaximize"
 		}, callback);
 	},
 	minimize: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:minimize"
 		}, callback);
 	},
 	getMaximized: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:get_maximized"
 		}, callback);
 	},
 	setDims: function (newDims, callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:set_dims",
 			x: newDims.x || null,
 			y: newDims.y || null,
@@ -208,50 +208,50 @@ window.aosTools = {
 		}, callback);
 	},
 	getBorders: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:get_borders"
 		}, callback);
 	},
 	getScreenDims: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:get_screen_dims"
 		}, callback);
 	},
 	takeFocus: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:take_focus"
 		}, callback);
 	},
 	blockScreensaver: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:block_screensaver"
 		}, callback);
 	},
 	unblockScreensaver: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "appwindow:unblock_screensaver"
 		}, callback);
 	},
 
 	useDefaultContextMenu: true,
 	windowWasClicked: function (event) {
-		aosTools.takeFocus(function () {});
+		devTools.takeFocus(function () {});
 	},
 	windowWasRightClicked: function (event) {
-		if (aosTools.useDefaultContextMenu) {
-			aosTools.editMenu(event, true);
+		if (devTools.useDefaultContextMenu) {
+			devTools.editMenu(event, true);
 		}
 	},
 
 	alert: function (paramObj, callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "prompt:alert",
 			content: paramObj.content,
 			button: paramObj.button
 		}, callback);
 	},
 	prompt: function (paramObj, callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "prompt:prompt",
 			content: paramObj.content,
 			button: paramObj.button
@@ -259,13 +259,13 @@ window.aosTools = {
 	},
 	confirm: function (paramObj, callback) {
 		if (!paramObj.buttons && paramObj.button) {
-			aosTools.sendRequest({
+			devTools.sendRequest({
 				action: "prompt:confirm",
 				content: paramObj.content,
 				buttons: [paramObj.button]
 			}, callback);
 		} else {
-			aosTools.sendRequest({
+			devTools.sendRequest({
 				action: "prompt:confirm",
 				content: paramObj.content,
 				buttons: paramObj.buttons
@@ -274,14 +274,14 @@ window.aosTools = {
 	},
 	notify: function (paramObj, callback) {
 		if (!paramObj.buttons && paramObj.button) {
-			aosTools.sendRequest({
+			devTools.sendRequest({
 				action: "prompt:notify",
 				content: paramObj.content,
 				buttons: [paramObj.button],
 				image: paramObj.image
 			}, callback);
 		} else {
-			aosTools.sendRequest({
+			devTools.sendRequest({
 				action: "prompt:notify",
 				content: paramObj.content,
 				buttons: paramObj.buttons,
@@ -294,28 +294,28 @@ window.aosTools = {
 	waitingPasteRange: null,
 	recievePasteCommand: function (data) {
 		if (data.content === "pasted") {
-			if (aosTools.waitingPasteTarget) {
-				if (typeof aosTools.waitingPasteTarget.value === "string") {
-					if (aosTools.waitingPasteRange) {
-						aosTools.waitingPasteTarget.value = (
-							aosTools.waitingPasteTarget.value.substring(0, aosTools.waitingPasteRange[0]) +
+			if (devTools.waitingPasteTarget) {
+				if (typeof devTools.waitingPasteTarget.value === "string") {
+					if (devTools.waitingPasteRange) {
+						devTools.waitingPasteTarget.value = (
+							devTools.waitingPasteTarget.value.substring(0, devTools.waitingPasteRange[0]) +
 							data.pastedText +
-							aosTools.waitingPasteTarget.value.substring(aosTools.waitingPasteRange[1], aosTools.waitingPasteTarget.value.length)
+							devTools.waitingPasteTarget.value.substring(devTools.waitingPasteRange[1], devTools.waitingPasteTarget.value.length)
 						);
 					} else {
-						aosTools.waitingPasteTarget.value = (
+						devTools.waitingPasteTarget.value = (
 							data.pastedText +
-							aosTools.waitingPasteTarget.value
+							devTools.waitingPasteTarget.value
 						);
 					}
 				}
 			}
 		}
-		aosTools.waitingPasteTarget = null;
-		aosTools.waitingPasteRange = null;
+		devTools.waitingPasteTarget = null;
+		devTools.waitingPasteRange = null;
 	},
 	contextMenu: function (event, options, callback, positionOverride) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "context:menu",
 			position: positionOverride || event ? [event.pageX, event.pageY] : [0, 0],
 			options: options
@@ -326,58 +326,58 @@ window.aosTools = {
 		}
 	},
 	editMenu: function (event, enablePaste, textOverride, positionOverride) {
-		aosTools.waitingPasteTarget = event ? event.target : null;
-		aosTools.waitingPasteRange = event ? (event.target.selectionStart ? [event.target.selectionStart, event.target.selectionEnd] : null) : null;
-		aosTools.sendRequest({
+		devTools.waitingPasteTarget = event ? event.target : null;
+		devTools.waitingPasteRange = event ? (event.target.selectionStart ? [event.target.selectionStart, event.target.selectionEnd] : null) : null;
+		devTools.sendRequest({
 			action: "context:text_menu",
 			position: positionOverride || event ? [event.pageX, event.pageY] : [0, 0],
 			selectedText: textOverride || document.getSelection().toString(),
 			enablePaste: (event ? (typeof event.target.value === "string" ? true : false) : false) ? enablePaste : 0
-		}, aosTools.recievePasteCommand);
+		}, devTools.recievePasteCommand);
 		if (event) {
 			event.preventDefault();
 			event.stopPropagation();
 		}
 	},
 	enableDefaultMenu: function () {
-		aosTools.useDefaultContextMenu = true;
+		devTools.useDefaultContextMenu = true;
 	},
 	disableDefaultMenu: function () {
-		aosTools.useDefaultContextMenu = false;
+		devTools.useDefaultContextMenu = false;
 	},
 
 	bgService: {
 		set: function (newURL, callback) {
-			aosTools.sendRequest({
+			devTools.sendRequest({
 				action: "bgservice:set_service",
 				serviceURL: newURL
 			}, callback);
 		},
 		exit: function (callback) {
-			aosTools.sendRequest({
+			devTools.sendRequest({
 				action: "bgservice:exit_service"
 			}, callback);
 		},
 		check: function (callback) {
-			aosTools.sendRequest({
+			devTools.sendRequest({
 				action: "bgservice:check_service"
 			}, callback);
 		}
 	},
 
 	getDarkMode: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "getstyle:darkmode"
 		}, callback);
 	},
 	getCustomStyle: function (callback) {
-		aosTools.sendRequest({
+		devTools.sendRequest({
 			action: "getstyle:customstyle"
 		}, callback);
 	},
 
 	updateStyle: function () {
-		if (!aosTools.light) {
+		if (!devTools.light) {
 			this.sendRequest({
 				action: "getstyle:darkmode"
 			}, this.recieveDarkMode);
@@ -394,45 +394,45 @@ window.aosTools = {
 		}
 	},
 	recieveStylesheets: function (data) {
-		if (document.getElementById("aosTools_helpingStyle") === null) {
+		if (document.getElementById("devTools_helpingStyle") === null) {
 			var helpingStyleElement = document.createElement("style");
-			helpingStyleElement.id = "aosTools_helpingStyle";
+			helpingStyleElement.id = "devTools_helpingStyle";
 			helpingStyleElement.innerHTML = "body{width:100%;height:100%;overflow:hidden;}.winHTML{overflow:auto;width:100%;height:100%;left:0;top:0;bottom:0;right:0;border:none;background:none;box-shadow:none;padding:0;}";
 			document.head.prepend(helpingStyleElement);
 		}
 
-		if (document.getElementById("aosTools_customStyle") !== null) {
-			document.getElementById("aosTools_customStyle").remove();
+		if (document.getElementById("devTools_customStyle") !== null) {
+			document.getElementById("devTools_customStyle").remove();
 		}
 		var customStyleElement = document.createElement("style");
-		customStyleElement.id = "aosTools_customStyle";
+		customStyleElement.id = "devTools_customStyle";
 		document.head.prepend(customStyleElement);
 		customStyleElement.innerHTML = data.content.customStyle || "";
 
-		var existingStyleElements = document.getElementsByClassName("aosTools_hubStyle");
+		var existingStyleElements = document.getElementsByClassName("devTools_hubStyle");
 		for (var i = 0; i < existingStyleElements.length; i++) {
 			existingStyleElements[i].remove();
 		}
 		for (var i = data.content.styleLinks.length - 1; i >= 0; i--) {
 			if (data.content.styleLinks[i][1] === "link") {
 				var customElement = document.createElement("link");
-				customElement.className = "aosTools_hubStyle";
+				customElement.className = "devTools_hubStyle";
 				customElement.rel = "stylesheet";
 				customElement.href = data.content.styleLinks[i][0];
 				document.head.prepend(customElement);
 			} else if (data.content.styleLinks[i][1] === "literal") {
 				var customElement = document.createElement("style");
-				customElement.className = "aosTools_hubStyle";
+				customElement.className = "devTools_hubStyle";
 				customElement.innerHTML = data.content.styleLinks[i][0];
 				document.head.prepend(customElement);
 			}
 		}
 
-		if (document.getElementById("aosTools_officialStyle") !== null) {
-			document.getElementById("aosTools_officialStyle").remove();
+		if (document.getElementById("devTools_officialStyle") !== null) {
+			document.getElementById("devTools_officialStyle").remove();
 		}
 		var officialStyleElement = document.createElement("link");
-		officialStyleElement.id = "aosTools_officialStyle";
+		officialStyleElement.id = "devTools_officialStyle";
 		officialStyleElement.href = "https://aaronos.dev/AaronOS/styleBeta.css";
 		officialStyleElement.rel = "stylesheet";
 		document.head.prepend(officialStyleElement);
@@ -440,8 +440,8 @@ window.aosTools = {
 	}
 };
 
-aosTools.testConnection();
+devTools.testConnection();
 
-window.addEventListener("message", aosTools.recieveRequest);
-window.addEventListener("click", aosTools.windowWasClicked);
-window.addEventListener("contextmenu", aosTools.windowWasRightClicked);
+window.addEventListener("message", devTools.recieveRequest);
+window.addEventListener("click", devTools.windowWasClicked);
+window.addEventListener("contextmenu", devTools.windowWasRightClicked);
