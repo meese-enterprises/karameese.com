@@ -102,7 +102,6 @@
 						Initializing...</div>
 				</div><br><br>
 				&nbsp;<br>
-				<a href="?safeMode"><button>Safe Mode</button></a><br><br>
 				<button
 					onclick="document.getElementById('aOSisLoading').style.display = 'none';document.getElementById('aOSloadingBg').style.display = 'none';document.getElementById('desktop').style.display = '';document.getElementById('taskbar').style.display = '';">Force
 					Boot</button><br><br>

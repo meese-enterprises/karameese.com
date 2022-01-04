@@ -234,7 +234,7 @@ apps.startMenu = new Application({
 					break;
 				case "USERFILES_DONE":
 					// SET UP WIDGETS
-					if (ufload("aos_system/taskbar/widget_list") && !safeMode) {
+					if (ufload("aos_system/taskbar/widget_list")) {
 						var tempList = JSON.parse(ufload("aos_system/taskbar/widget_list"));
 						for (var i in tempList) {
 							addWidget(i, 1);

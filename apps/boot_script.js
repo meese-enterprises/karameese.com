@@ -191,11 +191,7 @@ apps.bootScript = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					if (!safeMode) {
-						window.setTimeout(apps.bootScript.vars.doBootScript, 1);
-					} else {
-						doLog('Refusing to run BootScripts because SafeMode is on.', "#F00");
-					}
+					window.setTimeout(apps.bootScript.vars.doBootScript, 1);
 					break;
 				case 'shutdown':
 

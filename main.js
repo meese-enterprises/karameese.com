@@ -118,10 +118,6 @@ if (typeof document.getElementsByClassName === 'undefined') {
 
 // End of IE compatibility fixes
 
-// Safe mode
-var safeMode = (window.location.href.indexOf('safe=true') > -1);
-var safe = !safeMode;
-
 var darkMode = 0;
 function darkSwitch(light, dark) {
 	if (darkMode) {

@@ -1017,37 +1017,27 @@ apps.webAppMaker = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					//doLog("Initializing WAP apps...", "#ACE");
-					if (safeMode) {
-						doLog("Failed initializing WAP apps because Safe Mode is enabled.", "#F00");
-					} else {
-						for (var file in ufload("aos_system/wap_apps")) {
-							try {
-								apps.webAppMaker.vars.compileApp(ufload("aos_system/wap_apps/" + file), file);
-							} catch (err) {
-								doLog("Failed initializing " + file + ":", "#F00");
-								doLog(err, "#F00");
-							}
-						}
-						// alphabetized array of apps
-						appsSorted = [];
-						for (var i in apps) {
-							appsSorted.push(apps[i].appDesc.toLowerCase() + "|WAP_apps_sort|" + i);
-						}
-						appsSorted.sort();
-						for (var i in appsSorted) {
-							var tempStr = appsSorted[i].split("|WAP_apps_sort|");
-							tempStr = tempStr[tempStr.length - 1];
-							appsSorted[i] = tempStr;
+					for (var file in ufload("aos_system/wap_apps")) {
+						try {
+							apps.webAppMaker.vars.compileApp(ufload("aos_system/wap_apps/" + file), file);
+						} catch (err) {
+							doLog("Failed initializing " + file + ":", "#F00");
+							doLog(err, "#F00");
 						}
 					}
-
-					if (safeMode) {
-						doLog("Failed WAP Message Listener because Safe Mode is enabled.", "#F00");
-					} else {
-						window.addEventListener("message", apps.webAppMaker.vars.recieveMessage);
+					// alphabetized array of apps
+					appsSorted = [];
+					for (var i in apps) {
+						appsSorted.push(apps[i].appDesc.toLowerCase() + "|WAP_apps_sort|" + i);
+					}
+					appsSorted.sort();
+					for (var i in appsSorted) {
+						var tempStr = appsSorted[i].split("|WAP_apps_sort|");
+						tempStr = tempStr[tempStr.length - 1];
+						appsSorted[i] = tempStr;
 					}
 
+					window.addEventListener("message", apps.webAppMaker.vars.recieveMessage);
 					if (ufload("aos_system/apps/webAppMaker/trusted_apps")) {
 						try {
 							var tempobj = JSON.parse(ufload("aos_system/apps/webAppMaker/trusted_apps"));

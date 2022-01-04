@@ -1128,96 +1128,94 @@ apps.settings = new Application({
 					}, 1005);
 					window.setTimeout(function() {
 						openapp(apps.settings, 'oldMenuHide');
-						if (!safeMode) {
-							if (ufload("aos_system/desktop/background_image")) {
-								getId("bckGrndImg").value = ufload("aos_system/desktop/background_image");
-								apps.settings.vars.sB(1);
-							}
-							if (ufload("aos_system/windows/backdropfilter_blur")) {
-								if (ufload("aos_system/windows/backdropfilter_blur") === "0") {
-									apps.settings.vars.togBackdropFilter(1);
-								}
-							} else if (!backdropFilterSupport) {
+						if (ufload("aos_system/desktop/background_image")) {
+							getId("bckGrndImg").value = ufload("aos_system/desktop/background_image");
+							apps.settings.vars.sB(1);
+						}
+						if (ufload("aos_system/windows/backdropfilter_blur")) {
+							if (ufload("aos_system/windows/backdropfilter_blur") === "0") {
 								apps.settings.vars.togBackdropFilter(1);
 							}
-							if (ufload("aos_system/windows/blur_radius")) {
-								getId("STNwinblurRadius").value = ufload("aos_system/windows/blur_radius");
-								apps.settings.vars.setAeroRad(1);
+						} else if (!backdropFilterSupport) {
+							apps.settings.vars.togBackdropFilter(1);
+						}
+						if (ufload("aos_system/windows/blur_radius")) {
+							getId("STNwinblurRadius").value = ufload("aos_system/windows/blur_radius");
+							apps.settings.vars.setAeroRad(1);
+						}
+						if (ufload("aos_system/taskbar/iconTitles")) {
+							if (ufload("aos_system/taskbar/iconTitles") === "0") {
+								apps.settings.vars.toggleIconTitles(1);
 							}
-							if (ufload("aos_system/taskbar/iconTitles")) {
-								if (ufload("aos_system/taskbar/iconTitles") === "0") {
-									apps.settings.vars.toggleIconTitles(1);
-								}
+						}
+						if (ufload("aos_system/language")) {
+							currentlanguage = ufload("aos_system/language");
+						}
+						if (ufload("aos_system/noraa/listen_enabled")) {
+							if (ufload("aos_system/noraa/listen_enabled") === 1) {
+								apps.settings.vars.togNoraListen(1);
 							}
-							if (ufload("aos_system/language")) {
-								currentlanguage = ufload("aos_system/language");
+						}
+						if (ufload("aos_system/noraa/listen_phrase")) {
+							apps.settings.vars.currNoraPhrase = ufload("aos_system/noraa/listen_phrase");
+						}
+						if (ufload("aos_system/apps/settings/data_collect_enabled")) {
+							apps.settings.vars.collectData = parseInt(ufload("aos_system/apps/settings/data_collect_enabled"), 10);
+						}
+						if (ufload("aos_system/noraa/adv_help_enabled")) {
+							if (ufload("aos_system/noraa/adv_help_enabled") === "0") {
+								apps.settings.vars.togNoraHelpTopics(1);
 							}
-							if (ufload("aos_system/noraa/listen_enabled")) {
-								if (ufload("aos_system/noraa/listen_enabled") === 1) {
-									apps.settings.vars.togNoraListen(1);
-								}
+						}
+						if (ufload("aos_system/apps/settings/ctxmenu_two_fingers")) {
+							if (ufload("aos_system/apps/settings/ctxmenu_two_fingers") === "1") {
+								apps.settings.vars.togLongTap(1);
 							}
-							if (ufload("aos_system/noraa/listen_phrase")) {
-								apps.settings.vars.currNoraPhrase = ufload("aos_system/noraa/listen_phrase");
+						}
+						apps.settings.vars.setScale(lfload("aos_system/apps/settings/ui_scale") || "1", 1);
+						if (lfload("aos_system/apps/settings/saved_screen_res")) {
+							apps.settings.vars.tempResArray = lfload("aos_system/apps/settings/saved_screen_res").split('/');
+							fitWindowRes(apps.settings.vars.tempResArray[0], apps.settings.vars.tempResArray[1]);
+						}
+						if (ufload("aos_system/apps/settings/cors_proxy")) {
+							apps.settings.vars.corsProxy = ufload("aos_system/apps/settings/cors_proxy");
+						}
+						if (ufload("aos_system/windows/dark_mode")) {
+							if (ufload("aos_system/windows/dark_mode") === "1") {
+								apps.settings.vars.togDarkMode(1);
 							}
-							if (ufload("aos_system/apps/settings/data_collect_enabled")) {
-								apps.settings.vars.collectData = parseInt(ufload("aos_system/apps/settings/data_collect_enabled"), 10);
+						}
+						if (lfload("aos_system/apps/settings/mobile_mode")) {
+							apps.settings.vars.setMobileMode(lfload("aos_system/apps/settings/mobile_mode"), 1);
+						}
+						if (ufload("aos_system/desktop/background_fit")) {
+							apps.settings.vars.setBgFit(ufload("aos_system/desktop/background_fit"), 1);
+						}
+						if (ufload("aos_system/screensaver/enabled")) {
+							if (ufload("aos_system/screensaver/enabled") === "0") {
+								apps.settings.vars.togScreensaver();
 							}
-							if (ufload("aos_system/noraa/adv_help_enabled")) {
-								if (ufload("aos_system/noraa/adv_help_enabled") === "0") {
-									apps.settings.vars.togNoraHelpTopics(1);
-								}
-							}
-							if (ufload("aos_system/apps/settings/ctxmenu_two_fingers")) {
-								if (ufload("aos_system/apps/settings/ctxmenu_two_fingers") === "1") {
-									apps.settings.vars.togLongTap(1);
-								}
-							}
-							apps.settings.vars.setScale(lfload("aos_system/apps/settings/ui_scale") || "1", 1);
-							if (lfload("aos_system/apps/settings/saved_screen_res")) {
-								apps.settings.vars.tempResArray = lfload("aos_system/apps/settings/saved_screen_res").split('/');
-								fitWindowRes(apps.settings.vars.tempResArray[0], apps.settings.vars.tempResArray[1]);
-							}
-							if (ufload("aos_system/apps/settings/cors_proxy")) {
-								apps.settings.vars.corsProxy = ufload("aos_system/apps/settings/cors_proxy");
-							}
-							if (ufload("aos_system/windows/dark_mode")) {
-								if (ufload("aos_system/windows/dark_mode") === "1") {
-									apps.settings.vars.togDarkMode(1);
-								}
-							}
-							if (lfload("aos_system/apps/settings/mobile_mode")) {
-								apps.settings.vars.setMobileMode(lfload("aos_system/apps/settings/mobile_mode"), 1);
-							}
-							if (ufload("aos_system/desktop/background_fit")) {
-								apps.settings.vars.setBgFit(ufload("aos_system/desktop/background_fit"), 1);
-							}
-							if (ufload("aos_system/screensaver/enabled")) {
-								if (ufload("aos_system/screensaver/enabled") === "0") {
-									apps.settings.vars.togScreensaver();
-								}
-							}
-							if (ufload("aos_system/screensaver/idle_time")) {
-								apps.settings.vars.screensaverTime = parseInt(ufload("aos_system/screensaver/idle_time"), 10);
-							}
-							if (ufload("aos_system/screensaver/selected_screensaver")) {
-								apps.settings.vars.currScreensaver = ufload("aos_system/screensaver/selected_screensaver");
-							}
-							apps.settings.vars.screensaverTimer = window.setInterval(apps.settings.vars.checkScreensaver, 1000);
-							if (ufload("aos_system/windows/fade_distance")) {
-								setTimeout(function() {
-									apps.settings.vars.setFadeDistance(ufload("aos_system/windows/fade_distance"), 1);
-								}, 100);
-							} else {
-								setTimeout(function() {
-									apps.settings.vars.setFadeDistance("0.5", 1);
-								}, 1000);
-							}
-							if (typeof ufload("aos_system/taskbar/pinned_apps") === "string") {
-								pinnedApps = JSON.parse(ufload("aos_system/taskbar/pinned_apps"));
-								for (var i in pinnedApps) {
-									getId('icn_' + pinnedApps[i]).style.display = 'inline-block';
-								}
+						}
+						if (ufload("aos_system/screensaver/idle_time")) {
+							apps.settings.vars.screensaverTime = parseInt(ufload("aos_system/screensaver/idle_time"), 10);
+						}
+						if (ufload("aos_system/screensaver/selected_screensaver")) {
+							apps.settings.vars.currScreensaver = ufload("aos_system/screensaver/selected_screensaver");
+						}
+						apps.settings.vars.screensaverTimer = window.setInterval(apps.settings.vars.checkScreensaver, 1000);
+						if (ufload("aos_system/windows/fade_distance")) {
+							setTimeout(function() {
+								apps.settings.vars.setFadeDistance(ufload("aos_system/windows/fade_distance"), 1);
+							}, 100);
+						} else {
+							setTimeout(function() {
+								apps.settings.vars.setFadeDistance("0.5", 1);
+							}, 1000);
+						}
+						if (typeof ufload("aos_system/taskbar/pinned_apps") === "string") {
+							pinnedApps = JSON.parse(ufload("aos_system/taskbar/pinned_apps"));
+							for (var i in pinnedApps) {
+								getId('icn_' + pinnedApps[i]).style.display = 'inline-block';
 							}
 						}
 
@@ -1240,15 +1238,14 @@ apps.settings = new Application({
 						if (sessionStorage.getItem('fullscreen') === 'true') {
 							setTimeout(apps.settings.vars.reqFullscreen, 5000);
 						}
-						if (!safeMode) {
-							var dsktpIconFolder = ufload("aos_system/desktop/");
-							if (dsktpIconFolder) {
-								for (let file in dsktpIconFolder) {
-									if (file.indexOf('ico_') === 0) {
-										if (getId(file.substring(10, 16)) !== null) {
-											getId(file.substring(4, file.length)).style.left = eval(USERFILES[file])[0] + "px";
-											getId(file.substring(4, file.length)).style.top = eval(USERFILES[file])[1] + "px";
-										}
+
+						var dsktpIconFolder = ufload("aos_system/desktop/");
+						if (dsktpIconFolder) {
+							for (let file in dsktpIconFolder) {
+								if (file.indexOf('ico_') === 0) {
+									if (getId(file.substring(10, 16)) !== null) {
+										getId(file.substring(4, file.length)).style.left = eval(USERFILES[file])[0] + "px";
+										getId(file.substring(4, file.length)).style.top = eval(USERFILES[file])[1] + "px";
 									}
 								}
 							}

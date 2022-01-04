@@ -349,9 +349,6 @@ apps.prompt = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					if (safeMode) {
-						apps.prompt.vars.alert('Safe mode is enabled. Most of your settings will be ignored, so that you can fix something you may have recently broken. Your files are still in place.<br><br>To exit safe mode, simply remove the "?safe=true" from the URL.', 'Okay', function() {}, 'AaronOS');
-					}
 					this.appWindow.alwaysOnTop(1);
 					this.appWindow.paddingMode(1);
 					break;
