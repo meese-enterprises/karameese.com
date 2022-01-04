@@ -47,7 +47,7 @@ function updateSmartIconStyle() {
 }
 
 function saveSmartIconStyle() {
-	ufsave("aos_system/smarticon_settings", JSON.stringify(smartIconOptions));
+	ufsave("system/smarticon_settings", JSON.stringify(smartIconOptions));
 }
 function buildSmartIcon(size, options, optionalcss) {
 	if (typeof options === "string") {

@@ -428,7 +428,7 @@ apps.bash = new Application({
 							throw "AliasError: The alias command appears to be malformed. Make sure your alias is only one word and the = is in the correct place.";
 						}
 
-						ufsave('aos_system/apps/bash/alias', JSON.stringify(apps.bash.vars.alias));
+						ufsave('system/apps/bash/alias', JSON.stringify(apps.bash.vars.alias));
 					} else {
 						let str = "";
 						for (let i in apps.bash.vars.alias) {
@@ -913,8 +913,8 @@ apps.bash = new Application({
 					this.vars.prefix = '[' + SRVRKEYWORD.substring(0, 4) + '@aOS bash]$ ';
 					this.vars.pastValue = '[' + SRVRKEYWORD.substring(0, 4) + '@aOS bash]$ ';
 
-					if (ufload("aos_system/apps/bash/alias")) {
-						this.vars.alias = JSON.parse(ufload("aos_system/apps/bash/alias"));
+					if (ufload("system/apps/bash/alias")) {
+						this.vars.alias = JSON.parse(ufload("system/apps/bash/alias"));
 					}
 					break;
 				case 'shutdown':

@@ -1,7 +1,7 @@
 const Dashboard = () => {
 
 apps.startMenu = new Application({
-	title: "AaronOS Dashboard",
+	title: "Dashboard",
 	abbreviation: "DsB",
 	codeName: "startMenu",
 	image: {
@@ -63,7 +63,7 @@ apps.startMenu = new Application({
 					'<button onclick="openapp(apps.files, \'dsktp\')">' + lang('startMenu', 'files') + '</button> ' +
 					'<button onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</button> ' +
 					'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</button><br>' +
-					'<button onclick="openapp(apps.appCenter, \'dsktp\')">AaronOS Hub</button> ' +
+					'<button onclick="openapp(apps.appCenter, \'dsktp\')">Application Hub</button> ' +
 					'<button onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</button> ' +
 					'<input autocomplete="off" style="width:calc(100% - 6px);margin-top:3px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
 					'</div><div id="appDsBtableWrapper" class="noselect" style="width:100%;overflow-y:scroll;background-color:rgba(' + darkSwitch('255, 255, 255', '39, 39, 39') + ', 0.5);">' +
@@ -103,7 +103,7 @@ apps.startMenu = new Application({
 		}
 	},
 	vars: {
-		appInfo: 'AaronOS is a web-based desktop environment that lives in the cloud. All files are saved on the aOS server, so they can be accessed from anywhere.<br><br>AaronOS is developed by Aaron Adams. He can be directly contacted at mineandcraft12@gmail.com',
+		appInfo: '',
 		appElems: null,
 		search: function (event, iblock) {
 			if (this.appElems !== null) {
@@ -234,8 +234,8 @@ apps.startMenu = new Application({
 					break;
 				case "USERFILES_DONE":
 					// SET UP WIDGETS
-					if (ufload("aos_system/taskbar/widget_list")) {
-						var tempList = JSON.parse(ufload("aos_system/taskbar/widget_list"));
+					if (ufload("system/taskbar/widget_list")) {
+						var tempList = JSON.parse(ufload("system/taskbar/widget_list"));
 						for (var i in tempList) {
 							addWidget(i, 1);
 						}

@@ -39,7 +39,7 @@ sudo chown -R www-data /var/www/
 sudo chmod -R 755 /var/www/html
 ```
 
-The main PHP file is /aosBeta.php
+The main PHP file is /index.php
 
 The main JavaScript file is /main.js
 

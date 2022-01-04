@@ -64,13 +64,9 @@ apps.smartIconSettings = new Application({
 		changeImage: function (elem) {
 			if (elem.files.length > 0) {
 				let tempImageSrc = URL.createObjectURL(elem.files[0]);
-				let smartIconsInWindow = getId("win_smartIconSettings_html").getElementsByClassName("smarticon_fg");
+				let smartIconsInWindow = getId("win_smartIconSettings_html").querySelectorAll(".smarticon_fg,.smarticon_nobg");
 				for (let i = 0; i < smartIconsInWindow.length; i++) {
-					smartIconsInWindow[i].style.background = "url(" + tempImageSrc + ")";
-				}
-				smartIconsInWindow = getId("win_smartIconSettings_html").getElementsByClassName("smarticon_nobg");
-				for (let i = 0; i < smartIconsInWindow.length; i++) {
-					smartIconsInWindow[i].style.background = "url(" + tempImageSrc + ")";
+					smartIconsInWindow[i].style.background = `url(${tempImageSrc})`;
 				}
 			}
 		},
@@ -137,8 +133,8 @@ apps.smartIconSettings = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					if (ufload("aos_system/smarticon_settings")) {
-						smartIconOptions = JSON.parse(ufload("aos_system/smarticon_settings"));
+					if (ufload("system/smarticon_settings")) {
+						smartIconOptions = JSON.parse(ufload("system/smarticon_settings"));
 						updateSmartIconStyle();
 					}
 					break;

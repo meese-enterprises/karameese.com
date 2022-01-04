@@ -21,7 +21,7 @@ apps.appsbrowser = new Application({
 			this.appWindow.setContent(
 				'<div id="APBdiv" class="darkResponsive" style="width:100%;height:100%;overflow-y:auto;font-family:W95FA;">' +
 				'<div class="noselect" style="overflow-y:auto;font-size:12px;width:100%;height:40px;border-bottom:1px solid;position:relative;">' +
-				'&nbsp;List of all applications installed on AaronOS.<br>' +
+				'&nbsp;List of all applications installed.<br>' +
 				'&nbsp;<input class="canselect" placeholder="Search" onkeyup="apps.appsbrowser.vars.search(this.value)">' +
 				'</div></div>');
 			this.vars.appsListed = 1;
@@ -45,14 +45,14 @@ apps.appsbrowser = new Application({
 				} else {
 					this.vars.currAppOnTop = '';
 				}
-				if (ufload('aos_system/apm_apps/app_' + app)) {
+				if (ufload('system/apm_apps/app_' + app)) {
 					this.vars.currAppBuiltIn = 'User-Made App';
-				} else if (ufload('aos_system/wap_apps/' + app)) {
+				} else if (ufload('system/wap_apps/' + app)) {
 					this.vars.currAppBuiltIn = 'User-Made Web App';
 				} else if (app.indexOf('webApp_') === 0) {
 					this.vars.currAppBuiltIn = 'Repository App from<br>' + app.substring(7).split('__')[0];
 				} else {
-					this.vars.currAppBuiltIn = 'Built-In aOS App';
+					this.vars.currAppBuiltIn = 'Built-In App';
 				}
 				getId("APBdiv").innerHTML += '<div id="APBapp_' + app + '" class="appsBrowserItem cursorPointer darkResponsive" onclick="c(function(){openapp(apps.' + app + ', \'dsktp\')});" ' +
 					'style="padding-top:1px;padding-bottom:1px;position:relative;height:128px;width:100%;border-bottom:1px solid;" ' +
@@ -63,9 +63,9 @@ apps.appsbrowser = new Application({
 					'\' View Files\', \'c(function(){openapp(apps.files, \\\'dsktp\\\');c(function(){apps.files.vars.next(\\\'apps/\\\');apps.files.vars.next(\\\'' + app + '/\\\')})})\'' +
 					function (appname, builtin) {
 						if (builtin === "User-Made App") {
-							return ', \' Open Source File\', \'c(function(){openapp(apps.notepad, \\\'open\\\');apps.notepad.vars.openFile(\\\'aos_system/apm_apps/app_' + appname + '\\\')})\'';
+							return ', \' Open Source File\', \'c(function(){openapp(apps.notepad, \\\'open\\\');apps.notepad.vars.openFile(\\\'system/apm_apps/app_' + appname + '\\\')})\'';
 						} else if (builtin === "User-Made Web App") {
-							return ', \' Open Source File\', \'c(function(){openapp(apps.notepad, \\\'open\\\');apps.notepad.vars.openFile(\\\'aos_system/wap_apps/' + appname + '\\\')})\'';
+							return ', \' Open Source File\', \'c(function(){openapp(apps.notepad, \\\'open\\\');apps.notepad.vars.openFile(\\\'system/wap_apps/' + appname + '\\\')})\'';
 						} else {
 							return ''
 						}

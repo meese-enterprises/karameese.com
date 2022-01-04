@@ -24,7 +24,6 @@ apps.messaging = new Application({
 		if (launchType === 'dsktp') {
 			this.appWindow.setContent(
 				'<div id="MSGdiv" style="width:100%;height:calc(100% - 52px);overflow-y:scroll;padding-top:32px;"></div>' +
-				'<div class="noselect" style="left:0;top:0;background:#FFA;padding:2px;font-family:W95FA,monospace;font-size:12px;border-bottom-right-radius:5px;color:#000;">' + this.vars.discussionTopic + '</div>' +
 				'<button style="position:absolute;bottom:0;height:24px;width:10%;" onclick="apps.messaging.vars.doSettings()">Settings</button>' +
 				'<button style="position:absolute;bottom:0;height:24px;width:10%;left:10%;" onclick="apps.messaging.vars.doFormatting()">Formatting</button>' +
 				'<input id="MSGinput" style="position:absolute;height:21px;width:70%;bottom:0;left:20%;border:none;border-top:1px solid ' + darkSwitch('#000', '#FFF') + ';font-family:sans-serif">' +
@@ -36,7 +35,7 @@ apps.messaging = new Application({
 		this.vars.requestMessage();
 	},
 	vars: {
-		appInfo: 'The official AaronOS Messenger. Chat with the entire aOS community, all at once.<br><br>To set your name, go to Settings > 1, and enter a chat name.<br><br>To view past messages, go to Settings > 2, and enter in the number of past messages you wish to view.',
+		appInfo: '',
 		lastMsgRecieved: '-9',
 		nameTemp: 'Anonymous',
 		name: 'Anonymous',
@@ -68,7 +67,7 @@ apps.messaging = new Application({
 								apps.prompt.vars.alert('Sorry, admins can only be set manually. Please ask an administrator.', 'Okay', function() {}, 'Messaging');
 							} else {
 								apps.messaging.vars.name = apps.messaging.vars.nameTemp;
-								apps.savemaster.vars.save('aos_system/apps/messaging/chat_name', apps.messaging.vars.name, 1, 'mUname', '');
+								apps.savemaster.vars.save('system/apps/messaging/chat_name', apps.messaging.vars.name, 1, 'mUname', '');
 							}
 						}, 'Messaging');
 						break;
@@ -107,7 +106,7 @@ apps.messaging = new Application({
 						if (apps.messaging.vars.sendhttp.readyState !== 4) return;
 						if (apps.messaging.vars.sendhttp.status === 200) {
 							if (apps.messaging.vars.sendhttp.responseText === 'Error - Password incorrect.') {
-								apps.prompt.vars.alert('Could not send message. Your password is incorrect.<br><br>If you recently set a new password, try to reset aOS and see if that fixes the issue. If the issue persists, please contact the developer via email.', 'Okay.', function() {}, 'Messaging');
+								apps.prompt.vars.alert('Could not send message. Your password is incorrect.<br><br>If you recently set a new password, try to reset the website and see if that fixes the issue. If the issue persists, please contact the developer via email.', 'Okay.', function() {}, 'Messaging');
 							} else if (apps.messaging.vars.sendhttp.responseText.indexOf('Error - ') === 0) {
 								apps.prompt.vars.alert('Error sending message:<br><br>' + apps.messaging.vars.sendhttp.responseText, 'Okay.', function() {}, 'Messaging');
 							}
@@ -451,7 +450,6 @@ apps.messaging = new Application({
 			this.xhttp.onreadystatechange = function() {
 				if (apps.messaging.vars.xhttp.readyState === 4) {
 					apps.savemaster.vars.saving = 0;
-					taskbarShowHardware();
 					if (apps.messaging.vars.xhttp.status === 200) {
 						apps.messaging.vars.lastResponseTime = perfCheck('messagingServer');
 						if (apps.messaging.appWindow.appIcon) {
@@ -466,7 +464,6 @@ apps.messaging = new Application({
 			perfStart('messagingServer');
 			this.xhttp.send();
 			apps.savemaster.vars.saving = 3;
-			taskbarShowHardware();
 		}
 	},
 	signalHandler: function (signal) {
@@ -493,8 +490,8 @@ apps.messaging = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					if (ufload("aos_system/apps/messaging/chat_name")) {
-						apps.messaging.vars.name = ufload("aos_system/apps/messaging/chat_name");
+					if (ufload("system/apps/messaging/chat_name")) {
+						apps.messaging.vars.name = ufload("system/apps/messaging/chat_name");
 					}
 					break;
 				case 'shutdown':

@@ -29,7 +29,7 @@ apps.devDocumentation = new Application({
 		}
 	},
 	vars: {
-		appInfo: 'This is the official AaronOS developer documentation. This is mostly useful to those writing Web Apps.'
+		appInfo: '',
 	}
 });
 

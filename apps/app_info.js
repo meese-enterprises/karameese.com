@@ -31,7 +31,7 @@ apps.appInfo = new Application({
 		this.appWindow.openWindow();
 	},
 	vars: {
-		appInfo: 'This app is used to show information and help pages for AaronOS apps.'
+		appInfo: 'This app is used to show information and help pages for applications.'
 	}
 });
 

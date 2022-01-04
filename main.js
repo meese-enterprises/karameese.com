@@ -227,7 +227,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
 // Scale of screen, for HiDPI compatibility
 var screenScale = 1;
 
-// Debugging psuedo-module system
+// Debugging pseudo-module system
 // The last used module
 var modulelast = 'init aOS';
 // The current running module
@@ -257,11 +257,6 @@ var d = function (level, message) {
 		doLog('<span style="color:#80F">Dbg:</span> ' + message);
 	}
 };
-
-var dirtyLoadingEnabled = 0;
-if (localStorage.getItem("aosdirtyloading") === "1") {
-	dirtyLoadingEnabled = 1;
-}
 
 // Counts the length of an object
 var tempObjLengthCount
@@ -318,7 +313,7 @@ function perfCheck(name) {
 	return Math.round(perfObj[name][2] * 1000);
 }
 // Start measuring aos boot time (lol, 220 lines in)
-perfStart('masterInitAOS');
+perfStart('masterInit');
 
 // Screensaver system
 var screensaverRunning = 0;
@@ -428,7 +423,7 @@ var langContent = {
 			startMenu: "AaronOS Dashboard",
 			nora: "NORAA",
 			jsConsole: "JavaScript Console",
-			bash: "Psuedo-Bash Terminal",
+			bash: "Pseudo-Bash Terminal",
 			prompt: "Application Prompt",
 			settings: "Settings",
 			windowTest: "Window Test Application",
@@ -443,9 +438,9 @@ var langContent = {
 			internet: "The Internet",
 			savemaster: "SaveMaster",
 			ti: "TI-83+ Simulator",
-			appAPI: "aOS API",
+			appAPI: "API",
 			search: "Search",
-			image: "aOSimg Editor",
+			image: "img Editor",
 			messaging: "Messaging",
 			musicVis: "Music Visualiser",
 			perfMonitor: "Performance Monitor",
@@ -467,7 +462,7 @@ var langContent = {
 			settings: 'Settings',
 			files: 'Files',
 			allApps: 'All Apps',
-			aosHelp: 'aOS Help',
+			help: 'Help',
 			search: 'Search',
 			shutDown: 'Shut Down',
 			restart: 'Restart'
@@ -533,12 +528,8 @@ function lang(appCode, langPiece) {
 var USERFILES = [];
 
 // Make the desktop invisible to speed up boot
-if (dirtyLoadingEnabled) {
-	getId('aOSloadingBg').style.display = 'none';
-} else {
-	getId('desktop').style.display = 'none';
-	getId('taskbar').style.display = 'none';
-}
+getId('desktop').style.display = 'none';
+getId('taskbar').style.display = 'none';
 
 // Find client scrollbar size
 m('init Scrollsize');
@@ -567,14 +558,12 @@ function aOSping(callbackScript) {
 	aOSpingxhttp.onreadystatechange = function() {
 		if (aOSpingxhttp.readyState === 4) {
 			apps.savemaster.vars.saving = 0;
-			taskbarShowHardware();
 			callbackScript([perfCheck('aOSping'), aOSpingxhttp.status]);
 		}
 	};
 	aOSpingxhttp.open('GET', 'xmlping.php', 'true');
 	perfStart('aOSping');
 	apps.savemaster.vars.saving = 1;
-	taskbarShowHardware();
 	aOSpingxhttp.send();
 }
 
@@ -586,14 +575,12 @@ function corsPing(callbackScript) {
 	corspingxhttp.onreadystatechange = function() {
 		if (corspingxhttp.readyState === 4) {
 			apps.savemaster.vars.saving = 0;
-			taskbarShowHardware();
 			callbackScript([perfCheck('corsping'), corspingxhttp.status]);
 		}
 	};
 	corspingxhttp.open('GET', apps.settings.vars.corsProxy + 'https://duckduckgo.com/', 'true');
 	perfStart('corsping');
 	apps.savemaster.vars.saving = 1;
-	taskbarShowHardware();
 	corspingxhttp.send();
 }
 
@@ -614,13 +601,7 @@ function checkLiveElements() {
 			} else {
 				try {
 					eval('liveElements[' + elem + '].' + liveElements[elem].getAttribute('data-live-target') + ' = "' + eval(liveElements[elem].getAttribute('data-live-eval')) + '"');
-				} catch (err) {
-					//doLog(' ');
-					//doLog('LiveElement Error: ' + err, '#F00');
-					//doLog('Element #' + elem, '#F00');
-					//doLog('Target ' + liveElements[elem].getAttribute('data-live-target'), '#F00');
-					//doLog('Value ' + liveElements[elem].getAttribute('data-live-eval'), '#F00');
-				}
+				} catch (err) {}
 			}
 		}
 	}
@@ -645,7 +626,7 @@ function pinApp(app) {
 	} else {
 		pinnedApps.splice(pinnedApps.indexOf(app), 1);
 	}
-	ufsave('aos_system/taskbar/pinned_apps', JSON.stringify(pinnedApps));
+	ufsave('system/taskbar/pinned_apps', JSON.stringify(pinnedApps));
 }
 
 // Application class
@@ -1107,7 +1088,7 @@ function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxA
 		'<div class="appDesc" id="dsc_' + id + '">' + title + '</div>';
 	getId("desktop").appendChild(tempIco);
 	if (!nosave) {
-		ufsave("aos_system/desktop/user_icons/ico_" + id, JSON.stringify(dsktp[id]));
+		ufsave("system/desktop/user_icons/ico_" + id, JSON.stringify(dsktp[id]));
 	}
 	arrangeDesktopIcons();
 }
@@ -1117,10 +1098,10 @@ function removeDsktpIcon(id, nosave) {
 		delete dsktp[id];
 		getId("desktop").removeChild(getId("app_" + id));
 		if (!nosave) {
-			if (ufload("aos_system/desktop/user_icons/ico_" + id)) {
-				ufdel("aos_system/desktop/user_icons/ico_" + id);
+			if (ufload("system/desktop/user_icons/ico_" + id)) {
+				ufdel("system/desktop/user_icons/ico_" + id);
 			} else {
-				ufsave("aos_system/desktop/user_icons/ico_" + id, JSON.stringify({
+				ufsave("system/desktop/user_icons/ico_" + id, JSON.stringify({
 					"removed": "true",
 					"id": id
 				}));
@@ -1242,7 +1223,7 @@ var textEditorTools = {
 	tmpGenArray: [],
 	copy: function (slot) {
 		this.clipboard[slot - 1] = this.tempvar3;
-		ufsave("aos_system/clipboard", JSON.stringify(this.clipboard));
+		ufsave("system/clipboard", JSON.stringify(this.clipboard));
 	},
 	paste: function (element, slot, cursorpos, endselect) {
 		getId(element).value = getId(element).value.substring(0, cursorpos) + this.clipboard[slot - 1] + getId(element).value.substring(endselect, getId(element).value.length);
@@ -1250,7 +1231,7 @@ var textEditorTools = {
 	swap: function (element, slot, cursorpos) {
 		var tempCopy = this.clipboard[slot - 1];
 		this.clipboard[slot - 1] = this.tempvar3;
-		ufsave("aos_system/clipboard", JSON.stringify(this.clipboard));
+		ufsave("system/clipboard", JSON.stringify(this.clipboard));
 		getId(element).value = getId(element).value.substring(0, cursorpos) + tempCopy + getId(element).value.substring(cursorpos, getId(element).value.length);
 	}
 };
@@ -1296,22 +1277,22 @@ function startWaitingCodeInterval() {
 	waitingCodeInterval = window.setInterval(checkWaitingCode, 0);
 }
 
-getId('aOSloadingInfo').innerHTML = 'Applications List';
+getId('loadingInfo').innerHTML = 'Applications List';
 c(function() {
 	Dashboard();
-	getId('aOSloadingInfo').innerHTML = 'NORAA';
+	getId('loadingInfo').innerHTML = 'NORAA';
 });
 
 c(function() {
 	m('init NRA');
 	NORA();
-	getId('aOSloadingInfo').innerHTML = 'Info Viewer...';
+	getId('loadingInfo').innerHTML = 'Info Viewer...';
 });
 
 c(function() {
 	m('init Nfo');
 	AppInfo();
-	getId('aOSloadingInfo').innerHTML = 'JavaScript Console';
+	getId('loadingInfo').innerHTML = 'JavaScript Console';
 });
 
 var currentSelection = "";
@@ -1324,7 +1305,7 @@ requestAnimationFrame(setCurrentSelection);
 c(function() {
 	m('init jsC');
 	JSConsole();
-	getId('aOSloadingInfo').innerHTML = 'Bash Console';
+	getId('loadingInfo').innerHTML = 'Bash Console';
 });
 
 c(() => Bash());
@@ -1332,36 +1313,36 @@ c(() => Bash());
 c(function() {
 	m('init PMT');
 	AppPrompt();
-	getId('aOSloadingInfo').innerHTML = 'Settings';
+	getId('loadingInfo').innerHTML = 'Settings';
 });
 
 c(function() {
 	m('init Settings');
 	Settings();
-	getId('aOSloadingInfo').innerHTML = 'Smart Icon Settings';
+	getId('loadingInfo').innerHTML = 'Smart Icon Settings';
 });
 
 c(function() {
 	SmartIconSettings();
-	getId('aOSloadingInfo').innerHTML = 'Desktop Icon Maker';
+	getId('loadingInfo').innerHTML = 'Desktop Icon Maker';
 })
 
 var files;
 c(function() {
 	m('init NP2');
 	TextEditor();
-	getId('aOSloadingInfo').innerHTML = 'Files';
+	getId('loadingInfo').innerHTML = 'Files';
 });
 c(function() {
 	m('init files');
 	window.aOSversion = 'B1.6.9.2 (11/14/2021) r1';
 	document.title = 'AaronOS ' + aOSversion;
-	getId('aOSloadingInfo').innerHTML = 'Properties Viewer';
+	getId('loadingInfo').innerHTML = 'Properties Viewer';
 });
 c(function() {
 	m('init PPT');
 	PropertiesViewer();
-	getId('aOSloadingInfo').innerHTML = 'File Manager';
+	getId('loadingInfo').innerHTML = 'File Manager';
 });
 c(function() {
 	m('init FIL');
@@ -1372,34 +1353,34 @@ c(function() {
 	window.SRVRKEYWORD = window.SRVRKEYWORD || "";
 	m('init SAV');
 	SaveMaster();
-	getId('aOSloadingInfo').innerHTML = 'Web App Maker';
+	getId('loadingInfo').innerHTML = 'Web App Maker';
 });
 
 c(function() {
 	WebAppMaker();
-	getId('aOSloadingInfo').innerHTML = 'Messaging';
+	getId('loadingInfo').innerHTML = 'Messaging';
 });
 
 c(function() {
 	m('init MSG');
 	Messaging();
-	getId('aOSloadingInfo').innerHTML = 'Music Player';
+	getId('loadingInfo').innerHTML = 'Music Player';
 });
 
 c(function() {
 	m('init MSC');
 	MusicPlayer();
-	getId('aOSloadingInfo').innerHTML = 'Apps Browser';
+	getId('loadingInfo').innerHTML = 'Apps Browser';
 });
 
 c(function() {
 	AppBrowser();
-	getId('aOSloadingInfo').innerHTML = 'Accreditation';
+	getId('loadingInfo').innerHTML = 'Accreditation';
 });
 
 c(function() {
 	Accreditation();
-	getId('aOSloadingInfo').innerHTML = 'Bootscript App';
+	getId('loadingInfo').innerHTML = 'Bootscript App';
 });
 
 c(function() {
@@ -1408,13 +1389,13 @@ c(function() {
 
 c(function() {
 	AppCenter();
-	getId('aOSloadingInfo').innerHTML = 'Developer Documentation';
+	getId('loadingInfo').innerHTML = 'Developer Documentation';
 });
 
 c(function() {
 	m('init DD');
 	DeveloperDocumentation();
-	getId('aOSloadingInfo').innerHTML = 'Finalizing...';
+	getId('loadingInfo').innerHTML = 'Finalizing...';
 });
 c(function() {
 	ViewCount();
@@ -1522,7 +1503,7 @@ function icomove(e, elem) {
 		newXCoord = Math.round(newXCoord / 108) * 108 + 8;
 		newYCoord = Math.round(newYCoord / 98) * 98 + 8;
 		dsktp[icomoveSelect.substring(4)].position = [newXCoord, newYCoord];
-		ufsave('aos_system/desktop/user_icons/ico_' + icomoveSelect.substring(4), JSON.stringify(dsktp[icomoveSelect.substring(4)]));
+		ufsave('system/desktop/user_icons/ico_' + icomoveSelect.substring(4), JSON.stringify(dsktp[icomoveSelect.substring(4)]));
 		getId(icomoveSelect).style.left = newXCoord + "px";
 		getId(icomoveSelect).style.top = newYCoord + "px";
 	}
@@ -2055,13 +2036,6 @@ function monMouseDown(evt) {
 }
 getId("monitor").addEventListener('touchstart', monMouseDown);
 
-c(function() {
-	requestAnimationFrame(function() {
-		// TODO: TALK TO KARA ABOUT WIFI ICON
-		//makeInterval('aOS', 'NtwrkCheck', 'taskbarShowHardware()', 1000);
-	});
-})
-
 var keepingAwake = false;
 
 // Set up service worker
@@ -2080,13 +2054,13 @@ if ('serviceWorker' in navigator) {
 }
 
 c(function() {
-	getId('aOSloadingInfo').innerHTML = 'Loading your files...';
-	getId('aOSisLoading').classList.remove('cursorLoadLight');
-	getId('aOSisLoading').classList.add('cursorLoadDark');
+	getId('loadingInfo').innerHTML = 'Loading your files...';
+	getId('isLoading').classList.remove('cursorLoadLight');
+	getId('isLoading').classList.add('cursorLoadDark');
 
 	initStatus = 1;
-	doLog('Took ' + (perfCheck('masterInitAOS') / 1000) + 'ms to initialize.');
-	perfStart("masterInitAOS");
+	doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to initialize.');
+	perfStart("masterInit");
 });
 
 var bootFileHTTP = new XMLHttpRequest();
@@ -2099,12 +2073,12 @@ bootFileHTTP.onreadystatechange = function() {
 			alert("Failed to fetch your files. Web error " + bootFileHTTP.status);
 		}
 
-		doLog('Took ' + (perfCheck('masterInitAOS') / 1000) + 'ms to fetch USERFILES.');
-		perfStart("masterInitAOS");
+		doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to fetch USERFILES.');
+		perfStart("masterInit");
 		m("init fileloader");
-		getId("aOSloadingInfo").innerHTML += "<br>Your OS key is " + SRVRKEYWORD;
+		getId("loadingInfo").innerHTML += "<br>Your OS key is " + SRVRKEYWORD;
 		for (let app in apps) {
-			getId("aOSloadingInfo").innerHTML = "Loading your files...<br>Your OS key is" + SRVRKEYWORD + "<br>Loading " + app;
+			getId("loadingInfo").innerHTML = "Loading your files...<br>Your OS key is" + SRVRKEYWORD + "<br>Loading " + app;
 			try {
 				apps[app].signalHandler("USERFILES_DONE");
 			} catch (err) {
@@ -2119,7 +2093,7 @@ bootFileHTTP.onreadystatechange = function() {
 		requestAnimationFrame(function() {
 			bootFileHTTP = null;
 		});
-		doLog('Took ' + (perfCheck('masterInitAOS') / 1000) + 'ms to run startup apps.');
+		doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to run startup apps.');
 		doLog('Took ' + Math.round(performance.now() * 10) / 10 + 'ms grand total to reach desktop.');
 		doLog(" ");
 	}
@@ -2132,12 +2106,12 @@ c(function() {
 	} else {
 		doLog("WARNING - USERFILES disallowed by ?nofiles=true", '#FF7F00');
 		USERFILES = {};
-		doLog('Took ' + (perfCheck('masterInitAOS') / 1000) + 'ms to fetch USERFILES.');
-		perfStart("masterInitAOS");
+		doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to fetch USERFILES.');
+		perfStart("masterInit");
 		m("init fileloader");
-		getId("aOSloadingInfo").innerHTML += "<br>Your OS key is " + SRVRKEYWORD;
+		getId("loadingInfo").innerHTML += "<br>Your OS key is " + SRVRKEYWORD;
 		for (let app in apps) {
-			getId("aOSloadingInfo").innerHTML = "Loading your files...<br>Your OS key is" + SRVRKEYWORD + "<br>Loading " + app;
+			getId("loadingInfo").innerHTML = "Loading your files...<br>Your OS key is" + SRVRKEYWORD + "<br>Loading " + app;
 			try {
 				apps[app].signalHandler("USERFILES_DONE");
 			} catch (err) {
@@ -2151,7 +2125,7 @@ c(function() {
 		requestAnimationFrame(function() {
 			bootFileHTTP = null;
 		});
-		doLog('Took ' + (perfCheck('masterInitAOS') / 1000) + 'ms to exec USERFILES_DONE.');
+		doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to exec USERFILES_DONE.');
 		doLog('Took ' + Math.round(performance.now() * 10) / 10 + 'ms grand total to reach desktop.');
 	}
 });

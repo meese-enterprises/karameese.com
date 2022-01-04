@@ -17,7 +17,7 @@ apps.savemaster = new Application({
 		this.appWindow.openWindow();
 	},
 	vars: {
-		appInfo: 'This application handles all file saving over the Cloud to the AaronOS server. It is only accessible via API to aOS apps.',
+		appInfo: 'This application handles all file saving over the Cloud to the server. It is only accessible via API to internal applications.',
 		sp: "",
 		sc: "",
 		saving: 0,

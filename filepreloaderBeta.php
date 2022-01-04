@@ -120,7 +120,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 
 // If it needs to be refreshed, tell the client via js
 if ($needtorefresh) {
-	echo 'localStorage.setItem("login_failmessage", "'+$refreshMessage+'");window.location = "aosBeta.php?refreshed="+Math.round(Math.random()*1000);doLog("Moving");';
+	echo 'localStorage.setItem("login_failmessage", "'+$refreshMessage+'");window.location = "index.php?refreshed="+Math.round(Math.random()*1000);doLog("Moving");';
 }
 // If user folder not exist, create it
 if (!(is_dir('USERFILES/' . $_COOKIE['keyword']))) {

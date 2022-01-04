@@ -72,7 +72,7 @@ apps.files = new Application({
 		}
 	},
 	vars: {
-		appInfo: 'The official AaronOS File Manager, version 2. Use it to manage your personal files and to view aOS code. At the moment, only plain-text userfiles are supported.',
+		appInfo: '',
 		currLoc: '/',
 		viewModes: [
 			['Small Grid', 'FIL2viewCompact'],
@@ -107,7 +107,7 @@ apps.files = new Application({
 			}
 
 			if (!nosave) {
-				apps.savemaster.vars.save("aos_system/apps/files/view_mode", this.currViewMode, 1);
+				apps.savemaster.vars.save("system/apps/files/view_mode", this.currViewMode, 1);
 			}
 		},
 		back: function() {
@@ -535,7 +535,7 @@ apps.files = new Application({
 		},
 		favorites: [],
 		updateFavorites: function (nosave, mainPage) {
-			if (!nosave) ufsave('aos_system/apps/files/favorites', JSON.stringify(this.favorites));
+			if (!nosave) ufsave('system/apps/files/favorites', JSON.stringify(this.favorites));
 			var tempHTML = '';
 			for (let i in this.favorites) {
 				var currPath = this.favorites[i].split('/');
@@ -631,14 +631,14 @@ apps.files = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					if (ufload("aos_system/apps/files/view_mode")) {
-						this.vars.setViewMode(parseInt(ufload("aos_system/apps/files/view_mode")), 1);
+					if (ufload("system/apps/files/view_mode")) {
+						this.vars.setViewMode(parseInt(ufload("system/apps/files/view_mode")), 1);
 					}
-					if (ufload("aos_system/apps/files/favorites")) {
-						this.vars.favorites = JSON.parse(ufload("aos_system/apps/files/favorites"));
+					if (ufload("system/apps/files/favorites")) {
+						this.vars.favorites = JSON.parse(ufload("system/apps/files/favorites"));
 					}
-					if (ufload("aos_system/apps/files/window_debug")) {
-						apps.settings.vars.FILcanWin = parseInt(ufload("aos_system/apps/files/window_debug"));
+					if (ufload("system/apps/files/window_debug")) {
+						apps.settings.vars.FILcanWin = parseInt(ufload("system/apps/files/window_debug"));
 					}
 					break;
 				case 'shutdown':

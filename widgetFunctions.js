@@ -32,7 +32,7 @@ function addWidget(widgetName, nosave) {
 			widgets[widgetName].start();
 			widgetsList[widgetName] = widgetName;
 
-			if (!nosave) ufsave('aos_system/taskbar/widget_list', JSON.stringify(widgetsList));
+			if (!nosave) ufsave('system/taskbar/widget_list', JSON.stringify(widgetsList));
 		}
 	}
 };

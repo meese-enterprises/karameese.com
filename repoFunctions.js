@@ -5,13 +5,13 @@ var repositoryIDs = {};
 var installedPackages = {};
 
 function repoSave() {
-	lfsave("aos_system/repositories", JSON.stringify(repositories));
-	lfsave("aos_system/repositories_installed", JSON.stringify(installedPackages));
+	lfsave("system/repositories", JSON.stringify(repositories));
+	lfsave("system/repositories_installed", JSON.stringify(installedPackages));
 }
 
 function repoLoad() {
 	try {
-		repositories = JSON.parse(lfload("aos_system/repositories") || '{"repository/repository.json": {}}');
+		repositories = JSON.parse(lfload("system/repositories") || '{"repository/repository.json": {}}');
 	} catch (err) {
 		alert(err);
 		repositories = {
@@ -19,7 +19,7 @@ function repoLoad() {
 		};
 	}
 	try {
-		installedPackages = JSON.parse(lfload("aos_system/repositories_installed") || '{}');
+		installedPackages = JSON.parse(lfload("system/repositories_installed") || '{}');
 	} catch (err) {
 		alert(err);
 		installedPackages = {};

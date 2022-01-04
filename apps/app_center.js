@@ -1,7 +1,7 @@
 const AppCenter = () => {
 
 apps.appCenter = new Application({
-	title: "aOS Hub",
+	title: "Application Hub",
 	abbreviation: "AH",
 	codeName: "appCenter",
 	image: {
@@ -16,7 +16,7 @@ apps.appCenter = new Application({
 	launchTypes: 1,
 	main: function (launchtype) {
 		if (!this.appWindow.appIcon) {
-			this.appWindow.setCaption("aOS Hub");
+			this.appWindow.setCaption("Application Hub");
 			this.appWindow.setDims("auto", "auto", 600, 400);
 			this.appWindow.setContent(
 				"<div style='position:relative;padding-top:3px;' id='APPCENTER_maindiv' class='noselect'>" +
@@ -44,7 +44,7 @@ apps.appCenter = new Application({
 		this.appWindow.openWindow();
 	},
 	vars: {
-		appInfo: 'aOS Hub is a GUI front-end for the aOS repository and package system.',
+		appInfo: 'Application Hub is a GUI front-end for the website repository and package system.',
 		previousScrollPoint: 0,
 		displayUpdates: function (updateScreen) {
 			getId("APPCENTER_updates").innerHTML = repoGetUpgradeable().length;
@@ -109,7 +109,7 @@ apps.appCenter = new Application({
 					if (choice) {
 						repoAddPackage(buttonElement.getAttribute("data-appcenter-repo") + "." + buttonElement.getAttribute("data-appcenter-package"), null, apps.appCenter.vars.displayUpdates);
 					}
-				}, "AaronOS Hub");
+				}, "Application Hub");
 			} else {
 				repoAddPackage(buttonElement.getAttribute("data-appcenter-repo") + "." + buttonElement.getAttribute("data-appcenter-package"), null, apps.appCenter.vars.displayUpdates);
 			}
@@ -189,7 +189,6 @@ apps.appCenter = new Application({
 			finalhtml += "<div style='position:relative;width:calc(100% - 35px);padding:16px;border-top:2px solid #7F7F7F;'>" +
 				"<p>Add a new repository:</p>" +
 				"<input id='APPCENTER_ADD_REPO' placeholder='https://'> <button onclick='apps.appCenter.vars.addRepo()'>Add Repository</button>" +
-				"<p>Disclaimer: AaronOS is not responsible for the content of third-party repositories. Be safe!</p>" +
 				"</div>";
 			try {
 				getId("APPCENTER_packages").innerHTML = finalhtml;
@@ -253,7 +252,7 @@ apps.appCenter = new Application({
 					}
 				},
 				vars: {
-					appInfo: 'This app was installed via the aOS Hub.<br><br>Home URL:<br>' + varSet.homeURL + '<br><br>Package name:<br>' + pkgName.split('__').join('.') + '<br><br>App object name:<br>apps.webApp_' + pkgName,
+					appInfo: 'This app was installed via the Application Hub.<br><br>Home URL:<br>' + varSet.homeURL + '<br><br>Package name:<br>' + pkgName.split('__').join('.') + '<br><br>App object name:<br>apps.webApp_' + pkgName,
 					appURL: varSet.homeURL,
 					sizeX: varSet.windowSize[0],
 					sizeY: varSet.windowSize[1],
@@ -314,7 +313,7 @@ apps.appCenter = new Application({
 										if (btn === 1) {
 											openapp(apps.appCenter, "updates");
 										}
-									}, "aOS Hub");
+									}, "Application Hub");
 								}
 							});
 						});

@@ -41,7 +41,7 @@ window.devTools = {
 				}, devTools.testConnected);
 			} else {
 				devTools.connected = 0;
-				console.log("Warning - page is not loaded in a frame and aOS is not connected.");
+				console.log("Warning - page is not loaded in a frame and the server is not connected.");
 				if (devTools.connectFailListener) {
 					devTools.connectFailListener();
 				}
@@ -64,15 +64,15 @@ window.devTools = {
 			devTools.connected = 1;
 			if (data.content === true) {
 				if (devTools.light) {
-					console.log("AaronOS is connected. Light mode, not updating stylesheet.");
+					console.log("Application is connected. Light mode, not updating stylesheet.");
 				} else {
-					console.log("AaronOS is connected. Updating stylesheet.");
+					console.log("Application is connected. Updating stylesheet.");
 				}
 			} else {
 				if (devTools.light) {
-					console.log("AaronOS is connected, but no parent app found! App-Window-related requests may not work. Light mode, not updating stylesheet.");
+					console.log("Application is connected, but no parent app found! App-Window-related requests may not work. Light mode, not updating stylesheet.");
 				} else {
-					console.log("AaronOS is connected, but no parent app found! App-Window-related requests may not work. Updating stylesheet.");
+					console.log("Application is connected, but no parent app found! App-Window-related requests may not work. Updating stylesheet.");
 				}
 			}
 			devTools.updateStyle();
@@ -81,7 +81,7 @@ window.devTools = {
 			}
 		} else {
 			devTools.connected = 0;
-			console.log("Warning - Requests will not reach aOS; parent frame does not seem to be AaronOS.");
+			console.log("Warning - Requests will not reach! The parent frame does not seem to be this website.");
 			if (devTools.connectFailListener) {
 				devTools.connectFailListener();
 			}
@@ -102,10 +102,10 @@ window.devTools = {
 			this.callbacks[this.totalRequests] = callback || function () {};
 			window.parent.postMessage(requestData, "*");
 		} else {
-			console.log("Warning - request will not reach aOS; aOS is not connected.");
+			console.log("Warning - request will not reach the server.");
 		}
 		if (this.connected === -1 && requestData.action.indexOf("page_id:") !== 0) {
-			console.log("Warning - requests may not reach aOS; connection test not complete.");
+			console.log("Warning - requests may not reach server; connection test not complete.");
 		}
 	},
 	recieveRequest: function (event) {
@@ -431,11 +431,6 @@ window.devTools = {
 		if (document.getElementById("devTools_officialStyle") !== null) {
 			document.getElementById("devTools_officialStyle").remove();
 		}
-		var officialStyleElement = document.createElement("link");
-		officialStyleElement.id = "devTools_officialStyle";
-		officialStyleElement.href = "https://aaronos.dev/AaronOS/styleBeta.css";
-		officialStyleElement.rel = "stylesheet";
-		document.head.prepend(officialStyleElement);
 		document.body.classList.add("cursorDefault");
 	}
 };

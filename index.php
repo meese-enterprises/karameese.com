@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>Loading aOS Beta...</title>
+	<title>Loading...</title>
 	<?php
 		echo '<link rel="stylesheet" type="text/css" href="styleBeta.css?ms='.round(microtime(true) * 1000).'">';
 	?>
@@ -35,8 +35,8 @@
 	<div id="bootLanguage" style="display:none">
 		<?php
 			if (isset($_COOKIE['keyword'])) {
-				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/language.txt')) {
-					echo file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/language.txt');
+				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/system/language.txt')) {
+					echo file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/system/language.txt');
 				}
 			} else {
 				echo 'en';
@@ -44,7 +44,7 @@
 		?>
 	</div>
 
-	<!-- aOS computer screen and content inside on startup -->
+	<!-- computer screen and content inside on startup -->
 	<div id="monitor" class="cursorDefault">
 		<div id="desktop" onclick="try{exitFlowMode()}catch(err){}" oncontextmenu="showEditContext(event)">
 			<div id="hideall" onClick="toTop({dsktpIcon: 'DESKTOP'}, 1)"></div>
@@ -75,38 +75,39 @@
 		<div id="screensaverLayer"></div>
 		<?php
 			if (isset($_COOKIE['keyword'])) {
-				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt')) {
-						if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt')) {
-							if (file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/apps/settings/ugly_boot.txt') == '1') {
-								echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');opacity:0"></div><script defer>requestAnimationFrame(function(){getId("desktop").style.display = "";getId("taskbar").style.display = "";});window.dirtyLoadingEnabled = 1;</script>';
+				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/system/desktop/background_image.txt')) {
+						if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/system/apps/settings/ugly_boot.txt')) {
+							// TODO: This is where I can store the options for the terminal vs the desktop
+							if (file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/system/apps/settings/ugly_boot.txt') == '1') {
+								echo '<div id="loadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/system/desktop/background_image.txt').');opacity:0"></div><script defer>requestAnimationFrame(function(){getId("desktop").style.display = "";getId("taskbar").style.display = "";});</script>';
 							} else {
-								echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
+								echo '<div id="loadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/system/desktop/background_image.txt').');"></div>';
 							}
 						} else {
-							echo '<div id="aOSloadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/aos_system/desktop/background_image.txt').');"></div>';
+							echo '<div id="loadingBg" style="background-image:url('.file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/system/desktop/background_image.txt').');"></div>';
 						}
 				} else {
-					echo '<div id="aOSloadingBg"></div>';
+					echo '<div id="loadingBg"></div>';
 				}
 			} else {
-				echo '<div id="aOSloadingBg"></div>';
+				echo '<div id="loadingBg"></div>';
 			}
 		?>
-		<div id="aOSisLoading" class="cursorLoadLight">
-			<div id="aOSisLoadingDiv">
+		<div id="isLoading" class="cursorLoadLight">
+			<div id="isLoadingDiv">
 				<h1>KaraOS</h1>
 				<hr>
-				<div id="aOSloadingInfoDiv">
-					<div id="aOSloadingInfo" class="liveElement"
+				<div id="loadingInfoDiv">
+					<div id="loadingInfo" class="liveElement"
 						data-live-eval="finishedWaitingCodes / totalWaitingCodes * 100 + '%'" data-live-target="style.width">
 						Initializing...</div>
 				</div><br><br>
 				&nbsp;<br>
 				<button
-					onclick="document.getElementById('aOSisLoading').style.display = 'none';document.getElementById('aOSloadingBg').style.display = 'none';document.getElementById('desktop').style.display = '';document.getElementById('taskbar').style.display = '';">Force
+					onclick="document.getElementById('isLoading').style.display = 'none';document.getElementById('loadingBg').style.display = 'none';document.getElementById('desktop').style.display = '';document.getElementById('taskbar').style.display = '';">Force
 					Boot</button><br><br>
-				<?php if(isset($_COOKIE['keyword'])){echo 'Your OS ID is <span id="aOSloadingKey">'.$_COOKIE['keyword'].'</span>';}else{echo 'You will get a new OS ID.';} ?>
-				<img id="aosLoadingImage" src="appicons/ds/aOS.png" style="display:none">
+				<?php if(isset($_COOKIE['keyword'])){echo 'Your OS ID is <span id="loadingKey">'.$_COOKIE['keyword'].'</span>';}else{echo 'You will get a new OS ID.';} ?>
+				<img id="loadingImage" src="appicons/ds/aOS.png" style="display:none">
 			</div>
 		</div>
 	</div>

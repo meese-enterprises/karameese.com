@@ -116,7 +116,7 @@ apps.nora = new Application({
 		}
 	},
 	vars: {
-		appInfo: 'This is the Virtual Assistant of AaronOS. Compare to Apple\'s Siri, or to Microsoft\'s Cortana.',
+		appInfo: '',
 		captionCtx: [
 			[' ' + lang('ctxMenu', 'hideApp'), function() {
 				apps.nora.signalHandler('shrink');
@@ -185,7 +185,7 @@ apps.nora = new Application({
 									apps.nora.vars.notes[i] = apps.nora.vars.notes[i + 1];
 								}
 								apps.nora.vars.notes.pop();
-								ufsave('aos_system/noraa/notes', String(apps.nora.vars.notes));
+								ufsave('system/noraa/notes', String(apps.nora.vars.notes));
 								apps.nora.vars.say('Deleted the note ' + this[4].lastDeleted);
 							} else {
 								apps.nora.vars.say('I can\'t delete something that\'s not there. You only have ' + apps.nora.vars.notes.length + ' notes.');
@@ -364,7 +364,7 @@ apps.nora = new Application({
 						apps.nora.vars.updateUserObj(this[4].inpPro, this[4].inpVal);
 					} else if (text.indexOf('will be deleted') > -1) {
 						delete apps.nora.vars.userObj[text.substring(0, text.indexOf(' will be deleted'))];
-						ufsave('aos_system/noraa/user_profile', JSON.stringify(apps.nora.vars.userObj));
+						ufsave('system/noraa/user_profile', JSON.stringify(apps.nora.vars.userObj));
 						apps.nora.vars.say('I deleted that info about you.');
 					} else {
 						apps.nora.vars.say('I cannot find any discernable information in there.');
@@ -614,7 +614,7 @@ apps.nora = new Application({
 						} else {
 							apps.nora.vars.notes.push(text.replace(',', '&comma;'));
 						}
-						ufsave('aos_system/noraa/notes', String(apps.nora.vars.notes));
+						ufsave('system/noraa/notes', String(apps.nora.vars.notes));
 						apps.nora.vars.say('I took the note ' + text);
 					} else {
 						apps.nora.vars.say('<i>NORAA does as you asked - takes note of nothing</i>');
@@ -730,7 +730,7 @@ apps.nora = new Application({
 		updateUserObj: function (property, value) {
 			d(1, 'NORAA knows something about the user.');
 			this.userObj[property] = value;
-			ufsave('aos_system/noraa/user_profile', JSON.stringify(this.userObj));
+			ufsave('system/noraa/user_profile', JSON.stringify(this.userObj));
 		},
 		getUserName: function() {
 			if (typeof this.userObj.name === 'string') {
@@ -802,7 +802,7 @@ apps.nora = new Application({
 			this.ddgText = text;
 		},
 		askDDG: function (query) {
-			// TODO: USE THIS AS AN ACTUAL SEARCH ENGINE FROM THE SERVER SIDE
+			// TODO: USE THIS AS AN ACTUAL SEARCH ENGINE FROM THE SERVER SIDE!
 			apps.nora.vars.say("I'll ask DuckDuckGo for you...");
 			this.ddgQuery = query;
 			this.ddg.open('GET', 'ddgSearch.php?q=' + this.ddgText);
@@ -949,14 +949,14 @@ apps.nora = new Application({
 					this.vars.ddg.onreadystatechange = function() {
 						apps.nora.vars.finishDDG();
 					}
-					if (ufload("aos_system/noraa/notes")) {
-						this.vars.notes = ufload("aos_system/noraa/notes").split(',');
+					if (ufload("system/noraa/notes")) {
+						this.vars.notes = ufload("system/noraa/notes").split(',');
 					}
-					if (ufload("aos_system/noraa/user_profile")) {
-						this.vars.userObj = JSON.parse(ufload("aos_system/noraa/user_profile"));
+					if (ufload("system/noraa/user_profile")) {
+						this.vars.userObj = JSON.parse(ufload("system/noraa/user_profile"));
 					}
-					if (ufload("aos_system/noraa/speech_voice")) {
-						this.vars.lang = ufload("aos_system/noraa/speech_voice");
+					if (ufload("system/noraa/speech_voice")) {
+						this.vars.lang = ufload("system/noraa/speech_voice");
 						this.vars.initing = 0;
 						try {
 							window.speechSynthesis.onvoiceschanged();
@@ -964,8 +964,8 @@ apps.nora = new Application({
 							doLog('Error - speechSynthesis not supported.', '#F00');
 						}
 					}
-					if (ufload("aos_system/noraa/speech_response_delay")) {
-						this.vars.inputDelay = parseInt(ufload("aos_system/noraa/speech_response_delay"), 10);
+					if (ufload("system/noraa/speech_response_delay")) {
+						this.vars.inputDelay = parseInt(ufload("system/noraa/speech_response_delay"), 10);
 					}
 					this.vars.sayDynamic('hello');
 					this.vars.say("[This app in in Beta. It's not complete.]");

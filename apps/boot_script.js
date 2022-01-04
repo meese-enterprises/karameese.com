@@ -44,10 +44,10 @@ apps.bootScript = new Application({
 							};
 							apps.bootScript.vars.bootScriptsToEvaluate.repo[i + "_" + j].BOOT_SCRIPT_CODE();
 						} catch (err) {
-							doLog("aOS Hub Boot Script Error<br>Script: " + i + "." + j + "<br>" + err, "#F00");
+							doLog("Application Hub Boot Script Error<br>Script: " + i + "." + j + "<br>" + err, "#F00");
 							apps.prompt.vars.notify(
-								"There was an error in one of your aOS Hub Boot Scripts (" + (i + "." + j) + "):<br><br>" + err,
-								["Dismiss", "View in aOS Hub"],
+								"There was an error in one of your Application Hub Boot Scripts (" + (i + "." + j) + "):<br><br>" + err,
+								["Dismiss", "View in Application Hub"],
 								function (btn) {
 									if (btn === 1) {
 										openapp(apps.appCenter, "dsktp");
@@ -61,13 +61,13 @@ apps.bootScript = new Application({
 					}
 				}
 			}
-			if (ufload("aos_system/user_boot_script")) {
+			if (ufload("system/user_boot_script")) {
 				doLog("moving user bootscript to new folder");
-				var theBootScript = ufload("aos_system/user_boot_script");
-				ufsave("aos_system/apps/bootScript/main", theBootScript);
-				ufdel("aos_system/user_boot_script");
+				var theBootScript = ufload("system/user_boot_script");
+				ufsave("system/apps/bootScript/main", theBootScript);
+				ufdel("system/user_boot_script");
 			}
-			var bootScripts = ufload("aos_system/apps/bootScript");
+			var bootScripts = ufload("system/apps/bootScript");
 			for (var i in bootScripts) {
 				try {
 					apps.bootScript.vars.bootScriptsToEvaluate.user[i] = {
@@ -94,9 +94,9 @@ apps.bootScript = new Application({
 		},
 		currScript: 'main',
 		openScript: function (scriptName) {
-			if (ufload("aos_system/apps/bootScript/" + scriptName)) {
+			if (ufload("system/apps/bootScript/" + scriptName)) {
 				if (
-					ufload('aos_system/apps/bootScript/' + cleanStr(this.currScript)) !== getId("BtS_edit_frame").contentWindow.editor.getValue() &&
+					ufload('system/apps/bootScript/' + cleanStr(this.currScript)) !== getId("BtS_edit_frame").contentWindow.editor.getValue() &&
 					getId("BtS_edit_frame").contentWindow.editor.getValue() !== ""
 				) {
 					apps.prompt.vars.confirm(
@@ -109,7 +109,7 @@ apps.bootScript = new Application({
 								for (var i = 0; i < allScripts.length; i++) {
 									allScripts[i].style.color = '';
 								}
-								getId("BtS_edit_frame").contentWindow.editor.session.setValue(ufload("aos_system/apps/bootScript/" + cleanStr(scriptName)));
+								getId("BtS_edit_frame").contentWindow.editor.session.setValue(ufload("system/apps/bootScript/" + cleanStr(scriptName)));
 								getId('BtS_edit_frame').contentWindow.editor.scrollToLine(0);
 								getId("BtS_script_" + scriptName).style.color = "#0AA";
 							}
@@ -122,7 +122,7 @@ apps.bootScript = new Application({
 					for (var i = 0; i < allScripts.length; i++) {
 						allScripts[i].style.color = '';
 					}
-					getId("BtS_edit_frame").contentWindow.editor.session.setValue(ufload("aos_system/apps/bootScript/" + cleanStr(scriptName)));
+					getId("BtS_edit_frame").contentWindow.editor.session.setValue(ufload("system/apps/bootScript/" + cleanStr(scriptName)));
 					getId('BtS_edit_frame').contentWindow.editor.scrollToLine(0);
 					getId("BtS_script_" + scriptName).style.color = "#0AA";
 				}
@@ -131,7 +131,7 @@ apps.bootScript = new Application({
 		newScript: function() {
 			apps.prompt.vars.prompt("Please enter a name for the new script.<br><br>Leave blank to cancel.", "Submit", function (str) {
 				if (str) {
-					if (!ufload("aos_system/apps/bootScript").hasOwnProperty(cleanStr(str))) {
+					if (!ufload("system/apps/bootScript").hasOwnProperty(cleanStr(str))) {
 						apps.bootScript.vars.createScript(str);
 					} else {
 						apps.prompt.vars.alert("There is already a boot script with that name.", "Okay", function() {}, "Boot Script Editor");
@@ -140,17 +140,17 @@ apps.bootScript = new Application({
 			}, "Boot Script Editor");
 		},
 		createScript: function (name) {
-			ufsave("aos_system/apps/bootScript/" + cleanStr(name), "// AaronOS Boot Script");
+			ufsave("system/apps/bootScript/" + cleanStr(name), "// Boot Script");
 			this.listScripts();
 			this.openScript(cleanStr(name));
 		},
 		delScript: function (name) {
-			ufdel("aos_system/apps/bootScript/" + name);
+			ufdel("system/apps/bootScript/" + name);
 			this.listScripts();
 			this.openScript("main");
 		},
 		listScripts: function() {
-			var allScripts = ufload("aos_system/apps/bootScript");
+			var allScripts = ufload("system/apps/bootScript");
 			var finalHTML = "<br>";
 			finalHTML += "<span class='BtS_script' id='BtS_script_main'>main</span> <button onclick='apps.bootScript.vars.openScript(\"main\")'>Load</button>";
 			for (var i in allScripts) {
@@ -161,10 +161,10 @@ apps.bootScript = new Application({
 			getId("BtS_scripts").innerHTML = finalHTML;
 		},
 		saveBootScript: function() {
-			ufsave('aos_system/apps/bootScript/' + this.currScript, getId('BtS_edit_frame').contentWindow.editor.getValue());
+			ufsave('system/apps/bootScript/' + this.currScript, getId('BtS_edit_frame').contentWindow.editor.getValue());
 		},
 		helpBootScript: function() {
-			apps.prompt.vars.alert('WARNING - ADVANCED USERS ONLY<br>The Bootscript is your very own script to run on OS boot. Use it for useful things like... well, I can\'t think of anything. Here you are though.<br><br>BootScript will run your script one millisecond after the OS finishes loading your userfiles.<br><br>Save all variables for your script inside the \'this\' object. Example... this.myVar = 9000.1;<br><br>Bootscripts are written in JavaScript. Use the aOS API and assume that your script lives inside of an app\'s vars... (<b>apps.theoreticalApp.vars</b> <-- your script theoretically here) Check the aOS API doc for reference to what this means.<br><br>Your bootscript is NOT AN APP and has no window. Trying to call anything within this.appWindow WILL result in an error!', 'Okay, thanks.', function() {}, 'Boot Script');
+			apps.prompt.vars.alert('WARNING - ADVANCED USERS ONLY<br>The Bootscript is your very own script to run on OS boot. Use it for useful things like... well, I can\'t think of anything. Here you are though.<br><br>BootScript will run your script one millisecond after the OS finishes loading your userfiles.<br><br>Save all variables for your script inside the \'this\' object. Example... this.myVar = 9000.1;<br><br>Bootscripts are written in JavaScript. Use the API and assume that your script lives inside of an app\'s vars... (<b>apps.theoreticalApp.vars</b> <-- your script theoretically here) Check the API doc for reference to what this means.<br><br>Your bootscript is NOT AN APP and has no window. Trying to call anything within this.appWindow WILL result in an error!', 'Okay, thanks.', function() {}, 'Boot Script');
 		}
 	},
 	signalHandler: function (signal) {

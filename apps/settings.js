@@ -23,7 +23,7 @@ apps.settings = new Application({
 		this.appWindow.openWindow();
 	},
 	vars: {
-		appInfo: 'This app contains all official settings for AaronOS.<br><br>If these settings are not enough for you, and you are a very advanced user, you can use the following apps to completely control AaronOS:<br><ul><li>BootScript</li><li>CustomStyle Editor</li></ul>',
+		appInfo: '',
 		language: {
 			en: {
 				valuesMayBeOutdated: 'All values below are from the time the Settings app was opened.',
@@ -32,7 +32,7 @@ apps.settings = new Application({
 				dbgLevel: 'Debug Level',
 				dbgExplain: 'Sets how verbose aOS is in its actions. The different levels determine how often console messages appear and why.',
 				info: 'Info',
-				cookies: 'By using this site you are accepting the small cookie the filesystem relies on and that all files you or your aOS apps generate will be saved on the aOS server for your convenience (and, mostly, for technical reasons).'
+				cookies: 'By using this site you are accepting the small cookie the filesystem relies on and that all files you or your apps generate will be saved on the server for your convenience (and, mostly, for technical reasons).'
 			},
 			uv: {
 				valuesMayBeOutdated: 'Each instance of a definitive value below this line would happen to have been generated at the exact moment in time at which the app which happens to be called Settings happens to have been opened.',
@@ -40,7 +40,7 @@ apps.settings = new Application({
 				imgTile: 'The specified image will tile as many times as necessary to cover the entirety of the screen.',
 				performance: 'Functions that may Assist the Performance of the Operating System',
 				dbgLevel: 'Level of logging to the Debug Console',
-				dbgExplain: 'Determines the level of verbosity that aOS brings when referencing actions and issues. The differing levels given will determine how common messages will appear in the Console app, and the importance they must marked as to appear.',
+				dbgExplain: 'Determines the level of verbosity when referencing actions and issues. The differing levels given will determine how common messages will appear in the Console app, and the importance they must marked as to appear.',
 				info: 'Essential Information About aOS',
 				cookies: 'In the act of accessing this web site, you are hereby accepting the small, 21-character browser cookie that aOS relies heavily on for its filesystem. All text files you and your installed aOS apps happen to generate are stored solely on the aOS main server for your convenience (and, mostly, for annoying technical limitations).'
 			}
@@ -54,81 +54,15 @@ apps.settings = new Application({
 				folderName: 'Information',
 				folderPath: 'apps.settings.vars.menus.info',
 				image: 'settingIcons/new/information.png',
-				osID: {
-					option: 'aOS ID',
-					description: function() {
-						return 'Your aOS ID: ' + SRVRKEYWORD + '<br>' +
-							'If you would wish to load another copy of aOS, use the button below. Be sure to have its aOS ID and password ready, and make sure to set a password on this current account if you want to get back to it later.'
-					},
-					buttons: function() {
-						return '<button onclick="apps.settings.vars.changeKey()">Load a Different aOS</button>'
-					}
-				},
-				osPassword: {
-					option: 'aOS Password',
-					description: function() {
-						return 'Change the password required to access your account on AaronOS.'
-					},
-					buttons: function() {
-						return '<input id="STNosPass" type="password"> <button onclick="apps.settings.vars.newPassword()">Set</button>'
-					}
-				},
-				copyright: {
-					option: 'Copyright Notice',
-					description: function() {
-						return 'AaronOS is &copy; 2015-2021 Aaron Adams<br><br>This software is provided FREE OF CHARGE.<br>If you were charged for the use of this software, please contact mineandcraft12@gmail.com<br><br>Original AaronOS source-code provided as-is at <a target="_blank" href="https://github.com/MineAndCraft12/AaronOS">Github</a>'
-					},
-					buttons: function() {
-						return 'By using this site you are accepting the small cookie the filesystem relies on and that all files you or your aOS apps generate will be saved on the aOS server for your convenience (and, mostly, for technical reasons).' +
-							function() {
-								if (window.location.href.indexOf('https://aaronos.dev/AaronOS/') !== 0) {
-									return '<br><br>This project is a fork of AaronOS. The official AaronOS project is hosted at <a href="https://aaronos.dev/">https://aaronos.dev/</a><br><br>The above copyright notice applies to all code and original resources carried over from Aaron Adams\' original, official AaronOS project.';
-								} else {
-									return '';
-								}
-							}()
-					}
-				},
-				osVersion: {
-					option: 'aOS Version',
-					description: function() {
-						return 'You are running AaronOS ' + window.aOSversion + '.'
-					},
-					buttons: function() {
-						return 'aOS is updated automatically between restarts, with no action required on your part.'
-					}
-				},
 				contact: {
 					option: 'Contact',
 					description: function() {
-						return 'Having issues? Need help? Something broken on aOS? Want to suggest changes or features? Have some other need to contact me? Feel free to contact me below!'
+						return 'Having issues? Need help? Something broken? Want to suggest changes or features? Have some other need to contact me? Feel free to contact me below!'
 					},
 					buttons: function() {
 						return 'Email: <a href="mailto:karabriggs15@gmail.com">karabriggs15@gmail.com</a>'
 					}
-				},
-				dataCollect: {
-					option: 'Anonymous Data Collection',
-					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.collectData)">' + numEnDis(apps.settings.vars.collectData) + '</span>'
-					},
-					buttons: function() {
-						return '<a href="privacy.txt" target="_blank">Privacy Policy</a><br><br>' +
-							'<button onclick="apps.settings.vars.collectData = -1 * apps.settings.vars.collectData + 1">Toggle</button><br>' +
-							'All ongoing data collection campaigns will be detailed in full here:' +
-							apps.settings.vars.getDataCampaigns()
-					}
-				},
-				uglyLoading: {
-					option: 'Visible Loading',
-					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="numEnDis(dirtyLoadingEnabled)">' + numEnDis(dirtyLoadingEnabled) + '</span>.<br>' +
-							'Allows you to watch aOS load at startup, but looks dirty compared to having a loading screen.'
-					},
-					buttons: function() {
-						return '<button onclick="apps.settings.vars.togDirtyLoad()">Toggle</button>'
-					}
-				},
+				}
 			},
 			screenRes: {
 				folder: 0,
@@ -145,7 +79,7 @@ apps.settings = new Application({
 									return numEnDis(mobileMode)
 								}
 							}() + '.<br>' +
-							'Changes various UI elements and functionality of AaronOS to be better suited for phones and other devices with small screens.'
+							'Changes various UI elements and functionality of the website to be better suited for phones and other devices with small screens.'
 					},
 					buttons: function() {
 						return '<button onclick="apps.settings.vars.setMobileMode(0)">Turn Off</button> <button onclick="apps.settings.vars.setMobileMode(1)">Turn On</button> <button onclick="apps.settings.vars.setMobileMode(2)">Automatic</button>'
@@ -154,7 +88,7 @@ apps.settings = new Application({
 				scaling: {
 					option: 'Content Scaling',
 					description: function() {
-						return 'Use this option to scale AaronOS larger or smaller.<br>Default is 1. Double size is 2. Half size is 0.5.'
+						return 'Use this option to scale the website larger or smaller.<br>Default is 1. Double size is 2. Half size is 0.5.'
 					},
 					buttons: function() {
 						return '<input placeholder="1" size="3" id="STNscaling" value="' + window.screenScale + '"> <button onclick="apps.settings.vars.setScale(getId(\'STNscaling\').value)">Set</button>'
@@ -164,14 +98,14 @@ apps.settings = new Application({
 					option: 'Virtual Monitor Resolution',
 					description: function() {
 						return 'Current: <span class="liveElement" data-live-eval="getId(\'monitor\').style.width">' + getId('monitor').style.width + '</span> by <span class="liveElement" data-live-eval="getId(\'monitor\').style.height">' + getId('monitor').style.height + '</span>.<br>' +
-							'These are the dimensions of AaronOS\'s virtual display. Scrollbars will be present if the display is made too large.'
+							'These are the dimensions of the website\'s virtual display. Scrollbars will be present if the display is made too large.'
 					},
 					buttons: function() {
 						return '<button onclick="fitWindow()">Fit to Browser Window</button> <button onclick="fitWindowOuter()">Fit to Screen</button><hr>' +
 							'Custom Resolution: <input id="STNscnresX" size="4" placeholder="width"> by <input id="STNscnresY" size="4" placeholder="height"><br><br>' +
 							'<button onclick="fitWindowRes(getId(\'STNscnresX\').value, getId(\'STNscnresY\').value)">Set For Now</button> ' +
 							'<button onclick="apps.settings.vars.saveRes(getId(\'STNscnresX\').value, getId(\'STNscnresY\').value)">Save Persistent</button> ' +
-							'<button onclick="lfdel(\'aos_system/apps/settings/saved_screen_res\');fitWindow();">Delete Persistent</button>'
+							'<button onclick="lfdel(\'system/apps/settings/saved_screen_res\');fitWindow();">Delete Persistent</button>'
 					}
 				}
 			},
@@ -184,7 +118,7 @@ apps.settings = new Application({
 					option: 'Dark Mode',
 					description: function() {
 						return 'Current: <span class="liveElement" data-live-eval="numEnDis(darkMode)">Disabled</span>.<br>' +
-							'Makes your aOS apps use a dark background and light foreground. Some apps may need to be restarted to see changes.'
+							'Makes your apps use a dark background and light foreground. Some apps may need to be restarted to see changes.'
 					},
 					buttons: function() {
 						return '<button onclick="apps.settings.vars.togDarkMode();apps.settings.vars.showMenu(apps.settings.vars.menus.windows)">Toggle</button>'
@@ -403,25 +337,12 @@ apps.settings = new Application({
 		screensaverBlockNames: [],
 		corsProxy: 'https://cors-anywhere.herokuapp.com/',
 		saveRes: function (newX, newY) {
-			lfsave('aos_system/apps/settings/saved_screen_res', newX + '/' + newY);
+			lfsave('system/apps/settings/saved_screen_res', newX + '/' + newY);
 			fitWindowRes(newX, newY);
 		},
-		togDirtyLoad: function() {
-			dirtyLoadingEnabled = -1 * dirtyLoadingEnabled + 1;
-			apps.savemaster.vars.save('aos_system/apps/settings/ugly_boot', dirtyLoadingEnabled, 1);
-			localStorage.setItem("aosdirtyloading", String(dirtyLoadingEnabled));
-		},
 		resetOS: function() {
-			apps.prompt.vars.confirm('<h1>STOP</h1><br><br>Please confirm with absolute certainty that you wish to RESET AaronOS.', ['<h1>CANCEL</h1>', '<h1 style="color:#F00">RESET</h1>'], function (btn) {
-				if (btn) {
-					apps.prompt.vars.prompt('<h1>HOLD UP</h1><br><br>I don\'t think hitting a button is easy enough, so please follow these instructions:<br><br>Type EXACTLY "Reset AaronOS" into the field below.<br>Press the button and aOS will be reset.<br>If you do not type exactly "Reset AaronOS", then aOS will not reset.', 'RESET', function (str) {
-						if (str === 'Reset AaronOS') {
-							document.cookie = 'keyword=; Max-Age=-99999999;';
-							window.location = 'aosBeta.php';
-						}
-					}, 'AaronOS');
-				}
-			}, 'Settings');
+			document.cookie = 'keyword=; Max-Age=-99999999;';
+			window.location = 'index.php';
 		},
 		captionButtonsLeft: 0,
 		togCaptionButtonsLeft: function (nosave) {
@@ -433,7 +354,7 @@ apps.settings = new Application({
 				this.captionButtonsLeft = 1;
 			}
 
-			if (!nosave) ufsave('aos_system/windows/controls_on_left', this.captionButtonsLeft);
+			if (!nosave) ufsave('system/windows/controls_on_left', this.captionButtonsLeft);
 		},
 		iconTitlesEnabled: 1,
 		toggleIconTitles: function (nosave) {
@@ -443,12 +364,12 @@ apps.settings = new Application({
 			} else {
 				getId("icons").classList.add("noIconTitles");
 			}
-			if (!nosave) ufsave("aos_system/taskbar/iconTitles", String(this.iconTitlesEnabled));
+			if (!nosave) ufsave("system/taskbar/iconTitles", String(this.iconTitlesEnabled));
 		},
 		setScale: function (newScale, nosave) {
 			window.screenScale = parseFloat(newScale);
 			fitWindow();
-			if (!nosave) lfsave('aos_system/apps/settings/ui_scale', newScale);
+			if (!nosave) lfsave('system/apps/settings/ui_scale', newScale);
 		},
 		togDarkMode: function (nosave) {
 			if (darkMode) {
@@ -459,7 +380,7 @@ apps.settings = new Application({
 				document.body.classList.add('darkMode');
 			}
 			apps.settings.vars.updateFrameStyles();
-			if (!nosave) ufsave('aos_system/windows/dark_mode', darkMode);
+			if (!nosave) ufsave('system/windows/dark_mode', darkMode);
 		},
 		updateFrameStyles: function() {
 			var allFrames = document.getElementsByTagName("iframe");
@@ -488,7 +409,7 @@ apps.settings = new Application({
 				setMobile(0);
 				autoMobile = 0;
 			}
-			if (!nosave) lfsave('aos_system/apps/settings/mobile_mode', type);
+			if (!nosave) lfsave('system/apps/settings/mobile_mode', type);
 			checkMobileSize();
 		},
 		tmpPasswordSet: '',
@@ -545,7 +466,7 @@ apps.settings = new Application({
 		longTapTime: 500000,
 		togLongTap: function (nosave) {
 			this.longTap = -1 * this.longTap + 1;
-			if (!nosave) ufsave('aos_system/apps/settings/ctxmenu_two_fingers', this.longTap);
+			if (!nosave) ufsave('system/apps/settings/ctxmenu_two_fingers', this.longTap);
 		},
 		clickToMove: 0,
 		togClickToMove: function() {
@@ -553,7 +474,7 @@ apps.settings = new Application({
 		},
 		togNoraHelpTopics: function (nosave) {
 			this.noraHelpTopics = this.noraHelpTopics * -1 + 1;
-			if (!nosave) ufsave('aos_system/noraa/adv_help_enabled', this.noraHelpTopics);
+			if (!nosave) ufsave('system/noraa/adv_help_enabled', this.noraHelpTopics);
 		},
 		noraHelpTopics: 1,
 		collectData: 0,
@@ -566,17 +487,17 @@ apps.settings = new Application({
 				// Stop nora's listening
 				this.currNoraListening = "0";
 				apps.nora.vars.stopContRecog();
-				if (!nosave) ufsave('aos_system/noraa/listen_enabled', this.currNoraListening);
+				if (!nosave) ufsave('system/noraa/listen_enabled', this.currNoraListening);
 			} else {
 				// Start nora's listening
 				this.currNoraListening = "1";
 				apps.nora.vars.startContRecog();
-				if (!nosave) ufsave('aos_system/noraa/listen_enabled', this.currNoraListening);
+				if (!nosave) ufsave('system/noraa/listen_enabled', this.currNoraListening);
 			}
 		},
 		togNoraPhrase: function (nosave) {
 			this.currNoraPhrase = getId('STNnoraphrase').value;
-			if (!nosave) ufsave('aos_system/noraa/listen_phrase', this.currNoraPhrase);
+			if (!nosave) ufsave('system/noraa/listen_phrase', this.currNoraPhrase);
 		},
 		setDebugLevel: function (level) {
 			dbgLevel = level;
@@ -610,7 +531,7 @@ apps.settings = new Application({
 			} else {
 				this.FILcanWin = 1;
 			}
-			ufsave("aos_system/apps/files/window_debug", '' + this.FILcanWin);
+			ufsave("system/apps/files/window_debug", '' + this.FILcanWin);
 		},
 		enabWinImg: 1,
 		currWinImg: 'images/winimg.png',
@@ -622,14 +543,14 @@ apps.settings = new Application({
 					this.tempArray[elem].style.display = "none";
 				}
 				this.enabWinImg = 0;
-				if (!nosave) ufsave("aos_system/windows/border_texture_enabled", "0");
+				if (!nosave) ufsave("system/windows/border_texture_enabled", "0");
 			} else {
 				this.tempArray = document.getElementsByClassName("winBimg");
 				for (let elem = 0; elem < this.tempArray.length; elem++) {
 					this.tempArray[elem].style.display = "block";
 				}
 				this.enabWinImg = 1;
-				if (!nosave) ufsave("aos_system/windows/border_texture_enabled", "1");
+				if (!nosave) ufsave("system/windows/border_texture_enabled", "1");
 			}
 			d(1, perfCheck('settings') + '&micro;s to toggle windowbgimg');
 		},
@@ -641,12 +562,12 @@ apps.settings = new Application({
 				this.tempArray[elem].style.backgroundImage = 'url(' + this.currWinImg + ')';
 			}
 
-			if (!nosave) ufsave("aos_system/windows/border_texture", this.currWinImg);
+			if (!nosave) ufsave("system/windows/border_texture", this.currWinImg);
 			d(1, perfCheck('settings') + '&micro;s to set windowbgimg');
 		},
 		NORAAsetDelay: function (nosave) {
 			apps.nora.vars.inputDelay = parseInt(getId('STNnoraDelay').value, 10);
-			if (!nosave) ufsave('aos_system/noraa/speech_response_delay', apps.nora.vars.inputDelay);
+			if (!nosave) ufsave('system/noraa/speech_response_delay', apps.nora.vars.inputDelay);
 		},
 		tempArray: [],
 		bgFit: 'center',
@@ -776,7 +697,7 @@ apps.settings = new Application({
 					newPage: function() {
 						if (apps.settings.vars.screensavers.wikiRandom.vars.canRun) {
 							getId('screensaverLayer').innerHTML = '';
-							if (ufload("aos_system/screensaver/wikirandom/logo_enabled") === '0') {
+							if (ufload("system/screensaver/wikirandom/logo_enabled") === '0') {
 								getId('screensaverLayer').innerHTML = '<iframe src="https://en.wikipedia.org/wiki/Special:Random" style="pointer-events:none;border:none;width:100%;height:100%;"></iframe>';
 							} else {
 								getId('screensaverLayer').innerHTML = '<iframe src="https://en.wikipedia.org/wiki/Special:Random" style="pointer-events:none;border:none;width:100%;height:100%;"></iframe><div style="top:10px;right:200px;font-size:108px;color:#557;font-family:W95FA"><img src="appicons/ds/aOS.png" style="width:128px;height:128px"><i>Screensaver</i></div>';
@@ -785,7 +706,7 @@ apps.settings = new Application({
 						}
 					},
 					setSetting: function (btn) {
-						ufsave('aos_system/screensaver/wikirandom/logo_enabled', String(btn));
+						ufsave('system/screensaver/wikirandom/logo_enabled', String(btn));
 					}
 				}
 			}
@@ -800,12 +721,12 @@ apps.settings = new Application({
 		},
 		setScreensaverTime: function (newTime) {
 			this.screensaverTime = newTime;
-			ufsave("aos_system/screensaver/idle_time", this.screensaverTime);
+			ufsave("system/screensaver/idle_time", this.screensaverTime);
 		},
 		setScreensaver: function (type) {
 			this.currScreensaver = type;
 			this.screensavers[type].selected();
-			ufsave("aos_system/screensaver/selected_screensaver", this.currScreensaver);
+			ufsave("system/screensaver/selected_screensaver", this.currScreensaver);
 		},
 		currWinColor: "rgba(150, 150, 200, 0.5)",
 		currWinBlend: "screen",
@@ -813,7 +734,7 @@ apps.settings = new Application({
 		isAero: 0,
 		sB: function (nosave) {
 			perfStart('settings');
-			getId('aOSloadingBg').style.backgroundImage = "url(" + getId('bckGrndImg').value + ")";
+			getId('loadingBg').style.backgroundImage = "url(" + getId('bckGrndImg').value + ")";
 			getId("monitor").style.backgroundImage = "url(" + getId("bckGrndImg").value + ")";
 			getId("bgSizeElement").src = getId("bckGrndImg").value;
 			if (this.isAero) {
@@ -823,7 +744,7 @@ apps.settings = new Application({
 				}
 			}
 			if (!nosave) {
-				ufsave("aos_system/desktop/background_image", getId("bckGrndImg").value);
+				ufsave("system/desktop/background_image", getId("bckGrndImg").value);
 			}
 			try {
 				updateBgSize();
@@ -843,7 +764,7 @@ apps.settings = new Application({
 					this.tempArray[elem].style.webkitFilter = "none";
 				}
 				this.isAero = 0;
-				if (!nosave) ufsave("aos_system/windows/blur_enabled", "0");
+				if (!nosave) ufsave("system/windows/blur_enabled", "0");
 			} else {
 				if (this.isBackdrop) this.togBackdropFilter(nosave);
 				this.tempArray = document.getElementsByClassName("winAero");
@@ -854,7 +775,7 @@ apps.settings = new Application({
 					this.tempArray[elem].style.webkitFilter = "blur(" + this.currWinblurRad + "px)";
 				}
 				this.isAero = 1;
-				if (!nosave) ufsave("aos_system/windows/blur_enabled", "1");
+				if (!nosave) ufsave("system/windows/blur_enabled", "1");
 			}
 			d(1, perfCheck('settings') + '&micro;s to toggle windowblur');
 		},
@@ -863,10 +784,10 @@ apps.settings = new Application({
 		togDispMap: function (nosave) {
 			if (this.dispMapEffect) {
 				this.dispMapEffect = "";
-				if (!nosave) ufsave("aos_system/windows/distort_enabled", "0");
+				if (!nosave) ufsave("system/windows/distort_enabled", "0");
 			} else {
 				this.dispMapEffect = " url(#svgblur)";
-				if (!nosave) ufsave("aos_system/windows/distort_enabled", "1");
+				if (!nosave) ufsave("system/windows/distort_enabled", "1");
 			}
 			if (this.isBackdrop) {
 				this.togBackdropFilter(1);
@@ -887,7 +808,7 @@ apps.settings = new Application({
 				getId("tskbrBimg").style.backgroundPosition = "";
 				getId('ctxMenu').classList.remove('backdropFilterCtxMenu');
 				this.isBackdrop = 0;
-				if (!nosave) ufsave("aos_system/windows/backdropfilter_blur", "0");
+				if (!nosave) ufsave("system/windows/backdropfilter_blur", "0");
 			} else {
 				if (this.isAero) this.togAero(nosave);
 				this.tempArray = document.getElementsByClassName("window");
@@ -905,7 +826,7 @@ apps.settings = new Application({
 				}
 				getId('ctxMenu').classList.add('backdropFilterCtxMenu');
 				this.isBackdrop = 1;
-				if (!nosave) ufsave("aos_system/windows/backdropfilter_blur", "1");
+				if (!nosave) ufsave("system/windows/backdropfilter_blur", "1");
 			}
 			d(1, perfCheck('settings') + '&micro;s to toggle backdrop filter');
 		},
@@ -920,7 +841,7 @@ apps.settings = new Application({
 			for (let elem = 0; elem < this.tempArray.length; elem++) {
 				this.tempArray[elem].style.backgroundColor = this.currWinColor;
 			}
-			if (!nosave) ufsave("aos_system/windows/border_color", this.currWinColor);
+			if (!nosave) ufsave("system/windows/border_color", this.currWinColor);
 			d(1, perfCheck('settings') + '&micro;s to set window color');
 		},
 		setAeroRad: function (nosave) {
@@ -946,11 +867,11 @@ apps.settings = new Application({
 				getId("taskbar").style.backdropFilter = "blur(" + this.currWinblurRad + "px)" + this.dispMapEffect;
 			}
 			if (!nosave) {
-				ufsave("aos_system/windows/blur_radius", this.currWinblurRad);
+				ufsave("system/windows/blur_radius", this.currWinblurRad);
 			}
 			d(1, perfCheck('settings') + '&micro;s to set windowblur radius');
 		},
-		winFadeDistance: '0.5',
+		winFadeDistance: '0.5', // TODO
 		setFadeDistance: function (newDist, nosave) {
 			this.winFadeDistance = newDist;
 			for (let app in apps) {
@@ -959,7 +880,7 @@ apps.settings = new Application({
 					getId('win_' + apps[app].objName + '_top').style.opacity = '0';
 				}
 			}
-			if (!nosave) ufsave("aos_system/windows/fade_distance", newDist);
+			if (!nosave) ufsave("system/windows/fade_distance", newDist);
 		},
 		reqFullscreen: function() {
 			getId("monitor").requestFullscreen();
@@ -993,23 +914,23 @@ apps.settings = new Application({
 			if (arg === 'restart') {
 				apps.prompt.vars.confirm('Are you sure you wish to restart aOS?', ['No, Stay On', 'Yes, Restart'], function (btn) {
 					if (btn) {
-						getId('aOSisLoading').style.opacity = '0';
-						getId('aOSloadingBg').style.opacity = '0';
-						getId('aOSisLoading').style.transition = '1s';
-						getId('aOSisLoading').style.display = 'block';
-						getId('aOSloadingBg').style.display = 'block';
+						getId('isLoading').style.opacity = '0';
+						getId('loadingBg').style.opacity = '0';
+						getId('isLoading').style.transition = '1s';
+						getId('isLoading').style.display = 'block';
+						getId('loadingBg').style.display = 'block';
 						window.shutDownPercentComplete = 0;
 						window.shutDownTotalPercent = 1;
-						getId('aOSisLoading').innerHTML = '<div id="aOSisLoadingDiv"><h1>Restarting aOS</h1><hr><div id="aOSloadingInfoDiv"><div id="aOSloadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
-						getId('aOSisLoading').classList.remove('cursorLoadDark');
-						getId('aOSisLoading').classList.add('cursorLoadLight');
+						getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
+						getId('isLoading').classList.remove('cursorLoadDark');
+						getId('isLoading').classList.add('cursorLoadLight');
 						requestAnimationFrame(function() {
-							getId('aOSisLoading').style.opacity = '1';
-							getId('aOSloadingBg').style.opacity = '1';
+							getId('isLoading').style.opacity = '1';
+							getId('loadingBg').style.opacity = '1';
 						});
 						window.setTimeout(function() {
-							getId('aOSisLoading').classList.remove('cursorLoadLight');
-							getId('aOSisLoading').classList.add('cursorLoadDark');
+							getId('isLoading').classList.remove('cursorLoadLight');
+							getId('isLoading').classList.add('cursorLoadDark');
 							shutDownPercentComplete = codeToRun.length;
 							for (var app in apps) {
 								c(function (args) {
@@ -1021,7 +942,7 @@ apps.settings = new Application({
 							shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
 							shutDownPercentComplete = 0;
 							c(function() {
-								getId('aOSisLoading').innerHTML = '<div id="aOSisLoadingDiv"><h1>Restarting aOS</h1><hr><div id="aOSloadingInfoDiv"><div id="aOSloadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
+								getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
 								if (logout) {
 									document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 								}
@@ -1033,23 +954,23 @@ apps.settings = new Application({
 			} else {
 				apps.prompt.vars.confirm('Are you sure you wish to shut down aOS?', ['No, Stay On', 'Yes, Shut Down'], function (btn) {
 					if (btn) {
-						getId('aOSisLoading').style.opacity = '0';
-						getId('aOSloadingBg').style.opacity = '0';
-						getId('aOSisLoading').style.transition = '1s';
-						getId('aOSisLoading').style.display = 'block';
-						getId('aOSloadingBg').style.display = 'block';
+						getId('isLoading').style.opacity = '0';
+						getId('loadingBg').style.opacity = '0';
+						getId('isLoading').style.transition = '1s';
+						getId('isLoading').style.display = 'block';
+						getId('loadingBg').style.display = 'block';
 						window.shutDownPercentComplete = 0;
 						window.shutDownTotalPercent = 1;
-						getId('aOSisLoading').innerHTML = '<div id="aOSisLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="aOSloadingInfoDiv"><div id="aOSloadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
-						getId('aOSisLoading').classList.remove('cursorLoadDark');
-						getId('aOSisLoading').classList.add('cursorLoadLight');
+						getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
+						getId('isLoading').classList.remove('cursorLoadDark');
+						getId('isLoading').classList.add('cursorLoadLight');
 						requestAnimationFrame(function() {
-							getId('aOSisLoading').style.opacity = '1';
-							getId('aOSloadingBg').style.opacity = '1';
+							getId('isLoading').style.opacity = '1';
+							getId('loadingBg').style.opacity = '1';
 						});
 						window.setTimeout(function() {
-							getId('aOSisLoading').classList.remove('cursorLoadLight');
-							getId('aOSisLoading').classList.add('cursorLoadDark');
+							getId('isLoading').classList.remove('cursorLoadLight');
+							getId('isLoading').classList.add('cursorLoadDark');
 							shutDownPercentComplete = codeToRun.length;
 							for (var app in apps) {
 								c(function (args) {
@@ -1061,7 +982,7 @@ apps.settings = new Application({
 							shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
 							shutDownPercentComplete = 0;
 							c(function() {
-								getId('aOSisLoading').innerHTML = '<div id="aOSisLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="aOSloadingInfoDiv"><div id="aOSloadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
+								getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
 								if (logout) {
 									document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 								}
@@ -1113,107 +1034,107 @@ apps.settings = new Application({
 						}, 600000);
 					}
 					window.setTimeout(function() {
-						getId('aOSloadingInfo').innerHTML = 'Welcome.';
+						getId('loadingInfo').innerHTML = 'Welcome.';
 						getId('desktop').style.display = '';
 						getId('taskbar').style.display = '';
 					}, 0);
 					window.setTimeout(function() {
-						getId('aOSisLoading').style.opacity = 0;
-						getId('aOSloadingBg').style.opacity = 0;
+						getId('isLoading').style.opacity = 0;
+						getId('loadingBg').style.opacity = 0;
 					}, 5);
 					window.setTimeout(function() {
-						getId('aOSisLoading').style.display = 'none';
-						getId('aOSisLoading').innerHTML = '';
-						getId('aOSloadingBg').style.display = 'none';
+						getId('isLoading').style.display = 'none';
+						getId('isLoading').innerHTML = '';
+						getId('loadingBg').style.display = 'none';
 					}, 1005);
 					window.setTimeout(function() {
 						openapp(apps.settings, 'oldMenuHide');
-						if (ufload("aos_system/desktop/background_image")) {
-							getId("bckGrndImg").value = ufload("aos_system/desktop/background_image");
+						if (ufload("system/desktop/background_image")) {
+							getId("bckGrndImg").value = ufload("system/desktop/background_image");
 							apps.settings.vars.sB(1);
 						}
-						if (ufload("aos_system/windows/backdropfilter_blur")) {
-							if (ufload("aos_system/windows/backdropfilter_blur") === "0") {
+						if (ufload("system/windows/backdropfilter_blur")) {
+							if (ufload("system/windows/backdropfilter_blur") === "0") {
 								apps.settings.vars.togBackdropFilter(1);
 							}
 						} else if (!backdropFilterSupport) {
 							apps.settings.vars.togBackdropFilter(1);
 						}
-						if (ufload("aos_system/windows/blur_radius")) {
-							getId("STNwinblurRadius").value = ufload("aos_system/windows/blur_radius");
+						if (ufload("system/windows/blur_radius")) {
+							getId("STNwinblurRadius").value = ufload("system/windows/blur_radius");
 							apps.settings.vars.setAeroRad(1);
 						}
-						if (ufload("aos_system/taskbar/iconTitles")) {
-							if (ufload("aos_system/taskbar/iconTitles") === "0") {
+						if (ufload("system/taskbar/iconTitles")) {
+							if (ufload("system/taskbar/iconTitles") === "0") {
 								apps.settings.vars.toggleIconTitles(1);
 							}
 						}
-						if (ufload("aos_system/language")) {
-							currentlanguage = ufload("aos_system/language");
+						if (ufload("system/language")) {
+							currentlanguage = ufload("system/language");
 						}
-						if (ufload("aos_system/noraa/listen_enabled")) {
-							if (ufload("aos_system/noraa/listen_enabled") === 1) {
+						if (ufload("system/noraa/listen_enabled")) {
+							if (ufload("system/noraa/listen_enabled") === 1) {
 								apps.settings.vars.togNoraListen(1);
 							}
 						}
-						if (ufload("aos_system/noraa/listen_phrase")) {
-							apps.settings.vars.currNoraPhrase = ufload("aos_system/noraa/listen_phrase");
+						if (ufload("system/noraa/listen_phrase")) {
+							apps.settings.vars.currNoraPhrase = ufload("system/noraa/listen_phrase");
 						}
-						if (ufload("aos_system/apps/settings/data_collect_enabled")) {
-							apps.settings.vars.collectData = parseInt(ufload("aos_system/apps/settings/data_collect_enabled"), 10);
+						if (ufload("system/apps/settings/data_collect_enabled")) {
+							apps.settings.vars.collectData = parseInt(ufload("system/apps/settings/data_collect_enabled"), 10);
 						}
-						if (ufload("aos_system/noraa/adv_help_enabled")) {
-							if (ufload("aos_system/noraa/adv_help_enabled") === "0") {
+						if (ufload("system/noraa/adv_help_enabled")) {
+							if (ufload("system/noraa/adv_help_enabled") === "0") {
 								apps.settings.vars.togNoraHelpTopics(1);
 							}
 						}
-						if (ufload("aos_system/apps/settings/ctxmenu_two_fingers")) {
-							if (ufload("aos_system/apps/settings/ctxmenu_two_fingers") === "1") {
+						if (ufload("system/apps/settings/ctxmenu_two_fingers")) {
+							if (ufload("system/apps/settings/ctxmenu_two_fingers") === "1") {
 								apps.settings.vars.togLongTap(1);
 							}
 						}
-						apps.settings.vars.setScale(lfload("aos_system/apps/settings/ui_scale") || "1", 1);
-						if (lfload("aos_system/apps/settings/saved_screen_res")) {
-							apps.settings.vars.tempResArray = lfload("aos_system/apps/settings/saved_screen_res").split('/');
+						apps.settings.vars.setScale(lfload("system/apps/settings/ui_scale") || "1", 1);
+						if (lfload("system/apps/settings/saved_screen_res")) {
+							apps.settings.vars.tempResArray = lfload("system/apps/settings/saved_screen_res").split('/');
 							fitWindowRes(apps.settings.vars.tempResArray[0], apps.settings.vars.tempResArray[1]);
 						}
-						if (ufload("aos_system/apps/settings/cors_proxy")) {
-							apps.settings.vars.corsProxy = ufload("aos_system/apps/settings/cors_proxy");
+						if (ufload("system/apps/settings/cors_proxy")) {
+							apps.settings.vars.corsProxy = ufload("system/apps/settings/cors_proxy");
 						}
-						if (ufload("aos_system/windows/dark_mode")) {
-							if (ufload("aos_system/windows/dark_mode") === "1") {
+						if (ufload("system/windows/dark_mode")) {
+							if (ufload("system/windows/dark_mode") === "1") {
 								apps.settings.vars.togDarkMode(1);
 							}
 						}
-						if (lfload("aos_system/apps/settings/mobile_mode")) {
-							apps.settings.vars.setMobileMode(lfload("aos_system/apps/settings/mobile_mode"), 1);
+						if (lfload("system/apps/settings/mobile_mode")) {
+							apps.settings.vars.setMobileMode(lfload("system/apps/settings/mobile_mode"), 1);
 						}
-						if (ufload("aos_system/desktop/background_fit")) {
-							apps.settings.vars.setBgFit(ufload("aos_system/desktop/background_fit"), 1);
+						if (ufload("system/desktop/background_fit")) {
+							apps.settings.vars.setBgFit(ufload("system/desktop/background_fit"), 1);
 						}
-						if (ufload("aos_system/screensaver/enabled")) {
-							if (ufload("aos_system/screensaver/enabled") === "0") {
+						if (ufload("system/screensaver/enabled")) {
+							if (ufload("system/screensaver/enabled") === "0") {
 								apps.settings.vars.togScreensaver();
 							}
 						}
-						if (ufload("aos_system/screensaver/idle_time")) {
-							apps.settings.vars.screensaverTime = parseInt(ufload("aos_system/screensaver/idle_time"), 10);
+						if (ufload("system/screensaver/idle_time")) {
+							apps.settings.vars.screensaverTime = parseInt(ufload("system/screensaver/idle_time"), 10);
 						}
-						if (ufload("aos_system/screensaver/selected_screensaver")) {
-							apps.settings.vars.currScreensaver = ufload("aos_system/screensaver/selected_screensaver");
+						if (ufload("system/screensaver/selected_screensaver")) {
+							apps.settings.vars.currScreensaver = ufload("system/screensaver/selected_screensaver");
 						}
 						apps.settings.vars.screensaverTimer = window.setInterval(apps.settings.vars.checkScreensaver, 1000);
-						if (ufload("aos_system/windows/fade_distance")) {
+						if (ufload("system/windows/fade_distance")) {
 							setTimeout(function() {
-								apps.settings.vars.setFadeDistance(ufload("aos_system/windows/fade_distance"), 1);
+								apps.settings.vars.setFadeDistance(ufload("system/windows/fade_distance"), 1);
 							}, 100);
 						} else {
 							setTimeout(function() {
 								apps.settings.vars.setFadeDistance("0.5", 1);
 							}, 1000);
 						}
-						if (typeof ufload("aos_system/taskbar/pinned_apps") === "string") {
-							pinnedApps = JSON.parse(ufload("aos_system/taskbar/pinned_apps"));
+						if (typeof ufload("system/taskbar/pinned_apps") === "string") {
+							pinnedApps = JSON.parse(ufload("system/taskbar/pinned_apps"));
 							for (var i in pinnedApps) {
 								getId('icn_' + pinnedApps[i]).style.display = 'inline-block';
 							}
@@ -1221,7 +1142,7 @@ apps.settings = new Application({
 
 						// Google Play settings
 						if (sessionStorage.getItem('GooglePlay') === 'true') {
-							if (ufload("aos_system/windows/blur_enabled") !== "0") {
+							if (ufload("system/windows/blur_enabled") !== "0") {
 								apps.settings.vars.togAero(1);
 							}
 
@@ -1239,7 +1160,7 @@ apps.settings = new Application({
 							setTimeout(apps.settings.vars.reqFullscreen, 5000);
 						}
 
-						var dsktpIconFolder = ufload("aos_system/desktop/");
+						var dsktpIconFolder = ufload("system/desktop/");
 						if (dsktpIconFolder) {
 							for (let file in dsktpIconFolder) {
 								if (file.indexOf('ico_') === 0) {

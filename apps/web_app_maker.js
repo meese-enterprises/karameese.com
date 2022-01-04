@@ -56,7 +56,7 @@ apps.webAppMaker = new Application({
 			'<h2>Install App</h2>' +
 			'<p>This will add your app to your database. Next time you load aOS (or refresh the page), your app will be on the desktop.</p>' +
 			'<button onclick="apps.webAppMaker.vars.addApp()">Install</button>' +
-			'<p>To uninstall an app, you can delete its file in the file browser. Its file will be located in "aos_system/wap_apps".</p>'
+			'<p>To uninstall an app, you can delete its file in the file browser. Its file will be located in "system/wap_apps".</p>'
 		);
 		this.appWindow.openWindow();
 	},
@@ -601,13 +601,13 @@ apps.webAppMaker = new Application({
 			"context": "true"
 		},
 		updatePermissions: function() {
-			ufsave("aos_system/apps/webAppMaker/trusted_apps", JSON.stringify(apps.webAppMaker.vars.trustedApps, null, 4));
+			ufsave("system/apps/webAppMaker/trusted_apps", JSON.stringify(apps.webAppMaker.vars.trustedApps, null, 4));
 		},
 		reflectPermissions: function() {
 			doLog("Initializing WAP Permission system...", "#ACE");
-			if (ufload("aos_system/apps/webAppMaker/trusted_apps")) {
+			if (ufload("system/apps/webAppMaker/trusted_apps")) {
 				try {
-					var tempobj = JSON.parse(ufload("aos_system/apps/webAppMaker/trusted_apps"));
+					var tempobj = JSON.parse(ufload("system/apps/webAppMaker/trusted_apps"));
 					var fail = 0;
 					for (var i in tempobj) {
 						for (var j in tempobj[i]) {
@@ -959,7 +959,7 @@ apps.webAppMaker = new Application({
 				}
 			}
 			if (!invalid) {
-				ufsave('aos_system/wap_apps/webApp' + apps.webAppMaker.vars.numberOfApps, JSON.stringify(tempObj));
+				ufsave('system/wap_apps/webApp' + apps.webAppMaker.vars.numberOfApps, JSON.stringify(tempObj));
 				apps.webAppMaker.vars.numberOfApps++;
 				apps.prompt.vars.alert('Finished. Restart aOS to use your new app!', 'Okay', function() {}, 'Web App Maker');
 			} else {
@@ -984,7 +984,7 @@ apps.webAppMaker = new Application({
 					this.appWindow.openWindow();
 				},
 				vars: {
-					appInfo: 'This app was made using the Web App Maker app.<br><br>Home URL:<br>' + tempObj.url + '<br><br>File path:<br>USERFILES/aos_system/wap_apps/' + appFileName + '<br><br>App object name:<br>apps.webApp' + apps.webAppMaker.vars.numberOfApps,
+					appInfo: 'This app was made using the Web App Maker app.<br><br>Home URL:<br>' + tempObj.url + '<br><br>File path:<br>USERFILES/system/wap_apps/' + appFileName + '<br><br>App object name:<br>apps.webApp' + apps.webAppMaker.vars.numberOfApps,
 					appURL: tempObj.url,
 					sizeX: tempObj.sizeX,
 					sizeY: tempObj.sizeY
@@ -1017,9 +1017,9 @@ apps.webAppMaker = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					for (var file in ufload("aos_system/wap_apps")) {
+					for (var file in ufload("system/wap_apps")) {
 						try {
-							apps.webAppMaker.vars.compileApp(ufload("aos_system/wap_apps/" + file), file);
+							apps.webAppMaker.vars.compileApp(ufload("system/wap_apps/" + file), file);
 						} catch (err) {
 							doLog("Failed initializing " + file + ":", "#F00");
 							doLog(err, "#F00");
@@ -1038,9 +1038,9 @@ apps.webAppMaker = new Application({
 					}
 
 					window.addEventListener("message", apps.webAppMaker.vars.recieveMessage);
-					if (ufload("aos_system/apps/webAppMaker/trusted_apps")) {
+					if (ufload("system/apps/webAppMaker/trusted_apps")) {
 						try {
-							var tempobj = JSON.parse(ufload("aos_system/apps/webAppMaker/trusted_apps"));
+							var tempobj = JSON.parse(ufload("system/apps/webAppMaker/trusted_apps"));
 							var fail = 0;
 							for (var i in tempobj) {
 								for (var j in tempobj[i]) {

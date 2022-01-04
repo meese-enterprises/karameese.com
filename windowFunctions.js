@@ -242,7 +242,7 @@ function calcWindowblur(win, noBgSize) {
 }
 
 function fitWindowIfPermitted() {
-	if (!lfload("aos_system/apps/settings/saved_screen_res")) {
+	if (!lfload("system/apps/settings/saved_screen_res")) {
 		fitWindow();
 	}
 }

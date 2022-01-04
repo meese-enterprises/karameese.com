@@ -9,7 +9,7 @@
             -->
         <script defer src="devTools.js"></script>
         <script defer>
-            // this function will be grabbed by devTools and run on connection with aOS
+            // this function will be grabbed by devTools and run on connection with the website
             window.devTools_connectListener = function(){
                 // enable padding on the app's window
                 // (in the case of this app, we want some padding, but this is up to your own discretion)

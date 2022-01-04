@@ -12,5 +12,5 @@
 	"background_color": "#384450",
 	"theme_color": "#384450",
 	"orientation": "any",
-	"start_url": "aosBeta.php"
+	"start_url": "index.php"
 }

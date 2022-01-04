@@ -1,7 +1,0 @@
-{
-    "name": "Test Boot Script",
-    "id": "testbootscript",
-    "version": "1.0",
-    "appType": "bootscript",
-    "scriptContent": "doLog('Test Boot Script is installed and working.')"
-}

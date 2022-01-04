@@ -95,14 +95,14 @@
                 editor.insert(data.pastedText);
             }
         }
-        // this entire func .is ripped from aOS Tools for the purpose of replacing one line of its function
+        // this entire func .is ripped from devTools for the purpose of replacing one line of its function
         function showEditMenu(event, enablePaste, textOverride, positionOverride){
             devTools.waitingPasteTarget = event ? event.target : null;
             devTools.waitingPasteRange = event ? (event.target.selectionStart ? [event.target.selectionStart, event.target.selectionEnd] : null) : null;
             devTools.sendRequest({
                 action: "context:text_menu",
                 position: positionOverride || event ? [event.pageX, event.pageY] : [0, 0],
-                // editor.getSelectedText() is the only change from vanilla aOS Tools
+                // editor.getSelectedText() is the only change from vanilla devTools
                 selectedText: textOverride || editor.getSelectedText(),
                 enablePaste: (event ? (typeof event.target.value === "string" ? true : false) : false) ? enablePaste : 0
             }, devTools.recievePasteCommand);
