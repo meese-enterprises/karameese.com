@@ -119,7 +119,6 @@
 	echo '<script src="./helperFunctions.js"></script>';
 
 	echo '<script src="./dateFunctions.js"></script>';
-	echo '<script src="./repoFunctions.js"></script>';
 	echo '<script src="./smartIconFunctions.js"></script>';
 	echo '<script src="./widgetFunctions.js"></script>';
 	echo '<script src="./windowFunctions.js"></script>';
@@ -130,7 +129,6 @@
 
 	echo '<script src="./apps/accreditation.js"></script>';
 	echo '<script src="./apps/app_browser.js"></script>';
-	echo '<script src="./apps/app_center.js"></script>';
 	echo '<script src="./apps/app_info.js"></script>';
 	echo '<script src="./apps/app_prompt.js"></script>';
 	echo '<script src="./apps/bash.js"></script>';
@@ -139,6 +137,7 @@
 	echo '<script src="./apps/dev_documentation.js"></script>';
 	echo '<script src="./apps/file_manager.js"></script>';
 	echo '<script src="./apps/js_console.js"></script>';
+	echo '<script src="./apps/js_paint.js"></script>';
 	echo '<script src="./apps/messaging.js"></script>';
 	echo '<script src="./apps/music_player.js"></script>';
 	echo '<script src="./apps/nora.js"></script>';

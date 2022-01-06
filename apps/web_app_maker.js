@@ -65,24 +65,8 @@ apps.webAppMaker = new Application({
 		ctxMenus: {
 			defaultCtx: []
 		},
-		// TODO: actually follow the new frame ID system for frame manipulation
 		actions: { // PERMISSIONS
 			context: {
-				/*
-						position: [x, y],
-						options: [
-								{
-										name: "Option 1",
-										icon: "gear",
-										disabled: "true",
-								},
-								{
-										name: "Option 2",
-										customIcon: "ctxMenu/beta/gear.png",
-										sectionBegin: "true"
-								},
-						]
-				*/
 				// show custom menu
 				menu: function (input, frame, frameOrigin) {
 					var boundingRect = frame.getBoundingClientRect();
@@ -262,7 +246,6 @@ apps.webAppMaker = new Application({
 						}
 					}
 					return {
-						customStyle: getId("aosCustomStyle").innerHTML,
 						styleLinks: tempStyleLinks
 					};
 				}

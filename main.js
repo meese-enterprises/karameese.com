@@ -637,11 +637,7 @@ var Application = function (
 			if (appIcon.hasOwnProperty('resizeable')) resizeable = appIcon.resizeable;
 			appImg = appIcon.image || "appicons/ds/aOS.png";
 			appPath = appIcon.codeName;
-			if (typeof appIcon.hideApp === "number") {
-				keepOffDesktop = appIcon.hideApp;
-			} else {
-				keepOffDesktop = 1;
-			}
+			keepOffDesktop = typeof appIcon.hideApp === "number" ? appIcon.hideApp : 1;
 			appVariables = appIcon.vars || {};
 			signalHandlerFunction = appIcon.signalHandler || function (signal) {
 				switch (signal) {
@@ -658,22 +654,18 @@ var Application = function (
 						}.bind(this), 300);
 						break;
 					case "checkrunning":
-						if (this.appWindow.appIcon) {
-							return 1;
-						} else {
-							return 0;
-						}
-						case "shrink":
-							this.appWindow.closeKeepTask();
-							break;
-						case "USERFILES_DONE":
+						return this.appWindow.appIcon ? 1 : 0;
+					case "shrink":
+						this.appWindow.closeKeepTask();
+						break;
+					case "USERFILES_DONE":
 
-							break;
-						case 'shutdown':
+						break;
+					case 'shutdown':
 
-							break;
-						default:
-							doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00");
+						break;
+					default:
+						doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00");
 				}
 			};
 			mainFunction = appIcon.main || function() {};
@@ -1308,6 +1300,11 @@ c(function() {
 	getId('loadingInfo').innerHTML = 'Desktop Icon Maker';
 })
 
+c(function() {
+	m('init jsP');
+	JSPaint();
+});
+
 var files;
 c(function() {
 	m('init NP2');
@@ -1366,10 +1363,6 @@ c(function() {
 
 c(function() {
 	BootScript();
-});
-
-c(function() {
-	AppCenter();
 	getId('loadingInfo').innerHTML = 'Developer Documentation';
 });
 
@@ -1947,10 +1940,8 @@ fadeResizeText();
 // Set up LOCALFILES
 window.LOCALFILES = {};
 if (localStorageSupported) {
-	if (!noUserFiles) {
-		if (localStorage.hasOwnProperty("LOCALFILES")) {
-			LOCALFILES = JSON.parse(localStorage.getItem("LOCALFILES"));
-		}
+	if (!noUserFiles && localStorage.hasOwnProperty("LOCALFILES")) {
+		LOCALFILES = JSON.parse(localStorage.getItem("LOCALFILES"));
 	}
 }
 window.lfsave = function (file, content) {
@@ -2129,7 +2120,7 @@ totalWaitingCodes = codeToRun.length;
 
 // Open apps on startup
 c(function() {
-	openapp(apps.accreditation, 'dsktp');
-	openapp(apps.viewCount, 'dsktp');
-	openapp(apps.musicPlayer, 'dsktp');
+	//openapp(apps.accreditation, 'dsktp');
+	//openapp(apps.viewCount, 'dsktp');
+	//openapp(apps.musicPlayer, 'dsktp');
 });

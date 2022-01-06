@@ -35,32 +35,6 @@ apps.bootScript = new Application({
 			}
 		},
 		doBootScript: function() {
-			for (var i in installedPackages) {
-				for (var j in installedPackages[i]) {
-					if (installedPackages[i][j].appType === "bootscript") {
-						try {
-							apps.bootScript.vars.bootScriptsToEvaluate.repo[i + "_" + j] = {
-								BOOT_SCRIPT_CODE: new Function(installedPackages[i][j].scriptContent)
-							};
-							apps.bootScript.vars.bootScriptsToEvaluate.repo[i + "_" + j].BOOT_SCRIPT_CODE();
-						} catch (err) {
-							doLog("Application Hub Boot Script Error<br>Script: " + i + "." + j + "<br>" + err, "#F00");
-							apps.prompt.vars.notify(
-								"There was an error in one of your Application Hub Boot Scripts (" + (i + "." + j) + "):<br><br>" + err,
-								["Dismiss", "View in Application Hub"],
-								function (btn) {
-									if (btn === 1) {
-										openapp(apps.appCenter, "dsktp");
-										apps.appCenter.vars.doSearch(i + "." + j);
-									}
-								},
-								"Boot Script Error",
-								"appicons/ds/BtS.png"
-							);
-						}
-					}
-				}
-			}
 			if (ufload("system/user_boot_script")) {
 				doLog("moving user bootscript to new folder");
 				var theBootScript = ufload("system/user_boot_script");

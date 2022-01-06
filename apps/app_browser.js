@@ -81,7 +81,7 @@ apps.appsbrowser = new Application({
 		this.appWindow.openWindow();
 	},
 	vars: {
-		appInfo: 'Use this app to browse through every app installed on the aOS system, including internal system apps.',
+		appInfo: '',
 		appsListed: 1,
 		currAppImg: '',
 		currAppIcon: '',

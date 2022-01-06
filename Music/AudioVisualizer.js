@@ -24,7 +24,7 @@ export const AudioVisualizer = {
 			monstercatGradient.addColorStop(0.025, 'rgba(0, 0, 0, 0.9)'); // 0.9
 			monstercatGradient.addColorStop(0.1, 'rgba(0, 0, 0, 1)'); // 1
 
-			for (var i = 0; i < 64; i++) {
+			for (let i = 0; i < 64; i++) {
 				var strength = window.visData[i];
 
 				var fillColor = getColor(strength, i * 4);

@@ -739,18 +739,14 @@ apps.settings = new Application({
 			getId("bgSizeElement").src = getId("bckGrndImg").value;
 			if (this.isAero) {
 				this.tempArray = document.getElementsByClassName("winAero");
-				for (var elem = 0; elem < this.tempArray.length; elem++) {
+				for (let elem = 0; elem < this.tempArray.length; elem++) {
 					this.tempArray[elem].style.backgroundImage = "url(" + getId("bckGrndImg").value + ")";
 				}
 			}
-			if (!nosave) {
-				ufsave("system/desktop/background_image", getId("bckGrndImg").value);
-			}
+			if (!nosave) ufsave("system/desktop/background_image", getId("bckGrndImg").value);
 			try {
 				updateBgSize();
-			} catch (err) {
-
-			}
+			} catch (err) {}
 			d(1, perfCheck('settings') + '&micro;s to set background');
 		},
 		togAero: function (nosave) {
@@ -768,7 +764,7 @@ apps.settings = new Application({
 			} else {
 				if (this.isBackdrop) this.togBackdropFilter(nosave);
 				this.tempArray = document.getElementsByClassName("winAero");
-				for (var elem = 0; elem < this.tempArray.length; elem++) {
+				for (let elem = 0; elem < this.tempArray.length; elem++) {
 					this.tempArray[elem].style.backgroundImage = getId("monitor").style.backgroundImage;
 					this.tempArray[elem].style.backgroundBlendMode = this.currWinBlend;
 					this.tempArray[elem].style.filter = "blur(" + this.currWinblurRad + "px)";
@@ -798,7 +794,7 @@ apps.settings = new Application({
 			perfStart('settings');
 			if (this.isBackdrop) {
 				this.tempArray = document.getElementsByClassName("window");
-				for (var elem = 0; elem < this.tempArray.length; elem++) {
+				for (let elem = 0; elem < this.tempArray.length; elem++) {
 					this.tempArray[elem].style.webkitBackdropFilter = 'none';
 					this.tempArray[elem].style.backdropFilter = 'none';
 					getId(this.tempArray[elem].id.substring(0, this.tempArray[elem].id.length - 4) + "_img").style.backgroundPosition = "";
@@ -832,11 +828,7 @@ apps.settings = new Application({
 		},
 		setWinColor: function (nosave, newcolor) {
 			perfStart('settings');
-			if (newcolor) {
-				this.currWinColor = newcolor;
-			} else {
-				this.currWinColor = getId("STNwinColorInput").value;
-			}
+			this.currWinColor = newcolor || getId("STNwinColorInput").value;
 			this.tempArray = document.getElementsByClassName("winAero");
 			for (let elem = 0; elem < this.tempArray.length; elem++) {
 				this.tempArray[elem].style.backgroundColor = this.currWinColor;
@@ -849,7 +841,7 @@ apps.settings = new Application({
 			this.currWinblurRad = getId("STNwinblurRadius").value;
 			getId("svgDisplaceMap").setAttribute("scale", this.currWinblurRad);
 			if (this.isAero) {
-				for (var elem = 0; elem < this.tempArray.length; elem++) {
+				for (let elem = 0; elem < this.tempArray.length; elem++) {
 					this.tempArray = document.getElementsByClassName("winAero");
 					this.tempArray[elem].style.webkitFilter = "blur(" + this.currWinblurRad + "px)";
 					this.tempArray[elem].style.filter = "blur(" + this.currWinblurRad + "px)";
@@ -859,16 +851,15 @@ apps.settings = new Application({
 			}
 			if (this.isBackdrop) {
 				this.tempArray = document.getElementsByClassName("window");
-				for (var elem = 0; elem < this.tempArray.length; elem++) {
+				for (let elem = 0; elem < this.tempArray.length; elem++) {
 					this.tempArray[elem].style.webkitBackdropFilter = "blur(" + this.currWinblurRad + "px)" + this.dispMapEffect;
 					this.tempArray[elem].style.backdropFilter = "blur(" + this.currWinblurRad + "px)" + this.dispMapEffect;
 				}
 				getId("taskbar").style.webkitBackdropFilter = "blur(" + this.currWinblurRad + "px)" + this.dispMapEffect;
 				getId("taskbar").style.backdropFilter = "blur(" + this.currWinblurRad + "px)" + this.dispMapEffect;
 			}
-			if (!nosave) {
-				ufsave("system/windows/blur_radius", this.currWinblurRad);
-			}
+
+			if (!nosave) ufsave("system/windows/blur_radius", this.currWinblurRad);
 			d(1, perfCheck('settings') + '&micro;s to set windowblur radius');
 		},
 		winFadeDistance: '0.5', // TODO
@@ -910,87 +901,80 @@ apps.settings = new Application({
 				}
 			}, 'Settings');
 		},
+		// TODO: Find the difference between these things
 		shutDown: function (arg, logout) {
 			if (arg === 'restart') {
-				apps.prompt.vars.confirm('Are you sure you wish to restart aOS?', ['No, Stay On', 'Yes, Restart'], function (btn) {
-					if (btn) {
-						getId('isLoading').style.opacity = '0';
-						getId('loadingBg').style.opacity = '0';
-						getId('isLoading').style.transition = '1s';
-						getId('isLoading').style.display = 'block';
-						getId('loadingBg').style.display = 'block';
-						window.shutDownPercentComplete = 0;
-						window.shutDownTotalPercent = 1;
-						getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
-						getId('isLoading').classList.remove('cursorLoadDark');
-						getId('isLoading').classList.add('cursorLoadLight');
-						requestAnimationFrame(function() {
-							getId('isLoading').style.opacity = '1';
-							getId('loadingBg').style.opacity = '1';
-						});
-						window.setTimeout(function() {
-							getId('isLoading').classList.remove('cursorLoadLight');
-							getId('isLoading').classList.add('cursorLoadDark');
-							shutDownPercentComplete = codeToRun.length;
-							for (var app in apps) {
-								c(function (args) {
-									m('THERE WAS AN ERROR SHUTTING DOWN THE APP ' + args + '. SHUTDOWN SHOULD CONTINUE WITH NO ISSUE.');
-									shutDownPercentComplete++;
-									apps[args].signalHandler('shutdown');
-								}, app);
-							}
-							shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
-							shutDownPercentComplete = 0;
-							c(function() {
-								getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
-								if (logout) {
-									document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-								}
-								window.location = 'blackScreen.html#restart-beta';
-							});
-						}, 1005);
+				getId('isLoading').style.opacity = '0';
+				getId('loadingBg').style.opacity = '0';
+				getId('isLoading').style.transition = '1s';
+				getId('isLoading').style.display = 'block';
+				getId('loadingBg').style.display = 'block';
+				window.shutDownPercentComplete = 0;
+				window.shutDownTotalPercent = 1;
+				getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
+				getId('isLoading').classList.remove('cursorLoadDark');
+				getId('isLoading').classList.add('cursorLoadLight');
+				requestAnimationFrame(function() {
+					getId('isLoading').style.opacity = '1';
+					getId('loadingBg').style.opacity = '1';
+				});
+				window.setTimeout(function() {
+					getId('isLoading').classList.remove('cursorLoadLight');
+					getId('isLoading').classList.add('cursorLoadDark');
+					shutDownPercentComplete = codeToRun.length;
+					for (let app in apps) {
+						c(function (args) {
+							m('THERE WAS AN ERROR SHUTTING DOWN THE APP ' + args + '. SHUTDOWN SHOULD CONTINUE WITH NO ISSUE.');
+							shutDownPercentComplete++;
+							apps[args].signalHandler('shutdown');
+						}, app);
 					}
-				}, 'aOS');
+					shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
+					shutDownPercentComplete = 0;
+					c(function() {
+						getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
+						if (logout) {
+							document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+						}
+						window.location = 'blackScreen.html#restart-beta';
+					});
+				}, 1005);
 			} else {
-				apps.prompt.vars.confirm('Are you sure you wish to shut down aOS?', ['No, Stay On', 'Yes, Shut Down'], function (btn) {
-					if (btn) {
-						getId('isLoading').style.opacity = '0';
-						getId('loadingBg').style.opacity = '0';
-						getId('isLoading').style.transition = '1s';
-						getId('isLoading').style.display = 'block';
-						getId('loadingBg').style.display = 'block';
-						window.shutDownPercentComplete = 0;
-						window.shutDownTotalPercent = 1;
-						getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
-						getId('isLoading').classList.remove('cursorLoadDark');
-						getId('isLoading').classList.add('cursorLoadLight');
-						requestAnimationFrame(function() {
-							getId('isLoading').style.opacity = '1';
-							getId('loadingBg').style.opacity = '1';
-						});
-						window.setTimeout(function() {
-							getId('isLoading').classList.remove('cursorLoadLight');
-							getId('isLoading').classList.add('cursorLoadDark');
-							shutDownPercentComplete = codeToRun.length;
-							for (var app in apps) {
-								c(function (args) {
-									m('THERE WAS AN ERROR SHUTTING DOWN THE APP ' + args + '. SHUTDOWN SHOULD CONTINUE WITH NO ISSUE.');
-									shutDownPercentComplete++;
-									apps[args].signalHandler('shutdown');
-								}, app);
-							}
-							shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
-							shutDownPercentComplete = 0;
-							c(function() {
-								getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
-								if (logout) {
-									document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-								}
-								window.location = 'blackScreen.html#beta';
-							});
-						}, 1005);
+				getId('isLoading').style.opacity = '0';
+				getId('loadingBg').style.opacity = '0';
+				getId('isLoading').style.transition = '1s';
+				getId('isLoading').style.display = 'block';
+				getId('loadingBg').style.display = 'block';
+				window.shutDownPercentComplete = 0;
+				window.shutDownTotalPercent = 1;
+				getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
+				getId('isLoading').classList.remove('cursorLoadDark');
+				getId('isLoading').classList.add('cursorLoadLight');
+				requestAnimationFrame(function() {
+					getId('isLoading').style.opacity = '1';
+					getId('loadingBg').style.opacity = '1';
+				});
+				window.setTimeout(function() {
+					getId('isLoading').classList.remove('cursorLoadLight');
+					getId('isLoading').classList.add('cursorLoadDark');
+					shutDownPercentComplete = codeToRun.length;
+					for (let app in apps) {
+						c(function (args) {
+							m('THERE WAS AN ERROR SHUTTING DOWN THE APP ' + args + '. SHUTDOWN SHOULD CONTINUE WITH NO ISSUE.');
+							shutDownPercentComplete++;
+							apps[args].signalHandler('shutdown');
+						}, app);
 					}
-				}, 'aOS');
+					shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
+					shutDownPercentComplete = 0;
+					c(function() {
+						getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
+						if (logout) {
+							document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+						}
+						window.location = 'blackScreen.html#beta';
+					});
+				}, 1005);
 			}
 		}
 	},
