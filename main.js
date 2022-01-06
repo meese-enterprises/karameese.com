@@ -156,21 +156,6 @@ function checkMonitorMovement() {
 requestAnimationFrame(checkMonitorMovement);
 
 var lasterrorconfirmation = 0;
-// List of error messages
-var errorMessages = [
-	'Ouch!',
-	'Fried the motherboard!',
-	'Who released the singularity?', // Space Station 13 joke!
-	'That\'ll leave a mark.',
-	'Oh noes!',
-	'It wasn\'t me!', // Rocketman joke!
-	'I didn\'t do it!', // Mr. Krabs joke!
-	'Suppermatter engine is melting down!', // Space Station 13 joke!
-	'Congratulations!',
-	'WHY ME?!',
-	'You\'ve got two empty halves of a coconut and you\'re banging them together!', // Monty Python joke!
-	'Augh! Message for you, sir!', // Monty Python joke!
-];
 
 // Error handler itself
 window.onerror = function (errorMsg, url, lineNumber) {
@@ -182,7 +167,6 @@ window.onerror = function (errorMsg, url, lineNumber) {
 			return '-failed vartry(' + varname + ') ' + err + '-'
 		}
 	}
-	var randomPhrase = errorMessages[Math.floor(Math.random() * errorMessages.length)];
 	var errorModule = module;
 	if (formDate('YMDHmSs') - lasterrorconfirmation > 30000) {
 		lasterrorconfirmation = formDate('YMDHmSs');
@@ -204,11 +188,9 @@ window.onerror = function (errorMsg, url, lineNumber) {
 		doLog("");
 	} catch (err) {
 		console.log("");
-		console.log("You found an error! " + errorMessages[Math.floor(Math.random() * errorMessages.length)]);
-		console.log("");
-		console.log("Error in " + url);
-		console.log("Module '" + module + "' at [" + lineNumber + "]:");
-		console.log(errorMsg);
+		console.error("Error in " + url);
+		console.error("Module '" + module + "' at [" + lineNumber + "]:");
+		console.error(errorMsg);
 		console.log("");
 	}
 };
@@ -437,7 +419,6 @@ var langContent = {
 			appsbrowser: "Apps Browser",
 			simon: "Simon",
 			accreditation: "Accreditation",
-			bootScript: "Boot Script Editor",
 			rdp: "Remote Desktop Host",
 			rdpViewer: "Remote Desktop Viewer",
 			extDebug: "External Debug",
@@ -1358,11 +1339,6 @@ c(function() {
 
 c(function() {
 	Accreditation();
-	getId('loadingInfo').innerHTML = 'Bootscript App';
-});
-
-c(function() {
-	BootScript();
 	getId('loadingInfo').innerHTML = 'Developer Documentation';
 });
 

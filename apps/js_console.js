@@ -81,13 +81,16 @@ doLog = function (msg, clr) {
 debugArray = function (arrayPath, recursive, layer) {
 	var debugArraySize = 0;
 	for (let i in eval(arrayPath)) {
-		doLog("<br>[" + (layer || 0) + "]" + arrayPath + "." + i + ": " + apps.webAppMaker.vars.sanitize(eval(arrayPath)[i]), "#55F");
+		doLog("<br>[" + (layer || 0) + "]" + arrayPath + "." + i + ": " + sanitize(eval(arrayPath)[i]), "#55F");
 		if (typeof eval(arrayPath)[i] === "object" && recursive) {
 			debugArray(eval(arrayPath)[i], 0, (layer || 0) + 1)
 		}
 		debugArraySize++;
 	}
 	return "Length: " + debugArraySize;
-}
+};
+sanitize = function (text) { 
+	return String(text).split("<").join("&lt;").split(">").join("&gt;"); 
+};
 
 } // End initial variable declaration

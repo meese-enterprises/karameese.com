@@ -132,7 +132,6 @@
 	echo '<script src="./apps/app_info.js"></script>';
 	echo '<script src="./apps/app_prompt.js"></script>';
 	echo '<script src="./apps/bash.js"></script>';
-	echo '<script src="./apps/boot_script.js"></script>';
 	echo '<script src="./apps/dashboard.js"></script>';
 	echo '<script src="./apps/dev_documentation.js"></script>';
 	echo '<script src="./apps/file_manager.js"></script>';

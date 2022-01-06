@@ -6,7 +6,6 @@ apps.startMenu = new Application({
 	codeName: "startMenu",
 	image: {
 		backgroundColor: "#303947",
-		// TODO: CHANGE TO CUSTOM KARA LOGO
 		foreground: "smarticons/aOS/fg.png",
 		backgroundBorder: {
 			thickness: 2,
@@ -16,7 +15,6 @@ apps.startMenu = new Application({
 	hideApp: 2,
 	launchTypes: 1,
 	main: function (launchType) {
-		// TODO: Clean up
 		if (launchType === 'srtup') {
 			this.appWindow.paddingMode(0);
 			getId('win_startMenu_shrink').style.display = "none";
@@ -63,7 +61,6 @@ apps.startMenu = new Application({
 					'<button onclick="openapp(apps.files, \'dsktp\')">' + lang('startMenu', 'files') + '</button> ' +
 					'<button onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</button> ' +
 					'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</button><br>' +
-					'<button onclick="openapp(apps.appCenter, \'dsktp\')">Application Hub</button> ' +
 					'<button onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</button> ' +
 					'<input autocomplete="off" style="width:calc(100% - 6px);margin-top:3px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
 					'</div><div id="appDsBtableWrapper" class="noselect" style="width:100%;overflow-y:scroll;background-color:rgba(' + darkSwitch('255, 255, 255', '39, 39, 39') + ', 0.5);">' +
@@ -76,7 +73,7 @@ apps.startMenu = new Application({
 				if (this.vars.listOfApps.length === 0) {
 					getId('appDsBtable').innerHTML = '<tr><td></td></tr>';
 					getId('appDsBtable').classList.add('cursorLoadLight');
-					for (var appHandle in appsSorted) {
+					for (let appHandle in appsSorted) {
 						if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
 							apps.startMenu.vars.listOfApps += '<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' + appsSorted[appHandle] + ', \'dsktp\')" oncontextmenu="ctxMenu(apps.startMenu.vars.ctx, 1, event, \'' + appsSorted[appHandle] + '\')">' +
 								'<th>' + buildSmartIcon(32, apps[appsSorted[appHandle]].appWindow.appImg) + '</th>' +
