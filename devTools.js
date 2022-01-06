@@ -370,20 +370,12 @@ window.devTools = {
 			action: "getstyle:darkmode"
 		}, callback);
 	},
-	getCustomStyle: function (callback) {
-		devTools.sendRequest({
-			action: "getstyle:customstyle"
-		}, callback);
-	},
 
 	updateStyle: function () {
 		if (!devTools.light) {
 			this.sendRequest({
 				action: "getstyle:darkmode"
 			}, this.recieveDarkMode);
-			this.sendRequest({
-				action: "getstyle:customstyle"
-			}, this.recieveStylesheets);
 		}
 	},
 	recieveDarkMode: function (data) {
@@ -400,14 +392,6 @@ window.devTools = {
 			helpingStyleElement.innerHTML = "body{width:100%;height:100%;overflow:hidden;}.winHTML{overflow:auto;width:100%;height:100%;left:0;top:0;bottom:0;right:0;border:none;background:none;box-shadow:none;padding:0;}";
 			document.head.prepend(helpingStyleElement);
 		}
-
-		if (document.getElementById("devTools_customStyle") !== null) {
-			document.getElementById("devTools_customStyle").remove();
-		}
-		var customStyleElement = document.createElement("style");
-		customStyleElement.id = "devTools_customStyle";
-		document.head.prepend(customStyleElement);
-		customStyleElement.innerHTML = data.content.customStyle || "";
 
 		var existingStyleElements = document.getElementsByClassName("devTools_hubStyle");
 		for (var i = 0; i < existingStyleElements.length; i++) {

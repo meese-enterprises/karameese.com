@@ -235,20 +235,6 @@ apps.webAppMaker = new Application({
 				darkmode: function (input) {
 					return !!darkMode;
 				},
-				customstyle: function (input) {
-					var tempStyleLinks = [];
-					var tempStyleElements = document.getElementsByClassName('customstyle_appcenter');
-					for (var i = 0; i < tempStyleElements.length; i++) {
-						if (tempStyleElements[i].tagName === "LINK") {
-							tempStyleLinks.push([tempStyleElements[i].href, "link"]);
-						} else if (tempStyleElements[i].tagName === "STYLE") {
-							tempStyleLinks.push([tempStyleElements[i].innerHTML, "literal"]);
-						}
-					}
-					return {
-						styleLinks: tempStyleLinks
-					};
-				}
 			},
 			readsetting: {
 
@@ -528,8 +514,7 @@ apps.webAppMaker = new Application({
 				menu: "Display context menus."
 			},
 			getstyle: {
-				darkmode: "Get the state of dark mode.",
-				customstyle: "Get the user's system theme."
+				darkmode: "Get the state of dark mode."
 			},
 			fs: {
 				read_uf: "Read and write USERFILES",

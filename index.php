@@ -13,7 +13,7 @@
 	<style id="windowBorderStyle"></style>
 	<style id="smartIconStyle"></style>
 	<style id="cursorStyle"></style>
-	<link rel="stylesheet" type="text/css" href="./customStyles/win95.css">
+	<link rel="stylesheet" type="text/css" href="win95.css">
 	<script src="./ghostCursor.js"></script>
 
 	<svg>
