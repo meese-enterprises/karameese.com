@@ -32,17 +32,6 @@
 <body style="background-color:#000" id="pagebody">
 	<!-- helps JS find scrollbar stuff -->
 	<div id="findScrollSize" style="height:100px; width:100px; overflow:scroll;"></div>
-	<div id="bootLanguage" style="display:none">
-		<?php
-			if (isset($_COOKIE['keyword'])) {
-				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/system/language.txt')) {
-					echo file_get_contents('USERFILES/'.$_COOKIE['keyword'].'/system/language.txt');
-				}
-			} else {
-				echo 'en';
-			}
-		?>
-	</div>
 
 	<!-- computer screen and content inside on startup -->
 	<div id="monitor" class="cursorDefault">
@@ -102,11 +91,6 @@
 						data-live-eval="finishedWaitingCodes / totalWaitingCodes * 100 + '%'" data-live-target="style.width">
 						Initializing...</div>
 				</div><br><br>
-				&nbsp;<br>
-				<button
-					onclick="document.getElementById('isLoading').style.display = 'none';document.getElementById('loadingBg').style.display = 'none';document.getElementById('desktop').style.display = '';document.getElementById('taskbar').style.display = '';">Force
-					Boot</button><br><br>
-				<?php if(isset($_COOKIE['keyword'])){echo 'Your OS ID is <span id="loadingKey">'.$_COOKIE['keyword'].'</span>';}else{echo 'You will get a new OS ID.';} ?>
 				<img id="loadingImage" src="appicons/ds/aOS.png" style="display:none">
 			</div>
 		</div>

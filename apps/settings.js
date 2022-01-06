@@ -149,66 +149,6 @@ apps.settings = new Application({
 					}
 				}
 			},
-			applicationPermissions: {
-				folder: 0,
-				folderName: "App Permissions",
-				folderPath: "apps.settings.vars.menus.applicationPermissions",
-				image: 'settingIcons/new/permissions.png',
-				domainPermissions: {
-					option: 'Domain Permissions',
-					description: function() {
-						return 'Every web app on your system requires permission to perform certain actions on aOS. All web apps belong to specific web domains. Use the controls below to change permissions for all apps belonging to a domain.'
-					},
-					buttons: function() {
-						var tempHTML = '';
-						tempHTML += '<div style="position:relative;height:2em;">' +
-							'<span style="font-size:2em">Permission Descriptions</span> ' +
-							'<button onclick="if(this.innerHTML === \'v\'){this.innerHTML = \'^\';this.parentElement.style.height = \'\';}else{this.innerHTML = \'v\';this.parentElement.style.height = \'2em\';}">v</button><br><br>';
-						for (let j in apps.webAppMaker.vars.actions) {
-							tempHTML += (apps.webAppMaker.vars.actionNames[j] || '[Unknown]') + ' (' + j + '): Permission to ' + (apps.webAppMaker.vars.actionDesc[j] || "[???]") + ".<br><ul>";
-							if (apps.webAppMaker.vars.commandDescriptions.hasOwnProperty(j)) {
-								for (let l in apps.webAppMaker.vars.commandDescriptions[j]) {
-									tempHTML += '<li>' + apps.webAppMaker.vars.commandDescriptions[j][l] + '</li>';
-								}
-							}
-							tempHTML += '</ul>';
-						}
-						tempHTML += '</div>';
-						for (let i in apps.webAppMaker.vars.trustedApps) {
-							tempHTML += '<br><br><div style="position:relative;height:2em;">' +
-								'<span style="font-size:2em">' + i + '</span> ' +
-								'<button onclick="if(this.innerHTML === \'v\'){this.innerHTML = \'^\';this.parentElement.style.height = \'\';}else{this.innerHTML = \'v\';this.parentElement.style.height = \'2em\';}">v</button><br><br>';
-							for (let j in apps.webAppMaker.vars.actions) {
-								tempHTML += '<select onchange="apps.webAppMaker.vars.trustedApps[\'' + i + '\'][\'' + j + '\'] = this.value;apps.webAppMaker.vars.updatePermissions()"> ';
-								if (
-									apps.webAppMaker.vars.trustedApps[i][j] === "true" ||
-									(apps.webAppMaker.vars.globalPermissions[j] === "true" && !apps.webAppMaker.vars.trustedApps[i].hasOwnProperty(j))
-								) {
-									tempHTML += '<option value="true" selected>Allowed</option><option value="false">Denied</option></select> ';
-								} else {
-									tempHTML += '<option value="true">Allowed</option><option value="false" selected>Denied</option></select> ';
-								}
-								tempHTML += (apps.webAppMaker.vars.actionNames[j] || '[Unknown]') + ' (' + j + ')<br>Permission to ' + (apps.webAppMaker.vars.actionDesc[j] || "[???]") + ".<br><br>";
-								if (apps.webAppMaker.vars.permissionsUsed.hasOwnProperty(i)) {
-									var printedTimesUsed = 0;
-									if (apps.webAppMaker.vars.permissionsUsed[i].hasOwnProperty(j)) {
-										tempHTML += "Granted " + apps.webAppMaker.vars.permissionsUsed[i][j] + " times since boot.<br>";
-										printedTimesUsed = 1;
-									}
-									if (apps.webAppMaker.vars.permissionsDenied[i].hasOwnProperty(j)) {
-										tempHTML += "Refused " + apps.webAppMaker.vars.permissionsUsed[i][j] + " times since boot.<br>";
-										printedTimesUsed = 1;
-									}
-									if (printedTimesUsed) {
-										tempHTML += "<br>";
-									}
-								}
-							}
-						}
-						return tempHTML + '</div>';
-					}
-				}
-			},
 			screensaver: {
 				folder: 0,
 				folderName: "Screen Saver",
