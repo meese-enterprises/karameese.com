@@ -1105,12 +1105,12 @@ function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, 
 	}
 	if (!fromWebApp) {
 		textEditorTools.tmpGenArray = [
-			[event.pageX, event.pageY, "ctxMenu/beta/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');getId(\'ctxMenu\').style.display = \'none\'"
+			[event.pageX, event.pageY, "ctxMenu/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');getId(\'ctxMenu\').style.display = \'none\'"
 		];
 	} else {
 		let framePosition = webAppFrame.getBoundingClientRect();
 		textEditorTools.tmpGenArray = [
-			[webAppPosition[0] + framePosition.x, webAppPosition[1] + framePosition.y, "ctxMenu/beta/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'spoken\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'"
+			[webAppPosition[0] + framePosition.x, webAppPosition[1] + framePosition.y, "ctxMenu/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'spoken\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'"
 		];
 	}
 	for (let i = 1; i <= textEditorTools.slots; i++) {
@@ -1126,7 +1126,7 @@ function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, 
 		} else {
 			textEditorTools.tmpGenArray.push(textEditorTools.tempvar + 'Copy ' + i + ' (' + cleanStr(currentSelection.substring(0, 5)) + '...)');
 		}
-		textEditorTools.tmpGenArray[0].push('ctxMenu/beta/load.png');
+		textEditorTools.tmpGenArray[0].push('ctxMenu/load.png');
 		// TODO: Clean up
 		if (!fromWebApp) {
 			textEditorTools.tmpGenArray.push('textEditorTools.copy(' + (i - 0) + ');getId(\'ctxMenu\').style.display = \'none\'');
@@ -1154,7 +1154,7 @@ function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, 
 					textEditorTools.tmpGenArray.push('apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'pasted\',pastedText:textEditorTools.clipboard[' + (i - 1) + '],conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
 				}
 			}
-			textEditorTools.tmpGenArray[0].push('ctxMenu/beta/save.png');
+			textEditorTools.tmpGenArray[0].push('ctxMenu/save.png');
 		}
 	}
 	textEditorTools.tempvar3 = currentSelection;
@@ -1564,9 +1564,9 @@ function ctxMenu(setupArray, version, event, args) {
 						tempCtxContent += '<hr>';
 					}
 					if (newCtxSetup[i][2]) {
-						ctxMenuImg = '<img src="' + newCtxSetup[i][2] + '" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;" onerror="this.style.marginLeft = \'0\';this.style.marginRight = \'1px\';this.src = \'ctxMenu/beta/simple.png\'">';
+						ctxMenuImg = '<img src="' + newCtxSetup[i][2] + '" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;" onerror="this.style.marginLeft = \'0\';this.style.marginRight = \'1px\';this.src = \'ctxMenu/simple.png\'">';
 					} else {
-						ctxMenuImg = '<img src="ctxMenu/beta/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
+						ctxMenuImg = '<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 					}
 					if (newCtxSetup[i][0](newCtxArgs)[0] === '-' || newCtxSetup[i][0](newCtxArgs)[0] === '_') {
 						tempCtxContent += '<p class="hiddenCtxOption">' + ctxMenuImg + "&nbsp;" + newCtxSetup[i][0](newCtxArgs).substring(1, newCtxSetup[i][0](newCtxArgs).length) + '&nbsp;</p>';
@@ -1578,9 +1578,9 @@ function ctxMenu(setupArray, version, event, args) {
 						tempCtxContent += '<hr>';
 					}
 					if (newCtxSetup[i][2]) {
-						ctxMenuImg = '<img src="' + newCtxSetup[i][2] + '" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;" onerror="this.style.marginLeft = \'0\';this.style.marginRight = \'1px\';this.src = \'ctxMenu/beta/simple.png\'">';
+						ctxMenuImg = '<img src="' + newCtxSetup[i][2] + '" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;" onerror="this.style.marginLeft = \'0\';this.style.marginRight = \'1px\';this.src = \'ctxMenu/simple.png\'">';
 					} else {
-						ctxMenuImg = '<img src="ctxMenu/beta/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
+						ctxMenuImg = '<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 					}
 					if (newCtxSetup[i][0][0] === '-' || newCtxSetup[i][0][0] === '_') {
 						tempCtxContent += '<p class="hiddenCtxOption">' + ctxMenuImg + "&nbsp;" + newCtxSetup[i][0].substring(1, newCtxSetup[i][0].length) + '&nbsp;</p>';
@@ -1627,9 +1627,9 @@ function ctxMenu(setupArray, version, event, args) {
 					}
 				}
 				if (ctxSetup[0][2]) {
-					ctxMenuImg = '<img src="' + ctxSetup[0][Math.floor(i / 2) + 2] + '" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;" onerror="this.style.marginLeft = \'0\';this.style.marginRight = \'1px\';this.src = \'ctxMenu/beta/simple.png\'">';
+					ctxMenuImg = '<img src="' + ctxSetup[0][Math.floor(i / 2) + 2] + '" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;" onerror="this.style.marginLeft = \'0\';this.style.marginRight = \'1px\';this.src = \'ctxMenu/simple.png\'">';
 				} else {
-					ctxMenuImg = '<img src="ctxMenu/beta/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
+					ctxMenuImg = '<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 				}
 				if (ctxSetup[i][0] === '-' || ctxSetup[i][0] === '_') {
 					tempCtxContent += '<p class="hiddenCtxOption">' + ctxMenuImg + "&nbsp;" + ctxSetup[i].substring(1, ctxSetup[i].length) + '&nbsp;</p>';
@@ -1646,61 +1646,61 @@ var baseCtx = {
 	hideall: [
 		[' ' + lang('ctxMenu', 'settings'), function() {
 			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/beta/gear.png'],
+		}, 'ctxMenu/gear.png'],
 		[' ' + lang('ctxMenu', 'jsConsole'), function() {
 			openapp(apps.jsConsole, 'dsktp');
-		}, 'ctxMenu/beta/console.png'],
+		}, 'ctxMenu/console.png'],
 		['+' + lang('ctxMenu', 'screenResolution'), function() {
 			openapp(apps.settings, 'dsktp');
 			apps.settings.vars.showMenu(apps.settings.vars.menus.screenRes);
-		}, 'ctxMenu/beta/gear.png']
+		}, 'ctxMenu/gear.png']
 	],
 	desktop: [
 		[' ' + lang('ctxMenu', 'settings'), function() {
 			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/beta/gear.png'],
+		}, 'ctxMenu/gear.png'],
 		[' ' + lang('ctxMenu', 'jsConsole'), function() {
 			openapp(apps.jsConsole, 'dsktp');
-		}, 'ctxMenu/beta/console.png'],
+		}, 'ctxMenu/console.png'],
 		[function() {
 			return '+' + lang('ctxMenu', 'speak') + ' "' + currentSelection.substring(0, 5) + '..."'
 		}, function() {
 			textspeech(currentSelection);
-		}, 'ctxMenu/beta/happy.png']
+		}, 'ctxMenu/happy.png']
 	],
 	taskbar: [
 		[' ' + lang('ctxMenu', 'settings'), function() {
 			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/beta/gear.png'],
+		}, 'ctxMenu/gear.png'],
 		[' ' + lang('ctxMenu', 'jsConsole'), function() {
 			openapp(apps.jsConsole, 'dsktp');
-		}, 'ctxMenu/beta/console.png'],
+		}, 'ctxMenu/console.png'],
 		['+' + lang('ctxMenu', 'taskbarSettings'), function() {
 			openapp(apps.settings, 'dsktp');
 			apps.settings.vars.showMenu(apps.settings.vars.menus.taskbar);
-		}, 'ctxMenu/beta/gear.png']
+		}, 'ctxMenu/gear.png']
 	],
 	appXXX: [
 		[' ' + lang('ctxMenu', 'openApp'), function (args) {
 			openapp(apps[args[1]], 'dsktp');
-		}, 'ctxMenu/beta/window.png'],
+		}, 'ctxMenu/window.png'],
 		['+' + lang('ctxMenu', 'moveIcon'), function (args) {
 			icomove(args[0], args[1]);
 		}],
 		['+Delete Icon', function (args) {
 			removeDsktpIcon(args[1]);
-		}, 'ctxMenu/beta/x.png']
+		}, 'ctxMenu/x.png']
 	],
 	appXXXjs: [
 		[' Execute', function (args) {
 			Function(...dsktp[args[1]].action)(...dsktp[args[1]].actionArgs);
-		}, 'ctxMenu/beta/window.png'],
+		}, 'ctxMenu/window.png'],
 		['+' + lang('ctxMenu', 'moveIcon'), function (args) {
 			icomove(args[0], args[1]);
 		}],
 		['+Delete Icon', function (args) {
 			removeDsktpIcon(args[1]);
-		}, 'ctxMenu/beta/x.png']
+		}, 'ctxMenu/x.png']
 	],
 	icnXXX: [
 		[function (arg) {
@@ -1715,7 +1715,7 @@ var baseCtx = {
 			} else {
 				openapp(apps[arg], 'dsktp');
 			}
-		}, 'ctxMenu/beta/window.png'],
+		}, 'ctxMenu/window.png'],
 		[function (arg) {
 			if (apps[arg].appWindow.appIcon) {
 				return ' ' + lang('ctxMenu', 'hideApp');
@@ -1724,7 +1724,7 @@ var baseCtx = {
 			}
 		}, function (arg) {
 			apps[arg].signalHandler('shrink');
-		}, 'ctxMenu/beta/minimize.png'],
+		}, 'ctxMenu/minimize.png'],
 		[function (arg) {
 			if (pinnedApps.indexOf(arg) === -1) {
 				return '+Pin App';
@@ -1736,7 +1736,7 @@ var baseCtx = {
 			if (pinnedApps.indexOf(arg) === -1 && !apps[arg].appWindow.appIcon) {
 				getId('icn_' + arg).style.display = 'none';
 			}
-		}, 'ctxMenu/beta/minimize.png'],
+		}, 'ctxMenu/minimize.png'],
 		[function (arg) {
 			if (dsktp[arg]) {
 				return '_Add Desktop Icon';
@@ -1749,7 +1749,7 @@ var baseCtx = {
 			} else {
 				newDsktpIcon(arg, arg);
 			}
-		}, 'ctxMenu/beta/add.png'],
+		}, 'ctxMenu/add.png'],
 		[function (arg) {
 			if (dsktp[arg]) {
 				return ' Remove Desktop Icon';
@@ -1762,28 +1762,28 @@ var baseCtx = {
 			} else {
 				newDsktpIcon(arg, arg);
 			}
-		}, 'ctxMenu/beta/x.png'],
+		}, 'ctxMenu/x.png'],
 		['+' + lang('ctxMenu', 'closeApp'), function (arg) {
 			apps[arg].signalHandler('close');
-		}, 'ctxMenu/beta/x.png']
+		}, 'ctxMenu/x.png']
 	],
 	winXXXc: [
 		[' About This App', function (arg) {
 			openapp(apps.appInfo, arg);
-		}, 'ctxMenu/beta/file.png'],
+		}, 'ctxMenu/file.png'],
 		['+' + lang('ctxMenu', 'fold'), function (arg) {
 			apps[arg].appWindow.foldWindow();
-		}, 'ctxMenu/beta/less.png'],
+		}, 'ctxMenu/less.png'],
 		['+' + lang('ctxMenu', 'hideApp'), function (arg) {
 			apps[arg].signalHandler('shrink');
-		}, 'ctxMenu/beta/minimize.png'],
+		}, 'ctxMenu/minimize.png'],
 		[' ' + lang('ctxMenu', 'fullscreen'), function (arg) {
 			apps[arg].appWindow.toggleFullscreen();
 			toTop(apps[arg]);
-		}, 'ctxMenu/beta/add.png'],
+		}, 'ctxMenu/add.png'],
 		[' Close', function (arg) {
 			apps[arg].signalHandler('close');
-		}, 'ctxMenu/beta/x.png'],
+		}, 'ctxMenu/x.png'],
 		[function (arg) {
 			if (apps[arg].appWindow.onTop === 0) {
 				return '+' + lang('ctxMenu', 'stayOnTop');
@@ -1792,7 +1792,7 @@ var baseCtx = {
 			}
 		}, function (arg) {
 			apps[arg].appWindow.alwaysOnTop(1);
-		}, 'ctxMenu/beta/add.png'],
+		}, 'ctxMenu/add.png'],
 		[function (arg) {
 			if (apps[arg].appWindow.onTop === 1) {
 				return ' ' + lang('ctxMenu', 'stopOnTop');
@@ -1801,7 +1801,7 @@ var baseCtx = {
 			}
 		}, function (arg) {
 			apps[arg].appWindow.alwaysOnTop(0);
-		}, 'ctxMenu/beta/less.png']
+		}, 'ctxMenu/less.png']
 	]
 };
 getId("hideall").setAttribute('oncontextmenu', 'ctxMenu(baseCtx.hideall, 1, event);');

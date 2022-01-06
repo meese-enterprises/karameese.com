@@ -31,7 +31,7 @@ apps.appsbrowser = new Application({
 			this.vars.currAppName = apps[app].appDesc;
 			getId("APBdiv").innerHTML += '<div id="APBapp_' + app + '" class="appsBrowserItem cursorPointer darkResponsive" onclick="c(function(){openapp(apps.' + app + ', \'dsktp\')});" ' +
 				'style="padding-top:1px;padding-bottom:1px;position:relative;height:128px;width:100%;border-bottom:1px solid;" ' +
-				'oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/beta/window.png\', \'ctxMenu/beta/window.png\', \'ctxMenu/beta/file.png\', \'ctxMenu/beta/folder.png\', \'ctxMenu/beta/file.png\'], ' +
+				'oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/window.png\', \'ctxMenu/window.png\', \'ctxMenu/file.png\', \'ctxMenu/folder.png\', \'ctxMenu/file.png\'], ' +
 				'\' Open App\', \'c(function(){openapp(apps.' + app + ', \\\'dsktp\\\')})\', ' +
 				'\' Open App via Taskbar\', \'c(function(){openapp(apps.' + app + ', \\\'tskbr\\\')})\', ' +
 				'\'+About This App\', \'c(function(){openapp(apps.appInfo, \\\'' + app + '\\\')})\',  ' +

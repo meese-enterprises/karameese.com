@@ -1421,33 +1421,33 @@
         This is a list of all context menu icons that come built-in to AaronOS. They are valid for <code>image</code> parameters on <code>context:menu</code> options.
         <br>
         <ul>
-            <li><img src="../ctxMenu/beta/add.png"> add</li>
-            <li><img src="../ctxMenu/beta/agent.png"> agent</li>
-            <li><img src="../ctxMenu/beta/aOS.png"> aOS</li>
-            <li><img src="../ctxMenu/beta/blank.png"> blank</li>
-            <li><img src="../ctxMenu/beta/circle.png"> circle</li>
-            <li><img src="../ctxMenu/beta/console.png"> console</li>
-            <li><img src="../ctxMenu/beta/cookie.png"> cookie</li>
-            <li><img src="../ctxMenu/beta/cool.png"> cool</li>
-            <li><img src="../ctxMenu/beta/file.png"> file</li>
-            <li><img src="../ctxMenu/beta/folder.png"> folder</li>
-            <li><img src="../ctxMenu/beta/gear.png"> gear</li>
-            <li><img src="../ctxMenu/beta/happy.png"> happy</li>
-            <li><img src="../ctxMenu/beta/less.png"> less</li>
-            <li><img src="../ctxMenu/beta/load.png"> load</li>
-            <li><img src="../ctxMenu/beta/minimize.png"> minimize</li>
-            <li><img src="../ctxMenu/beta/new.png"> new</li>
-            <li><img src="../ctxMenu/beta/paper.png"> paper</li>
-            <li><img src="../ctxMenu/beta/performance.png"> performance</li>
-            <li><img src="../ctxMenu/beta/power.png"> power</li>
-            <li><img src="../ctxMenu/beta/sad.png"> sad</li>
-            <li><img src="../ctxMenu/beta/save.png"> save</li>
-            <li><img src="../ctxMenu/beta/silly.png"> silly</li>
-            <li><img src="../ctxMenu/beta/simple.png"> simple</li>
-            <li><img src="../ctxMenu/beta/smile.png"> smile</li>
-            <li><img src="../ctxMenu/beta/wifi.png"> wifi</li>
-            <li><img src="../ctxMenu/beta/window.png"> window</li>
-            <li><img src="../ctxMenu/beta/x.png"> x</li>
+            <li><img src="../ctxMenu/add.png"> add</li>
+            <li><img src="../ctxMenu/agent.png"> agent</li>
+            <li><img src="../ctxMenu/aOS.png"> aOS</li>
+            <li><img src="../ctxMenu/blank.png"> blank</li>
+            <li><img src="../ctxMenu/circle.png"> circle</li>
+            <li><img src="../ctxMenu/console.png"> console</li>
+            <li><img src="../ctxMenu/cookie.png"> cookie</li>
+            <li><img src="../ctxMenu/cool.png"> cool</li>
+            <li><img src="../ctxMenu/file.png"> file</li>
+            <li><img src="../ctxMenu/folder.png"> folder</li>
+            <li><img src="../ctxMenu/gear.png"> gear</li>
+            <li><img src="../ctxMenu/happy.png"> happy</li>
+            <li><img src="../ctxMenu/less.png"> less</li>
+            <li><img src="../ctxMenu/load.png"> load</li>
+            <li><img src="../ctxMenu/minimize.png"> minimize</li>
+            <li><img src="../ctxMenu/new.png"> new</li>
+            <li><img src="../ctxMenu/paper.png"> paper</li>
+            <li><img src="../ctxMenu/performance.png"> performance</li>
+            <li><img src="../ctxMenu/power.png"> power</li>
+            <li><img src="../ctxMenu/sad.png"> sad</li>
+            <li><img src="../ctxMenu/save.png"> save</li>
+            <li><img src="../ctxMenu/silly.png"> silly</li>
+            <li><img src="../ctxMenu/simple.png"> simple</li>
+            <li><img src="../ctxMenu/smile.png"> smile</li>
+            <li><img src="../ctxMenu/wifi.png"> wifi</li>
+            <li><img src="../ctxMenu/window.png"> window</li>
+            <li><img src="../ctxMenu/x.png"> x</li>
         </ul>
     </p>
 </div>

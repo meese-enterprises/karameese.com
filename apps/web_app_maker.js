@@ -108,7 +108,7 @@ apps.webAppMaker = new Application({
 										}, frameOrigin, frame.contentWindow);
 									}
 								})(),
-								"ctxMenu/beta/" + input.options[i].image + ".png"
+								"ctxMenu/" + input.options[i].image + ".png"
 							]);
 						} else {
 							arrayToRender.push([

@@ -130,43 +130,43 @@ apps.startMenu = new Application({
 		captionCtx: [
 			[' ' + lang('ctxMenu', 'hideApp'), function() {
 				apps.startMenu.signalHandler('shrink');
-			}, 'ctxMenu/beta/minimize.png']
+			}, 'ctxMenu/minimize.png']
 		],
 		iconCtx: [
 			[' ' + lang('startMenu', 'files'), function() {
 				openapp(apps.files, 'dsktp');
-			}, 'ctxMenu/beta/folder.png'],
+			}, 'ctxMenu/folder.png'],
 			[' ' + lang('startMenu', 'allApps'), function() {
 				openapp(apps.appsBrowser, 'dsktp');
-			}, 'ctxMenu/beta/window.png'],
+			}, 'ctxMenu/window.png'],
 			[' ' + lang('startMenu', 'settings'), function() {
 				openapp(apps.settings, 'dsktp');
-			}, 'ctxMenu/beta/gear.png'],
+			}, 'ctxMenu/gear.png'],
 			['+Log Out', function() {
 				apps.settings.vars.shutDown('restart', 1);
-			}, 'ctxMenu/beta/power.png'],
+			}, 'ctxMenu/power.png'],
 			[' ' + lang('startMenu', 'restart'), function() {
 				apps.settings.vars.shutDown('restart', 0);
-			}, 'ctxMenu/beta/power.png'],
+			}, 'ctxMenu/power.png'],
 			[' ' + lang('startMenu', 'shutDown'), function() {
 				apps.settings.vars.shutDown(0, 1);
-			}, 'ctxMenu/beta/power.png']
+			}, 'ctxMenu/power.png']
 		],
 		powerCtx: [
 			[' Log Out', function() {
 				apps.settings.vars.shutDown('restart', 1);
-			}, 'ctxMenu/beta/power.png'],
+			}, 'ctxMenu/power.png'],
 			[' ' + lang('startMenu', 'restart'), function() {
 				apps.settings.vars.shutDown('restart', 0);
-			}, 'ctxMenu/beta/power.png'],
+			}, 'ctxMenu/power.png'],
 			[' ' + lang('startMenu', 'shutDown'), function() {
 				apps.settings.vars.shutDown(0, 1);
-			}, 'ctxMenu/beta/power.png']
+			}, 'ctxMenu/power.png']
 		],
 		ctx: [
 			[' ' + lang('ctxMenu', 'openApp'), function (arg) {
 				openapp(apps[arg], "dsktp");
-			}, 'ctxMenu/beta/window.png'],
+			}, 'ctxMenu/window.png'],
 			[function (arg) {
 				if (dsktp[arg]) {
 					return '_Add Desktop Icon';
@@ -180,16 +180,16 @@ apps.startMenu = new Application({
 					newDsktpIcon(arg, arg);
 				}
 				openapp(apps.startMenu, 'tskbr');
-			}, 'ctxMenu/beta/add.png'],
+			}, 'ctxMenu/add.png'],
 			[function (arg) {
 				return `${dsktp[arg] ? ' ' : '-'}Remove Desktop Icon`;
 			}, function (arg) {
 				dsktp[arg] ? removeDsktpIcon(arg) : newDsktpIcon(arg, arg);
 				openapp(apps.startMenu, 'tskbr');
-			}, 'ctxMenu/beta/x.png'],
+			}, 'ctxMenu/x.png'],
 			['+About This App', function (arg) {
 				openapp(apps.appInfo, arg);
-			}, 'ctxMenu/beta/file.png'],
+			}, 'ctxMenu/file.png'],
 			[' View Files', function (arg) {
 				c(function() {
 					openapp(apps.files, 'dsktp');
@@ -198,7 +198,7 @@ apps.startMenu = new Application({
 						apps.files.vars.next(arg + '/');
 					});
 				});
-			}, 'ctxMenu/beta/folder.png']
+			}, 'ctxMenu/folder.png']
 		]
 	},
 	signalHandler: function (signal) {

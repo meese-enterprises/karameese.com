@@ -20,7 +20,7 @@ apps.nora = new Application({
 			getId('win_nora_exit').style.display = "none";
 			getId('win_nora_big').style.display = 'none';
 			getId('win_nora_shrink').style.right = '3px';
-			getId('win_nora_cap').setAttribute('oncontextmenu', 'ctxMenu([[event.pageX, event.pageY, "ctxMenu/beta/minimize.png", "ctxMenu/beta/add.png"], " Hide", "apps.nora.signalHandler(\'shrink\');toTop({appIcon:\'DSKTP\'},1)", " Toggle Fullscreen", "apps.nora.appWindow.toggleFullscreen();toTop(apps.nora)"])');
+			getId('win_nora_cap').setAttribute('oncontextmenu', 'ctxMenu([[event.pageX, event.pageY, "ctxMenu/minimize.png", "ctxMenu/add.png"], " Hide", "apps.nora.signalHandler(\'shrink\');toTop({appIcon:\'DSKTP\'},1)", " Toggle Fullscreen", "apps.nora.appWindow.toggleFullscreen();toTop(apps.nora)"])');
 			this.appWindow.setCaption('NORAA');
 			getId('win_nora_cap').setAttribute('onmousedown', '');
 			getId('win_nora_size').style.pointerEvents = "none";
@@ -120,7 +120,7 @@ apps.nora = new Application({
 		captionCtx: [
 			[' ' + lang('ctxMenu', 'hideApp'), function() {
 				apps.nora.signalHandler('shrink');
-			}, 'ctxMenu/beta/minimize.png']
+			}, 'ctxMenu/minimize.png']
 		],
 		initing: 1,
 		voices: [],
