@@ -339,7 +339,7 @@ apps.nora = new Application({
 					apps.nora.vars.sayDynamic('okay');
 					this[4].found = 0;
 					for (var app in apps) {
-						if (apps[app] !== apps.startMenu && apps[app] !== apps.nora && apps[app].appDesc.toLowerCase() === text.toLowerCase()) {
+						if (apps[app] !== apps.startMenu && apps[app] !== apps.nora && apps[app].appName.toLowerCase() === text.toLowerCase()) {
 							this[4].found = 1;
 							openapp(apps[app], 'dsktp');
 							break;
@@ -386,7 +386,7 @@ apps.nora = new Application({
 					apps.nora.vars.sayDynamic('okay');
 					this[4].found = 0;
 					for (var app in apps) {
-						if (apps[app] !== apps.startMenu && apps[app] !== apps.nora && apps[app].appDesc.toLowerCase() === text.toLowerCase()) {
+						if (apps[app] !== apps.startMenu && apps[app] !== apps.nora && apps[app].appName.toLowerCase() === text.toLowerCase()) {
 							this[4].found = 1;
 							openapp(apps[app], 'dsktp');
 							break;
@@ -556,7 +556,7 @@ apps.nora = new Application({
 					apps.nora.vars.sayDynamic('okay');
 					this[4].found = 0;
 					for (var app in apps) {
-						if (apps[app] !== apps.startMenu && apps[app] !== apps.nora && apps[app].appDesc.toLowerCase() === text.toLowerCase()) {
+						if (apps[app] !== apps.startMenu && apps[app] !== apps.nora && apps[app].appName.toLowerCase() === text.toLowerCase()) {
 							this[4].found = 1;
 							openapp(apps[app], 'dsktp');
 							break;

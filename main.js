@@ -380,6 +380,7 @@ var appPosX = 8;
 var appPosY = 8;
 var Application = function (
 	appIcon,
+	appName,
 	appDesc,
 	handlesLaunchTypes,
 	mainFunction,
@@ -428,7 +429,8 @@ var Application = function (
 			};
 			mainFunction = appIcon.main || function() {};
 			handlesLaunchTypes = appIcon.launchTypes || 0;
-			appDesc = appIcon.title || "Application";
+			appName = appIcon.title || "Application";
+			appDesc = appIcon.desc || "No description available.";
 			appIcon = appIcon.abbreviation || "App";
 		}
 
@@ -436,6 +438,7 @@ var Application = function (
 		this.dsktpIcon = appIcon;
 		// now HTML elements match the codename of apps
 		this.objName = appPath;
+		this.appName = appName;
 		this.appDesc = appDesc;
 		this.main = mainFunction;
 		this.signalHandler = signalHandlerFunction;
@@ -662,7 +665,7 @@ var Application = function (
 
 		this.keepOffDesktop = keepOffDesktop;
 		if (!this.keepOffDesktop) {
-			newDsktpIcon(appPath, appPath, null, this.appDesc, this.appWindow.appImg,
+			newDsktpIcon(appPath, appPath, null, this.appName, this.appWindow.appImg,
 				['arg', 'openapp(apps[arg], "dsktp");'], [appPath],
 				['arg1', 'arg2', 'ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, arg2]);'], [appPath, appIcon],
 				1
@@ -691,7 +694,7 @@ var Application = function (
 				'<div class="icon cursorPointer" id="icn_' + appPath + '">' +
 				'<div class="iconOpenIndicator"></div>' +
 				buildSmartIcon(32, this.appWindow.appImg, "margin-left:6px") +
-				'<div class="taskbarIconTitle" id="icntitle_' + appPath + '">' + appDesc + '</div>' +
+				'<div class="taskbarIconTitle" id="icntitle_' + appPath + '">' + appName + '</div>' +
 				'</div>';
 		} else {
 			getId("icons").innerHTML +=
@@ -728,7 +731,7 @@ var dsktp = {};
 function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxAction, ctxActionArgs, nosave) {
 	if (!id) id = "uico_" + (new Date().getTime());
 	if (!title) {
-		title = apps[owner] ? apps[owner].appDesc : "Icon";
+		title = apps[owner] ? apps[owner].appName : "Icon";
 	}
 	if (!icon) {
 		if (apps[owner]) {
@@ -805,7 +808,7 @@ function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxA
 	tempIco.innerHTML = '<div class="appIcon" id="ico_' + id + '" style="pointer-events:none">' +
 		buildSmartIcon(64, icon) +
 		'</div>' +
-		'<div class="appDesc" id="dsc_' + id + '">' + title + '</div>';
+		'<div class="appName" id="dsc_' + id + '">' + title + '</div>';
 	getId("desktop").appendChild(tempIco);
 	if (!nosave) {
 		ufsave("system/desktop/user_icons/ico_" + id, JSON.stringify(dsktp[id]));
@@ -929,6 +932,7 @@ function c(code, args) {
 
 var workingcodetorun = [];
 var finishedWaitingCodes = 0;
+window.setInterval(checkWaitingCode, 0);
 
 function checkWaitingCode() {
 	if (codeToRun.length == 0) return;
@@ -942,15 +946,6 @@ function checkWaitingCode() {
 	}
 
 	finishedWaitingCodes++;
-}
-
-var waitingCodeInterval = window.setInterval(checkWaitingCode, 0);
-function crashWaitingCodeInterval() {
-	window.clearInterval(waitingCodeInterval);
-}
-
-function startWaitingCodeInterval() {
-	waitingCodeInterval = window.setInterval(checkWaitingCode, 0);
 }
 
 getId('loadingInfo').innerHTML = 'Applications List';
@@ -1020,23 +1015,19 @@ c(function() {
 
 c(function() {
 	MusicPlayer();
-	getId('loadingInfo').innerHTML = 'Apps Browser';
+	getId('loadingInfo').innerHTML = 'Help';
 });
 
 c(function() {
-	AppBrowser();
+	Help();
 	getId('loadingInfo').innerHTML = 'Accreditation';
 });
 
 c(function() {
 	Accreditation();
-	getId('loadingInfo').innerHTML = 'Developer Documentation';
-});
-
-c(function() {
-	DeveloperDocumentation();
 	getId('loadingInfo').innerHTML = 'View Count';
 });
+
 c(function() {
 	ViewCount();
 	getId('loadingInfo').innerHTML = 'Finalizing...';
@@ -1070,7 +1061,7 @@ function toTop(appToNudge, dsktpClick) {
 		getId('icn_' + appToNudge.objName).classList.add('activeAppIcon');
 		try {
 			currTopApp = appToNudge.objName;
-			document.title = appToNudge.appDesc + ' | ' + websiteTitle;
+			document.title = appToNudge.appName + ' | ' + websiteTitle;
 		} catch (err) {
 			document.title = websiteTitle;
 		}

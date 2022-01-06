@@ -12,7 +12,7 @@ apps.startMenu = new Application({
 			color: "#252F3A"
 		}
 	},
-	hideApp: 2,
+	hideApp: 1,
 	launchTypes: 1,
 	main: function (launchType) {
 		if (launchType === 'srtup') {
@@ -59,7 +59,6 @@ apps.startMenu = new Application({
 					'<div style="position:relative;text-align:center;">' +
 					'<button onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})">Power</button>  ' +
 					'<button onclick="openapp(apps.files, \'dsktp\')">Files</button> ' +
-					'<button onclick="openapp(apps.settings, \'dsktp\')">Settings</button> ' +
 					'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">All Apps</button><br>' +
 					'<button onclick="openapp(apps.jsConsole, \'dsktp\')">JavaScript Console</button> ' +
 					'<input autocomplete="off" style="width:calc(100% - 6px);margin-top:3px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
@@ -77,7 +76,7 @@ apps.startMenu = new Application({
 						if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
 							apps.startMenu.vars.listOfApps += '<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' + appsSorted[appHandle] + ', \'dsktp\')" oncontextmenu="ctxMenu(apps.startMenu.vars.ctx, 1, event, \'' + appsSorted[appHandle] + '\')">' +
 								'<th>' + buildSmartIcon(32, apps[appsSorted[appHandle]].appWindow.appImg) + '</th>' +
-								'<td>' + apps[appsSorted[appHandle]].appDesc + '</td>' +
+								'<td>' + apps[appsSorted[appHandle]].appName + '</td>' +
 								'<td style="text-align:right;opacity:0.5">' + apps[appsSorted[appHandle]].dsktpIcon + '</td>' +
 								'</tr>';
 						}
@@ -139,28 +138,28 @@ apps.startMenu = new Application({
 			[' All Apps', function() {
 				openapp(apps.appsBrowser, 'dsktp');
 			}, 'ctxMenu/window.png'],
-			[' Settings', function() {
+			/*[' Settings', function() {
 				openapp(apps.settings, 'dsktp');
-			}, 'ctxMenu/gear.png'],
+			}, 'ctxMenu/gear.png'],*/
 			['+Log Out', function() {
-				apps.settings.vars.shutDown('restart', 1);
+				window.shutDown('restart', 1);
 			}, 'ctxMenu/power.png'],
 			[' Restart', function() {
-				apps.settings.vars.shutDown('restart', 0);
+				window.shutDown('restart', 0);
 			}, 'ctxMenu/power.png'],
 			[' Shut Down', function() {
-				apps.settings.vars.shutDown(0, 1);
+				window.shutDown(0, 1);
 			}, 'ctxMenu/power.png']
 		],
 		powerCtx: [
 			[' Log Out', function() {
-				apps.settings.vars.shutDown('restart', 1);
+				window.shutDown('restart', 1);
 			}, 'ctxMenu/power.png'],
 			[' Restart', function() {
-				apps.settings.vars.shutDown('restart', 0);
+				window.shutDown('restart', 0);
 			}, 'ctxMenu/power.png'],
 			[' Shut Down', function() {
-				apps.settings.vars.shutDown(0, 1);
+				window.shutDown(0, 1);
 			}, 'ctxMenu/power.png']
 		],
 		ctx: [
@@ -231,19 +230,54 @@ apps.startMenu = new Application({
 					break;
 				case "USERFILES_DONE":
 					// SET UP WIDGETS
-					if (ufload("system/taskbar/widget_list")) {
-						var tempList = JSON.parse(ufload("system/taskbar/widget_list"));
-						for (var i in tempList) {
-							addWidget(i, 1);
-						}
-					} else {
-						addWidget('notifications', 1);
-						addWidget('time', 1);
-						addWidget('flow', 1);
-					}
+					addWidget('notifications', 1);
+					addWidget('time', 1);
+					addWidget('flow', 1);
 
 					// Remove taskbar text
 					getId('icntitle_startMenu').style.display = "none";
+
+					// Settings page stuff
+					window.setTimeout(function() {
+						getId('loadingInfo').innerHTML = 'Welcome.';
+						getId('desktop').style.display = '';
+						getId('taskbar').style.display = '';
+					}, 0);
+					window.setTimeout(function() {
+						getId('isLoading').style.opacity = 0;
+						getId('loadingBg').style.opacity = 0;
+					}, 5);
+					window.setTimeout(function() {
+						getId('isLoading').style.display = 'none';
+						getId('isLoading').innerHTML = '';
+						getId('loadingBg').style.display = 'none';
+					}, 1005);
+					window.setTimeout(function() {
+						var dsktpIconFolder = ufload("system/desktop/");
+						if (dsktpIconFolder) {
+							for (let file in dsktpIconFolder) {
+								if (file.indexOf('ico_') === 0) {
+									if (getId(file.substring(10, 16)) !== null) {
+										getId(file.substring(4, file.length)).style.left = eval(USERFILES[file])[0] + "px";
+										getId(file.substring(4, file.length)).style.top = eval(USERFILES[file])[1] + "px";
+									}
+								}
+							}
+						}
+					}, 0);
+
+					// From web_app_maker
+					appsSorted = []; 
+					for (var i in apps) { 
+						appsSorted.push(apps[i].appName.toLowerCase() + "|WAP_apps_sort|" + i); 
+					} 
+					appsSorted.sort(); 
+					for (var i in appsSorted) { 
+						var tempStr = appsSorted[i].split("|WAP_apps_sort|"); 
+						tempStr = tempStr[tempStr.length - 1]; 
+						appsSorted[i] = tempStr; 
+					}
+
 					break;
 				case "shutdown":
 

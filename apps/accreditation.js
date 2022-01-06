@@ -4,6 +4,7 @@ apps.accreditation = new Application({
 	title: "Accreditation",
 	abbreviation: "aDN",
 	codeName: "accreditation",
+	desc: "Gives props to the awesome people that helped make this website possible :)",
 	image: {
 		backgroundColor: "#01fff8",
 		foreground: "smarticons/accreditation/fg.png",
