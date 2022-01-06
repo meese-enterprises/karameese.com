@@ -20,7 +20,6 @@ apps.jsPaint = new Application({
 		
 		getId("icn_jsPaint").style.display = "inline-block";
 		this.appWindow.setCaption("JS Paint");
-		blockScreensaver("apps.jsPaint");
 		this.appWindow.openWindow();
 	}
 });

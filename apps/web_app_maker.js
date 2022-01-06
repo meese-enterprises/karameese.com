@@ -366,20 +366,6 @@ apps.webAppMaker = new Application({
 					} else {
 						return false;
 					}
-				},
-				block_screensaver: function (input, frame) {
-					if (apps[frame.getAttribute("data-parent-app")]) {
-						return blockScreensaver("webApp_" + frame.getAttribute("data-parent-app"));
-					} else {
-						return false;
-					}
-				},
-				unblock_screensaver: function (input, frame) {
-					if (apps[frame.getAttribute("data-parent-app")]) {
-						return unblockScreensaver("webApp_" + frame.getAttribute("data-parent-app"));
-					} else {
-						return false;
-					}
 				}
 			},
 			bgservice: {
@@ -446,7 +432,6 @@ apps.webAppMaker = new Application({
 			writesetting: "change your settings on aOS",
 			js: "execute JavaScript code on aOS (DANGEROUS! MAKE SURE YOU COMPLETELY TRUST THE DEVELOPER!)",
 			context: "use various context menus",
-			appwindow: "manipulate its window and block the screensaver",
 			bgservice: "run in the background"
 		},
 		commandDescriptions: {
@@ -481,7 +466,6 @@ apps.webAppMaker = new Application({
 				get_maximized: "Get window maximization state.",
 				close_window: "Close the app window.",
 				set_dims: "Set the size and position of the window.",
-				block_screensaver: "Block the AaronOS screensaver.",
 			},
 			bgservice: {
 				set_service: "Launch a background service that persists beyond its window being closed.",

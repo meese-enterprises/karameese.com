@@ -219,16 +219,6 @@ window.devTools = {
 			action: "appwindow:take_focus"
 		}, callback);
 	},
-	blockScreensaver: function (callback) {
-		devTools.sendRequest({
-			action: "appwindow:block_screensaver"
-		}, callback);
-	},
-	unblockScreensaver: function (callback) {
-		devTools.sendRequest({
-			action: "appwindow:unblock_screensaver"
-		}, callback);
-	},
 
 	useDefaultContextMenu: true,
 	windowWasClicked: function (event) {

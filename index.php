@@ -47,7 +47,6 @@
 			<div id="icons">Loading, please wait.</div>
 		</div>
 		<div id="ctxMenu" onclick="getId('ctxMenu').style.display='none'" class="backdropFilterCtxMenu noselect"></div>
-		<div id="screensaverLayer"></div>
 		<?php
 			if (isset($_COOKIE['keyword'])) {
 				if (file_exists('USERFILES/'.$_COOKIE['keyword'].'/system/desktop/background_image.txt')) {
@@ -120,10 +119,6 @@
 ?>
 
 <?php
-	if (isset($_GET['changeKey']) && isset($_GET['changePass'])){
-		$changeKey = $_GET['changeKey'];
-		$changePass = $_GET['changePass'];
-	}
 	echo '<script defer>';
 	require 'filepreloaderBeta.php';
 	echo '</script>';

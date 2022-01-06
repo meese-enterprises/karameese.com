@@ -1299,15 +1299,6 @@ div {
 	background-color: #F00;
 }
 
-#screensaverLayer {
-	width: 100%;
-	height: 100%;
-	display: none;
-	z-index: 999999999999;
-	left: 0;
-	top: 0;
-}
-
 #windowFrameOverlay {
 	display: none;
 	box-shadow: inset 0 0 10px #FFF, 0 0 35px #000;

@@ -24,7 +24,6 @@ apps.viewCount = new Application({
 		`);
 		getId("icn_viewCount").style.display = "inline-block";
 		this.appWindow.setCaption("View Counter");
-		blockScreensaver("apps.viewCount");
 		this.appWindow.openWindow();
 	}
 });

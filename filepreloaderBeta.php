@@ -29,23 +29,6 @@ if (isset($_COOKIE['password'])) {
 	setcookie('password', '', time() - 3600);
 }
 
-// if the page needs to be refreshed
-$needtorefresh = false;
-$refreshMessage = '';
-
-// if a user change was requested
-if (isset($changeKey) && isset($changePass)) {
-	// if the user exists
-	if (is_dir('USERFILES/' . $changeKey)) {
-		// if the user has a password
-		$refreshMessage = 'Failed to swap, no password on target. Get help from the developer.';
-	} else {
-		$refreshMessage = 'Failed to swap, target does not exist.';
-	}
-	// page needs to be refreshed on clientside
-	$needtorefresh = true;
-}
-
 // alphabet available to make userkeys from
 $newUser = 0;
 $lettertypes = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
@@ -76,10 +59,6 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 	echo 'window.IPADDRESS="undefined";';
 }
 
-// If it needs to be refreshed, tell the client via js
-if ($needtorefresh) {
-	echo 'localStorage.setItem("login_failmessage", "'+$refreshMessage+'");window.location = "index.php?refreshed="+Math.round(Math.random()*1000);doLog("Moving");';
-}
 // If user folder not exist, create it
 if (!(is_dir('USERFILES/' . $_COOKIE['keyword']))) {
 	$newUser = 1;

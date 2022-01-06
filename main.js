@@ -259,84 +259,6 @@ function perfCheck(name) {
 // Start measuring boot time
 perfStart('masterInit');
 
-// Screensaver system
-var screensaverRunning = 0;
-// Screensaver blockers
-var screensaverBlocks = [];
-
-function countScreensaverBlocks(name) {
-	if (!name) name = "";
-	name = cleanStr(String(name));
-
-	let temp = 0;
-	for (let i in screensaverBlocks) {
-		if (screensaverBlocks[i] === name) temp++;
-	}
-
-	return temp;
-}
-
-function blockScreensaver(name) {
-	if (!name) name = "";
-	name = cleanStr(String(name));
-	screensaverBlocks.push(name);
-	return countScreensaverBlocks(name);
-}
-
-function unblockScreensaver(name, purge) {
-	if (!name) name = "";
-	name = cleanStr(String(name));
-	if (screensaverBlocks.indexOf(name) === -1) return -1;
-
-	if (purge) {
-		while (screensaverBlocks.indexOf(name) > -1) {
-			screensaverBlocks.splice(screensaverBlocks.indexOf(name), 1);
-		}
-
-		return 0;
-	}
-
-	screensaverBlocks.splice(screensaverBlocks.indexOf(name), 1);
-	return countScreensaverBlocks(name);
-}
-
-// Previous mouse position
-var lastPageX = 0;
-var lastPageY = 0;
-// User has moved their mouse
-function markUserMouseActive(event) {
-	if (event.pageX !== lastPageX || event.pageY !== lastPageY) {
-		// TODO: CHANGE
-		perfStart('userActivity');
-		if (screensaverRunning) {
-			getId('screensaverLayer').style.display = "none";
-			getId('screensaverLayer').innerHTML = "";
-			apps.settings.vars.screensavers[apps.settings.vars.currScreensaver].end();
-			screensaverRunning = 0;
-		}
-		lastPageX = event.pageX;
-		lastPageY = event.pageY;
-	}
-}
-
-// User has used their keyboard
-function markUserKeyboardActive() {
-	perfStart('userActivity');
-	if (!screensaverRunning) return;
-	getId('screensaverLayer').style.display = "none";
-	getId('screensaverLayer').innerHTML = "";
-	apps.settings.vars.screensavers[apps.settings.vars.currScreensaver].end();
-	screensaverRunning = 0;
-}
-
-// Pretend the keyboard was clicked - they just logged in so they must have been active
-markUserKeyboardActive();
-
-// Add the event listeners to the monitor
-getId("monitor").addEventListener('click', markUserKeyboardActive);
-getId("monitor").addEventListener('mousemove', markUserMouseActive);
-getId("monitor").addEventListener('keypress', markUserKeyboardActive);
-
 // Vartry is used when something might not work
 m('init onerror and USERFILES and getId');
 var vartryArray = {};
@@ -883,12 +805,10 @@ var Application = function (
 		}
 
 		if (this.resizeable) {
-			getId("win_" + appPath + "_size").setAttribute("onmousedown", "if(!apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winres(event);}event.preventDefault();return false;}");
-			getId("win_" + appPath + "_size").setAttribute("onclick", "if(apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winres(event);}event.preventDefault();return false;}");
+			getId("win_" + appPath + "_size").setAttribute("onmousedown", "if(event.button!==2){toTop(apps." + appPath + ");winres(event);}event.preventDefault();return false;");
 		}
 		
-		getId("win_" + appPath + "_cap").setAttribute("onmousedown", "if(!apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winmove(event);}event.preventDefault();return false;}");
-		getId("win_" + appPath + "_cap").setAttribute("onclick", "if(apps.settings.vars.clickToMove){if(event.button!==2){toTop(apps." + appPath + ");winmove(event);}event.preventDefault();return false;}");
+		getId("win_" + appPath + "_cap").setAttribute("onmousedown", "if(event.button!==2){toTop(apps." + appPath + ");winmove(event);}event.preventDefault();return false;");
 		getId("icn_" + appPath).setAttribute("onClick", "openapp(apps." + appPath + ", function(){if(apps." + appPath + ".appWindow.appIcon){return 'tskbr'}else{return 'dsktp'}}())");
 		getId("win_" + appPath + "_top").setAttribute("onClick", "toTop(apps." + appPath + ")");
 		if (appPath !== 'startMenu' && appPath !== 'nora') {
@@ -1849,19 +1769,6 @@ function monMouseCheck() {
 		doLog('Failed to open ctxmenu on ' + vartry('document.elementFromPoint(monMouseEvent.pageX, monMouseEvent.pageY).id'));
 	}
 }
-
-function monMouseDown(evt) {
-	if (vartry("apps.settings.vars.longTap") === 1 && evt.touches.length > 1) {
-		evt.preventDefault();
-		monMouseEvent = {
-			pageX: evt.touches[0].pageX,
-			pageY: evt.touches[0].pageY
-		};
-		monMouseCheck();
-		return false;
-	}
-}
-getId("monitor").addEventListener('touchstart', monMouseDown);
 
 var keepingAwake = false;
 

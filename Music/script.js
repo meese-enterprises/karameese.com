@@ -14,22 +14,6 @@ window.devTools_connectListener = function () {
 	devToolsConnected = 1;
 }
 
-// prevent the display from going to sleep
-var preventingSleep = 0;
-function blockSleep() {
-	if (!preventingSleep && devToolsConnected) {
-		devTools.blockScreensaver(() => {});
-		preventingSleep = 1;
-	}
-}
-
-function unblockSleep() {
-	if (preventingSleep && devToolsConnected) {
-		devTools.unblockScreensaver(() => {});
-		preventingSleep = 0;
-	}
-}
-
 var audio = new Audio();
 window.audio = audio;
 
@@ -54,7 +38,6 @@ function selectSong(id) {
 	audio.pause();
 	audio.currentTime = 0;
 	audio.src = fileNames[id][2];
-	blockSleep();
 	getId("currentlyPlaying").innerHTML = `
 		<p class="marqueetext1">${fileNames[id][0]}</p>
 	`;
@@ -75,14 +58,12 @@ function play() {
 		shuffle();
 	} else {
 		audio.play();
-		blockSleep();
 	}
 
 	getId("playpauseicon").src = "pause.svg";
 }
 function pause() {
 	audio.pause();
-	unblockSleep();
 	getId("playpauseicon").src = "play.svg";
 }
 
