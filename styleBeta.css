@@ -293,7 +293,7 @@ hr {
 }
 
 a {
-	cursor: url(cursors/beta/pointer.png) 11 2, pointer;
+	cursor: url(cursors/pointer.png) 11 2, pointer;
 }
 
 #pagebody {
@@ -1324,31 +1324,31 @@ div {
 }
 
 .cursorMove {
-	cursor: url(./cursors/beta/move.png) 16 15, move;
+	cursor: url(./cursors/move.png) 16 15, move;
 }
 
 .cursorOpenHand {
-	cursor: url(./cursors/beta/movpre.png) 15 16, move;
+	cursor: url(./cursors/movpre.png) 15 16, move;
 }
 
 .cursorCloseHand {
-	cursor: url(./cursors/beta/moving.png) 12 10, move;
+	cursor: url(./cursors/moving.png) 12 10, move;
 }
 
 .cursorPointer {
-	cursor: url(./cursors/beta/pointer.png) 11 2, pointer;
+	cursor: url(./cursors/pointer.png) 11 2, pointer;
 }
 
 .cursorLoadLight {
-	cursor: url(./cursors/beta/wait.png) 14 13, wait;
+	cursor: url(./cursors/wait.png) 14 13, wait;
 }
 
 .cursorLoadDark {
-	cursor: url(./cursors/beta/wait.png) 14 13, wait;
+	cursor: url(./cursors/wait.png) 14 13, wait;
 }
 
 .cursorForceLoad {
-	cursor: url(./cursors/beta/wait.png) 14 13, wait !important;
+	cursor: url(./cursors/wait.png) 14 13, wait !important;
 }
 
 .widget {

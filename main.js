@@ -256,16 +256,6 @@ function numberCommas(number) {
 	return tempNCresult;
 }
 
-var cursors = {
-	def: 'url(./cursors/default.png) 3 3, default',
-	loadLightGif: 'url(./cursors/loadLight.gif) 16 16, url(./cursors/loadLight.png) 16 16, wait',
-	loadDarkGif: 'url(./cursors/loadDark.gif) 16 16, url(./cursors/loadDark.png) 16 16, wait',
-	loadLight: 'url(./cursors/loadLight.png) 16 16, wait',
-	loadDark: 'url(./cursors/loadDark.png) 16 16, wait',
-	move: 'url(./cursors/move.png) 14 14, move',
-	pointer: 'url(./cursors/pointer.png) 9 3, pointer'
-}
-
 // Performance-measuring functions
 m('init performance measure');
 var perfObj = {};
