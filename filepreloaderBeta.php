@@ -38,37 +38,7 @@ if (isset($changeKey) && isset($changePass)) {
 	// if the user exists
 	if (is_dir('USERFILES/' . $changeKey)) {
 		// if the user has a password
-		if (file_exists('USERFILES/' . $changeKey . '/aOSpassword.txt')) {
-			// grab the users password
-			$passfile = fopen('USERFILES/' . $changeKey . '/aOSpassword.txt', 'r');
-			$targetPass = fread($passfile, filesize('USERFILES/' . $changeKey . '/aOSpassword.txt'));
-			fclose($passfile);
-
-			// if password is sha256, delete
-			if (strlen($targetPass) === 64) {
-				unlink('USERFILES/' . $changeKey . '/aOSpassword.txt');
-			} else {
-				//ensure password is bcrypt
-				if (strlen($targetPass) !== 60) {
-					$passbc = password_hash($targetPass, PASSWORD_BCRYPT);
-					$passfile = fopen('USERFILES/' . $changeKey . '/aOSpassword.txt', 'w');
-					fwrite($passfile, $passbc);
-					fclose($passfile);
-					$targetPass = $passbc;
-				}
-
-				// if password is correct
-				if (password_verify($changePass, $targetPass)) {
-					// tell the browser the new user name
-					setcookie('keyword', $changeKey, time() + 321408000);
-					$_COOKIE['keyword'] = $changeKey;
-				} else {
-					$refreshMessage = 'Failed to swap, incorrect password.';
-				}
-			}
-		} else {
-			$refreshMessage = 'Failed to swap, no password on target. Get help from the developer.';
-		}
+		$refreshMessage = 'Failed to swap, no password on target. Get help from the developer.';
 	} else {
 		$refreshMessage = 'Failed to swap, target does not exist.';
 	}
@@ -96,18 +66,6 @@ if (!isset($_COOKIE['keyword']) || preg_match('/[^A-Za-z0-9_-]/', $_COOKIE['keyw
 	// tell the browser
 	setcookie('keyword', $newcode, time() + 321408000);
 	$_COOKIE['keyword'] = $newcode;
-}
-
-if (file_exists('USERFILES/' . $_COOKIE['keyword'] . '/aOSpassword.txt')) {
-	if (isset($_COOKIE['logintoken'])) {
-		if ((require 'checkToken.php') === 0) {
-			header('Location: askPassword.php');
-		} else {
-			echo 'localStorage.removeItem("login_failmessage");';
-		}
-	} else {
-		header('Location: askPassword.php');
-	}
 }
 
 // Push javascript to set server variables

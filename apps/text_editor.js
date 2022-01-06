@@ -36,7 +36,7 @@ apps.notepad = new Application({
 		this.appWindow.openWindow();
 	},
 	vars: {
-		appInfo: 'Simple text editor for AaronOS. Edits text files created by the user, and views strings, numbers, and functions of AaronOS apps.',
+		appInfo: 'Simple text editor. Edits text files created by the user, and views strings, numbers, and functions of apps.',
 		openEditTools: function() {
 			apps.prompt.vars.notify('This button is unfinished. Right-click the document instead.', [], function() {}, 'Text Editor', 'appicons/TE.png')
 		},
@@ -116,16 +116,6 @@ apps.notepad = new Application({
 				openapp(apps.notepad, "dsktp");
 			} else {
 				openapp(apps.notepad, 'tskbr');
-			}
-
-			if (filename.indexOf('/USERFILES/') !== 0 && filename.indexOf('/LOCALFILES/') !== 0) {
-				if (filename.indexOf('/window/') !== 0) {
-					if (filename[0] === '/') {
-						filename = '/USERFILES' + filename;
-					} else {
-						filename = '/USERFILES/' + filename;
-					}
-				}
 			}
 
 			try {
@@ -268,16 +258,6 @@ apps.notepad = new Application({
 				return;
 			}
 
-			if (filename.indexOf('/USERFILES/') !== 0 && filename.indexOf("/LOCALFILES/") !== 0) {
-				if (filename.indexOf('/window/') !== 0) {
-					if (filename[0] === '/') {
-						filename = '/USERFILES' + filename;
-					} else {
-						filename = '/USERFILES/' + filename;
-					}
-				}
-			}
-
 			getId('np2Load').value = filename;
 			if (filename.indexOf('/USERFILES/') === 0) {
 				var shortfilename = filename.substring(11, filename.length);
@@ -286,13 +266,6 @@ apps.notepad = new Application({
 					return;
 				}
 				apps.savemaster.vars.save(shortfilename, getId("np2Env").contentWindow.editor.getValue(), 1);
-			} else if (filename.indexOf('/LOCALFILES/') === 0) {
-				var shortfilename = filename.substring(12, filename.length);
-				if (shortfilename.length === 0) {
-					apps.prompt.vars.alert("Failed to save: No filename provided.", "Okay", function() {}, "Text Editor");
-					return;
-				}
-				lfsave(shortfilename, getId("np2Env").contentWindow.editor.getValue());
 			} else {
 				try {
 					var oldfilecontent = apps.bash.vars.getRealDir(filename);

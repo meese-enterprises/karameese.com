@@ -176,11 +176,6 @@ apps.webAppMaker = new Application({
 					return "APPMAKER_DO_NOT_REPLY";
 				}
 			},
-			getstyle: {
-				darkmode: function (input) {
-					return !!darkMode;
-				},
-			},
 			readsetting: {
 
 			},
@@ -458,18 +453,14 @@ apps.webAppMaker = new Application({
 			context: {
 				menu: "Display context menus."
 			},
-			getstyle: {
-				darkmode: "Get the state of dark mode."
-			},
 			fs: {
 				read_uf: "Read and write USERFILES",
-				read_lf: "Read and write LOCALFILES",
 			},
 			readsetting: {
-				glbl: "Read your aOS settings."
+				glbl: "Read your settings."
 			},
 			writesetting: {
-				glbl: "Change your aOS settings."
+				glbl: "Change your settings."
 			},
 			prompt: {
 				alert: "Show an alert window to display information.",
@@ -508,7 +499,6 @@ apps.webAppMaker = new Application({
 			}
 		},
 		globalPermissions: {
-			"getstyle": "true",
 			"appwindow": "true",
 			"prompt": "true",
 			"context": "true"
@@ -553,26 +543,6 @@ apps.webAppMaker = new Application({
 						appsSorted[i] = tempStr;
 					}
 
-					if (ufload("system/apps/webAppMaker/trusted_apps")) {
-						try {
-							var tempobj = JSON.parse(ufload("system/apps/webAppMaker/trusted_apps"));
-							var fail = 0;
-							for (var i in tempobj) {
-								for (var j in tempobj[i]) {
-									if (tempobj[i][j] !== "true" && tempobj[i][j] !== "false") {
-										fail = 1;
-									}
-								}
-							}
-							if (fail) {
-								doLog("Failed Permissions: Not in correct format.", "#F00");
-							} else {
-								apps.webAppMaker.vars.trustedApps = tempobj;
-							}
-						} catch (err) {
-							doLog("Failed initializing WAP Permissions: " + err, "#F00");
-						}
-					}
 					break;
 				case 'shutdown':
 

@@ -1,4 +1,6 @@
 var bootTime = new Date().getTime();
+const websiteTitle = 'KaraOS';
+document.title = websiteTitle;
 
 if (typeof console === "undefined") {
 	console = {
@@ -45,8 +47,6 @@ if (window.performance === undefined) {
 
 // Approximately how long it took to load the page
 var timeToPageLoad = Math.round(performance.now() * 10) / 10;
-
-var noUserFiles = (window.location.href.indexOf('nofiles=true') !== -1);
 
 // See if animationframe is supported - if not, substitute it
 var requestAnimationFrameIntact = 1;
@@ -198,13 +198,10 @@ window.onerror = function (errorMsg, url, lineNumber) {
 // Scale of screen, for HiDPI compatibility
 var screenScale = 1;
 
-// Debugging pseudo-module system
-// The last used module
-var modulelast = 'init aOS';
-// The current running module
-var module = 'init aOS';
-// Variable used to tell the file loader that aos is ready to load USERFILES
+var modulelast = `init ${websiteTitle}`;
+var module = modulelast;
 var initStatus = 0;
+
 // Changes the current module
 function m(msg) {
 	d(2, 'Module changed: ' + msg);
@@ -229,24 +226,11 @@ var d = function (level, message) {
 	}
 };
 
-// Counts the length of an object
-var tempObjLengthCount
-
-function objLength(target) {
-	tempObjLengthCount = 0;
-	for (var i in target) {
-		tempObjLengthCount++;
-	}
-	return tempObjLengthCount;
-}
-
 // Formats a number with commas
-var tempNCnumber = "";
-var tempNCresult = "";
-
 function numberCommas(number) {
-	tempNCnumber = number + "";
-	tempNCresult = '';
+	let tempNCnumber = number + "";
+	let tempNCresult = "";
+
 	// Adds commas every third character from right
 	for (let i = tempNCnumber.length - 3; i > 0; i -= 3) {
 		tempNCresult = ',' + tempNCnumber.substring(i, i + 3) + tempNCresult;
@@ -366,55 +350,39 @@ var vartry = function (varname) {
 }
 
 // Convert number to true/false
-const numEnDis = (num) => !!num ? 'Enabled' : 'Disabled';
+const getStatus = (num) => !!num ? 'Enabled' : 'Disabled';
 
 const currentlanguage = 'en';
 var langContent = {
 	en: {
-		aOS: {
+		site: {
 			failedVarTry: 'failed', // lowercase
 			fatalError1: 'You found an error! ',
 			fatalError2: 'Error in',
 			fatalError3: 'Module', // lowercase
 			fatalError4: 'at', // lowercase
 			fatalError5: 'Send error report to the developer?',
-			errorReport: 'Failed to save the report. The OS has either failed to initialize or crucial components have been deleted. Please email mineandcraft12@gmail.com with the details of your issue if you would like it fixed.'
+			errorReport: 'Failed to save the report. The OS has either failed to initialize or crucial components have been deleted. Please try again later.',
 		},
 		appNames: {
-			startMenu: "AaronOS Dashboard",
+			startMenu: "Dashboard",
 			nora: "NORAA",
 			jsConsole: "JavaScript Console",
 			bash: "Pseudo-Bash Terminal",
 			prompt: "Application Prompt",
 			settings: "Settings",
-			windowTest: "Window Test Application",
-			testTwo: "Test App 2",
-			ragdoll: "Rag Doll",
 			notepad: "Text Editor",
 			properties: "Properties Viewer",
 			files: "File Manager",
-			flashCards: "Flash Cards",
-			pngSave: "PNG Saver",
-			canvasGame: "Canvas Video Games",
 			internet: "The Internet",
 			savemaster: "SaveMaster",
-			ti: "TI-83+ Simulator",
 			appAPI: "API",
 			search: "Search",
 			image: "img Editor",
 			messaging: "Messaging",
 			musicVis: "Music Visualiser",
-			perfMonitor: "Performance Monitor",
-			mathway: "Mathway",
 			appsbrowser: "Apps Browser",
-			simon: "Simon",
-			accreditation: "Accreditation",
-			rdp: "Remote Desktop Host",
-			rdpViewer: "Remote Desktop Viewer",
-			extDebug: "External Debug",
-			mouseControl: "Alternate Mouse Control",
-			onlineDebug: "Online Debug Connection",
-			jana: "Jana"
+			accreditation: "Accreditation"
 		},
 		startMenu: {
 			power: 'Power',
@@ -452,7 +420,7 @@ var langContent = {
 		},
 		prompt: {
 			caption: 'Application Prompt',
-			genericAlert: 'This app is used for alerts and prompts in aOS apps.',
+			genericAlert: 'This app is used for alerts and prompts in apps.',
 			ok: 'OK',
 			alertText: 'wants to tell you', // lowercase
 			alertUnnamed: 'Alert from an anonymous app',
@@ -503,28 +471,24 @@ var tskbrToggle = {
 	tskbrPos: 1
 };
 
-var showTimeColon = 0;
-var timeElement = getId("time");
-var doLog;
-
 getId("icons").innerHTML = "";
 
-// Function to ping the aOS server
+// Function to ping the server
 m('init ping functions');
-function aOSping(callbackScript) {
-	d(1, 'Pinging aOS...');
-	var aOSpingxhttp = {};
-	aOSpingxhttp = new XMLHttpRequest();
-	aOSpingxhttp.onreadystatechange = function() {
-		if (aOSpingxhttp.readyState === 4) {
+function ping(callbackScript) {
+	d(1, 'Pinging server...');
+	var pingxhttp = {};
+	pingxhttp = new XMLHttpRequest();
+	pingxhttp.onreadystatechange = function() {
+		if (pingxhttp.readyState === 4) {
 			apps.savemaster.vars.saving = 0;
-			callbackScript([perfCheck('aOSping'), aOSpingxhttp.status]);
+			callbackScript([perfCheck('ping'), pingxhttp.status]);
 		}
 	};
-	aOSpingxhttp.open('GET', 'xmlping.php', 'true');
-	perfStart('aOSping');
+	pingxhttp.open('GET', 'xmlping.php', 'true');
+	perfStart('ping');
 	apps.savemaster.vars.saving = 1;
-	aOSpingxhttp.send();
+	pingxhttp.send();
 }
 
 // Ping the CORS proxy
@@ -586,11 +550,9 @@ m('init Application class');
 var apps = {};
 window.apps = apps;
 var appsSorted = [];
-var appsSortedSafe = [];
 var appTotal = 0;
 var appPosX = 8;
 var appPosY = 8;
-var finishedMakingAppClicks = 0;
 var Application = function (
 	appIcon,
 	appDesc,
@@ -951,7 +913,6 @@ var dsktp = {};
 function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxAction, ctxActionArgs, nosave) {
 	if (!id) id = "uico_" + (new Date().getTime());
 	if (!title) {
-		// TODO: TEST THE || SYNTAX HERE
 		title = apps[owner] ? apps[owner].appDesc : "Icon";
 	}
 	if (!icon) {
@@ -978,7 +939,7 @@ function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxA
 			actionArgs = [owner];
 		} else {
 			action = [
-				'apps.prompt.vars.alert("This icon has no assigned action.", "Okay.", function(){}, "AaronOS");'
+				'apps.prompt.vars.alert("This icon has no assigned action.", "Okay.", function(){}, "");'
 			];
 			actionArgs = [];
 		}
@@ -996,7 +957,7 @@ function newDsktpIcon(id, owner, position, title, icon, action, actionArgs, ctxA
 		} else {
 			ctxAction = [
 				'arg1',
-				'ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, "aOS"]);'
+				'ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, "site"]);'
 			];
 			ctxActionArgs = [id];
 		}
@@ -1103,49 +1064,41 @@ function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, 
 			[webAppPosition[0] + framePosition.x, webAppPosition[1] + framePosition.y, "ctxMenu/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'spoken\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'"
 		];
 	}
-	for (let i = 1; i <= textEditorTools.slots; i++) {
-		if (currentSelection.length === 0) {
-			textEditorTools.tempvar = '-';
-			textEditorTools.tempvar2 = '_';
-		} else {
-			textEditorTools.tempvar = ' ';
-			textEditorTools.tempvar2 = '+';
-		}
-		if (i === 1) {
-			textEditorTools.tmpGenArray.push(textEditorTools.tempvar2 + 'Copy 1 (' + cleanStr(currentSelection.substring(0, 5)) + '...)');
-		} else {
-			textEditorTools.tmpGenArray.push(textEditorTools.tempvar + 'Copy ' + i + ' (' + cleanStr(currentSelection.substring(0, 5)) + '...)');
-		}
-		textEditorTools.tmpGenArray[0].push('ctxMenu/load.png');
-		// TODO: Clean up
-		if (!fromWebApp) {
-			textEditorTools.tmpGenArray.push('textEditorTools.copy(' + (i - 0) + ');getId(\'ctxMenu\').style.display = \'none\'');
-		} else {
-			textEditorTools.tmpGenArray.push('textEditorTools.copy(' + (i - 0) + ');apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'copied\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
-		}
+	if (currentSelection.length === 0) {
+		textEditorTools.tempvar = '-';
+		textEditorTools.tempvar2 = '_';
+	} else {
+		textEditorTools.tempvar = ' ';
+		textEditorTools.tempvar2 = '+';
+	}
+	textEditorTools.tmpGenArray.push(textEditorTools.tempvar2 + 'Copy (' + cleanStr(currentSelection.substring(0, 5)) + '...)');
+	textEditorTools.tmpGenArray[0].push('ctxMenu/load.png');
+	// TODO: Clean up
+	if (!fromWebApp) {
+		textEditorTools.tmpGenArray.push('textEditorTools.copy();getId(\'ctxMenu\').style.display = \'none\'');
+	} else {
+		textEditorTools.tmpGenArray.push('textEditorTools.copy();apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'copied\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
 	}
 
 	if (canPasteHere) {
-		for (let i = 1; i <= textEditorTools.slots; i++) {
-			if (!fromWebApp) {
-				if (textEditorTools.clipboard[i - 1].length === 0 || (typeof event.target.id !== "string" || event.target.id === "") || event.target.getAttribute("disabled") !== null) {
-					textEditorTools.tmpGenArray.push(`${i === 1 ? '_' : '-'}Paste ${i} (${cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5))}...)`);
-					textEditorTools.tmpGenArray.push('');
-				} else {
-					textEditorTools.tmpGenArray.push(`${i === 1 ? '+' : ' '}Paste ${i} (${cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5))}...)`);
-					textEditorTools.tmpGenArray.push('textEditorTools.paste(\'' + event.target.id + '\', ' + i + ', ' + event.target.selectionStart + ',' + event.target.selectionEnd + ');getId(\'ctxMenu\').style.display = \'none\'');
-				}
+		if (!fromWebApp) {
+			if (textEditorTools.clipboard.length === 0 || (typeof event.target.id !== "string" || event.target.id === "") || event.target.getAttribute("disabled") !== null) {
+				textEditorTools.tmpGenArray.push(`_Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
+				textEditorTools.tmpGenArray.push('');
 			} else {
-				if (textEditorTools.clipboard[i - 1].length === 0) {
-					textEditorTools.tmpGenArray.push(`${i === 1 ? '_' : '-'}Paste ${i} (${cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5))}...)`);
-					textEditorTools.tmpGenArray.push('');
-				} else {
-					textEditorTools.tmpGenArray.push(`${i === 1 ? '+' : ' '}Paste ${i} (${cleanStr(textEditorTools.clipboard[i - 1].substring(0, 5))}...)`);
-					textEditorTools.tmpGenArray.push('apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'pasted\',pastedText:textEditorTools.clipboard[' + (i - 1) + '],conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
-				}
+				textEditorTools.tmpGenArray.push(`+Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
+				textEditorTools.tmpGenArray.push('textEditorTools.paste(\'' + event.target.id + '\', ' + event.target.selectionStart + ',' + event.target.selectionEnd + ');getId(\'ctxMenu\').style.display = \'none\'');
 			}
-			textEditorTools.tmpGenArray[0].push('ctxMenu/save.png');
+		} else {
+			if (textEditorTools.clipboard.length === 0) {
+				textEditorTools.tmpGenArray.push(`_Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
+				textEditorTools.tmpGenArray.push('');
+			} else {
+				textEditorTools.tmpGenArray.push(`+Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
+				textEditorTools.tmpGenArray.push('apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'pasted\',pastedText:textEditorTools.clipboard,conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
+			}
 		}
+		textEditorTools.tmpGenArray[0].push('ctxMenu/save.png');
 	}
 	textEditorTools.tempvar3 = currentSelection;
 	ctxMenu(textEditorTools.tmpGenArray);
@@ -1156,25 +1109,18 @@ var textEditorTools = {
 	tempvar2: '',
 	tempvar3: '',
 	webAppInfo: {},
-	slots: 2,
-	updateSlots: function() {
-		clipboard = [];
-		for (let i = 0; i < this.slots; i++) {
-			this.clipboard.push("");
-		}
-	},
-	clipboard: ["", ""],
+	clipboard: "",
 	tmpGenArray: [],
-	copy: function (slot) {
-		this.clipboard[slot - 1] = this.tempvar3;
+	copy: function () {
+		this.clipboard = this.tempvar3;
 		ufsave("system/clipboard", JSON.stringify(this.clipboard));
 	},
-	paste: function (element, slot, cursorpos, endselect) {
-		getId(element).value = getId(element).value.substring(0, cursorpos) + this.clipboard[slot - 1] + getId(element).value.substring(endselect, getId(element).value.length);
+	paste: function (element, cursorpos, endselect) {
+		getId(element).value = getId(element).value.substring(0, cursorpos) + this.clipboard + getId(element).value.substring(endselect, getId(element).value.length);
 	},
-	swap: function (element, slot, cursorpos) {
-		var tempCopy = this.clipboard[slot - 1];
-		this.clipboard[slot - 1] = this.tempvar3;
+	swap: function (element, cursorpos) {
+		var tempCopy = this.clipboard;
+		this.clipboard = this.tempvar3;
 		ufsave("system/clipboard", JSON.stringify(this.clipboard));
 		getId(element).value = getId(element).value.substring(0, cursorpos) + tempCopy + getId(element).value.substring(cursorpos, getId(element).value.length);
 	}
@@ -1195,7 +1141,6 @@ function c(code, args) {
 }
 
 var workingcodetorun = [];
-var totalWaitingCodes = 0;
 var finishedWaitingCodes = 0;
 
 function checkWaitingCode() {
@@ -1228,13 +1173,11 @@ c(function() {
 });
 
 c(function() {
-	m('init NRA');
 	NORA();
 	getId('loadingInfo').innerHTML = 'Info Viewer...';
 });
 
 c(function() {
-	m('init Nfo');
 	AppInfo();
 	getId('loadingInfo').innerHTML = 'JavaScript Console';
 });
@@ -1247,7 +1190,6 @@ function setCurrentSelection() {
 
 requestAnimationFrame(setCurrentSelection);
 c(function() {
-	m('init jsC');
 	JSConsole();
 	getId('loadingInfo').innerHTML = 'Bash Console';
 });
@@ -1255,52 +1197,40 @@ c(function() {
 c(() => Bash());
 
 c(function() {
-	m('init PMT');
 	AppPrompt();
 	getId('loadingInfo').innerHTML = 'Settings';
 });
 
 c(function() {
-	m('init Settings');
 	Settings();
 	getId('loadingInfo').innerHTML = 'Smart Icon Settings';
 });
 
 c(function() {
 	SmartIconSettings();
-	getId('loadingInfo').innerHTML = 'Desktop Icon Maker';
+	getId('loadingInfo').innerHTML = 'JS Paint';
 })
 
 c(function() {
-	m('init jsP');
 	JSPaint();
+	getId('loadingInfo').innerHTML = 'Text Editor';
 });
 
-var files;
 c(function() {
-	m('init NP2');
 	TextEditor();
-	getId('loadingInfo').innerHTML = 'Files';
-});
-c(function() {
-	m('init files');
-	window.aOSversion = 'B1.6.9.2 (11/14/2021) r1';
-	document.title = 'AaronOS ' + aOSversion;
 	getId('loadingInfo').innerHTML = 'Properties Viewer';
 });
 c(function() {
-	m('init PPT');
 	PropertiesViewer();
 	getId('loadingInfo').innerHTML = 'File Manager';
 });
 c(function() {
-	m('init FIL');
 	FileManager();
+	getId('loadingInfo').innerHTML = 'Save Master';
 });
 
 c(function() {
 	window.SRVRKEYWORD = window.SRVRKEYWORD || "";
-	m('init SAV');
 	SaveMaster();
 	getId('loadingInfo').innerHTML = 'Web App Maker';
 });
@@ -1311,13 +1241,11 @@ c(function() {
 });
 
 c(function() {
-	m('init MSG');
 	Messaging();
 	getId('loadingInfo').innerHTML = 'Music Player';
 });
 
 c(function() {
-	m('init MSC');
 	MusicPlayer();
 	getId('loadingInfo').innerHTML = 'Apps Browser';
 });
@@ -1333,14 +1261,13 @@ c(function() {
 });
 
 c(function() {
-	m('init DD');
 	DeveloperDocumentation();
-	getId('loadingInfo').innerHTML = 'Finalizing...';
+	getId('loadingInfo').innerHTML = 'View Count';
 });
 c(function() {
 	ViewCount();
+	getId('loadingInfo').innerHTML = 'Finalizing...';
 });
-m('init finalizing');
 
 // Function to open apps
 var currTopApp = '';
@@ -1370,16 +1297,12 @@ function toTop(appToNudge, dsktpClick) {
 		getId('icn_' + appToNudge.objName).classList.add('activeAppIcon');
 		try {
 			currTopApp = appToNudge.objName;
-			document.title = appToNudge.appDesc + ' | aOS ' + aOSversion;
+			document.title = appToNudge.appDesc + ' | ' + websiteTitle;
 		} catch (err) {
-			document.title = 'AaronOS';
+			document.title = websiteTitle;
 		}
 	} else {
-		try {
-			document.title = 'AaronOS ' + aOSversion;
-		} catch (err) {
-			document.title = 'AaronOS';
-		}
+		document.title = websiteTitle;
 	}
 	if (appToNudge !== apps.startMenu && apps.startMenu.appWindow.appIcon) {
 		apps.startMenu.signalHandler('shrink');
@@ -1414,7 +1337,6 @@ function openapp(appToOpen, launchTypeUsed) {
 }
 
 // Function to remove broken text warning
-finishedMakingAppClicks = 1;
 function fadeResizeText() {
 	getId("timesUpdated").style.display = "none";
 }
@@ -1455,7 +1377,7 @@ function icomoving(e) {
 	getId(icomoveSelect).style.top = icomoveOrY + (e.pageY - icomovey) * (1 / screenScale) + "px";
 }
 
-// Custom icons
+// Custom icons; TODO
 function icnmove(e, elem) {
 	if (elem) {
 		getId("icnmove").style.display = "block";
@@ -1889,33 +1811,14 @@ try {
 	};
 	localStorageSupported = 0;
 }
-c(function() {
-	if (window.location.href.indexOf('GooglePlay=true') > -1 || sessionStorage.getItem('GooglePlay') === 'true') {
-		doLog("Google Play Mode enabled.");
-		if (screen.height >= 1080) {
-			apps.settings.vars.setScale(0.5, 1);
-		}
-		apps.settings.vars.togClickToMove();
-		sessionStorage.setItem('GooglePlay', 'true');
-	} else {
-		fitWindow();
-	}
-});
+fitWindow();
 fadeResizeText();
 
 // Set up LOCALFILES
 window.LOCALFILES = {};
-if (localStorageSupported) {
-	if (!noUserFiles && localStorage.hasOwnProperty("LOCALFILES")) {
-		LOCALFILES = JSON.parse(localStorage.getItem("LOCALFILES"));
-	}
-}
 window.lfsave = function (file, content) {
 	sh("mkdir /LOCALFILES/" + file);
 	eval(apps.bash.vars.translateDir('/LOCALFILES/' + file) + ' = content');
-	if (!noUserFiles) {
-		localStorage.setItem("LOCALFILES", JSON.stringify(LOCALFILES));
-	}
 };
 window.lfload = function (file, debug) {
 	try {
@@ -1933,15 +1836,9 @@ window.lfload = function (file, debug) {
 };
 window.lfmkdir = function (dirname) {
 	sh("mkdir /LOCALFILES/" + dirname);
-	if (!noUserFiles) {
-		localStorage.setItem("LOCALFILES", JSON.stringify(LOCALFILES));
-	}
 };
 window.lfdel = function (filename) {
 	eval("delete " + apps.bash.vars.translateDir("/LOCALFILES/" + filename));
-	if (!noUserFiles) {
-		localStorage.setItem("LOCALFILES", JSON.stringify(LOCALFILES));
-	}
 };
 
 // Auto-resize display on window change
@@ -2038,34 +1935,28 @@ bootFileHTTP.onreadystatechange = function() {
 };
 
 c(function() {
-	if (!noUserFiles) {
-		bootFileHTTP.open('GET', 'fileloaderBeta.php');
-		bootFileHTTP.send();
-	} else {
-		doLog("WARNING - USERFILES disallowed by ?nofiles=true", '#FF7F00');
-		USERFILES = {};
-		doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to fetch USERFILES.');
-		perfStart("masterInit");
-		m("init fileloader");
-		getId("loadingInfo").innerHTML += "<br>Your OS key is " + SRVRKEYWORD;
-		for (let app in apps) {
-			getId("loadingInfo").innerHTML = "Loading your files...<br>Your OS key is" + SRVRKEYWORD + "<br>Loading " + app;
-			try {
-				apps[app].signalHandler("USERFILES_DONE");
-			} catch (err) {
-				alert("Error initializing " + app + ":\n\n" + err);
-			}
-		}
-
+	USERFILES = {};
+	doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to fetch USERFILES.');
+	perfStart("masterInit");
+	m("init fileloader");
+	getId("loadingInfo").innerHTML += "<br>Your OS key is " + SRVRKEYWORD;
+	for (let app in apps) {
+		getId("loadingInfo").innerHTML = "Loading your files...<br>Your OS key is" + SRVRKEYWORD + "<br>Loading " + app;
 		try {
-			updateBgSize();
-		} catch (err) {}
-		requestAnimationFrame(function() {
-			bootFileHTTP = null;
-		});
-		doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to exec USERFILES_DONE.');
-		doLog('Took ' + Math.round(performance.now() * 10) / 10 + 'ms grand total to reach desktop.');
+			apps[app].signalHandler("USERFILES_DONE");
+		} catch (err) {
+			alert("Error initializing " + app + ":\n\n" + err);
+		}
 	}
+
+	try {
+		updateBgSize();
+	} catch (err) {}
+	requestAnimationFrame(function() {
+		bootFileHTTP = null;
+	});
+	doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to exec USERFILES_DONE.');
+	doLog('Took ' + Math.round(performance.now() * 10) / 10 + 'ms grand total to reach desktop.');
 });
 
 c(function() {
@@ -2082,7 +1973,6 @@ c(function() {
 	setInterval(iframeblurcheck, 500);
 	addEventListener("blur", iframeblurcheck);
 });
-totalWaitingCodes = codeToRun.length;
 
 // Open apps on startup
 c(function() {

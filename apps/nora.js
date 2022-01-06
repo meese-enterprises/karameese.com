@@ -296,7 +296,7 @@ apps.nora = new Application({
 					if (this[4].phrases[text.toLowerCase()]) {
 						apps.nora.vars.say(this[4].phrases[text.toLowerCase()]);
 					} else {
-						apps.nora.vars.say('Sorry, I do not know how to ' + text + ' at the moment. Please try and let MineAndCraft12 know (maybe through the messaging app) and he can tell me how.');
+						apps.nora.vars.say('Sorry, I do not know how to ' + text + ' at the moment.');
 					}
 				},
 				{
@@ -544,29 +544,6 @@ apps.nora = new Application({
 					} else {
 						apps.nora.vars.say('<i>NORAA remains silent.</i>');
 					}
-				}
-			],
-			[
-				'send message',
-				'send message [text]',
-				'Use the Messaging app to send a message.',
-				function (text) {
-					if (text) {
-						apps.nora.vars.sayDynamic('okay');
-						if (!apps.messaging.appWindow.appIcon) {
-							openapp(apps.messaging, 'dsktp');
-						}
-						this[4].tempMSGthing = getId('MSGinput').value;
-						getId('MSGinput').value = text;
-						apps.messaging.vars.sendMessage();
-						getId('MSGinput').value = this[4].tempMSGthing;
-						apps.nora.vars.say('Done.');
-					} else {
-						apps.nora.vars.say('<i>NORAA does what you asked - send nothing.</i>');
-					}
-				},
-				{
-					tempMSGthing: ''
 				}
 			],
 			[

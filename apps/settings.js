@@ -76,7 +76,7 @@ apps.settings = new Application({
 								if (autoMobile) {
 									return 'Automatic'
 								} else {
-									return numEnDis(mobileMode)
+									return getStatus(mobileMode)
 								}
 							}() + '.<br>' +
 							'Changes various UI elements and functionality of the website to be better suited for phones and other devices with small screens.'
@@ -117,7 +117,7 @@ apps.settings = new Application({
 				darkMode: {
 					option: 'Dark Mode',
 					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="numEnDis(darkMode)">Disabled</span>.<br>' +
+						return 'Current: <span class="liveElement" data-live-eval="getStatus(darkMode)">Disabled</span>.<br>' +
 							'Makes your apps use a dark background and light foreground. Some apps may need to be restarted to see changes.'
 					},
 					buttons: function() {
@@ -133,7 +133,7 @@ apps.settings = new Application({
 				taskbarIconTitle: {
 					option: 'Taskbar Icon Titles',
 					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.iconTitlesEnabled)">true</span><br>Shows application titles on taskbar icons. Disabling this option makes icons take up far less space.'
+						return 'Current: <span class="liveElement" data-live-eval="getStatus(apps.settings.vars.iconTitlesEnabled)">true</span><br>Shows application titles on taskbar icons. Disabling this option makes icons take up far less space.'
 					},
 					buttons: function() {
 						return '<button onclick="apps.settings.vars.toggleIconTitles();">Toggle</button>'
@@ -193,7 +193,7 @@ apps.settings = new Application({
 				advHelp: {
 					option: 'Advanced Help Pages',
 					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="numEnDis(apps.settings.vars.noraHelpTopics)">' + !!apps.settings.vars.noraHelpTopics + '</span>.<br>' +
+						return 'Current: <span class="liveElement" data-live-eval="getStatus(apps.settings.vars.noraHelpTopics)">' + !!apps.settings.vars.noraHelpTopics + '</span>.<br>' +
 							'NORAA returns more advanced help pages when you ask for OS help, instead of plain text.'
 					},
 					buttons: function() {
@@ -337,56 +337,6 @@ apps.settings = new Application({
 			if (!nosave) lfsave('system/apps/settings/mobile_mode', type);
 			checkMobileSize();
 		},
-		tmpPasswordSet: '',
-		newPassword: function() {
-			apps.savemaster.vars.save('aOSpassword', getId('STNosPass').value, 1, 'SET_PASSWORD');
-			USERFILES.aOSpassword = '*****';
-			var tmpPasswordSet = getId('STNosPass').value;
-			setTimeout(() => {
-				var passxhr = new XMLHttpRequest();
-				passxhr.onreadystatechange = () => {
-					if (passxhr.readyState === 4) {
-						if (passxhr.status === 200) {
-							if (passxhr.responseText !== "REJECT") {
-								document.cookie = 'logintoken=' + passxhr.responseText;
-								apps.prompt.vars.notify("Password set successfully.", ["Okay"], function() {}, "Settings", "appicons/STN.png");
-							} else {
-								apps.prompt.vars.alert("There was an issue setting your password. Try again.<br>" + passxhr.responseText, "Okay", function() {}, "Settings");
-							}
-						} else {
-							apps.prompt.vars.alert("There was an issue setting your password. (net error " + passxhr.status + ") Try again.<br>" + passxhr.status, "Okay", function() {}, "Settings");
-						}
-					}
-				}
-				passxhr.open('POST', 'checkPassword.php');
-				var passfd = new FormData();
-				passfd.append('pass', tmpPasswordSet);
-				passxhr.send(passfd);
-			}, 1000);
-			getId("STNosPass").value = "";
-		},
-		calcFLOPS: function() {
-			var intOps = 0;
-			var fltOps = 0.0;
-			var strOps = "";
-			var firstTime = performance.now();
-			
-			while (performance.now() - firstTime <= 1000) {
-				intOps += 1;
-			}
-
-			while (performance.now() - firstTime <= 2000) {
-				fltOps += 0.1;
-			}
-			
-			while (performance.now() - firstTime <= 3000) {
-				strOps += "A";
-			}
-
-			fltOps = Math.floor(fltOps * 10);
-			strOps = strOps.length;
-			apps.prompt.vars.alert("Operations Per Second:<br>Note: This value may be inaccurate due to counting time<br><br>Integer OPS: " + numberCommas(intOps) + "<br>Floating Point OPS: " + numberCommas(fltOps) + "<br>String OPS: " + numberCommas(strOps), 'OK', function() {}, 'Settings');
-		},
 		longTap: 0,
 		longTapTime: 500000,
 		togLongTap: function (nosave) {
@@ -434,30 +384,6 @@ apps.settings = new Application({
 				['Session Error Logs', 'Feature Usage Statistics', 'Other useful stuff']
 			]
 		],
-		getDataCampaigns: function() {
-			if (this.dataCampaigns.length > 0) {
-				var str = "";
-				for (let i in this.dataCampaigns) {
-					str += '<br>' + this.dataCampaigns[i][0];
-					for (let j in this.dataCampaigns[i][1]) {
-						str += '<br>-&nbsp;' + this.dataCampaigns[i][1][j];
-					}
-				}
-				str += '<br>';
-				return str;
-			} else {
-				return '<i>None found.</i><br>';
-			}
-		},
-		FILcanWin: 0,
-		togFILwin: function() {
-			if (this.FILcanWin) {
-				this.FILcanWin = 0;
-			} else {
-				this.FILcanWin = 1;
-			}
-			ufsave("system/apps/files/window_debug", '' + this.FILcanWin);
-		},
 		enabWinImg: 1,
 		currWinImg: 'images/winimg.png',
 		togWinImg: function (nosave) {
@@ -788,12 +714,6 @@ apps.settings = new Application({
 			d(1, perfCheck('settings') + '&micro;s to set windowblur radius');
 		},
 		winFadeDistance: '0', // 0 is smaller, 1 is same size, 2 is bigger
-		reqFullscreen: function() {
-			getId("monitor").requestFullscreen();
-		},
-		endFullscreen: function() {
-			document.exitFullscreen();
-		},
 		tempchKey: '',
 		tempchPass: '',
 		changeKey: function() {
@@ -917,21 +837,6 @@ apps.settings = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					if (localStorage.getItem("askedPassword") !== "1" && !(typeof USERFILES.aOSpassword === "string")) {
-						window.setTimeout(function() {
-							if (!(typeof USERFILES.aOSpassword === "string")) {
-								apps.prompt.vars.notify("Please set a password on your account in Settings to protect it.", ["Set Password", "Cancel"], function (btn) {
-									if (btn === 0) {
-										openapp(apps.settings, "dsktp");
-										apps.settings.vars.showMenu(apps.settings.vars.menus.info);
-									} else {
-										apps.prompt.vars.notify("In the future, you can go to Settings > Information to set a password on your account.", ["Okay"], function() {}, 'AaronOS', 'appicons/aOS.png');
-									}
-								}, 'AaronOS', 'appicons/aOS.png');
-								localStorage.setItem("askedPassword", "1");
-							}
-						}, 600000);
-					}
 					window.setTimeout(function() {
 						getId('loadingInfo').innerHTML = 'Welcome.';
 						getId('desktop').style.display = '';
@@ -1030,26 +935,6 @@ apps.settings = new Application({
 							}
 						}
 
-						// Google Play settings
-						if (sessionStorage.getItem('GooglePlay') === 'true') {
-							if (ufload("system/windows/blur_enabled") !== "0") {
-								apps.settings.vars.togAero(1);
-							}
-
-							try {
-								if (localStorage.getItem('notifyGPlay') !== "1") {
-									localStorage.setItem('notifyGPlay', "1");
-									apps.prompt.vars.notify('Looks like you logged in through Google Play!<br>These settings were automatically set for you...<br><br>Performance Mode is on.<br>Screen scaling set to 1/2 if your device is 1080p or higher.<br>Tap a titlebar on a window, and then click somewhere else again, to move  a window. You can also resize them on the bottom-right corner.', [], function() {}, 'Google Play', 'appicons/aOS.png');
-								}
-							} catch (localStorageNotSupported) {
-								apps.prompt.vars.notify('Looks like you logged in through Google Play!<br>These settings were automatically set for you...<br><br>Performance Mode is on.<br>Screen scaling set to 1/2 if your device is 1080p or higher.<br>Tap a titlebar on a window, and then click somewhere else again, to move  a window. You can also resize them on the bottom-right corner.', [], function() {}, 'Google Play', 'appicons/aOS.png');
-							}
-						}
-
-						if (sessionStorage.getItem('fullscreen') === 'true') {
-							setTimeout(apps.settings.vars.reqFullscreen, 5000);
-						}
-
 						var dsktpIconFolder = ufload("system/desktop/");
 						if (dsktpIconFolder) {
 							for (let file in dsktpIconFolder) {
@@ -1074,15 +959,14 @@ apps.settings = new Application({
 });
 window.restartRequired = 0;
 window.requireRestart = function() {
-	if (restartRequired !== 1) {
-		restartRequired = 1;
-		apps.prompt.vars.notify("A change was made that requires a restart of AaronOS.", ["Restart", "Dismiss"], function (btn) {
-			if (btn === 0) {
-				apps.settings.vars.shutDown('restart');
-			}
-			restartRequired = 2;
-		}, "AaronOS", "appicons/aOS.png");
-	}
+	if (restartRequired == 1) return;
+	restartRequired = 1;
+	apps.prompt.vars.notify("A change was made that requires a restart of the website.", ["Restart", "Dismiss"], function (btn) {
+		if (btn === 0) {
+			apps.settings.vars.shutDown('restart');
+		}
+		restartRequired = 2;
+	}, "Settings", "appicons/aOS.png");
 }
 
 } // End initial variable declaration

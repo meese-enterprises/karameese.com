@@ -36,15 +36,6 @@ apps.smartIconSettings = new Application({
 	},
 	vars: {
 		appInfo: 'This app is used to configure Smart Icons.',
-		testSmartIconOriginal: {
-			background: "smarticons/_template/shadowEdges.png",
-			backgroundColor: "#FF7F00",
-			backgroundBorder: {
-				thickness: 1,
-				color: "#009900"
-			},
-			foreground: "smarticons/_template/template_fg.png"
-		},
 		testSmartIcon: {
 			backgroundColor: "#303947",
 			foreground: "smarticons/aOS/fg.png",

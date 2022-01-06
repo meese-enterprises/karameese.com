@@ -38,8 +38,8 @@ apps.bash = new Application({
 	},
 	vars: {
 		appInfo: 'This app is intended to imitate a Linux Bash Terminal, but is written completely in JavaScript. Type "help" for available commands and usage.',
-		prefix: '[user@aOS bash]$ ',
-		pastValue: '[user@aOS bash]$ ',
+		prefix: `[user@${websiteTitle} bash]$ `,
+		pastValue: `[user@${websiteTitle} bash]$ `,
 		command: '',
 		workdir: '/apps/bash',
 		workdirorig: '',
@@ -277,7 +277,7 @@ apps.bash = new Application({
 						}
 					}
 				} else {
-					this.echo('[aOS]$ ' + cleanStr(cmd));
+					this.echo(`[${websiteTitle}]$ ` + cleanStr(cmd));
 				}
 				var commandObjects = this.getCmdObjects(this.command);
 			} else {
@@ -548,9 +548,9 @@ apps.bash = new Application({
 							}
 							
 							if (apps.bash.vars.workdir === '/') {
-								apps.bash.vars.prefix = '[' + SRVRKEYWORD.substring(0, 4) + '@aOS /]$ ';
+								apps.bash.vars.prefix = `[${SRVRKEYWORD.substring(0, 4)}@${websiteTitle} /]$ `;
 							} else {
-								apps.bash.vars.prefix = '[' + SRVRKEYWORD.substring(0, 4) + '@aOS ' + lastTempAdd + ']$ ';
+								apps.bash.vars.prefix = `[${SRVRKEYWORD.substring(0, 4)}@${websiteTitle} ${lastTempAdd}]$ `;
 							}
 
 							apps.bash.vars.pastValue = apps.bash.vars.prefix;
@@ -910,8 +910,8 @@ apps.bash = new Application({
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					this.vars.prefix = '[' + SRVRKEYWORD.substring(0, 4) + '@aOS bash]$ ';
-					this.vars.pastValue = '[' + SRVRKEYWORD.substring(0, 4) + '@aOS bash]$ ';
+					this.vars.prefix = `[${SRVRKEYWORD.substring(0, 4)}@${websiteTitle} bash]$ `;
+					this.vars.pastValue = `[${SRVRKEYWORD.substring(0, 4)}@${websiteTitle} bash]$ `;
 
 					if (ufload("system/apps/bash/alias")) {
 						this.vars.alias = JSON.parse(ufload("system/apps/bash/alias"));

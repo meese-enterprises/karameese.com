@@ -645,8 +645,8 @@ div {
 	filter: invert(1);
 }
 
-#FIL2tbl .FIL2aosAppIcon,
-.FIL2sidetbl .FIL2aosAppIcon,
+#FIL2tbl .FIL2AppIcon,
+.FIL2sidetbl .FIL2AppIcon,
 #FIL2tbl .smarticon,
 .FIL2sidetbl .smarticon {
 	width: 16px;
@@ -656,8 +656,8 @@ div {
 	margin-left: 1px;
 }
 
-.darkMode #FIL2tbl .FIL2aosAppIcon,
-.darkMode .FIL2sidetbl .FIL2aosAppIcon {
+.darkMode #FIL2tbl .FIL2AppIcon,
+.darkMode .FIL2sidetbl .FIL2AppIcon {
 	filter: none;
 }
 
@@ -706,8 +706,8 @@ div {
 	padding: 1px;
 }
 
-#FIL2tbl.FIL2viewMedium .FIL2aosAppIcon,
-.FIL2sidetbl.FIL2viewMedium .FIL2aosAppIcon,
+#FIL2tbl.FIL2viewMedium .FIL2AppIcon,
+.FIL2sidetbl.FIL2viewMedium .FIL2AppIcon,
 #FIL2tbl.FIL2viewMedium .smarticon,
 .FIL2sidetbl.FIL2viewMedium .smarticon {
 	margin-top: -1px;

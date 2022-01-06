@@ -32,7 +32,7 @@ apps.files = new Application({
 				'<div title="View Mode" class="cursorPointer darkResponsive" style="width:24px; border-right:1px solid #333; height:18px; padding-top:2px; right:31px; top:4px; border-top-right-radius:10px; border-bottom-right-radius:10px; text-align:center;" onClick="apps.files.vars.setViewMode()">&#8801;</div>' +
 				'<div id="FIL2path" class="darkResponsive" style="left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px); border-top-left-radius:5px; border-top-right-radius:5px;"><div id="FIL2green" style="width:0;height:100%;"></div><div style="width:100%;height:25px;"><input id="FIL2input" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="/"></div></div>' +
 				'<div id="FIL2viewModeIcon" style="pointer-events:none; color:#7F7F7F; text-align:right; left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px);"></div>' +
-				'<div id="FIL2search" class="darkResponsive" style="left:55px; top:26px; font-family:monospace; height:24px; line-height:24px; vertical-align:middle; width:calc(100% - 110px);"><input id="FIL2searchInput" placeholder="Search" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:20px;padding:0;padding-left:8px;" onkeyup="apps.files.vars.updateSearch(this.value)"></div>' +
+				'<div id="FIL2search" class="darkResponsive" style="left:55px; top:26px; font-family:monospace; height:22px; line-height:22px; vertical-align:middle; width:calc(100% - 110px);"><input id="FIL2searchInput" placeholder="Search" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:20px;padding:0;padding-left:8px;" onkeyup="apps.files.vars.updateSearch(this.value)"></div>' +
 				'<div class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; left:5px; top:27px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center; display:none" onClick=""></div>' +
 				'<div title="Toggle Favorite" class="cursorPointer darkResponsive" style="width:24px; border-left:1px solid #333; height:18px; padding-top:2px; left:30px; top:27px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center;" onClick="apps.files.vars.toggleFavorite(apps.files.vars.currLoc)"><img class="darkInvert" style="position:absolute;display:block;left:8px;top:5px;" src="ctxMenu/happy.png"></div>' +
 				'<div title="New Folder" class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; right:6px; top:27px; border-top-right-radius:10px; border-bottom-right-radius:10px; text-align:center;" onClick="apps.files.vars.mkdir()"><img class="darkInvert" style="position:absolute;display:block;left:16px;top:5px;" src="files/small/folder.png"></div>' +
@@ -54,18 +54,7 @@ apps.files = new Application({
 				'</div><div class="cursorPointer" onClick="apps.files.vars.currLoc = \'/\';apps.files.vars.next(\'USERFILES/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'/USERFILES/\\\');toTop(apps.properties)\'])">' +
 				'<img src="files/small/folder.png"> ' +
 				'/USERFILES/' +
-				'</div><div class="cursorPointer" onClick="apps.files.vars.currLoc = \'/\';apps.files.vars.next(\'LOCALFILES/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'/LOCALFILES/\\\');toTop(apps.properties)\'])">' +
-				'<img src="files/small/folder.png"> ' +
-				'/LOCALFILES/' +
-				function() {
-					if (apps.settings.vars.FILcanWin) {
-						return '</div><div class="cursorPointer" onClick="apps.files.vars.next(\'window/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'/window/\\\');toTop(apps.properties)\'])">' +
-							'<img src="files/small/folder.png"> ' +
-							'<span style="color:#F00">window/</span>';
-					} else {
-						return '';
-					}
-				}() +
+				'</div>' +
 				'</div>';
 			this.vars.updateFavorites(1);
 			this.vars.setViewMode(this.vars.currViewMode, 1);
@@ -162,13 +151,6 @@ apps.files = new Application({
 					}
 					this.update();
 				}.bind(this), "File Manager");
-			} else if (this.currLoc.indexOf('/LOCALFILES/') === 0) {
-				apps.prompt.vars.prompt('Enter a name for the new folder.<br><br>Folder will be created in ' + this.currLoc + '<br><br>Leave blank to cancel.', 'Submit', function (str) {
-					if (str) {
-						lfmkdir(this.currLoc.substring(12, this.currLoc.length) + str);
-					}
-					this.update();
-				}.bind(this), "File Manager");
 			} else if (this.currLoc !== '/apps/') {
 				apps.prompt.vars.prompt('Enter a name for the new folder.<br><br>Folder will be created in ' + this.currLoc + '<br><br>Leave blank to cancel.', 'Submit', function (str) {
 					if (str) {
@@ -187,13 +169,6 @@ apps.files = new Application({
 				apps.prompt.vars.prompt('Enter a name for the new file.<br><br>File will be created in ' + this.currLoc + '<br><br>Leave blank to cancel.', 'Submit', function (str) {
 					if (str) {
 						ufsave(this.currLoc.substring(11, this.currLoc.length) + str, '');
-					}
-					this.update();
-				}.bind(this), "File Manager");
-			} else if (this.currLoc.indexOf('/LOCALFILES/') === 0) {
-				apps.prompt.vars.prompt('Enter a name for the new file.<br><br>File will be created in ' + this.currLoc + '<br><br>Leave blank to cancel.', 'Submit', function (str) {
-					if (str) {
-						lfsave(this.currLoc.substring(12, this.currLoc.length) + str, '');
 					}
 					this.update();
 				}.bind(this), "File Manager");
@@ -357,18 +332,7 @@ apps.files = new Application({
 					'</div><div class="cursorPointer" onClick="apps.files.vars.next(\'USERFILES/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'/USERFILES/\\\');toTop(apps.properties)\'])">' +
 					'<img src="files/small/folder.png"> ' +
 					'USERFILES/' +
-					'</div><div class="cursorPointer" onClick="apps.files.vars.next(\'LOCALFILES/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'/LOCALFILES/\\\');toTop(apps.properties)\'])">' +
-					'<img src="files/small/folder.png"> ' +
-					'LOCALFILES/' +
-					function() {
-						if (apps.settings.vars.FILcanWin) {
-							return '</div><div class="cursorPointer" onClick="apps.files.vars.next(\'window/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'/window/\\\');toTop(apps.properties)\'])">' +
-								'<img src="files/small/folder.png"> ' +
-								'<span style="color:#F00">window/</span>';
-						} else {
-							return '';
-						}
-					}() +
+					'</div>' +
 					'</div>' +
 					'<br><br><span style="padding-left:3px;line-height:18px;">Favorites</span><br>';
 				this.updateFavorites(1, 1);
@@ -404,23 +368,6 @@ apps.files = new Application({
 										'</div>';
 								} else {
 									temphtml += '<div class="cursorPointer" onClick="apps.notepad.vars.openFile(\'' + (this.currLoc + this.currDirList[item]).split('\\').join('\\\\') + '\');" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + (this.currLoc + this.currDirList[item]).split('\\').join('\\\\') + '\\\');toTop(apps.properties)\', \'+Delete\', \'apps.files.vars.deleteItemUF(\\\'' + (this.currLoc + this.currDirList[item]) + '\\\')\'])">' +
-										'<img src="files/small/' + this.icontype(typeof apps.bash.vars.getRealDir(this.currLoc + this.currDirList[item])) + '.png"> ' +
-										this.currDirList[item].split('\\/').join('/') + '<span style="opacity:0.5;float:right;">' + this.filetype(typeof apps.bash.vars.getRealDir(this.currLoc + this.currDirList[item])) + '&nbsp;</span>' +
-										'</div>';
-								}
-							}
-						}
-					} else if (this.currLoc.indexOf("/LOCALFILES/") === 0) {
-						for (let item in this.currDirList) {
-							if (this.currDirList[item]) {
-								// if item is a folder
-								if (this.currDirList[item][this.currDirList[item].length - 1] === "/" && this.currDirList[item][this.currDirList[item].length - 2] !== "\\") {
-									temphtml += '<div class="cursorPointer" onclick="apps.files.vars.next(\'' + this.currDirList[item] + '\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + (this.currLoc + this.currDirList[item]) + '\\\');toTop(apps.properties)\', \'+Delete\', \'apps.files.vars.deleteItemLF(\\\'' + (this.currLoc + this.currDirList[item]) + '\\\')\'])">' +
-										'<img src="files/small/folder.png"> ' +
-										this.currDirList[item].split('\\/').join('/') +
-										'</div>';
-								} else {
-									temphtml += '<div class="cursorPointer" onClick="apps.notepad.vars.openFile(\'' + (this.currLoc + this.currDirList[item]).split('\\').join('\\\\') + '\');" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + (this.currLoc + this.currDirList[item]).split('\\').join('\\\\') + '\\\');toTop(apps.properties)\', \'+Delete\', \'apps.files.vars.deleteItemLF(\\\'' + (this.currLoc + this.currDirList[item]) + '\\\')\'])">' +
 										'<img src="files/small/' + this.icontype(typeof apps.bash.vars.getRealDir(this.currLoc + this.currDirList[item])) + '.png"> ' +
 										this.currDirList[item].split('\\/').join('/') + '<span style="opacity:0.5;float:right;">' + this.filetype(typeof apps.bash.vars.getRealDir(this.currLoc + this.currDirList[item])) + '&nbsp;</span>' +
 										'</div>';
@@ -636,9 +583,6 @@ apps.files = new Application({
 					}
 					if (ufload("system/apps/files/favorites")) {
 						this.vars.favorites = JSON.parse(ufload("system/apps/files/favorites"));
-					}
-					if (ufload("system/apps/files/window_debug")) {
-						apps.settings.vars.FILcanWin = parseInt(ufload("system/apps/files/window_debug"));
 					}
 					break;
 				case 'shutdown':

@@ -13,7 +13,7 @@ widgets.time = new Widget(
 		var currentMinutes = Math.floor(currentTime / 60000);
 		currentTime -= currentMinutes * 60000;
 		var currentSeconds = Math.floor(currentTime / 1000);
-		widgetMenu('Time Widget', 'AaronOS has been running for:<br>' + currentDays + ' days, ' + currentHours + ' hours, ' + currentMinutes + ' minutes, and ' + currentSeconds + ' seconds.');
+		widgetMenu('Time Widget', `${websiteTitle} has been running for:<br>${currentDays} days, ${currentHours} hours, ${currentMinutes} minutes, and ${currentSeconds} seconds.`);
 	},
 	function() { // start function
 		widgets.time.vars.running = 1;

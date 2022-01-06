@@ -34,6 +34,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div id="winmove" class="cursorOpenHand" onmouseup="winmove(event)" onmousemove="winmoving(event)"></div>
 		<div id="icomove" class="cursorOpenHand" onclick="icomove(event)" onmousemove="icomoving(event)"></div>
 		<div id="icnmove" class="cursorOpenHand" onclick="icnmove(event)" onmousemove="icnmoving(event)"></div>
@@ -73,7 +74,7 @@
 				<hr>
 				<div id="loadingInfoDiv">
 					<div id="loadingInfo" class="liveElement"
-						data-live-eval="finishedWaitingCodes / totalWaitingCodes * 100 + '%'" data-live-target="style.width">
+						data-live-eval="finishedWaitingCodes / codeToRun.length * 100 + '%'" data-live-target="style.width">
 						Initializing...</div>
 				</div><br><br>
 				<img id="loadingImage" src="appicons/aOS.png" style="display:none">
