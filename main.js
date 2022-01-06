@@ -858,27 +858,15 @@ NotificationsWidget();
 TimeWidget();
 
 // Text-editing functionality
-function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, webAppFrame, webAppOrigin, webAppPaste) {
+function showEditContext(event) {
 	textEditorTools.tempvar = currentSelection.length === 0 ? '-' : ' ';
 	let canPasteHere = 0;
-	if (!fromWebApp) {
-		if ((event.target.tagName === "INPUT" && (event.target.getAttribute("type") === "text" || event.target.getAttribute("type") === "password" || event.target.getAttribute("type") === null)) || event.target.tagName === "TEXTAREA") {
-			canPasteHere = 1;
-		}
-	} else {
-		canPasteHere = webAppPaste;
-		textEditorTools.webAppInfo = [webAppConversation, webAppFrame, webAppOrigin];
+	if ((event.target.tagName === "INPUT" && (event.target.getAttribute("type") === "text" || event.target.getAttribute("type") === "password" || event.target.getAttribute("type") === null)) || event.target.tagName === "TEXTAREA") {
+		canPasteHere = 1;
 	}
-	if (!fromWebApp) {
-		textEditorTools.tmpGenArray = [
-			[event.pageX, event.pageY, "ctxMenu/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');getId(\'ctxMenu\').style.display = \'none\'"
-		];
-	} else {
-		let framePosition = webAppFrame.getBoundingClientRect();
-		textEditorTools.tmpGenArray = [
-			[webAppPosition[0] + framePosition.x, webAppPosition[1] + framePosition.y, "ctxMenu/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'spoken\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'"
-		];
-	}
+	textEditorTools.tmpGenArray = [
+		[event.pageX, event.pageY, "ctxMenu/happy.png"], textEditorTools.tempvar + "Speak \'" + currentSelection.substring(0, 5).split("\n").join(' ').split('<').join('&lt;').split('>').join('&gt;') + "...\'", "textspeech(\'" + currentSelection.split("\n").join('<br>').split('\\').join('\\\\').split('"').join("&quot;").split("'").join("&quot;").split('<').join('&lt;').split('>').join('&gt;') + "\');getId(\'ctxMenu\').style.display = \'none\'"
+	];
 	if (currentSelection.length === 0) {
 		textEditorTools.tempvar = '-';
 		textEditorTools.tempvar2 = '_';
@@ -888,30 +876,15 @@ function showEditContext(event, fromWebApp, webAppPosition, webAppConversation, 
 	}
 	textEditorTools.tmpGenArray.push(textEditorTools.tempvar2 + 'Copy (' + cleanStr(currentSelection.substring(0, 5)) + '...)');
 	textEditorTools.tmpGenArray[0].push('ctxMenu/load.png');
-	// TODO: Clean up
-	if (!fromWebApp) {
-		textEditorTools.tmpGenArray.push('textEditorTools.copy();getId(\'ctxMenu\').style.display = \'none\'');
-	} else {
-		textEditorTools.tmpGenArray.push('textEditorTools.copy();apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'copied\',conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
-	}
+	textEditorTools.tmpGenArray.push('textEditorTools.copy();getId(\'ctxMenu\').style.display = \'none\'');
 
 	if (canPasteHere) {
-		if (!fromWebApp) {
-			if (textEditorTools.clipboard.length === 0 || (typeof event.target.id !== "string" || event.target.id === "") || event.target.getAttribute("disabled") !== null) {
-				textEditorTools.tmpGenArray.push(`_Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
-				textEditorTools.tmpGenArray.push('');
-			} else {
-				textEditorTools.tmpGenArray.push(`+Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
-				textEditorTools.tmpGenArray.push('textEditorTools.paste(\'' + event.target.id + '\', ' + event.target.selectionStart + ',' + event.target.selectionEnd + ');getId(\'ctxMenu\').style.display = \'none\'');
-			}
+		if (textEditorTools.clipboard.length === 0 || (typeof event.target.id !== "string" || event.target.id === "") || event.target.getAttribute("disabled") !== null) {
+			textEditorTools.tmpGenArray.push(`_Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
+			textEditorTools.tmpGenArray.push('');
 		} else {
-			if (textEditorTools.clipboard.length === 0) {
-				textEditorTools.tmpGenArray.push(`_Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
-				textEditorTools.tmpGenArray.push('');
-			} else {
-				textEditorTools.tmpGenArray.push(`+Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
-				textEditorTools.tmpGenArray.push('apps.webAppMaker.vars.postReply({messageType:\'response\',content:\'pasted\',pastedText:textEditorTools.clipboard,conversation:textEditorTools.webAppInfo[0]}, textEditorTools.webAppInfo[2], textEditorTools.webAppInfo[1].contentWindow);getId(\'ctxMenu\').style.display = \'none\'');
-			}
+			textEditorTools.tmpGenArray.push(`+Paste (${cleanStr(textEditorTools.clipboard.substring(0, 5))}...)`);
+			textEditorTools.tmpGenArray.push('textEditorTools.paste(\'' + event.target.id + '\', ' + event.target.selectionStart + ',' + event.target.selectionEnd + ');getId(\'ctxMenu\').style.display = \'none\'');
 		}
 		textEditorTools.tmpGenArray[0].push('ctxMenu/save.png');
 	}
@@ -923,7 +896,6 @@ var textEditorTools = {
 	tempvar: '',
 	tempvar2: '',
 	tempvar3: '',
-	webAppInfo: {},
 	clipboard: "",
 	tmpGenArray: [],
 	copy: function () {
@@ -1038,11 +1010,6 @@ c(function() {
 c(function() {
 	window.SRVRKEYWORD = window.SRVRKEYWORD || "";
 	SaveMaster();
-	getId('loadingInfo').innerHTML = 'Web App Maker';
-});
-
-c(function() {
-	WebAppMaker();
 	getId('loadingInfo').innerHTML = 'Messaging';
 });
 
@@ -1777,7 +1744,7 @@ window.shutDown = function (arg, logout) {
 	getId('isLoading').classList.add('cursorLoadLight');
 	
 	if (arg === 'restart') {
-		getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
+		getId('isLoading').innerHTML = `<div id="isLoadingDiv"><h1>Restarting ${websiteTitle}</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>`;
 		requestAnimationFrame(function() {
 			getId('isLoading').style.opacity = '1';
 			getId('loadingBg').style.opacity = '1';
@@ -1796,15 +1763,15 @@ window.shutDown = function (arg, logout) {
 			shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
 			shutDownPercentComplete = 0;
 			c(function() {
-				getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
+				getId('isLoading').innerHTML = `<div id="isLoadingDiv"><h1>Restarting ${websiteTitle}</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>`;
 				if (logout) {
 					document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 				}
-				window.location = 'blackScreen.html#restart-beta';
+				window.location = 'blackScreen.html';
 			});
 		}, 1005);
 	} else {
-		getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
+		getId('isLoading').innerHTML = `<div id="isLoadingDiv"><h1>Shutting Down ${websiteTitle}</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>`;
 		requestAnimationFrame(function() {
 			getId('isLoading').style.opacity = '1';
 			getId('loadingBg').style.opacity = '1';
@@ -1823,11 +1790,11 @@ window.shutDown = function (arg, logout) {
 			shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
 			shutDownPercentComplete = 0;
 			c(function() {
-				getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
+				getId('isLoading').innerHTML = `<div id="isLoadingDiv"><h1>Shutting Down ${websiteTitle}</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>`;
 				if (logout) {
 					document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 				}
-				window.location = 'blackScreen.html#beta';
+				window.location = 'blackScreen.html';
 			});
 		}, 1005);
 	}

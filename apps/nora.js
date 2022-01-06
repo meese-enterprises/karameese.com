@@ -27,7 +27,7 @@ apps.nora = new Application({
 			getId('win_nora_cap').setAttribute('onmousedown', '');
 			getId('win_nora_size').style.pointerEvents = "none";
 			this.appWindow.setDims(45, parseInt(getId('desktop').style.height, 10) - 500, 600, 500);
-			this.appWindow.setContent('<div id="NORAout" class="darkResponsive">-- aOS Ready --</div><button id="NORAspeech" onclick="apps.nora.vars.speakIn()">Speak</button><input id="NORAin" onKeydown="if(event.keyCode === 13){apps.nora.vars.input()}"><button id="NORAbtn" onClick="apps.nora.vars.input()">Say</button>');
+			this.appWindow.setContent(`<div id="NORAout" class="darkResponsive">-- ${websiteTitle} Ready --</div><button id="NORAspeech" onclick="apps.nora.vars.speakIn()">Speak</button><input id="NORAin" onKeydown="if(event.keyCode === 13){apps.nora.vars.input()}"><button id="NORAbtn" onClick="apps.nora.vars.input()">Say</button>`);
 			this.appWindow.openWindow();
 			requestAnimationFrame(function() {
 				apps.nora.signalHandler('close');

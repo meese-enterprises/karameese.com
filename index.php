@@ -113,7 +113,6 @@
 	echo '<script src="./apps/save_master.js"></script>';
 	echo '<script src="./apps/smart_icon_settings.js"></script>';
 	echo '<script src="./apps/view_count.js"></script>';
-	echo '<script src="./apps/web_app_maker.js"></script>';
 	echo '<script src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
 ?>
 
