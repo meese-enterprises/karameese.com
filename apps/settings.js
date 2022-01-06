@@ -53,7 +53,7 @@ apps.settings = new Application({
 				folder: 0,
 				folderName: 'Information',
 				folderPath: 'apps.settings.vars.menus.info',
-				image: 'settingIcons/new/information.png',
+				image: 'settingIcons/information.png',
 				contact: {
 					option: 'Contact',
 					description: function() {
@@ -68,7 +68,7 @@ apps.settings = new Application({
 				folder: 0,
 				folderName: 'Display',
 				folderPath: 'apps.settings.vars.menus.screenRes',
-				image: 'settingIcons/new/resolution.png',
+				image: 'settingIcons/resolution.png',
 				mobileMode: {
 					option: 'Mobile Mode',
 					description: function() {
@@ -113,7 +113,7 @@ apps.settings = new Application({
 				folder: 0,
 				folderName: 'Windows',
 				folderPath: 'apps.settings.vars.menus.windows',
-				image: 'settingIcons/new/windows.png',
+				image: 'settingIcons/windows.png',
 				darkMode: {
 					option: 'Dark Mode',
 					description: function() {
@@ -138,7 +138,7 @@ apps.settings = new Application({
 				folder: 0,
 				folderName: 'Taskbar',
 				folderPath: 'apps.settings.vars.menus.taskbar',
-				image: 'settingIcons/new/taskbar.png',
+				image: 'settingIcons/taskbar.png',
 				taskbarIconTitle: {
 					option: 'Taskbar Icon Titles',
 					description: function() {
@@ -153,7 +153,7 @@ apps.settings = new Application({
 				folder: 0,
 				folderName: "Screen Saver",
 				folderPath: "apps.settings.vars.menus.screensaver",
-				image: 'settingIcons/new/screensaver.png',
+				image: 'settingIcons/screensaver.png',
 				enable: {
 					option: "Enable Screen Saver",
 					description: function() {
@@ -179,7 +179,7 @@ apps.settings = new Application({
 				folder: 0,
 				folderName: "Smart Icons",
 				folderPath: "apps.settings.vars.menus.smartIcons",
-				image: 'settingIcons/new/smartIcon_fg.png',
+				image: 'settingIcons/smartIcon_fg.png',
 				autoRedirectToApp: {
 					option: "Smart Icon Settings",
 					description: function() {
@@ -198,7 +198,7 @@ apps.settings = new Application({
 				folder: 0,
 				folderName: 'NORAA',
 				folderPath: 'apps.settings.vars.menus.noraa',
-				image: 'settingIcons/new/noraa.png',
+				image: 'settingIcons/noraa.png',
 				advHelp: {
 					option: 'Advanced Help Pages',
 					description: function() {
@@ -214,7 +214,7 @@ apps.settings = new Application({
 				folder: 0,
 				folderName: 'Advanced',
 				folderPath: 'apps.settings.vars.menus.advanced',
-				image: 'settingIcons/new/advanced.png',
+				image: 'settingIcons/advanced.png',
 				reset: {
 					option: 'Reset aOS',
 					description: function() {
@@ -224,12 +224,6 @@ apps.settings = new Application({
 						return '<button onclick="apps.settings.vars.resetOS()">Reset aOS</button>'
 					}
 				}
-			},
-			oldMenu: {
-				folder: 0,
-				folderName: 'Old Menu',
-				folderPath: '\'oldMenu\'',
-				image: 'settingIcons/beta/OldMenu.png'
 			},
 		},
 		showMenu: function (menu) {
