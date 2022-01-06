@@ -22,22 +22,4 @@ self.addEventListener('fetch', function (event) {
 			})
 		);
 	}
-	if (event.request.url.indexOf('ms_shadows/s') > -1) {
-		event.respondWith(
-			caches.open(CACHE_NAME).then((cache) => {
-				return caches.match(event.request).then(
-					(response) => {
-						// Cache hit - return response
-						if (response) {
-							return response;
-						}
-						return fetch(event.request).then((netResponse) => {
-							cache.put(event.request, netResponse.clone());
-							return netResponse;
-						});
-					}
-				);
-			})
-		);
-	}
 });
