@@ -79,16 +79,16 @@ function winres(e) {
 		winmoveOrY = apps[winmovecurrapp].appWindow.windowV;
 
 		tempwinresmode = [1, 1];
-		if (winmovex - apps[winmovecurrapp].appWindow.windowX < apps.settings.vars.winBorder * 5) {
+		if (winmovex - apps[winmovecurrapp].appWindow.windowX < winBorder * 5) {
 			tempwinresmode[0] = 0;
 			winresOrX = apps[winmovecurrapp].appWindow.windowX;
-		} else if (winmovex - apps[winmovecurrapp].appWindow.windowX - apps[winmovecurrapp].appWindow.windowH > apps.settings.vars.winBorder * -5) {
+		} else if (winmovex - apps[winmovecurrapp].appWindow.windowX - apps[winmovecurrapp].appWindow.windowH > winBorder * -5) {
 			tempwinresmode[0] = 2;
 		}
-		if (winmovey - apps[winmovecurrapp].appWindow.windowY < apps.settings.vars.winBorder * 5) {
+		if (winmovey - apps[winmovecurrapp].appWindow.windowY < winBorder * 5) {
 			tempwinresmode[1] = 0;
 			winresOrY = apps[winmovecurrapp].appWindow.windowY;
-		} else if (winmovey - apps[winmovecurrapp].appWindow.windowY - apps[winmovecurrapp].appWindow.windowV > apps.settings.vars.winBorder * -5) {
+		} else if (winmovey - apps[winmovecurrapp].appWindow.windowY - apps[winmovecurrapp].appWindow.windowV > winBorder * -5) {
 			tempwinresmode[1] = 2;
 		}
 
@@ -166,12 +166,13 @@ window.bgNaturalSize = [1920, 1080];
 window.bgSize = [1920, 1080];
 window.bgPosition = [0, 0];
 
+var bgFit = 'center';
 function updateBgSize(noWinblur) {
 	bgNaturalSize = [
 		getId("bgSizeElement").naturalWidth,
 		getId("bgSizeElement").naturalHeight
 	];
-	switch (apps.settings.vars.bgFit) {
+	switch (bgFit) {
 		case 'corner':
 			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
 			bgPosition = [0, 0];
@@ -242,9 +243,7 @@ function calcWindowblur(win, noBgSize) {
 }
 
 function fitWindowIfPermitted() {
-	if (!lfload("system/apps/settings/saved_screen_res")) {
-		fitWindow();
-	}
+	fitWindow();
 }
 
 function fitWindow() {

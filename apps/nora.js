@@ -1,5 +1,7 @@
 const NORA = () => {
 
+var currNoraPhrase = "listen computer";
+
 apps.nora = new Application({
 	title: "NORAA",
 	abbreviation: "NRA",
@@ -60,7 +62,7 @@ apps.nora = new Application({
 				this.vars.currContTrans = [];
 				this.vars.contRecog.onresult = function (event) {
 					apps.nora.vars.currContTrans = event.results[0][0].transcript;
-					if (!apps.nora.vars.currentlySpeaking && getId('NORAin').value === "" && apps.nora.vars.currContTrans.indexOf(apps.settings.vars.currNoraPhrase) > -1) {
+					if (!apps.nora.vars.currentlySpeaking && getId('NORAin').value === "" && apps.nora.vars.currContTrans.indexOf(currNoraPhrase) > -1) {
 						openapp(apps.nora, 'tskbr');
 						apps.nora.vars.speakIn();
 					}
@@ -118,7 +120,7 @@ apps.nora = new Application({
 	vars: {
 		appInfo: '',
 		captionCtx: [
-			[' ' + lang('ctxMenu', 'hideApp'), function() {
+			[' Hide', function() {
 				apps.nora.signalHandler('shrink');
 			}, 'ctxMenu/minimize.png']
 		],
@@ -739,7 +741,8 @@ apps.nora = new Application({
 					if (this.specialCommand !== null) {
 						this.speakIn();
 					} else {
-						if (apps.settings.vars.currNoraListening === "1" && !apps.nora.vars.currentlySpeaking) {
+						var currNoraListening = "0";
+						if (currNoraListening === "1" && !apps.nora.vars.currentlySpeaking) {
 							apps.nora.vars.startContRecog();
 						}
 					}

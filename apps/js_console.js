@@ -19,10 +19,10 @@ apps.jsConsole = new Application({
 			this.appWindow.paddingMode(1);
 			this.appWindow.setDims("auto", "auto", 1000, 500);
 			this.appWindow.openWindow();
-			this.appWindow.setCaption(lang('jsConsole', 'caption'));
+			this.appWindow.setCaption('JavaScript Console');
 			this.appWindow.setContent(
 				'<div id="cnsTrgt" style="width:100%; height:auto; position:relative; font-family:W95FA,Courier,monospace; font-size:12px;"></div>' +
-				'<input id="cnsIn" autocomplete="off" spellcheck="false" onKeydown="if(event.keyCode === 13){apps.jsConsole.vars.runInput()}" placeholder="' + lang('jsConsole', 'input') + '" style="position:relative; font-family:W95FA,Courier,monospace;display:block; padding:0; font-size:12px; width:calc(100% - 8px); padding-left:3px; margin-top:3px; height:16px;">'
+				'<input id="cnsIn" autocomplete="off" spellcheck="false" onKeydown="if(event.keyCode === 13){apps.jsConsole.vars.runInput()}" placeholder="Input" style="position:relative; font-family:W95FA,Courier,monospace;display:block; padding:0; font-size:12px; width:calc(100% - 8px); padding-left:3px; margin-top:3px; height:16px;">'
 			);
 
 			let tempLogs = '<span style="color:' + this.vars.cnsPosts[0][1] + ';">' + this.vars.cnsPosts[0][0] + '</span>';

@@ -43,7 +43,7 @@ apps.startMenu = new Application({
 
 			this.appWindow.alwaysOnTop(1);
 
-			this.appWindow.setCaption(lang('appNames', 'startMenu'));
+			this.appWindow.setCaption('Dashboard');
 			this.appWindow.openWindow();
 			this.appWindow.closeKeepTask();
 		} else if (launchType === 'dsktp' || launchType === 'tskbr') {
@@ -57,11 +57,11 @@ apps.startMenu = new Application({
 				this.appWindow.setContent(
 					'<div style="width:100%;height:100%;">' +
 					'<div style="position:relative;text-align:center;">' +
-					'<button onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})">' + lang('startMenu', 'power') + '</button>  ' +
-					'<button onclick="openapp(apps.files, \'dsktp\')">' + lang('startMenu', 'files') + '</button> ' +
-					'<button onclick="openapp(apps.settings, \'dsktp\')">' + lang('startMenu', 'settings') + '</button> ' +
-					'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">' + lang('startMenu', 'allApps') + '</button><br>' +
-					'<button onclick="openapp(apps.jsConsole, \'dsktp\')">' + lang('startMenu', 'jsConsole') + '</button> ' +
+					'<button onclick="c(function(){ctxMenu(apps.startMenu.vars.powerCtx, 1, event)})">Power</button>  ' +
+					'<button onclick="openapp(apps.files, \'dsktp\')">Files</button> ' +
+					'<button onclick="openapp(apps.settings, \'dsktp\')">Settings</button> ' +
+					'<button onclick="openapp(apps.appsbrowser, \'dsktp\')">All Apps</button><br>' +
+					'<button onclick="openapp(apps.jsConsole, \'dsktp\')">JavaScript Console</button> ' +
 					'<input autocomplete="off" style="width:calc(100% - 6px);margin-top:3px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
 					'</div><div id="appDsBtableWrapper" class="noselect" style="width:100%;overflow-y:scroll;background-color:rgba(' + darkSwitch('255, 255, 255', '39, 39, 39') + ', 0.5);">' +
 					'<table id="appDsBtable" style="color:#000;font-family:W95FA, monospace; font-size:12px; width:100%;color:' + darkSwitch('#000', '#FFF') + ';"></table>' +
@@ -128,27 +128,27 @@ apps.startMenu = new Application({
 			getId("icn_startMenu").classList.remove("openAppIcon");
 		},
 		captionCtx: [
-			[' ' + lang('ctxMenu', 'hideApp'), function() {
+			[' Hide', function() {
 				apps.startMenu.signalHandler('shrink');
 			}, 'ctxMenu/minimize.png']
 		],
 		iconCtx: [
-			[' ' + lang('startMenu', 'files'), function() {
+			[' Files', function() {
 				openapp(apps.files, 'dsktp');
 			}, 'ctxMenu/folder.png'],
-			[' ' + lang('startMenu', 'allApps'), function() {
+			[' All Apps', function() {
 				openapp(apps.appsBrowser, 'dsktp');
 			}, 'ctxMenu/window.png'],
-			[' ' + lang('startMenu', 'settings'), function() {
+			[' Settings', function() {
 				openapp(apps.settings, 'dsktp');
 			}, 'ctxMenu/gear.png'],
 			['+Log Out', function() {
 				apps.settings.vars.shutDown('restart', 1);
 			}, 'ctxMenu/power.png'],
-			[' ' + lang('startMenu', 'restart'), function() {
+			[' Restart', function() {
 				apps.settings.vars.shutDown('restart', 0);
 			}, 'ctxMenu/power.png'],
-			[' ' + lang('startMenu', 'shutDown'), function() {
+			[' Shut Down', function() {
 				apps.settings.vars.shutDown(0, 1);
 			}, 'ctxMenu/power.png']
 		],
@@ -156,15 +156,15 @@ apps.startMenu = new Application({
 			[' Log Out', function() {
 				apps.settings.vars.shutDown('restart', 1);
 			}, 'ctxMenu/power.png'],
-			[' ' + lang('startMenu', 'restart'), function() {
+			[' Restart', function() {
 				apps.settings.vars.shutDown('restart', 0);
 			}, 'ctxMenu/power.png'],
-			[' ' + lang('startMenu', 'shutDown'), function() {
+			[' Shut Down', function() {
 				apps.settings.vars.shutDown(0, 1);
 			}, 'ctxMenu/power.png']
 		],
 		ctx: [
-			[' ' + lang('ctxMenu', 'openApp'), function (arg) {
+			[' Open', function (arg) {
 				openapp(apps[arg], "dsktp");
 			}, 'ctxMenu/window.png'],
 			[function (arg) {

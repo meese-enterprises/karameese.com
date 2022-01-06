@@ -16,7 +16,7 @@ apps.bash = new Application({
 	main: function() {
 		if (!this.appWindow.appIcon) {
 			this.appWindow.paddingMode(0);
-			this.appWindow.setCaption(lang('appNames', 'bash'));
+			this.appWindow.setCaption('Bash');
 			this.appWindow.setDims("auto", "auto", 662, 504);
 			this.appWindow.setContent(
 				'<span id="bashContent" style="display:block;line-height:1em;font-family:W95FA;font-size:12px;width:100%;">' +

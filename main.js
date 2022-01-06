@@ -109,6 +109,10 @@ if (typeof document.getElementsByClassName === 'undefined') {
 
 // End of IE compatibility fixes
 
+// 0 is smaller, 1 is same size, 2 is bigger
+const winFadeDistance = 0;
+const winBorder = 3;
+
 var darkMode = false;
 const darkSwitch = (light, dark) => darkMode ? dark : light;
 if (darkMode) {
@@ -273,105 +277,6 @@ var vartry = function (varname) {
 // Convert number to true/false
 const getStatus = (num) => !!num ? 'Enabled' : 'Disabled';
 
-const currentlanguage = 'en';
-var langContent = {
-	en: {
-		site: {
-			failedVarTry: 'failed', // lowercase
-			fatalError1: 'You found an error! ',
-			fatalError2: 'Error in',
-			fatalError3: 'Module', // lowercase
-			fatalError4: 'at', // lowercase
-			fatalError5: 'Send error report to the developer?',
-			errorReport: 'Failed to save the report. The OS has either failed to initialize or crucial components have been deleted. Please try again later.',
-		},
-		appNames: {
-			startMenu: "Dashboard",
-			nora: "NORAA",
-			jsConsole: "JavaScript Console",
-			bash: "Pseudo-Bash Terminal",
-			prompt: "Application Prompt",
-			settings: "Settings",
-			properties: "Properties Viewer",
-			files: "File Manager",
-			internet: "The Internet",
-			savemaster: "SaveMaster",
-			appAPI: "API",
-			search: "Search",
-			image: "img Editor",
-			messaging: "Messaging",
-			musicVis: "Music Visualiser",
-			appsbrowser: "Apps Browser",
-			accreditation: "Accreditation"
-		},
-		startMenu: {
-			power: 'Power',
-			jsConsole: 'JavaScript Console',
-			settings: 'Settings',
-			files: 'Files',
-			allApps: 'All Apps',
-			help: 'Help',
-			search: 'Search',
-			shutDown: 'Shut Down',
-			restart: 'Restart'
-		},
-		ctxMenu: {
-			settings: 'Settings',
-			jsConsole: 'JavaScript Console',
-			screenResolution: 'Change Screen Resolution',
-			addIcon: 'Add Icon',
-			speak: 'Speak',
-			taskbarSettings: 'Taskbar Settings',
-			openApp: 'Open',
-			moveIcon: 'Move Icon',
-			showApp: 'Show',
-			hideApp: 'Hide',
-			closeApp: 'Close',
-			fold: 'Fold',
-			stayOnTop: 'Stay On Top',
-			stopOnTop: 'Stop Staying On Top',
-			copyText: 'Copy',
-			pasteText: 'Paste'
-		},
-		jsConsole: {
-			caption: 'Javascript Console',
-			runCode: 'Run Code',
-			input: 'Input'
-		},
-		prompt: {
-			caption: 'Application Prompt',
-			genericAlert: 'This app is used for alerts and prompts in apps.',
-			ok: 'OK',
-			alertText: 'wants to tell you', // lowercase
-			alertUnnamed: 'Alert from an anonymous app',
-			confirmText: 'wants a choice from you', // lowercase
-			confirmUnnamed: 'Pick a choice for an anonymous app',
-			promptText: 'wants some info from you', // lowercase
-			promptUnnamed: 'Enter some info for an anonymous app'
-		},
-		notepad: {
-			caption: 'Text Editor',
-			// these are all buttons...
-			save: 'Save',
-			load: 'Load',
-			file: 'File',
-			tools: 'Tools'
-		}
-	}
-}
-
-function lang(appCode, langPiece) {
-	if (typeof langContent.en[appCode] !== "undefined") {
-		if (typeof langContent.en[appCode][langPiece] !== "undefined") {
-			return langContent.en[appCode][langPiece];
-		} else {
-			return 'LanguageError: No translation for ' + langPiece + ' of app ' + appCode + ' in language en.';
-		}
-	} else {
-		return 'LanguageError: Language en does not support app ' + appCode + '.';
-	}
-}
-
 // this is where the user's files go
 var USERFILES = [];
 
@@ -422,7 +327,7 @@ function corsPing(callbackScript) {
 			callbackScript([perfCheck('corsping'), corspingxhttp.status]);
 		}
 	};
-	corspingxhttp.open('GET', apps.settings.vars.corsProxy + 'https://duckduckgo.com/', 'true');
+	corspingxhttp.open('GET', 'https://cors-anywhere.herokuapp.com/' + 'https://duckduckgo.com/', 'true');
 	perfStart('corsping');
 	apps.savemaster.vars.saving = 1;
 	corspingxhttp.send();
@@ -531,11 +436,7 @@ var Application = function (
 		this.dsktpIcon = appIcon;
 		// now HTML elements match the codename of apps
 		this.objName = appPath;
-		if (typeof langContent.en.appNames[appPath] === 'string') {
-			this.appDesc = lang('appNames', appPath);
-		} else {
-			this.appDesc = appDesc;
-		}
+		this.appDesc = appDesc;
 		this.main = mainFunction;
 		this.signalHandler = signalHandlerFunction;
 		this.launchTypes = handlesLaunchTypes ? 1 : 0;
@@ -663,11 +564,7 @@ var Application = function (
 				getId("win_" + this.objName + "_top").classList.add('closedWindow');
 
 				getId('win_' + this.objName + '_top').style.transformOrigin = '';
-				try {
-					getId("win_" + this.objName + "_top").style.transform = 'scale(' + apps.settings.vars.winFadeDistance + ')';
-				} catch (err) {
-					getId("win_" + this.objName + "_top").style.transform = 'scale(0.8)';
-				}
+				getId("win_" + this.objName + "_top").style.transform = `scale(${winFadeDistance})`;
 				getId("win_" + this.objName + "_top").style.opacity = "0";
 				getId("win_" + this.objName + "_top").style.pointerEvents = "none";
 				setTimeout(function() {
@@ -705,7 +602,7 @@ var Application = function (
 					this.folded = 0;
 				} else {
 					getId('win_' + this.objName + '_html').style.display = 'none';
-					getId('win_' + this.objName + '_top').style.height = 32 + apps.settings.vars.winBorder + 'px';
+					getId('win_' + this.objName + '_top').style.height = 32 + winBorder + 'px';
 					this.folded = 1;
 				}
 			},
@@ -1116,11 +1013,6 @@ c(() => Bash());
 
 c(function() {
 	AppPrompt();
-	getId('loadingInfo').innerHTML = 'Settings';
-});
-
-c(function() {
-	Settings();
 	getId('loadingInfo').innerHTML = 'Smart Icon Settings';
 });
 
@@ -1332,12 +1224,6 @@ function highlightHide() {
 	getId('windowFrameOverlay').style.display = 'none';
 }
 
-c(function() {
-	openapp(apps.settings);
-	c(function() {
-		apps.settings.signalHandler('close');
-	});
-});
 var ctxSetup = [
 	[0, 0, "appicons/redx.png", "appicons/redx.png"],
 	' Context', 'alert("Context Menu Not Correctly Initialized")',
@@ -1470,45 +1356,45 @@ function ctxMenu(setupArray, version, event, args) {
 
 var baseCtx = {
 	hideall: [
-		[' ' + lang('ctxMenu', 'settings'), function() {
+		/*[' Settings', function() {
 			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/gear.png'],
-		[' ' + lang('ctxMenu', 'jsConsole'), function() {
+		}, 'ctxMenu/gear.png'],*/
+		[' JavaScript Console', function() {
 			openapp(apps.jsConsole, 'dsktp');
 		}, 'ctxMenu/console.png'],
-		['+' + lang('ctxMenu', 'screenResolution'), function() {
+		['+Change Screen Resolution', function() {
 			openapp(apps.settings, 'dsktp');
 		}, 'ctxMenu/gear.png']
 	],
 	desktop: [
-		[' ' + lang('ctxMenu', 'settings'), function() {
+		/*[' Settings', function() {
 			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/gear.png'],
-		[' ' + lang('ctxMenu', 'jsConsole'), function() {
+		}, 'ctxMenu/gear.png'],*/
+		[' JavaScript Console', function() {
 			openapp(apps.jsConsole, 'dsktp');
 		}, 'ctxMenu/console.png'],
 		[function() {
-			return '+' + lang('ctxMenu', 'speak') + ' "' + currentSelection.substring(0, 5) + '..."'
+			return '+Speak' + ' "' + currentSelection.substring(0, 5) + '..."'
 		}, function() {
 			textspeech(currentSelection);
 		}, 'ctxMenu/happy.png']
 	],
 	taskbar: [
-		[' ' + lang('ctxMenu', 'settings'), function() {
+		/*[' Settings', function() {
 			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/gear.png'],
-		[' ' + lang('ctxMenu', 'jsConsole'), function() {
+		}, 'ctxMenu/gear.png'],*/
+		[' JavaScript Console', function() {
 			openapp(apps.jsConsole, 'dsktp');
 		}, 'ctxMenu/console.png'],
-		['+' + lang('ctxMenu', 'taskbarSettings'), function() {
+		/*['+Taskbar Settings', function() {
 			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/gear.png']
+		}, 'ctxMenu/gear.png']*/
 	],
 	appXXX: [
-		[' ' + lang('ctxMenu', 'openApp'), function (args) {
+		[' Open', function (args) {
 			openapp(apps[args[1]], 'dsktp');
 		}, 'ctxMenu/window.png'],
-		['+' + lang('ctxMenu', 'moveIcon'), function (args) {
+		['+Move Icon', function (args) {
 			icomove(args[0], args[1]);
 		}],
 		['+Delete Icon', function (args) {
@@ -1519,7 +1405,7 @@ var baseCtx = {
 		[' Execute', function (args) {
 			Function(...dsktp[args[1]].action)(...dsktp[args[1]].actionArgs);
 		}, 'ctxMenu/window.png'],
-		['+' + lang('ctxMenu', 'moveIcon'), function (args) {
+		['+Move Icon', function (args) {
 			icomove(args[0], args[1]);
 		}],
 		['+Delete Icon', function (args) {
@@ -1529,9 +1415,9 @@ var baseCtx = {
 	icnXXX: [
 		[function (arg) {
 			if (apps[arg].appWindow.appIcon) {
-				return ' ' + lang('ctxMenu', 'showApp');
+				return ' Show';
 			} else {
-				return ' ' + lang('ctxMenu', 'openApp');
+				return ' Open';
 			}
 		}, function (arg) {
 			if (apps[arg].appWindow.appIcon) {
@@ -1542,9 +1428,9 @@ var baseCtx = {
 		}, 'ctxMenu/window.png'],
 		[function (arg) {
 			if (apps[arg].appWindow.appIcon) {
-				return ' ' + lang('ctxMenu', 'hideApp');
+				return ' Hide';
 			} else {
-				return '-' + lang('ctxMenu', 'hideApp');
+				return '-Hide';
 			}
 		}, function (arg) {
 			apps[arg].signalHandler('shrink');
@@ -1587,7 +1473,7 @@ var baseCtx = {
 				newDsktpIcon(arg, arg);
 			}
 		}, 'ctxMenu/x.png'],
-		['+' + lang('ctxMenu', 'closeApp'), function (arg) {
+		['+Close', function (arg) {
 			apps[arg].signalHandler('close');
 		}, 'ctxMenu/x.png']
 	],
@@ -1595,13 +1481,13 @@ var baseCtx = {
 		[' About This App', function (arg) {
 			openapp(apps.appInfo, arg);
 		}, 'ctxMenu/file.png'],
-		['+' + lang('ctxMenu', 'fold'), function (arg) {
+		['+Fold', function (arg) {
 			apps[arg].appWindow.foldWindow();
 		}, 'ctxMenu/less.png'],
-		['+' + lang('ctxMenu', 'hideApp'), function (arg) {
+		['+Hide', function (arg) {
 			apps[arg].signalHandler('shrink');
 		}, 'ctxMenu/minimize.png'],
-		[' ' + lang('ctxMenu', 'fullscreen'), function (arg) {
+		[' Fullscreen', function (arg) {
 			apps[arg].appWindow.toggleFullscreen();
 			toTop(apps[arg]);
 		}, 'ctxMenu/add.png'],
@@ -1610,18 +1496,18 @@ var baseCtx = {
 		}, 'ctxMenu/x.png'],
 		[function (arg) {
 			if (apps[arg].appWindow.onTop === 0) {
-				return '+' + lang('ctxMenu', 'stayOnTop');
+				return '+Stay On Top';
 			} else {
-				return '_' + lang('ctxMenu', 'stayOnTop');
+				return '_Stay On Top';
 			}
 		}, function (arg) {
 			apps[arg].appWindow.alwaysOnTop(1);
 		}, 'ctxMenu/add.png'],
 		[function (arg) {
 			if (apps[arg].appWindow.onTop === 1) {
-				return ' ' + lang('ctxMenu', 'stopOnTop');
+				return ' Stay On Top';
 			} else {
-				return '-' + lang('ctxMenu', 'stopOnTop');
+				return '-Stay On Top';
 			}
 		}, function (arg) {
 			apps[arg].appWindow.alwaysOnTop(0);
@@ -1872,6 +1758,80 @@ c(function() {
 	setInterval(iframeblurcheck, 500);
 	addEventListener("blur", iframeblurcheck);
 });
+
+window.resetOS = function() {
+	// TODO: Call this somewhere
+	document.cookie = 'keyword=; Max-Age=-99999999;';
+	window.location = 'index.php';
+};
+
+window.shutDown = function (arg, logout) {
+	getId('isLoading').style.opacity = '0';
+	getId('loadingBg').style.opacity = '0';
+	getId('isLoading').style.transition = '1s';
+	getId('isLoading').style.display = 'block';
+	getId('loadingBg').style.display = 'block';
+	window.shutDownPercentComplete = 0;
+	window.shutDownTotalPercent = 1;
+	getId('isLoading').classList.remove('cursorLoadDark');
+	getId('isLoading').classList.add('cursorLoadLight');
+	
+	if (arg === 'restart') {
+		getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
+		requestAnimationFrame(function() {
+			getId('isLoading').style.opacity = '1';
+			getId('loadingBg').style.opacity = '1';
+		});
+		window.setTimeout(function() {
+			getId('isLoading').classList.remove('cursorLoadLight');
+			getId('isLoading').classList.add('cursorLoadDark');
+			shutDownPercentComplete = codeToRun.length;
+			for (let app in apps) {
+				c(function (args) {
+					m('THERE WAS AN ERROR SHUTTING DOWN THE APP ' + args + '. SHUTDOWN SHOULD CONTINUE WITH NO ISSUE.');
+					shutDownPercentComplete++;
+					apps[args].signalHandler('shutdown');
+				}, app);
+			}
+			shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
+			shutDownPercentComplete = 0;
+			c(function() {
+				getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Restarting aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
+				if (logout) {
+					document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+				}
+				window.location = 'blackScreen.html#restart-beta';
+			});
+		}, 1005);
+	} else {
+		getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>';
+		requestAnimationFrame(function() {
+			getId('isLoading').style.opacity = '1';
+			getId('loadingBg').style.opacity = '1';
+		});
+		window.setTimeout(function() {
+			getId('isLoading').classList.remove('cursorLoadLight');
+			getId('isLoading').classList.add('cursorLoadDark');
+			shutDownPercentComplete = codeToRun.length;
+			for (let app in apps) {
+				c(function (args) {
+					m('THERE WAS AN ERROR SHUTTING DOWN THE APP ' + args + '. SHUTDOWN SHOULD CONTINUE WITH NO ISSUE.');
+					shutDownPercentComplete++;
+					apps[args].signalHandler('shutdown');
+				}, app);
+			}
+			shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
+			shutDownPercentComplete = 0;
+			c(function() {
+				getId('isLoading').innerHTML = '<div id="isLoadingDiv"><h1>Shutting Down aOS</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>';
+				if (logout) {
+					document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+				}
+				window.location = 'blackScreen.html#beta';
+			});
+		}, 1005);
+	}
+};
 
 // Open apps on startup
 c(function() {

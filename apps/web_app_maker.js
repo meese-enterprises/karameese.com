@@ -346,10 +346,10 @@ apps.webAppMaker = new Application({
 						};
 					} else {
 						return {
-							left: apps.settings.vars.winBorder,
+							left: winBorder,
 							top: 32,
-							right: apps.settings.vars.winBorder,
-							bottom: apps.settings.vars.winBorder
+							right: winBorder,
+							bottom: winBorder
 						};
 					}
 				},
