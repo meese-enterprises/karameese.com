@@ -21,6 +21,10 @@
 	--window-button-right: 2px solid var(--bsod);
 }
 
+* {
+	font-family: W95FA, monospace;
+}
+
 /* scrollbars */
 ::-webkit-scrollbar {
 	width: 16px;
@@ -223,7 +227,6 @@ hr {
 	width: 12px;
 	height: 10px;
 	font-size: 14px;
-	font-family: W95FA, monospace;
 	line-height: 8px;
 	box-shadow: none;
 }

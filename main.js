@@ -194,7 +194,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
 	}
 };
 
-// Scale of screen, for HiDPI compatibility
+// Scale of screen, for HiDPI compatibility or for smaller devices
 var screenScale = 1;
 
 var modulelast = `init ${websiteTitle}`;
@@ -1558,7 +1558,6 @@ var baseCtx = {
 		}, 'ctxMenu/console.png'],
 		['+' + lang('ctxMenu', 'screenResolution'), function() {
 			openapp(apps.settings, 'dsktp');
-			apps.settings.vars.showMenu(apps.settings.vars.menus.screenRes);
 		}, 'ctxMenu/gear.png']
 	],
 	desktop: [
@@ -1583,7 +1582,6 @@ var baseCtx = {
 		}, 'ctxMenu/console.png'],
 		['+' + lang('ctxMenu', 'taskbarSettings'), function() {
 			openapp(apps.settings, 'dsktp');
-			apps.settings.vars.showMenu(apps.settings.vars.menus.taskbar);
 		}, 'ctxMenu/gear.png']
 	],
 	appXXX: [

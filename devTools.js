@@ -75,7 +75,6 @@ window.devTools = {
 					console.log("Application is connected, but no parent app found! App-Window-related requests may not work. Updating stylesheet.");
 				}
 			}
-			devTools.toggleDarkMode();
 			if (devTools.connectListener) {
 				devTools.connectListener();
 			}
@@ -111,9 +110,7 @@ window.devTools = {
 	recieveRequest: function (event) {
 		if (typeof event.data === "object") {
 			if (event.data.conversation) {
-				if (event.data.conversation === "devTools_Subscribed_Style_Update") {
-					devTools.toggleDarkMode();
-				} else if (event.data.conversation === "devTools_get_page_id") {
+				if (event.data.conversation === "devTools_get_page_id") {
 					devTools.sendRequest({
 						action: "page_id:respond",
 						content: event.data.content
@@ -365,9 +362,6 @@ window.devTools = {
 		}
 	},
 
-	toggleDarkMode: function() {
-		document.body.classList.toggle("darkMode");
-	},
 	recieveStylesheets: function (data) {
 		if (document.getElementById("devTools_helpingStyle") === null) {
 			var helpingStyleElement = document.createElement("style");

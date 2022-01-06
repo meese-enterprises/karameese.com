@@ -12,14 +12,13 @@ apps.settings = new Application({
 			color: "#252F3A"
 		}
 	},
-	hideApp: 0,
+	hideApp: 2,
 	launchTypes: 1,
 	main: function (launchtype) {
 		if (!this.appWindow.appIcon) {
 			this.appWindow.setDims("auto", "auto", 700, 400);
 		}
 		this.appWindow.setCaption("Settings");
-		this.vars.showMenu(apps.settings.vars.menus);
 		this.appWindow.openWindow();
 	},
 	vars: {
@@ -48,174 +47,7 @@ apps.settings = new Application({
 		menus: {
 			folder: 1,
 			folderName: 'Settings',
-			folderPath: 'apps.settings.vars.menus',
-			info: {
-				folder: 0,
-				folderName: 'Information',
-				folderPath: 'apps.settings.vars.menus.info',
-				image: 'settingIcons/information.png',
-				contact: {
-					option: 'Contact',
-					description: function() {
-						return 'Having issues? Need help? Something broken? Want to suggest changes or features? Have some other need to contact me? Feel free to contact me below!'
-					},
-					buttons: function() {
-						return 'Email: <a href="mailto:karabriggs15@gmail.com">karabriggs15@gmail.com</a>'
-					}
-				}
-			},
-			screenRes: {
-				folder: 0,
-				folderName: 'Display',
-				folderPath: 'apps.settings.vars.menus.screenRes',
-				image: 'settingIcons/resolution.png',
-				mobileMode: {
-					option: 'Mobile Mode',
-					description: function() {
-						return 'Current: ' + function() {
-								if (autoMobile) {
-									return 'Automatic'
-								} else {
-									return getStatus(mobileMode)
-								}
-							}() + '.<br>' +
-							'Changes various UI elements and functionality of the website to be better suited for phones and other devices with small screens.'
-					},
-					buttons: function() {
-						return '<button onclick="apps.settings.vars.setMobileMode(0)">Turn Off</button> <button onclick="apps.settings.vars.setMobileMode(1)">Turn On</button> <button onclick="apps.settings.vars.setMobileMode(2)">Automatic</button>'
-					}
-				},
-				scaling: {
-					option: 'Content Scaling',
-					description: function() {
-						return 'Use this option to scale the website larger or smaller.<br>Default is 1. Double size is 2. Half size is 0.5.'
-					},
-					buttons: function() {
-						return '<input placeholder="1" size="3" id="STNscaling" value="' + window.screenScale + '"> <button onclick="apps.settings.vars.setScale(getId(\'STNscaling\').value)">Set</button>'
-					}
-				},
-				currRes: {
-					option: 'Virtual Monitor Resolution',
-					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="getId(\'monitor\').style.width">' + getId('monitor').style.width + '</span> by <span class="liveElement" data-live-eval="getId(\'monitor\').style.height">' + getId('monitor').style.height + '</span>.<br>' +
-							'These are the dimensions of the website\'s virtual display. Scrollbars will be present if the display is made too large.'
-					},
-					buttons: function() {
-						return '<button onclick="fitWindow()">Fit to Browser Window</button> <button onclick="fitWindowOuter()">Fit to Screen</button><hr>' +
-							'Custom Resolution: <input id="STNscnresX" size="4" placeholder="width"> by <input id="STNscnresY" size="4" placeholder="height"><br><br>' +
-							'<button onclick="fitWindowRes(getId(\'STNscnresX\').value, getId(\'STNscnresY\').value)">Set For Now</button> ' +
-							'<button onclick="apps.settings.vars.saveRes(getId(\'STNscnresX\').value, getId(\'STNscnresY\').value)">Save Persistent</button> ' +
-							'<button onclick="lfdel(\'system/apps/settings/saved_screen_res\');fitWindow();">Delete Persistent</button>'
-					}
-				}
-			},
-			taskbar: {
-				folder: 0,
-				folderName: 'Taskbar',
-				folderPath: 'apps.settings.vars.menus.taskbar',
-				image: 'settingIcons/taskbar.png',
-				taskbarIconTitle: {
-					option: 'Taskbar Icon Titles',
-					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="getStatus(apps.settings.vars.iconTitlesEnabled)">true</span><br>Shows application titles on taskbar icons. Disabling this option makes icons take up far less space.'
-					},
-					buttons: function() {
-						return '<button onclick="apps.settings.vars.toggleIconTitles();">Toggle</button>'
-					}
-				}
-			},
-			smartIcons: {
-				folder: 0,
-				folderName: "Smart Icons",
-				folderPath: "apps.settings.vars.menus.smartIcons",
-				image: 'settingIcons/smartIcon_fg.png',
-				autoRedirectToApp: {
-					option: "Smart Icon Settings",
-					description: function() {
-						return "Click below to open the Smart Icon Settings app."
-					},
-					buttons: function() {
-						c(function() {
-							openapp(apps.smartIconSettings, 'dsktp');
-							apps.settings.vars.showMenu(apps.settings.vars.menus);
-						});
-						return '<button onclick="openapp(apps.smartIconSettings, \'dsktp\')">Smart Icon Settings</button>';
-					}
-				}
-			},
-			noraa: {
-				folder: 0,
-				folderName: 'NORAA',
-				folderPath: 'apps.settings.vars.menus.noraa',
-				image: 'settingIcons/noraa.png',
-				advHelp: {
-					option: 'Advanced Help Pages',
-					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="getStatus(apps.settings.vars.noraHelpTopics)">' + !!apps.settings.vars.noraHelpTopics + '</span>.<br>' +
-							'NORAA returns more advanced help pages when you ask for OS help, instead of plain text.'
-					},
-					buttons: function() {
-						return '<button onclick="apps.settings.vars.togNoraListen()">Toggle</button>'
-					}
-				}
-			},
-			advanced: {
-				folder: 0,
-				folderName: 'Advanced',
-				folderPath: 'apps.settings.vars.menus.advanced',
-				image: 'settingIcons/advanced.png',
-				reset: {
-					option: 'Reset aOS',
-					description: function() {
-						return 'If you wish, you can completely reset aOS. This will give you a new OS ID, which will have the effect of removing all of your files. Your old files will still be preserved, so you can ask the developer for help if you mistakenly reset aOS. If you wish for your old files to be permanently removed, please contact the developer.'
-					},
-					buttons: function() {
-						return '<button onclick="apps.settings.vars.resetOS()">Reset aOS</button>'
-					}
-				}
-			},
-		},
-		showMenu: function (menu) {
-			if (menu === 'oldMenu') return openapp(apps.settings, 'oldMenu');
-
-			apps.settings.appWindow.setContent(
-				'<div id="STNmenuDiv" style="font-family:W95FA, monospace;font-size:12px;width:calc(100% - 3px);height:100%;overflow:auto">' +
-				'<p id="STNmenuTitle" class="noselect" style="font-size:36px;margin:8px;">' + menu.folderName +
-				'<button id="STNhomeButton" onclick="apps.settings.vars.showMenu(apps.settings.vars.menus)" style="float:left;margin:8px;top:8px;left:0;position:absolute;display:none;">Home</button>' +
-				'</p><br></div>'
-			);
-
-			getId("STNmenuDiv").innerHTML += '<div id="STNmenuTable" class="noselect" style="width:100%;position:relative;"></div>';
-			let appendStr = '';
-			for (let i in this.menus) {
-				if (i !== 'folder' && i !== 'folderName' && i !== 'folderPath' && i !== 'image' && i !== 'oldMenu') {
-					if (this.menus[i].image) {
-						appendStr += '<div class="STNtableTD cursorPointer" onclick="apps.settings.vars.showMenu(' + this.menus[i].folderPath + ')"><img src="' + this.menus[i].image + '" style="margin-bottom:-12px;width:32px;height:32px;margin-right:3px;' + darkSwitch('', 'filter:invert(1);') + '"> ' + this.menus[i].folderName + '</div>';
-					} else {
-						appendStr += '<div class="STNtableTD cursorPointer" onclick="apps.settings.vars.showMenu(' + this.menus[i].folderPath + ')"><div style="margin-bottom:-12px;width:32px;height:32px;margin-right:3px;position:relative;display:inline-block;"></div> ' + this.menus[i].folderName + '</div>';
-					}
-				}
-			}
-
-			getId('STNmenuTable').innerHTML += appendStr;
-			if (menu.folder) return;
-
-			getId('STNmenuTable').style.width = '225px';
-			getId('STNmenuTable').style.position = 'absolute';
-			getId('STNmenuTable').style.height = 'calc(100% - 64px)';
-			getId('STNmenuTable').style.bottom = '0';
-			getId('STNmenuTable').style.overflowY = 'auto';
-			getId('STNmenuTitle').style.marginLeft = '76px';
-			if (menu !== this.menus) getId('STNhomeButton').style.display = 'block';
-			getId('STNmenuTable').style.maxWidth = "calc(50% - 6px)";
-			getId('STNmenuDiv').innerHTML += '<div id="STNcontentDiv" style="width:calc(100% - 232px);min-width:50%;padding-top:5px;right:0;bottom:0;height:calc(100% - 69px);overflow-y:auto;"></div>';
-			for (let i in menu) {
-				if (i !== 'folder' && i !== 'folderName' && i !== 'folderPath' && i !== 'image') {
-					getId('STNcontentDiv').innerHTML += '<span style="font-size:24px">' + menu[i].option +
-						'</span><br><br>' + menu[i].description() +
-						'<br><br>' + menu[i].buttons() + '<br><br><br>';
-				}
-			}
+			folderPath: 'apps.settings.vars.menus'
 		},
 		screensaverBlockNames: [],
 		corsProxy: 'https://cors-anywhere.herokuapp.com/',
@@ -240,20 +72,6 @@ apps.settings = new Application({
 			if (!nosave) ufsave('system/windows/controls_on_left', this.captionButtonsLeft);
 		},
 		iconTitlesEnabled: 1,
-		toggleIconTitles: function (nosave) {
-			this.iconTitlesEnabled = Math.abs(this.iconTitlesEnabled - 1);
-			if (this.iconTitlesEnabled) {
-				getId("icons").classList.remove("noIconTitles");
-			} else {
-				getId("icons").classList.add("noIconTitles");
-			}
-			if (!nosave) ufsave("system/taskbar/iconTitles", String(this.iconTitlesEnabled));
-		},
-		setScale: function (newScale, nosave) {
-			window.screenScale = parseFloat(newScale);
-			fitWindow();
-			if (!nosave) lfsave('system/apps/settings/ui_scale', newScale);
-		},
 		updateFrameStyles: function() {
 			var allFrames = document.getElementsByTagName("iframe");
 			for (let i = 0; i < allFrames.length; i++) {
@@ -270,19 +88,6 @@ apps.settings = new Application({
 					doLog(err, "#F00");
 				}
 			}
-		},
-		setMobileMode: function (type, nosave) {
-			if (type == 1) {
-				setMobile(1);
-				autoMobile = 0;
-			} else if (type == 2) {
-				autoMobile = 1;
-			} else {
-				setMobile(0);
-				autoMobile = 0;
-			}
-			if (!nosave) lfsave('system/apps/settings/mobile_mode', type);
-			checkMobileSize();
 		},
 		longTap: 0,
 		longTapTime: 500000,
@@ -790,11 +595,6 @@ apps.settings = new Application({
 							getId("STNwinblurRadius").value = ufload("system/windows/blur_radius");
 							apps.settings.vars.setAeroRad(1);
 						}
-						if (ufload("system/taskbar/iconTitles")) {
-							if (ufload("system/taskbar/iconTitles") === "0") {
-								apps.settings.vars.toggleIconTitles(1);
-							}
-						}
 						if (ufload("system/language")) {
 							currentlanguage = ufload("system/language");
 						}
@@ -809,26 +609,17 @@ apps.settings = new Application({
 						if (ufload("system/apps/settings/data_collect_enabled")) {
 							apps.settings.vars.collectData = parseInt(ufload("system/apps/settings/data_collect_enabled"), 10);
 						}
-						if (ufload("system/noraa/adv_help_enabled")) {
-							if (ufload("system/noraa/adv_help_enabled") === "0") {
-								apps.settings.vars.togNoraHelpTopics(1);
-							}
-						}
 						if (ufload("system/apps/settings/ctxmenu_two_fingers")) {
 							if (ufload("system/apps/settings/ctxmenu_two_fingers") === "1") {
 								apps.settings.vars.togLongTap(1);
 							}
 						}
-						apps.settings.vars.setScale(lfload("system/apps/settings/ui_scale") || "1", 1);
 						if (lfload("system/apps/settings/saved_screen_res")) {
 							apps.settings.vars.tempResArray = lfload("system/apps/settings/saved_screen_res").split('/');
 							fitWindowRes(apps.settings.vars.tempResArray[0], apps.settings.vars.tempResArray[1]);
 						}
 						if (ufload("system/apps/settings/cors_proxy")) {
 							apps.settings.vars.corsProxy = ufload("system/apps/settings/cors_proxy");
-						}
-						if (lfload("system/apps/settings/mobile_mode")) {
-							apps.settings.vars.setMobileMode(lfload("system/apps/settings/mobile_mode"), 1);
 						}
 						if (ufload("system/desktop/background_fit")) {
 							apps.settings.vars.setBgFit(ufload("system/desktop/background_fit"), 1);
