@@ -371,7 +371,6 @@ var langContent = {
 			bash: "Pseudo-Bash Terminal",
 			prompt: "Application Prompt",
 			settings: "Settings",
-			notepad: "Text Editor",
 			properties: "Properties Viewer",
 			files: "File Manager",
 			internet: "The Internet",
@@ -1213,13 +1212,9 @@ c(function() {
 
 c(function() {
 	JSPaint();
-	getId('loadingInfo').innerHTML = 'Text Editor';
-});
-
-c(function() {
-	TextEditor();
 	getId('loadingInfo').innerHTML = 'Properties Viewer';
 });
+
 c(function() {
 	PropertiesViewer();
 	getId('loadingInfo').innerHTML = 'File Manager';

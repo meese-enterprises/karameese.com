@@ -1,4 +1,4 @@
-var CACHE_NAME = 'aos-servicecache-' + location.host + '-v1';
+var CACHE_NAME = 'servicecache-' + location.host + '-v1';
 var urlsToCache = [
 	'servicecache.txt'
 ];

@@ -6,7 +6,7 @@
 		url('W95FA/W95FA.woff2') format('woff2');
 }
 
-/* Default aOS styling */
+/* Default styling */
 ::-webkit-scrollbar {
 	width: 16px;
 	background-color: #555;
