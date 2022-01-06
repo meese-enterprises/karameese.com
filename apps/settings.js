@@ -109,22 +109,6 @@ apps.settings = new Application({
 					}
 				}
 			},
-			windows: {
-				folder: 0,
-				folderName: 'Windows',
-				folderPath: 'apps.settings.vars.menus.windows',
-				image: 'settingIcons/windows.png',
-				darkMode: {
-					option: 'Dark Mode',
-					description: function() {
-						return 'Current: <span class="liveElement" data-live-eval="getStatus(darkMode)">Disabled</span>.<br>' +
-							'Makes your apps use a dark background and light foreground. Some apps may need to be restarted to see changes.'
-					},
-					buttons: function() {
-						return '<button onclick="apps.settings.vars.togDarkMode();apps.settings.vars.showMenu(apps.settings.vars.menus.windows)">Toggle</button>'
-					}
-				},
-			},
 			taskbar: {
 				folder: 0,
 				folderName: 'Taskbar',
@@ -295,17 +279,6 @@ apps.settings = new Application({
 			window.screenScale = parseFloat(newScale);
 			fitWindow();
 			if (!nosave) lfsave('system/apps/settings/ui_scale', newScale);
-		},
-		togDarkMode: function (nosave) {
-			if (darkMode) {
-				darkMode = 0;
-				document.body.classList.remove('darkMode');
-			} else {
-				darkMode = 1;
-				document.body.classList.add('darkMode');
-			}
-			apps.settings.vars.updateFrameStyles();
-			if (!nosave) ufsave('system/windows/dark_mode', darkMode);
 		},
 		updateFrameStyles: function() {
 			var allFrames = document.getElementsByTagName("iframe");
@@ -904,11 +877,6 @@ apps.settings = new Application({
 						}
 						if (ufload("system/apps/settings/cors_proxy")) {
 							apps.settings.vars.corsProxy = ufload("system/apps/settings/cors_proxy");
-						}
-						if (ufload("system/windows/dark_mode")) {
-							if (ufload("system/windows/dark_mode") === "1") {
-								apps.settings.vars.togDarkMode(1);
-							}
 						}
 						if (lfload("system/apps/settings/mobile_mode")) {
 							apps.settings.vars.setMobileMode(lfload("system/apps/settings/mobile_mode"), 1);

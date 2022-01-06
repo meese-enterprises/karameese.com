@@ -109,16 +109,15 @@ if (typeof document.getElementsByClassName === 'undefined') {
 
 // End of IE compatibility fixes
 
-var darkMode = 0;
-function darkSwitch(light, dark) {
-	if (darkMode) {
-		return dark;
-	} else {
-		return light;
-	}
+var darkMode = false;
+const darkSwitch = (light, dark) => darkMode ? dark : light;
+if (darkMode) {
+	document.body.classList.add('darkMode');
+} else {
+	document.body.classList.remove('darkMode');
 }
-var autoMobile = 1;
 
+var autoMobile = 1;
 function checkMobileSize() {
 	if (autoMobile) {
 		if (!mobileMode && (!window.matchMedia("(pointer: fine)").matches || parseInt(getId("monitor").style.width, 10) < 768)) {
