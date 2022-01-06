@@ -124,32 +124,6 @@ apps.settings = new Application({
 					}
 				}
 			},
-			screensaver: {
-				folder: 0,
-				folderName: "Screen Saver",
-				folderPath: "apps.settings.vars.menus.screensaver",
-				image: 'settingIcons/screensaver.png',
-				enable: {
-					option: "Enable Screen Saver",
-					description: function() {
-						return "Current: " + apps.settings.vars.screensaverEnabled + ".<br>" +
-							"This is an animation or other screen that appears when you're away from your computer."
-					},
-					buttons: function() {
-						return "";
-					}
-				},
-				time: {
-					option: "Time to Wait",
-					description: function() {
-						return "Current: " + (apps.settings.vars.screensaverTime / 1000 / 1000 / 60) + ".<br>" +
-							"This is the time in minutes that aOS waits to activate the screensaver."
-					},
-					buttons: function() {
-						return '<input id="STNscreensaverTime"> <button onclick="apps.settings.vars.setScreensaverTime(parseFloat(getId(\'STNscreensaverTime\').value) * 1000 * 1000 * 60)">Set</button>'
-					}
-				}
-			},
 			smartIcons: {
 				folder: 0,
 				folderName: "Smart Icons",
@@ -395,20 +369,11 @@ apps.settings = new Application({
 		},
 		tempArray: [],
 		bgFit: 'center',
-		checkScreensaver: function() {
-			if (apps.settings.vars.screensaverEnabled && !screensaverRunning && screensaverBlocks.length === 0) {
-				if (perfCheck('userActivity') > apps.settings.vars.screensaverTime) {
-					getId('screensaverLayer').style.display = "block";
-					apps.settings.vars.screensavers[apps.settings.vars.currScreensaver].start();
-					screensaverRunning = 1;
-				}
-			}
-		},
 		screensaverTimer: 0,
 		screensaverEnabled: false,
+		// (apps.settings.vars.screensaverTime / 1000 / 1000 / 60)
 		screensaverTime: 300000000,
 		currScreensaver: "phosphor",
-		// TODO
 		screensavers: {
 			phosphor: {
 				name: "Phosphor",
@@ -536,22 +501,6 @@ apps.settings = new Application({
 			}
 		},
 		scnsavList: '',
-		grabScreensavers: function() {
-			this.scnsavList = '';
-			for (let item in this.screensavers) {
-				this.scnsavList += '<button onclick="apps.settings.vars.setScreensaver(\'' + item + '\')">' + this.screensavers[item].name + '</button> ';
-			}
-			return this.scnsavList;
-		},
-		setScreensaverTime: function (newTime) {
-			this.screensaverTime = newTime;
-			ufsave("system/screensaver/idle_time", this.screensaverTime);
-		},
-		setScreensaver: function (type) {
-			this.currScreensaver = type;
-			this.screensavers[type].selected();
-			ufsave("system/screensaver/selected_screensaver", this.currScreensaver);
-		},
 		currWinColor: "rgba(150, 150, 200, 0.5)",
 		currWinBlend: "screen",
 		currWinblurRad: "5",
@@ -884,18 +833,6 @@ apps.settings = new Application({
 						if (ufload("system/desktop/background_fit")) {
 							apps.settings.vars.setBgFit(ufload("system/desktop/background_fit"), 1);
 						}
-						if (ufload("system/screensaver/enabled")) {
-							if (ufload("system/screensaver/enabled") === "0") {
-								apps.settings.vars.togScreensaver();
-							}
-						}
-						if (ufload("system/screensaver/idle_time")) {
-							apps.settings.vars.screensaverTime = parseInt(ufload("system/screensaver/idle_time"), 10);
-						}
-						if (ufload("system/screensaver/selected_screensaver")) {
-							apps.settings.vars.currScreensaver = ufload("system/screensaver/selected_screensaver");
-						}
-						apps.settings.vars.screensaverTimer = window.setInterval(apps.settings.vars.checkScreensaver, 1000);
 						if (typeof ufload("system/taskbar/pinned_apps") === "string") {
 							pinnedApps = JSON.parse(ufload("system/taskbar/pinned_apps"));
 							for (var i in pinnedApps) {
