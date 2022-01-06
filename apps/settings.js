@@ -124,15 +124,6 @@ apps.settings = new Application({
 						return '<button onclick="apps.settings.vars.togDarkMode();apps.settings.vars.showMenu(apps.settings.vars.menus.windows)">Toggle</button>'
 					}
 				},
-				fadeDist: {
-					option: 'Window Fade Size',
-					description: function() {
-						return 'The animated change in size of a window when being closed or opened. If set to 1, windows will not change size when closed. If between 0 and 1, the window will get smaller when closed. If larger than 1, the window will get bigger when closed.'
-					},
-					buttons: function() {
-						return '<input id="STNwinFadeInput" placeholder="0.8" value="' + apps.settings.vars.winFadeDistance + '"> <button onClick="apps.settings.vars.setFadeDistance(getId(\'STNwinFadeInput\').value)">Set</button>'
-					}
-				},
 			},
 			taskbar: {
 				folder: 0,
@@ -796,17 +787,7 @@ apps.settings = new Application({
 			if (!nosave) ufsave("system/windows/blur_radius", this.currWinblurRad);
 			d(1, perfCheck('settings') + '&micro;s to set windowblur radius');
 		},
-		winFadeDistance: '0.5', // TODO
-		setFadeDistance: function (newDist, nosave) {
-			this.winFadeDistance = newDist;
-			for (let app in apps) {
-				if (getId('win_' + apps[app].objName + '_top').style.opacity !== "1") {
-					getId('win_' + apps[app].objName + '_top').style.transform = 'scale(' + newDist + ')';
-					getId('win_' + apps[app].objName + '_top').style.opacity = '0';
-				}
-			}
-			if (!nosave) ufsave("system/windows/fade_distance", newDist);
-		},
+		winFadeDistance: '0', // 0 is smaller, 1 is same size, 2 is bigger
 		reqFullscreen: function() {
 			getId("monitor").requestFullscreen();
 		},
@@ -1042,15 +1023,6 @@ apps.settings = new Application({
 							apps.settings.vars.currScreensaver = ufload("system/screensaver/selected_screensaver");
 						}
 						apps.settings.vars.screensaverTimer = window.setInterval(apps.settings.vars.checkScreensaver, 1000);
-						if (ufload("system/windows/fade_distance")) {
-							setTimeout(function() {
-								apps.settings.vars.setFadeDistance(ufload("system/windows/fade_distance"), 1);
-							}, 100);
-						} else {
-							setTimeout(function() {
-								apps.settings.vars.setFadeDistance("0.5", 1);
-							}, 1000);
-						}
 						if (typeof ufload("system/taskbar/pinned_apps") === "string") {
 							pinnedApps = JSON.parse(ufload("system/taskbar/pinned_apps"));
 							for (var i in pinnedApps) {
