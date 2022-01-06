@@ -4,7 +4,7 @@ apps.savemaster = new Application({
 	title: "SaveMaster",
 	abbreviation: "SAV",
 	codeName: "savemaster",
-	image: "appicons/ds/SAV.png",
+	image: "appicons/SAV.png",
 	hideApp: 2,
 	main: function() {
 		this.appWindow.setCaption("SaveMaster");

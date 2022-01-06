@@ -9,24 +9,9 @@
 	?>
 
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<link rel="manifest" href="manifest.json">
-	<style id="windowBorderStyle"></style>
 	<style id="smartIconStyle"></style>
-	<style id="cursorStyle"></style>
 	<link rel="stylesheet" type="text/css" href="win95.css">
-	<script src="./ghostCursor.js"></script>
-
-	<svg>
-		<defs>
-			<filter id="svgblur">
-				<feImage xlink:href="images/winimg_disp.png" result="dispImg" width="256px" height="256px"
-					preserveAspectRatio="none" />
-				<feTile in="dispImg" result="dispMap" preserveAspectRatio="none" />
-				<feDisplacementMap id="svgDisplaceMap" in2="dispMap" in="SourceGraphic" scale="5" xChannelSelector="R"
-					yChannelSelector="G" />
-			</filter>
-		</defs>
-	</svg>
+	<script src="ghostCursor.js"></script>
 </head>
 
 <body style="background-color:#000" id="pagebody">
@@ -91,7 +76,7 @@
 						data-live-eval="finishedWaitingCodes / totalWaitingCodes * 100 + '%'" data-live-target="style.width">
 						Initializing...</div>
 				</div><br><br>
-				<img id="loadingImage" src="appicons/ds/aOS.png" style="display:none">
+				<img id="loadingImage" src="appicons/aOS.png" style="display:none">
 			</div>
 		</div>
 	</div>

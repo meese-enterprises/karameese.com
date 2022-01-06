@@ -173,7 +173,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
 		try {
 			apps.prompt.vars.notify('Error in ' + errorModule + '<br>[' + lineNumber + '] ' + errorMsg + '<br><br>' + randomPhrase, ['Open Console', 'Dismiss'], function (btn) {
 				if (!btn) openapp(apps.jsConsole, 'dsktp');
-			}, 'Uncaught Error', 'appicons/ds/redx.png');
+			}, 'Uncaught Error', 'appicons/redx.png');
 		} catch (err) {
 			console.log("Could not prompt error!");
 		}
@@ -616,7 +616,7 @@ var Application = function (
 	try {
 		if (typeof appIcon === "object") {
 			if (appIcon.hasOwnProperty('resizeable')) resizeable = appIcon.resizeable;
-			appImg = appIcon.image || "appicons/ds/aOS.png";
+			appImg = appIcon.image || "appicons/aOS.png";
 			appPath = appIcon.codeName;
 			keepOffDesktop = typeof appIcon.hideApp === "number" ? appIcon.hideApp : 1;
 			appVariables = appIcon.vars || {};
@@ -1513,17 +1513,17 @@ c(function() {
 	});
 });
 var ctxSetup = [
-	[0, 0, "appicons/ds/redx.png", "appicons/ds/redx.png"],
+	[0, 0, "appicons/redx.png", "appicons/redx.png"],
 	' Context', 'alert("Context Menu Not Correctly Initialized")',
 	' Menu', 'alert("Context Menu Not Correctly Initialized")'
 ];
 var newCtxSetup = [
 	[' Context', function() {
 		alert('context')
-	}, 'appicons/ds/redx.png'],
+	}, 'appicons/redx.png'],
 	[' Menu', function() {
 		alert('menu')
-	}, 'appicons/ds/redx.png']
+	}, 'appicons/redx.png']
 ];
 var newCtxCoord = [10, 10];
 var newCtxArgs = [];

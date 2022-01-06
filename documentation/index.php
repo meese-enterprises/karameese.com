@@ -1613,7 +1613,7 @@
     <p>
         Action: <code>prompt:notify</code>
     </p>
-    <button class="devTools_try" onclick="devTools.notify({content:'This is a notification from devTools.<br>Select an action', buttons: ['Button 0', 'Button 1', 'Button 2', 'Button 3'], image:'appicons/ds/aOS.png'},function(res){document.getElementById('try_prompt_notify').innerHTML = res.content})">Try It</button>:
+    <button class="devTools_try" onclick="devTools.notify({content:'This is a notification from devTools.<br>Select an action', buttons: ['Button 0', 'Button 1', 'Button 2', 'Button 3'], image:'appicons/aOS.png'},function(res){document.getElementById('try_prompt_notify').innerHTML = res.content})">Try It</button>:
     <code class="devTools_try" id="try_prompt_notify">&nbsp;</code>
     <p>
         This action will issue the user a notification, along with buttons to select an action from.

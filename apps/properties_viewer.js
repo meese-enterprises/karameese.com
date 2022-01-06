@@ -4,7 +4,7 @@ apps.properties = new Application({
 	title: "Properties Viewer",
 	abbreviation: "PPT",
 	codeName: "properties",
-	image: "appicons/ds/PPT.png",
+	image: "appicons/PPT.png",
 	hideApp: 2,
 	launchTypes: 1,
 	main: function (launchtype, fileToOpen) {

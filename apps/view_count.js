@@ -4,7 +4,7 @@ apps.viewCount = new Application({
 	title: "View Counter",
 	abbreviation: "vwC",
 	codeName: "viewCount",
-	image: 'appicons/ds/systemApp.png',
+	image: 'appicons/systemApp.png',
 	hideApp: 0,
 	resizeable: false,
 	main: function(launchtype) {

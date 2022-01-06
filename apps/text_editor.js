@@ -38,7 +38,7 @@ apps.notepad = new Application({
 	vars: {
 		appInfo: 'Simple text editor for AaronOS. Edits text files created by the user, and views strings, numbers, and functions of AaronOS apps.',
 		openEditTools: function() {
-			apps.prompt.vars.notify('This button is unfinished. Right-click the document instead.', [], function() {}, 'Text Editor', 'appicons/ds/TE.png')
+			apps.prompt.vars.notify('This button is unfinished. Right-click the document instead.', [], function() {}, 'Text Editor', 'appicons/TE.png')
 		},
 		launchedAs: '',
 		filemode: 'string',

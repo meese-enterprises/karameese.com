@@ -91,10 +91,10 @@ apps.messaging = new Application({
 		sendMessage: function() {
 			this.messageTemp = getId("MSGinput").value;
 			if (this.messageTemp === this.lastMessage) {
-				apps.prompt.vars.notify('Please don\'t send the same message twice in a row.', ['Okay'], function (btn) {}, 'Messaging', 'appicons/ds/MSG.png');
+				apps.prompt.vars.notify('Please don\'t send the same message twice in a row.', ['Okay'], function (btn) {}, 'Messaging', 'appicons/MSG.png');
 				getId('MSGinput').value = '';
 			} else if (performance.now() - this.lastMessageTime < 3000) {
-				apps.prompt.vars.notify('Please wait at least 3 seconds between messages.', ['Okay'], function (btn) {}, 'Messaging', 'appicons/ds/MSG.png');
+				apps.prompt.vars.notify('Please wait at least 3 seconds between messages.', ['Okay'], function (btn) {}, 'Messaging', 'appicons/MSG.png');
 			} else {
 				this.lastMessage = this.messageTemp;
 				if (this.messageTemp.length !== 0) {
@@ -287,7 +287,7 @@ apps.messaging = new Application({
 			//site: 'Embed a website via URL'
 		},
 		objExamp: {
-			img: '[img]https://aaronos.dev/AaronOS/appicons/aOS.png[/img]',
+			//img: '[img]https://aaronos.dev/AaronOS/appicons/aOS.png[/img]',
 			url: '[url]https://duckduckgo.com[/url]',
 			b: '[b]This is bold text.[/b]',
 			i: '[i]This is italic text.[/i]',
@@ -435,7 +435,7 @@ apps.messaging = new Application({
 								}
 							},
 							'Messaging',
-							'appicons/ds/MSG.png'
+							'appicons/MSG.png'
 						);
 					}
 				}
@@ -456,7 +456,7 @@ apps.messaging = new Application({
 							apps.messaging.vars.nextMessage(apps.messaging.vars.xhttp.responseText);
 						}
 					} else {
-						apps.prompt.vars.notify('Connection to messaging server lost.', [], function() {}, 'Messaging Error', 'appicons/ds/MSG.png');
+						apps.prompt.vars.notify('Connection to messaging server lost.', [], function() {}, 'Messaging Error', 'appicons/MSG.png');
 					}
 				}
 			};

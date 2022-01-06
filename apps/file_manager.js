@@ -506,7 +506,7 @@ apps.files = new Application({
 						buildSmartIcon(16, (apps[pathSplit[i]] || {
 							appWindow: {
 								appImg: {
-									foreground: "appicons/ds/redx.png"
+									foreground: "appicons/redx.png"
 								}
 							}
 						}).appWindow.appImg) + ' ' +
@@ -574,7 +574,7 @@ apps.files = new Application({
 							buildSmartIcon(16, (apps[currName] || {
 								appWindow: {
 									appImg: {
-										foreground: "appicons/ds/redx.png"
+										foreground: "appicons/redx.png"
 									}
 								}
 							}).appWindow.appImg) + ' ' +

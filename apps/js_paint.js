@@ -4,7 +4,7 @@ apps.jsPaint = new Application({
 	title: "JS Paint",
 	abbreviation: "jsP",
 	codeName: "jsPaint",
-	image: "appicons/ds/CSE.png",
+	image: "appicons/CSE.png",
 	hideApp: 0,
 	main: function() {
 		this.appWindow.setDims("auto", "auto", 753, 507);

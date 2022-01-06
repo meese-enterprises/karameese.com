@@ -358,7 +358,7 @@ apps.settings = new Application({
 						if (passxhr.status === 200) {
 							if (passxhr.responseText !== "REJECT") {
 								document.cookie = 'logintoken=' + passxhr.responseText;
-								apps.prompt.vars.notify("Password set successfully.", ["Okay"], function() {}, "Settings", "appicons/ds/STN.png");
+								apps.prompt.vars.notify("Password set successfully.", ["Okay"], function() {}, "Settings", "appicons/STN.png");
 							} else {
 								apps.prompt.vars.alert("There was an issue setting your password. Try again.<br>" + passxhr.responseText, "Okay", function() {}, "Settings");
 							}
@@ -634,7 +634,7 @@ apps.settings = new Application({
 							if (ufload("system/screensaver/wikirandom/logo_enabled") === '0') {
 								getId('screensaverLayer').innerHTML = '<iframe src="https://en.wikipedia.org/wiki/Special:Random" style="pointer-events:none;border:none;width:100%;height:100%;"></iframe>';
 							} else {
-								getId('screensaverLayer').innerHTML = '<iframe src="https://en.wikipedia.org/wiki/Special:Random" style="pointer-events:none;border:none;width:100%;height:100%;"></iframe><div style="top:10px;right:200px;font-size:108px;color:#557;font-family:W95FA"><img src="appicons/ds/aOS.png" style="width:128px;height:128px"><i>Screensaver</i></div>';
+								getId('screensaverLayer').innerHTML = '<iframe src="https://en.wikipedia.org/wiki/Special:Random" style="pointer-events:none;border:none;width:100%;height:100%;"></iframe><div style="top:10px;right:200px;font-size:108px;color:#557;font-family:W95FA"><img src="appicons/aOS.png" style="width:128px;height:128px"><i>Screensaver</i></div>';
 							}
 							setTimeout(apps.settings.vars.screensavers.wikiRandom.vars.canRun, 180000);
 						}
@@ -944,9 +944,9 @@ apps.settings = new Application({
 										openapp(apps.settings, "dsktp");
 										apps.settings.vars.showMenu(apps.settings.vars.menus.info);
 									} else {
-										apps.prompt.vars.notify("In the future, you can go to Settings > Information to set a password on your account.", ["Okay"], function() {}, 'AaronOS', 'appicons/ds/aOS.png');
+										apps.prompt.vars.notify("In the future, you can go to Settings > Information to set a password on your account.", ["Okay"], function() {}, 'AaronOS', 'appicons/aOS.png');
 									}
-								}, 'AaronOS', 'appicons/ds/aOS.png');
+								}, 'AaronOS', 'appicons/aOS.png');
 								localStorage.setItem("askedPassword", "1");
 							}
 						}, 600000);
@@ -1067,10 +1067,10 @@ apps.settings = new Application({
 							try {
 								if (localStorage.getItem('notifyGPlay') !== "1") {
 									localStorage.setItem('notifyGPlay', "1");
-									apps.prompt.vars.notify('Looks like you logged in through Google Play!<br>These settings were automatically set for you...<br><br>Performance Mode is on.<br>Screen scaling set to 1/2 if your device is 1080p or higher.<br>Tap a titlebar on a window, and then click somewhere else again, to move  a window. You can also resize them on the bottom-right corner.', [], function() {}, 'Google Play', 'appicons/ds/aOS.png');
+									apps.prompt.vars.notify('Looks like you logged in through Google Play!<br>These settings were automatically set for you...<br><br>Performance Mode is on.<br>Screen scaling set to 1/2 if your device is 1080p or higher.<br>Tap a titlebar on a window, and then click somewhere else again, to move  a window. You can also resize them on the bottom-right corner.', [], function() {}, 'Google Play', 'appicons/aOS.png');
 								}
 							} catch (localStorageNotSupported) {
-								apps.prompt.vars.notify('Looks like you logged in through Google Play!<br>These settings were automatically set for you...<br><br>Performance Mode is on.<br>Screen scaling set to 1/2 if your device is 1080p or higher.<br>Tap a titlebar on a window, and then click somewhere else again, to move  a window. You can also resize them on the bottom-right corner.', [], function() {}, 'Google Play', 'appicons/ds/aOS.png');
+								apps.prompt.vars.notify('Looks like you logged in through Google Play!<br>These settings were automatically set for you...<br><br>Performance Mode is on.<br>Screen scaling set to 1/2 if your device is 1080p or higher.<br>Tap a titlebar on a window, and then click somewhere else again, to move  a window. You can also resize them on the bottom-right corner.', [], function() {}, 'Google Play', 'appicons/aOS.png');
 							}
 						}
 
@@ -1109,7 +1109,7 @@ window.requireRestart = function() {
 				apps.settings.vars.shutDown('restart');
 			}
 			restartRequired = 2;
-		}, "AaronOS", "appicons/ds/aOS.png");
+		}, "AaronOS", "appicons/aOS.png");
 	}
 }
 

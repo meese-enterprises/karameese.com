@@ -4,7 +4,7 @@ apps.appInfo = new Application({
 	title: "Application Info Viewer",
 	abbreviation: "Nfo",
 	codeName: "appInfo",
-	image: 'appicons/ds/systemApp.png',
+	image: 'appicons/systemApp.png',
 	hideApp: 2,
 	launchTypes: 1,
 	main: function (launchtype) {
