@@ -14,24 +14,18 @@ apps.nora = new Application({
 			color: "#252F3A"
 		}
 	},
-	hideApp: 2,
+	hideApp: 1,
 	launchTypes: 1,
 	main: function (launchtype) {
-		if (launchtype === 'srtup') {
+		if (!this.appWindow.appIcon) {
 			this.appWindow.paddingMode(0);
-			getId('win_nora_exit').style.display = "none";
-			getId('win_nora_big').style.display = 'none';
-			getId('win_nora_shrink').style.right = '3px';
-			getId('win_nora_cap').setAttribute('oncontextmenu', 'ctxMenu([[event.pageX, event.pageY, "ctxMenu/minimize.png", "ctxMenu/add.png"], " Hide", "apps.nora.signalHandler(\'shrink\');toTop({appIcon:\'DSKTP\'},1)", " Toggle Fullscreen", "apps.nora.appWindow.toggleFullscreen();toTop(apps.nora)"])');
 			this.appWindow.setCaption('NORAA');
-			getId('win_nora_cap').setAttribute('onmousedown', '');
-			getId('win_nora_size').style.pointerEvents = "none";
-			this.appWindow.setDims(45, parseInt(getId('desktop').style.height, 10) - 500, 600, 500);
-			this.appWindow.setContent(`<div id="NORAout" class="darkResponsive">-- ${websiteTitle} Ready --</div><button id="NORAspeech" onclick="apps.nora.vars.speakIn()">Speak</button><input id="NORAin" onKeydown="if(event.keyCode === 13){apps.nora.vars.input()}"><button id="NORAbtn" onClick="apps.nora.vars.input()">Say</button>`);
-			this.appWindow.openWindow();
-			requestAnimationFrame(function() {
-				apps.nora.signalHandler('close');
-			});
+			this.appWindow.setDims("auto", "auto", 600, 500);
+			this.appWindow.setContent(`<div id="NORAout" class="darkResponsive">-- ${websiteTitle} Assistant Ready --</div><button id="NORAspeech" onclick="apps.nora.vars.speakIn()">Speak</button><input id="NORAin" onKeydown="if(event.keyCode === 13){apps.nora.vars.input()}"><button id="NORAbtn" onClick="apps.nora.vars.input()">Say</button>`);
+			this.vars.say("Type \"help\" to see what I can do!");
+		}
+			
+		if (launchtype === 'srtup') {
 			if (window.webkitSpeechRecognition) {
 				this.vars.recognition = new window.webkitSpeechRecognition();
 				this.vars.recognition.interimResults = true;
@@ -78,7 +72,6 @@ apps.nora = new Application({
 					}
 				};
 
-				getId('win_nora_cap').setAttribute('oncontextmenu', 'ctxMenu(apps.nora.vars.captionCtx, 1, event)');
 			} else {
 				getId('NORAspeech').style.display = 'none';
 				getId('NORAin').style.left = '0';
@@ -110,10 +103,7 @@ apps.nora = new Application({
 					return false;
 				};
 			}
-		} else if (launchtype === 'dsktp' || launchtype === 'tskbr') {
-			if (getId('win_nora_top').style.display === 'none') {
-				this.appWindow.setDims(45, parseInt(getId('desktop').style.height, 10) - 500, 600, 500);
-			}
+		} else {
 			this.appWindow.openWindow();
 		}
 	},
@@ -909,8 +899,7 @@ apps.nora = new Application({
 				this.appWindow.closeIcon();
 				break;
 			case "close":
-				this.appWindow.closeKeepTask();
-				getId("icn_nora").classList.remove("openAppIcon");
+				this.appWindow.closeWindow();
 				break;
 			case "checkrunning":
 				if (this.appWindow.appIcon) {
@@ -920,11 +909,9 @@ apps.nora = new Application({
 				}
 				case "shrink":
 					this.appWindow.closeKeepTask();
-					getId("icn_nora").classList.remove("openAppIcon");
 					break;
 				case "USERFILES_DONE":
 					// Remove taskbar text
-					getId('icntitle_nora').style.display = "none";
 					this.vars.ddg = new XMLHttpRequest();
 					this.vars.ddg.onreadystatechange = function() {
 						apps.nora.vars.finishDDG();
@@ -960,12 +947,8 @@ apps.nora = new Application({
 });
 apps.nora.main('srtup');
 
-// text-speech functions
-var lastTTS = "";
-
 function textspeech(message) {
 	d(1, 'Doing text-speech: ' + message);
-	lastTTS = "";
 	openapp(apps.nora, 'tskbr');
 	apps.nora.vars.lastSpoken = 0;
 	apps.nora.vars.say('<span style="color:#ACE">Text-to-speech from selection:</span>');

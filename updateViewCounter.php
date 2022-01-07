@@ -10,8 +10,6 @@
 	fclose($handle);
 
 	$counter++;
-	echo $counter;
-
 	$handle = fopen($fileName, "w");
 	fwrite($handle, $counter);
 	fclose ($handle);

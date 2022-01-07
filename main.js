@@ -711,7 +711,7 @@ var Application = function (
 		getId("win_" + appPath + "_cap").setAttribute("onmousedown", "if(event.button!==2){toTop(apps." + appPath + ");winmove(event);}event.preventDefault();return false;");
 		getId("icn_" + appPath).setAttribute("onClick", "openapp(apps." + appPath + ", function(){if(apps." + appPath + ".appWindow.appIcon){return 'tskbr'}else{return 'dsktp'}}())");
 		getId("win_" + appPath + "_top").setAttribute("onClick", "toTop(apps." + appPath + ")");
-		if (appPath !== 'startMenu' && appPath !== 'nora') {
+		if (appPath !== 'startMenu') {
 			getId("icn_" + appPath).setAttribute("oncontextmenu", "ctxMenu(baseCtx.icnXXX, 1, event, '" + appPath + "')");
 			getId("icn_" + appPath).setAttribute("onmouseenter", "if(apps." + appPath + ".appWindow.appIcon){highlightWindow('" + appPath + "')}");
 			getId("icn_" + appPath).setAttribute("onmouseleave", "highlightHide()");
@@ -1656,7 +1656,7 @@ bootFileHTTP.onreadystatechange = function() {
 		m("init fileloader");
 		getId("loadingInfo").innerHTML += "<br>Your OS key is " + SRVRKEYWORD;
 		for (let app in apps) {
-			getId("loadingInfo").innerHTML = "Loading your files...<br>Your OS key is" + SRVRKEYWORD + "<br>Loading " + app;
+			getId("loadingInfo").innerHTML = "Loading your files...<br>Loading " + app;
 			try {
 				apps[app].signalHandler("USERFILES_DONE");
 			} catch (err) {

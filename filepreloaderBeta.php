@@ -53,11 +53,6 @@ if (!isset($_COOKIE['keyword']) || preg_match('/[^A-Za-z0-9_-]/', $_COOKIE['keyw
 
 // Push javascript to set server variables
 echo 'window.SRVRKEYWORD="' . $_COOKIE['keyword'] . '";';
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-	echo 'window.IPADDRESS="' . $_SERVER['HTTP_X_FORWARDED_FOR'] . '";';
-} else {
-	echo 'window.IPADDRESS="undefined";';
-}
 
 // If user folder not exist, create it
 if (!(is_dir('USERFILES/' . $_COOKIE['keyword']))) {
