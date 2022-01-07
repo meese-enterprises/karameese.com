@@ -1610,3 +1610,30 @@ div {
 	height: 100%;
 	overflow: hidden;
 }
+
+#messagingDisplay {
+	width: 100%;
+	height: 100%;
+}
+
+#contactForm label,
+#contactForm input {
+	display: block;
+	margin: 3px;
+}
+
+#contactForm input[type=text],
+#contactForm input[type=email] {
+	width: 200px;
+}
+
+#contactForm textarea {
+	margin: 5px;
+	width: calc(100% - 15px);
+}
+
+#sendMessage {
+	float: right;
+	margin-right: 5px;
+	background-color: var(--windows-gray);
+}

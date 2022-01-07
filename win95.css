@@ -19,6 +19,9 @@
 	--window-button-left: 2px solid var(--carribbean);
 	--window-button-bottom: 2px solid var(--bsod);
 	--window-button-right: 2px solid var(--bsod);
+
+	/* Windows Colors */
+	--windows-gray: #c0c0c0;
 }
 
 * {
@@ -207,7 +210,7 @@ hr {
 	border-bottom: 1px solid #DEDEDE;
 	margin-left: -1px;
 	margin-bottom: -1px;
-	background-color: #BDBDBD;
+	background-color: var(--windows-gray);
 }
 
 /* Window Buttons */
