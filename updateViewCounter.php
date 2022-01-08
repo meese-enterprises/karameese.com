@@ -1,15 +1,16 @@
 <?php
 	$fileName = "counter.txt";
-	$handle = fopen($fileName, "r");
-	if (!$handle) {
-		// Create file if it does not exist
-		fopen($fileName, "w");
+	
+	if (file_exists($fileName)) {
+		$handle = fopen($fileName, "r");
+		$counter = (int) fread($handle, 20);
+		fclose($handle);
+
+		$counter++;
+	} else {
+		$counter = 1;
 	}
-
-	$counter = (int) fread($handle, 20);
-	fclose($handle);
-
-	$counter++;
+	
 	$handle = fopen($fileName, "w");
 	fwrite($handle, $counter);
 	fclose ($handle);
