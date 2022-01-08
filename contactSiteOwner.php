@@ -9,29 +9,22 @@ function console_log($output, $with_script_tags = true) {
 	echo $js_code;
 }
 
-//$owner_email = "karabriggs15@gmail.com";
-$owner_email = "ajmeese7@gmail.com";
-
-console_log("Subject: " . $_POST['subject']);
-console_log("Message: " . $_POST['message']);
-console_log("Name: " . $_POST['name']);
-console_log("Email: " . $_POST['email']);
+$owner_email = "karabmeese@gmail.com";
+$website_url = "karameese.com";
 
 $email = filter_var( $_POST["email"], FILTER_VALIDATE_EMAIL );
 if (!$_POST["subject"] || !$_POST["message"] || !$_POST["name"] || !$email) {
 	// TODO: Make this a popup
-	return false;
+	console_log("Please fill out all fields with valid information!");
 }
 
 $sent = mail(
 	$owner_email,
 	$_POST["subject"],
-	"Name: ".$_POST["name"] . "\n\nMessage: " . $_POST["message"],
-	"From: ".$_POST["email"]
+	"Name: " . $_POST["name"] . "\n\nEmail: " . $_POST["email"] . "\n\nMessage: " . $_POST["message"],
+	"From: contactform@" . $website_url
 );
 
-// TODO: Debug once not on localhost
-console_log("SENT: " . $sent);
 die;
 
 // TODO: Return a response indicating whether the email send was successful
