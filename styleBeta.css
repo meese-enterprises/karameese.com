@@ -1603,7 +1603,7 @@ div {
 	font-weight: bold;
 }
 
-#MPlframe, #VWcframe {
+#MPlframe, #VWcframe, #oldSiteFrame {
 	border: none;
 	display: block;
 	width: 100%;

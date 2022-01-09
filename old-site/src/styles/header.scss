@@ -1,0 +1,68 @@
+.header-wrapper {
+	color: white;
+	width: 80vw;
+	margin-top: 2vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	h1 {
+		margin: 0;
+		font-size: 4rem;
+		text-align: center;
+		letter-spacing: 0.5rem;
+		@include media(">=phone", "<lgphone") {
+			font-size: 18px;
+		}
+		@include media(">=lgphone", "<tablet") {
+			font-size: 20px;
+		}
+		@include media(">=tablet", "<desktop") {
+			font-size: 20px;
+		}
+	}
+	p {
+		margin: 0;
+		font-size: 2.5rem;
+		font-weight: 500;
+		text-align: center;
+		letter-spacing: 0.15rem;
+		@include media(">=phone", "<lgphone") {
+			font-size: 14px;
+		}
+		@include media(">=lgphone", "<tablet") {
+			font-size: 16px;
+		}
+		@include media(">=tablet", "<desktop") {
+			font-size: 16px;
+		}
+	}
+	.heading-wrapper {
+		h1 {
+			font-size: 4rem;
+			text-align: center;
+			line-height: 20px;
+			@include media(">=phone", "<lgphone") {
+				font-size: 1.5rem;
+				line-height: 10px;
+			}
+			@include media(">=lgphone", "<tablet") {
+				font-size: 1.5rem;
+				line-height: 10px;
+			}
+			@include media(">=tablet", "<desktop") {
+				font-size: 2.5rem;
+			}
+		}
+	}
+}
+
+#home {
+	.container {
+		background-image: url("../images/kara_background.jpg");
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 500px;
+	}
+}

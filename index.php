@@ -108,6 +108,7 @@
 	echo '<script src="./apps/messaging.js"></script>';
 	echo '<script src="./apps/music_player.js"></script>';
 	echo '<script src="./apps/nora.js"></script>';
+	echo '<script src="./apps/old_site.js"></script>';
 	echo '<script src="./apps/properties_viewer.js"></script>';
 	echo '<script src="./apps/save_master.js"></script>';
 	echo '<script src="./apps/smart_icon_settings.js"></script>';

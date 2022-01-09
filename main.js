@@ -1015,6 +1015,11 @@ c(function() {
 
 c(function() {
 	MusicPlayer();
+	getId('loadingInfo').innerHTML = 'Old Site';
+});
+
+c(function() {
+	OldSite();
 	getId('loadingInfo').innerHTML = 'Help';
 });
 
