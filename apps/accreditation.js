@@ -5,15 +5,8 @@ apps.accreditation = new Application({
 	abbreviation: "aDN",
 	codeName: "accreditation",
 	desc: "Gives props to the awesome people that helped make this website possible :)",
-	image: {
-		backgroundColor: "#01fff8",
-		foreground: "smarticons/accreditation/fg.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
-	hideApp: 1,
+	image: "smarticons/accreditation/fg.png",
+	hideApp: 0,
 	main: function() {
 		const margins = 15;
 		const width = 275;

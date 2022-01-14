@@ -21,6 +21,9 @@ apps.jsPaint = new Application({
 		getId("icn_jsPaint").style.display = "inline-block";
 		this.appWindow.setCaption("JS Paint");
 		this.appWindow.openWindow();
+	},
+	vars: {
+		appInfo: 'A retro throwback app intended to show off my most recent creation.'
 	}
 });
 

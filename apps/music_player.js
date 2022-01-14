@@ -4,14 +4,7 @@ apps.musicPlayer = new Application({
 	title: "Music Player",
 	abbreviation: "MPl",
 	codeName: "musicPlayer",
-	image: {
-		backgroundColor: "#303947",
-		foreground: "smarticons/musicPlayer/fg.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
+	image: "smarticons/musicPlayer/fg.png",
 	hideApp: 0,
 	resizeable: false,
 	main: function() {
@@ -29,11 +22,14 @@ apps.musicPlayer = new Application({
 				this.appWindow.appIcon = 1;
 			});
 		}
-		this.appWindow.setCaption('Music Player');
+		this.appWindow.setCaption("Music Player");
 		this.appWindow.setDims("auto", "auto", 500, 150);
 		if (this.appWindow.appIcon) {
 			this.appWindow.openWindow();
 		}
+	},
+	vars: {
+		appInfo: 'If you would like to understand me a little more and have a little entertainment while exploring my website, take a listen to these tunes, hand curated by yours truly.'
 	}
 });
 

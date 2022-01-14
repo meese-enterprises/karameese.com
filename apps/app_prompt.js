@@ -4,14 +4,7 @@ apps.prompt = new Application({
 	title: "Application Prompt",
 	abbreviation: "PMT",
 	codeName: "prompt",
-	image: {
-		backgroundColor: "#303947",
-		foreground: "smarticons/prompt/fg.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
+	image: "smarticons/prompt/fg.png",
 	hideApp: 2,
 	launchTypes: 1,
 	main: function (launchtype) {
@@ -351,9 +344,6 @@ apps.prompt = new Application({
 				case "USERFILES_DONE":
 					this.appWindow.alwaysOnTop(1);
 					this.appWindow.paddingMode(1);
-					break;
-				case 'shutdown':
-
 					break;
 				default:
 					doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'");

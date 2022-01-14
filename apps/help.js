@@ -4,14 +4,7 @@ apps.help = new Application({
 	title: "Help",
 	abbreviation: "hlp",
 	codeName: "help",
-	image: {
-		backgroundColor: "#303947",
-		foreground: "smarticons/appsbrowser/fg.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
+	image: "smarticons/appsbrowser/fg.png",
 	hideApp: 0,
 	main: function() {
 		this.appWindow.paddingMode(0);
@@ -51,7 +44,7 @@ apps.help = new Application({
 		this.appWindow.openWindow();
 	},
 	vars: {
-		appInfo: '',
+		appInfo: 'A handy tool to navigate all of the apps you may come across.',
 		appsListed: 1,
 		currAppImg: '',
 		currAppIcon: '',

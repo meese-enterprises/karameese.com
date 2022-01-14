@@ -1,3 +1,4 @@
+/* TODO: Come back and try to steal Aero transparency */
 @font-face {
 	font-family: "W95FA";
 	src:
@@ -298,6 +299,7 @@ a {
 
 #pagebody {
 	margin: 0;
+	background-color: #000;
 }
 
 div {
@@ -1320,23 +1322,6 @@ div {
 	overflow: hidden;
 }
 
-#bootCrashTest {
-	padding: 3px;
-	color: #000;
-	background-color: #000;
-	transition: 0.2s;
-}
-
-#bootCrashTest:hover {
-	color: #F00;
-	background-color: #000;
-}
-
-#bootCrashTest:active {
-	color: #000;
-	background-color: #F00;
-}
-
 #windowFrameOverlay {
 	display: none;
 	box-shadow: inset 0 0 10px #FFF, 0 0 35px #000;
@@ -1366,10 +1351,6 @@ div {
 
 .cursorPointer {
 	cursor: url(./cursors/pointer.png) 11 2, pointer;
-}
-
-.cursorLoadLight {
-	cursor: url(./cursors/wait.png) 14 13, wait;
 }
 
 .cursorLoadDark {
@@ -1410,6 +1391,10 @@ div {
 	box-shadow: 0 0 20px #000;
 	transition: 0.3s;
 	z-index: 100;
+
+	opacity: 0;
+	pointer-events: none;
+	bottom: -350px;
 }
 
 #widgetTitle {
@@ -1441,6 +1426,10 @@ div {
 	padding-left: 16px;
 	padding-top: 16px;
 	transition: 0.3s;
+
+	opacity: 0;
+	pointer-events: none;
+	right: -350px;
 }
 
 #notifications {
@@ -1636,4 +1625,14 @@ div {
 	float: right;
 	margin-right: 5px;
 	background-color: var(--windows-gray);
+}
+
+#findScrollSize {
+	height: 100px;
+	width: 100px;
+	overflow: scroll;
+}
+
+#bgSizeElement {
+	display: none;
 }

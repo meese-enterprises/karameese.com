@@ -25,6 +25,9 @@ apps.viewCount = new Application({
 		getId("icn_viewCount").style.display = "inline-block";
 		this.appWindow.setCaption("View Counter");
 		this.appWindow.openWindow();
+	},
+	vars: {
+		appInfo: 'A nifty little tool I’m using to keep track of the number of friends visiting my site.'
 	}
 });
 

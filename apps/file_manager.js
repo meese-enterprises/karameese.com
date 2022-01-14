@@ -4,14 +4,7 @@ apps.files = new Application({
 	title: "File Manager",
 	abbreviation: "FIL",
 	codeName: "files",
-	image: {
-		backgroundColor: "#303947",
-		foreground: "smarticons/files/fg.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
+	image: "smarticons/files/fg.png",
 	hideApp: 0,
 	launchTypes: 1,
 	main: function (launchType) {
@@ -61,7 +54,7 @@ apps.files = new Application({
 		}
 	},
 	vars: {
-		appInfo: '',
+		appInfo: 'Take a peek in here to see what pieces of work I finished and would like to share.',
 		currLoc: '/',
 		viewModes: [
 			['Small Grid', 'FIL2viewCompact'],
@@ -273,38 +266,6 @@ apps.files = new Application({
 				default:
 					return 'agent';
 			}
-		},
-		testingFolder: {
-			filenameTests: {
-				"This is a really long file name that has spaces and stuff in it!": "Hello World",
-				ThisIsAReallyLongFileNameThatDoesNotHaveAnySpacesAndStuffInIt: "HelloWorld",
-				"123_test": "43110 World",
-				test_123: "Hello |/\\|0710",
-				"this.has.dots.in.it": "Hello.World",
-				"Folder with spaces": {
-					secretMessage: "Oof"
-				},
-				"Folder.with.dots": {
-					secretMessage: "Yeet"
-				},
-				"file/with/slashes": "Wowza",
-				"file/with/slash/at/end/": "oh boy",
-				"folder/with/slash/at/end/": {
-					"folder": {
-						"wat": "odang"
-					},
-					"file": "oooooh"
-				}
-			},
-			stringFile: "Hello World",
-			functionFile: function() {
-				return "Hello World"
-			},
-			booleanTrueFile: true,
-			booleanFalseFile: false,
-			undefinedFile: undefined,
-			nullFile: null,
-			numberFile: 1337
 		},
 		currTotal: 0,
 		currItem: 0,
@@ -584,9 +545,6 @@ apps.files = new Application({
 					if (ufload("system/apps/files/favorites")) {
 						this.vars.favorites = JSON.parse(ufload("system/apps/files/favorites"));
 					}
-					break;
-				case 'shutdown':
-
 					break;
 				default:
 					doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00");

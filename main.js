@@ -109,6 +109,10 @@ if (typeof document.getElementsByClassName === 'undefined') {
 
 // End of IE compatibility fixes
 
+doLog = function (msg, clr) { 
+	console.log('%c' + msg, 'color:' + clr); 
+};
+
 // 0 is smaller, 1 is same size, 2 is bigger
 const winFadeDistance = 0;
 const winBorder = 3;
@@ -121,26 +125,22 @@ if (darkMode) {
 	document.body.classList.remove('darkMode');
 }
 
-var autoMobile = 1;
+var autoMobile = true;
 function checkMobileSize() {
-	if (autoMobile) {
-		if (!mobileMode && (!window.matchMedia("(pointer: fine)").matches || parseInt(getId("monitor").style.width, 10) < 768)) {
-			setMobile(1);
-		} else if (mobileMode && (window.matchMedia("(pointer: fine)").matches && parseInt(getId("monitor").style.width, 10) >= 768)) {
-			setMobile(0);
-		}
+	if (!autoMobile) return;
+	if (!mobileMode && (!window.matchMedia("(pointer: fine)").matches || parseInt(getId("monitor").style.width, 10) < 768)) {
+		setMobile(true);
+	} else if (mobileMode && (window.matchMedia("(pointer: fine)").matches && parseInt(getId("monitor").style.width, 10) >= 768)) {
+		setMobile(false);
 	}
 }
 
-var mobileMode = 0;
-const mobileSwitch = (no, yes) => !!mobileMode ? yes : no;
-
-function setMobile(type) {
-	if (type) {
-		mobileMode = 1;
+var mobileMode = false;
+function setMobile(newSetting) {
+	mobileMode = newSetting;
+	if (newSetting) {
 		getId('monitor').classList.add('mobileMode');
 	} else {
-		mobileMode = 0;
 		getId('monitor').classList.remove('mobileMode');
 	}
 }
@@ -273,9 +273,6 @@ var vartry = function (varname) {
 		return '-failed vartry(' + varname + ') ' + err + '-';
 	}
 }
-
-// Convert number to true/false
-const getStatus = (num) => !!num ? 'Enabled' : 'Disabled';
 
 // this is where the user's files go
 var USERFILES = [];
@@ -418,9 +415,6 @@ var Application = function (
 						this.appWindow.closeKeepTask();
 						break;
 					case "USERFILES_DONE":
-
-						break;
-					case 'shutdown':
 
 						break;
 					default:
@@ -971,13 +965,6 @@ function setCurrentSelection() {
 }
 
 requestAnimationFrame(setCurrentSelection);
-c(function() {
-	JSConsole();
-	getId('loadingInfo').innerHTML = 'Bash Console';
-});
-
-c(() => Bash());
-
 c(function() {
 	AppPrompt();
 	getId('loadingInfo').innerHTML = 'Smart Icon Settings';
@@ -1638,8 +1625,6 @@ if ('serviceWorker' in navigator) {
 
 c(function() {
 	getId('loadingInfo').innerHTML = 'Loading your files...';
-	getId('isLoading').classList.remove('cursorLoadLight');
-	getId('isLoading').classList.add('cursorLoadDark');
 
 	initStatus = 1;
 	doLog('Took ' + (perfCheck('masterInit') / 1000) + 'ms to initialize.');
@@ -1726,74 +1711,6 @@ window.resetOS = function() {
 	// TODO: Call this somewhere
 	document.cookie = 'keyword=; Max-Age=-99999999;';
 	window.location = 'index.php';
-};
-
-window.shutDown = function (arg, logout) {
-	getId('isLoading').style.opacity = '0';
-	getId('loadingBg').style.opacity = '0';
-	getId('isLoading').style.transition = '1s';
-	getId('isLoading').style.display = 'block';
-	getId('loadingBg').style.display = 'block';
-	window.shutDownPercentComplete = 0;
-	window.shutDownTotalPercent = 1;
-	getId('isLoading').classList.remove('cursorLoadDark');
-	getId('isLoading').classList.add('cursorLoadLight');
-	
-	if (arg === 'restart') {
-		getId('isLoading').innerHTML = `<div id="isLoadingDiv"><h1>Restarting ${websiteTitle}</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>`;
-		requestAnimationFrame(function() {
-			getId('isLoading').style.opacity = '1';
-			getId('loadingBg').style.opacity = '1';
-		});
-		window.setTimeout(function() {
-			getId('isLoading').classList.remove('cursorLoadLight');
-			getId('isLoading').classList.add('cursorLoadDark');
-			shutDownPercentComplete = codeToRun.length;
-			for (let app in apps) {
-				c(function (args) {
-					m('THERE WAS AN ERROR SHUTTING DOWN THE APP ' + args + '. SHUTDOWN SHOULD CONTINUE WITH NO ISSUE.');
-					shutDownPercentComplete++;
-					apps[args].signalHandler('shutdown');
-				}, app);
-			}
-			shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
-			shutDownPercentComplete = 0;
-			c(function() {
-				getId('isLoading').innerHTML = `<div id="isLoadingDiv"><h1>Restarting ${websiteTitle}</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>`;
-				if (logout) {
-					document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-				}
-				window.location = 'blackScreen.html';
-			});
-		}, 1005);
-	} else {
-		getId('isLoading').innerHTML = `<div id="isLoadingDiv"><h1>Shutting Down ${websiteTitle}</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Shutting down...</div></div></div>`;
-		requestAnimationFrame(function() {
-			getId('isLoading').style.opacity = '1';
-			getId('loadingBg').style.opacity = '1';
-		});
-		window.setTimeout(function() {
-			getId('isLoading').classList.remove('cursorLoadLight');
-			getId('isLoading').classList.add('cursorLoadDark');
-			shutDownPercentComplete = codeToRun.length;
-			for (let app in apps) {
-				c(function (args) {
-					m('THERE WAS AN ERROR SHUTTING DOWN THE APP ' + args + '. SHUTDOWN SHOULD CONTINUE WITH NO ISSUE.');
-					shutDownPercentComplete++;
-					apps[args].signalHandler('shutdown');
-				}, app);
-			}
-			shutDownTotalPercent = codeToRun.length - shutDownPercentComplete;
-			shutDownPercentComplete = 0;
-			c(function() {
-				getId('isLoading').innerHTML = `<div id="isLoadingDiv"><h1>Shutting Down ${websiteTitle}</h1><hr><div id="loadingInfoDiv"><div id="loadingInfo" class="liveElement" data-live-eval="shutDownPercentComplete / shutDownTotalPercent * 100 + \'%\'" data-live-target="style.width">Goodbye!</div></div></div>`;
-				if (logout) {
-					document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-				}
-				window.location = 'blackScreen.html';
-			});
-		}, 1005);
-	}
 };
 
 // Open apps on startup

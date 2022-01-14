@@ -4,15 +4,8 @@ apps.smartIconSettings = new Application({
 	title: "Smart Icon Settings",
 	abbreviation: "SIS",
 	codeName: "smartIconSettings",
-	image: {
-		backgroundColor: "#303947",
-		foreground: "smarticons/aOS/fg.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
-	hideApp: 1,
+	image: "smarticons/aOS/fg.png",
+	hideApp: 2,
 	launchTypes: 1,
 	main: function (launchtype) {
 		this.appWindow.setCaption("Smart Icon Settings");
@@ -128,9 +121,6 @@ apps.smartIconSettings = new Application({
 						smartIconOptions = JSON.parse(ufload("system/smarticon_settings"));
 						updateSmartIconStyle();
 					}
-					break;
-				case 'shutdown':
-
 					break;
 				default:
 					doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'");

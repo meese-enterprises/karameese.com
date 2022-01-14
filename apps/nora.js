@@ -6,14 +6,7 @@ apps.nora = new Application({
 	title: "NORAA",
 	abbreviation: "NRA",
 	codeName: "nora",
-	image: {
-		backgroundColor: "#303947",
-		foreground: "smarticons/noraa/fg.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
+	image: "smarticons/noraa/fg.png",
 	hideApp: 1,
 	launchTypes: 1,
 	main: function (launchtype) {
@@ -936,9 +929,6 @@ apps.nora = new Application({
 					}
 					this.vars.sayDynamic('hello');
 					this.vars.say("[This app in in Beta. It's not complete.]");
-					break;
-				case 'shutdown':
-
 					break;
 				default:
 					doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'");

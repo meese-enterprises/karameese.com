@@ -5,14 +5,7 @@ apps.messaging = new Application({
 	abbreviation: "MSG",
 	codeName: "messaging",
 	desc: "Message me directly if you would like to connect!",
-	image: {
-		backgroundColor: "#303947",
-		foreground: "smarticons/messaging/fg.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
+	image: "smarticons/messaging/fg.png",
 	hideApp: 0,
 	launchTypes: 1,
 	main: function (launchType) {
@@ -38,7 +31,7 @@ apps.messaging = new Application({
 		xhttp.send();
 	},
 	vars: {
-		appInfo: 'Message me directly if you would like to connect!'
+		appInfo: 'Message me directly if you would like to connect! This will send your thoughts, questions, concerns to my email.'
 	}
 });
 

@@ -5,14 +5,7 @@ apps.oldSite = new Application({
 	abbreviation: "OLD",
 	codeName: "oldSite",
 	desc: "My previous website, which was crafted for me by my husband for our first Valentine's Day.",
-	image: {
-		backgroundColor: "#303947",
-		foreground: "appicons/heart.png",
-		backgroundBorder: {
-			thickness: 2,
-			color: "#252F3A"
-		}
-	},
+	image: "appicons/heart.png",
 	hideApp: 0,
 	launchTypes: 1,
 	main: function (launchType) {
