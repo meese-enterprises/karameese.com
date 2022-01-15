@@ -11,8 +11,8 @@ it is not my original work.
 - "Contact Me" form at the bottom of the site, that will be directed into an email
 
 ## Setup
-1. `yarn install`
-2. `yarn run build`
+1. `npm install`
+2. `npm run build`
 
 ## TODO
 - Make this look better in the smaller preview window
