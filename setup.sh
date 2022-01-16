@@ -20,13 +20,9 @@ then
 fi
 
 # Attempt to make nvm available to shell:
-# https://stackoverflow.com/a/36562128/6456163
-# shellcheck source=/dev/null
-if [ -f "$HOME/.nvm/nvm.sh" ]; then . "$HOME"/.nvm/nvm.sh; fi
-# shellcheck source=/dev/null
-if [ -f "$HOME/.profile" ];    then . "$HOME"/.profile; fi
-# shellcheck source=/dev/null
-if [ -f "$HOME/.bashrc" ];     then . "$HOME"/.bashrc; fi
+# https://stackoverflow.com/a/23757895/6456163
+export NVM_DIR=$HOME/.nvm;
+. $NVM_DIR/nvm.sh;
 
 # Install Node 12.x and yarn
 nvm install 12
