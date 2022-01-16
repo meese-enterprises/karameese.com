@@ -4,3 +4,4 @@
 /weather/alertTimestamp.txt
 /logs/errors/*
 /counter.txt
+.pnpm-store
