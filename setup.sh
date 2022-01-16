@@ -18,6 +18,14 @@ if command -v nvm -ne "nvm";
 then
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 fi
+
+# Attempt to make nvm available to shell:
+# https://stackoverflow.com/a/36562128/6456163
+. ~/.nvm/nvm.sh
+. ~/.profile
+. ~/.bashrc
+
+# Install Node 12.x and yarn
 nvm install 12
 sudo npm install -g yarn
 
