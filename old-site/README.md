@@ -16,3 +16,6 @@ it is not my original work.
 
 ## TODO
 - Make this look better in the smaller preview window
+
+## Troubleshooting
+If you have build problems after changing `old-site` dependencies, run `npx gatsby clean` from the `old-site` directory.
