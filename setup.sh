@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install PHP
-if [ command -v php -ne "/usr/bin/php"];
+if [ command -v php -ne "/usr/bin/php" ];
 then
 	sudo apt install apt-transport-https lsb-release ca-certificates wget -y
 	sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg 
@@ -14,12 +14,12 @@ else
 fi
 
 # Install nvm for Node installation versioning
-if [ command -v nvm -ne "nvm"];
+if [ command -v nvm -ne "nvm" ];
 then
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 fi
 nvm install 12.22.9
-npm install -g yarn
+sudo npm install -g yarn
 
 # Install python2 for compatibility
 sudo apt-get update
