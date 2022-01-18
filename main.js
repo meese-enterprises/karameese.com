@@ -438,7 +438,9 @@ const Application = function (
 ) {
 	try {
 		if (typeof appIcon === "object") {
-			if (Object.prototype.hasOwnProperty.call(appIcon, 'resizeable')) resizeable = appIcon.resizeable;
+			if (Object.prototype.hasOwnProperty.call(appIcon, "resizeable")) {
+				resizeable = appIcon.resizeable;
+			}
 			appImg = appIcon.image || "appicons/aOS.png";
 			appPath = appIcon.codeName;
 			keepOffDesktop =
