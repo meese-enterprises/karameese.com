@@ -31,11 +31,7 @@ const dateForms = {
 	},
 	h: function () {
 		// 12-hour time
-		if (date.getHours() > 12) {
-			tempDayt = String(date.getHours() - 12);
-		} else {
-			tempDayt = String(date.getHours());
-		}
+		tempDayt = date.getHours() > 12 ? String(date.getHours() - 12) : String(date.getHours());
 		if (tempDayt === "0") {
 			tempDate += "12";
 		} else {
@@ -59,20 +55,12 @@ const dateForms = {
 	S: function () {
 		// seconds
 		tempDayt = String(date.getSeconds());
-		if (tempDayt < 10) {
-			tempDate += "0" + tempDayt;
-		} else {
-			tempDate += tempDayt;
-		}
+		tempDate += tempDayt < 10 ? "0" + tempDayt : tempDayt;
 	},
 	m: function () {
 		// minutes
 		tempDayt = date.getMinutes();
-		if (tempDayt < 10) {
-			tempDate += "0" + tempDayt;
-		} else {
-			tempDate += tempDayt;
-		}
+		tempDate += tempDayt < 10 ? "0" + tempDayt : tempDayt;
 	},
 	M: function () {
 		// month

@@ -857,11 +857,7 @@ const FileManager = () => {
 					);
 					break;
 				case "checkrunning":
-					if (this.appWindow.appIcon) {
-						return 1;
-					} else {
-						return 0;
-					}
+					return this.appWindow.appIcon ? 1 : 0;
 				case "shrink":
 					this.appWindow.closeKeepTask();
 					break;

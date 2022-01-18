@@ -192,11 +192,7 @@ const Dashboard = () => {
 				],
 				[
 					function (arg) {
-						if (dsktp[arg]) {
-							return "_Add Desktop Icon";
-						} else {
-							return "+Add Desktop Icon";
-						}
+						return dsktp[arg] ? "_Add Desktop Icon" : "+Add Desktop Icon";
 					},
 					function (arg) {
 						if (dsktp[arg]) {
@@ -256,11 +252,7 @@ const Dashboard = () => {
 
 					break;
 				case "checkrunning":
-					if (this.appWindow.appIcon) {
-						return 1;
-					} else {
-						return 0;
-					}
+					return this.appWindow.appIcon ? 1 : 0;
 				case "shrink":
 					setTimeout(apps.startMenu.vars.minimize, 350);
 					this.appWindow.setDims(-305, 0, 300, 370);

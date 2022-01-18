@@ -1810,11 +1810,7 @@ const baseCtx = {
 	icnXXX: [
 		[
 			function (arg) {
-				if (apps[arg].appWindow.appIcon) {
-					return " Show";
-				} else {
-					return " Open";
-				}
+				return apps[arg].appWindow.appIcon ? " Show" : " Open";
 			},
 			function (arg) {
 				if (apps[arg].appWindow.appIcon) {
@@ -1827,11 +1823,7 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				if (apps[arg].appWindow.appIcon) {
-					return " Hide";
-				} else {
-					return "-Hide";
-				}
+				return apps[arg].appWindow.appIcon ? " Hide" : "-Hide";
 			},
 			function (arg) {
 				apps[arg].signalHandler("shrink");
@@ -1840,11 +1832,7 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				if (pinnedApps.indexOf(arg) === -1) {
-					return "+Pin App";
-				} else {
-					return "+Unpin App";
-				}
+				return pinnedApps.indexOf(arg) === -1 ? "+Pin App" : "+Unpin App";
 			},
 			function (arg) {
 				pinApp(arg);
@@ -1856,11 +1844,7 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				if (dsktp[arg]) {
-					return "_Add Desktop Icon";
-				} else {
-					return "+Add Desktop Icon";
-				}
+				return dsktp[arg] ? "_Add Desktop Icon" : "+Add Desktop Icon";
 			},
 			function (arg) {
 				if (dsktp[arg]) {
@@ -1873,11 +1857,7 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				if (dsktp[arg]) {
-					return " Remove Desktop Icon";
-				} else {
-					return "-Remove Desktop Icon";
-				}
+				return dsktp[arg] ? " Remove Desktop Icon" : "-Remove Desktop Icon";
 			},
 			function (arg) {
 				if (dsktp[arg]) {
@@ -1935,11 +1915,7 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				if (apps[arg].appWindow.onTop === 0) {
-					return "+Stay On Top";
-				} else {
-					return "_Stay On Top";
-				}
+				return apps[arg].appWindow.onTop === 0 ? "+Stay On Top" : "_Stay On Top";
 			},
 			function (arg) {
 				apps[arg].appWindow.alwaysOnTop(1);
@@ -1948,11 +1924,7 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				if (apps[arg].appWindow.onTop === 1) {
-					return " Stay On Top";
-				} else {
-					return "-Stay On Top";
-				}
+				return apps[arg].appWindow.onTop === 1 ? " Stay On Top" : "-Stay On Top";
 			},
 			function (arg) {
 				apps[arg].appWindow.alwaysOnTop(0);

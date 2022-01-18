@@ -43,7 +43,7 @@ const SaveMaster = () => {
 						"mkdir /USERFILES/" +
 							filepath.substring(0, filepath.lastIndexOf("/"))
 					);
-					apps.savemaster.vars.temporarySaveContent = "" + filecontent;
+					apps.savemaster.vars.temporarySaveContent = String(filecontent);
 					eval(
 						apps.bash.vars.translateDir("/USERFILES/" + filepath) +
 							"=apps.savemaster.vars.temporarySaveContent"

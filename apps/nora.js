@@ -912,11 +912,7 @@ const NORA = () => {
 				ufsave("system/noraa/user_profile", JSON.stringify(this.userObj));
 			},
 			getUserName: function () {
-				if (typeof this.userObj.name === "string") {
-					return this.userObj.name;
-				} else {
-					return "user";
-				}
+				return typeof this.userObj.name === "string" ? this.userObj.name : "user";
 			},
 			sayDynamic: function (saying) {
 				getId("NORAout").innerHTML += "<br>&nbsp;" + this.sayings[saying][0]();
@@ -1159,11 +1155,7 @@ const NORA = () => {
 					this.appWindow.closeWindow();
 					break;
 				case "checkrunning":
-					if (this.appWindow.appIcon) {
-						return 1;
-					} else {
-						return 0;
-					}
+					return this.appWindow.appIcon ? 1 : 0;
 				case "shrink":
 					this.appWindow.closeKeepTask();
 					break;

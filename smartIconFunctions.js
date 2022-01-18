@@ -20,31 +20,17 @@ function updateSmartIconStyle() {
 		smartIconOptions.radiusBottomRight +
 		"%;display:" +
 		(function () {
-			if (smartIconOptions.backgroundOpacity) {
-				return "block";
-			} else {
-				return "none";
-			}
+			return smartIconOptions.backgroundOpacity ? "block" : "none";
 		})() +
 		";" +
 		(function () {
-			if (smartIconOptions.bgColor) {
-				return (
-					"background-color:" +
+			return smartIconOptions.bgColor ? ("background-color:" +
 					smartIconOptions.bgColor.split(";")[0] +
-					" !important;"
-				);
-			} else {
-				return "";
-			}
+					" !important;") : "";
 		})() +
 		"}.smarticon_nobg{display:" +
 		(function () {
-			if (smartIconOptions.backgroundOpacity) {
-				return "none";
-			} else {
-				return "block";
-			}
+			return smartIconOptions.backgroundOpacity ? "none" : "block";
 		})() +
 		";}";
 	const allSmartIconsBG = document.getElementsByClassName("smarticon_bg");
