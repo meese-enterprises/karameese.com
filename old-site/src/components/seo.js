@@ -5,10 +5,10 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import React from "react";
-import PropTypes from "prop-types";
-import { Helmet } from "react-helmet";
-import { useStaticQuery, graphql } from "gatsby";
+import React from "react"
+import PropTypes from "prop-types"
+import { Helmet } from "react-helmet"
+import { useStaticQuery, graphql } from "gatsby"
 function SEO({ description, lang, meta, image, title }) {
 	const { site } = useStaticQuery(
 		graphql`
@@ -26,10 +26,10 @@ function SEO({ description, lang, meta, image, title }) {
 		`
 	)
 
-	const metaDescription = description || site.siteMetadata.description;
-	const defaultTitle = site.siteMetadata?.title;
-	const socialImage = site.siteMetadata?.image || image;
-	const fullTitle = defaultTitle ? `${title} | ${defaultTitle}` : title;
+	const metaDescription = description || site.siteMetadata.description
+	const defaultTitle = site.siteMetadata?.title
+	const socialImage = site.siteMetadata?.image || image
+	const fullTitle = defaultTitle ? `${title} | ${defaultTitle}` : title
 
 	return (
 		<Helmet
@@ -37,26 +37,29 @@ function SEO({ description, lang, meta, image, title }) {
 			title={title}
 			titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
 			meta={[
-				{ property: `description`, content: metaDescription, },
-				{ property: `og:title`, content: fullTitle, },
-				{ property: `og:description`, content: metaDescription, },
-				{ property: `og:url`, content: site.siteMetadata?.url || ``, },
-				{ property: `og:type`, content: `website`, },
-				{ property: `og:image`, content: socialImage, },
-				{ property: `twitter:card`, content: socialImage, },
-				{ property: `twitter:creator`, content: site.siteMetadata?.author || ``, },
-				{ property: `twitter:title`, content: fullTitle, },
-				{ property: `twitter:description`, content: metaDescription, },
+				{ property: "description", content: metaDescription },
+				{ property: "og:title", content: fullTitle },
+				{ property: "og:description", content: metaDescription },
+				{ property: "og:url", content: site.siteMetadata?.url || "" },
+				{ property: "og:type", content: "website" },
+				{ property: "og:image", content: socialImage },
+				{ property: "twitter:card", content: socialImage },
+				{
+					property: "twitter:creator",
+					content: site.siteMetadata?.author || "",
+				},
+				{ property: "twitter:title", content: fullTitle },
+				{ property: "twitter:description", content: metaDescription },
 			].concat(meta)}
-		></Helmet>
+		/>
 	)
 }
 
 SEO.defaultProps = {
-	lang: `en`,
+	lang: "en",
 	meta: [],
 	image: null,
-	description: ``,
+	description: "",
 }
 
 SEO.propTypes = {
@@ -67,4 +70,4 @@ SEO.propTypes = {
 	title: PropTypes.string.isRequired,
 }
 
-export default SEO;
+export default SEO

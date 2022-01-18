@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const Card = ({ heading, paragraph, thumbUrl, fullUrl }) => {
 	return (
@@ -33,4 +33,4 @@ const Card = ({ heading, paragraph, thumbUrl, fullUrl }) => {
 	)
 }
 
-export default Card;
+export default Card

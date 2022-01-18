@@ -1,6 +1,6 @@
-import React from "react";
-import Fade from "react-reveal/Fade";
-import data from "../yourdata";
+import React from "react"
+import Fade from "react-reveal/Fade"
+import data from "../yourdata"
 
 const Header = () => {
 	return (
@@ -18,4 +18,4 @@ const Header = () => {
 	)
 }
 
-export default Header;
+export default Header

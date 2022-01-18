@@ -1,6 +1,6 @@
-import React from "react";
-import Fade from "react-reveal/Fade";
-import data from "../yourdata";
+import React from "react"
+import Fade from "react-reveal/Fade"
+import data from "../yourdata"
 
 const About = () => {
 	return (
@@ -14,7 +14,7 @@ const About = () => {
 						<p id="summary">{data.summary}</p>
 					</Fade>
 					<hr />
-					
+
 					<p id="description">{data.description}</p>
 				</div>
 			</div>
@@ -22,4 +22,4 @@ const About = () => {
 	)
 }
 
-export default About;
+export default About

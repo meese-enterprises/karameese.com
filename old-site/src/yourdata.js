@@ -39,11 +39,7 @@ import leaf_full from "../static/watermarked/leaf.jpg"
 export default {
 	// Header Details ---------------------
 	name: "Kara Meese",
-	headerTagline: [
-		"Building digital",
-		"products, brands,",
-		"and experience",
-	],
+	headerTagline: ["Building digital", "products, brands,", "and experience"],
 	headerParagraph:
 		"If you want a unique style of work, you came to the right place.",
 	contactEmail: "me@karameese.com",
@@ -68,7 +64,7 @@ export default {
 	// Import icons from the top and link them here
 	skills: [
 		{
-			name: 'Artwork',
+			name: "Artwork",
 			img: brushIcon,
 			desc: `
 				Skilled with pencil, pen, watercolor, oil painting, and almost anything else your heart
@@ -76,7 +72,7 @@ export default {
 				`,
 		},
 		{
-			name: 'Digital Design',
+			name: "Digital Design",
 			img: adobeIcon,
 			desc: `
 				Experienced in application design and prototyping with Adobe XD. Extensive
@@ -84,7 +80,7 @@ export default {
 				`,
 		},
 		{
-			name: 'Photography',
+			name: "Photography",
 			img: cameraIcon,
 			desc: `
 				I've practiced semi-professional photography for a number of years, and I'm usually available
@@ -92,7 +88,7 @@ export default {
 				`,
 		},
 		{
-			name: 'Therapy',
+			name: "Therapy",
 			img: therapyIcon,
 			desc: `
 				Great at listening to life's problems, providing validation, and offering solutions if and
@@ -100,7 +96,7 @@ export default {
 				`,
 		},
 		{
-			name: 'Tattoos',
+			name: "Tattoos",
 			img: tattooIcon,
 			desc: `
 				Black and white or colored tattoos designed to fit your specifications, with pricing based 
@@ -108,7 +104,7 @@ export default {
 				`,
 		},
 		{
-			name: 'Poetry',
+			name: "Poetry",
 			img: poetryIcon,
 			desc: `
 				Poetry specializing in powerful emotions, ranging from love and romance to sadness and pain.
@@ -122,57 +118,49 @@ export default {
 	projects: [
 		{
 			title: "Bee",
-			desc:
-				"The bee symbolizes community, brightness and personal power. Follow the bee to discover your new destination.",
+			desc: "The bee symbolizes community, brightness and personal power. Follow the bee to discover your new destination.",
 			thumbUrl: bee_thumbnail,
 			fullUrl: bee_full,
 		},
 		{
 			title: "Skull",
-			desc:
-				"Skulls are a representation of death, mortality and the unachievable nature of immortality.",
+			desc: "Skulls are a representation of death, mortality and the unachievable nature of immortality.",
 			thumbUrl: skull_thumbnail,
 			fullUrl: skull_full,
 		},
 		{
 			title: "Peony",
-			desc:
-				"Peonies symbolize bashfulness, wealth, bravery, honor, and good fortune in different cultures around the world.",
+			desc: "Peonies symbolize bashfulness, wealth, bravery, honor, and good fortune in different cultures around the world.",
 			thumbUrl: flower_thumbnail,
 			fullUrl: flower_full,
 		},
 		{
 			title: "Koi Fish",
-			desc:
-				"In Japan, Koi fish are associated with perseverance in adversity and strength of purpose. They symbolize good luck and abundance.",
+			desc: "In Japan, Koi fish are associated with perseverance in adversity and strength of purpose. They symbolize good luck and abundance.",
 			thumbUrl: fish_thumbnail,
 			fullUrl: fish_full,
 		},
 		{
 			title: "Oni Mask",
-			desc:
-				"This piece was inspired by the traditional Japanese Oni mask, a symbol of protection for those who believe in the spiritual world.",
+			desc: "This piece was inspired by the traditional Japanese Oni mask, a symbol of protection for those who believe in the spiritual world.",
 			thumbUrl: mask_thumbnail,
 			fullUrl: mask_full,
 		},
 		{
 			title: "Bust of Venus",
-			desc:
-				"In Roman mythology, Venus was the goddess of love, sex, beauty, and fertility, and she had many abilities beyond the Greek Aphrodite.",
+			desc: "In Roman mythology, Venus was the goddess of love, sex, beauty, and fertility, and she had many abilities beyond the Greek Aphrodite.",
 			thumbUrl: card_thumbnail,
 			fullUrl: card_full,
 		},
 		{
 			title: "Demon",
-			desc:
-				"A demon is a supernatural being, typically associated with evil, prevalent historically in religion, occultism, literature, fiction, mythology, and folklore.",
+			desc: "A demon is a supernatural being, typically associated with evil, prevalent historically in religion, occultism, literature, fiction, mythology, and folklore.",
 			thumbUrl: demon_thumbnail,
 			fullUrl: demon_full,
 		},
 		{
 			title: "Leaf",
-			desc:
-				"Green leaves depict hope, renewal, and revival. Leaves are symbolic of fertility and growth, and in Chinese tradition represent all the beings of the universe.",
+			desc: "Green leaves depict hope, renewal, and revival. Leaves are symbolic of fertility and growth, and in Chinese tradition represent all the beings of the universe.",
 			thumbUrl: leaf_thumbnail,
 			fullUrl: leaf_full,
 		},
@@ -191,7 +179,7 @@ export default {
 		// NOTE: Link destinations can be updated on Rebrandly
 		{
 			img: twitterIcon,
-			url: "https://link.karameese.com/twitter"
+			url: "https://link.karameese.com/twitter",
 		},
 		{
 			img: linkedinIcon,
@@ -203,6 +191,4 @@ export default {
 		},
 	],
 	// End Contact Section ---------------
-
-	
 }
