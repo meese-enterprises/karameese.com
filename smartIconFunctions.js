@@ -24,9 +24,11 @@ function updateSmartIconStyle() {
 		})() +
 		";" +
 		(function () {
-			return smartIconOptions.bgColor ? ("background-color:" +
-					smartIconOptions.bgColor.split(";")[0] +
-					" !important;") : "";
+			return smartIconOptions.bgColor
+				? "background-color:" +
+						smartIconOptions.bgColor.split(";")[0] +
+						" !important;"
+				: "";
 		})() +
 		"}.smarticon_nobg{display:" +
 		(function () {

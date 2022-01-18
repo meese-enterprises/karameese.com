@@ -912,7 +912,9 @@ const NORA = () => {
 				ufsave("system/noraa/user_profile", JSON.stringify(this.userObj));
 			},
 			getUserName: function () {
-				return typeof this.userObj.name === "string" ? this.userObj.name : "user";
+				return typeof this.userObj.name === "string"
+					? this.userObj.name
+					: "user";
 			},
 			sayDynamic: function (saying) {
 				getId("NORAout").innerHTML += "<br>&nbsp;" + this.sayings[saying][0]();

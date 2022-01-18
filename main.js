@@ -1915,7 +1915,9 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				return apps[arg].appWindow.onTop === 0 ? "+Stay On Top" : "_Stay On Top";
+				return apps[arg].appWindow.onTop === 0
+					? "+Stay On Top"
+					: "_Stay On Top";
 			},
 			function (arg) {
 				apps[arg].appWindow.alwaysOnTop(1);
@@ -1924,7 +1926,9 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				return apps[arg].appWindow.onTop === 1 ? " Stay On Top" : "-Stay On Top";
+				return apps[arg].appWindow.onTop === 1
+					? " Stay On Top"
+					: "-Stay On Top";
 			},
 			function (arg) {
 				apps[arg].appWindow.alwaysOnTop(0);
