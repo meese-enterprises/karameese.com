@@ -22,7 +22,7 @@ const Footer = () => {
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<img src={socialLink.img} alt="icons"></img>
+								<img src={socialLink.img} alt="icons" />
 							</a>
 						))}
 					</div>
