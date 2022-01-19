@@ -11,13 +11,13 @@
   - `sudo chmod -R 0777 /var/lib/jenkins/workspace/karameese.com` to grant access to PHP and Node
 
 2. Email Setup
-Add `contactform@karameese.com` to your email contacts, so the messages won't be filtered out as spam.
+   Add `contactform@karameese.com` to your email contacts, so the messages won't be filtered out as spam.
 
 3. Jenkins Setup
-Change `/etc/sudoers` to include `jenkins ALL=(ALL) NOPASSWD: ALL` beneath "User privilege specification".
+   Change `/etc/sudoers` to include `jenkins ALL=(ALL) NOPASSWD: ALL` beneath "User privilege specification".
 
 Copy `config.xml` to `/var/lib/jenkins/jobs/karameese.com` to automatically configure Jenkins.
 
 4. `localhost` server setup
-On Windows I prefer to use the Ubuntu WSL2 distro with apache2 to serve my server, which I do by creating
-a symlink in `/var/www` to the directory of the repository on Windows.
+   On Windows I prefer to use the Ubuntu WSL2 distro with apache2 to serve my server, which I do by creating
+   a symlink in `/var/www` to the directory of the repository on Windows.

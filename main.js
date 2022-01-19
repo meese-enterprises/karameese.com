@@ -417,7 +417,7 @@ function pinApp(app) {
 m("init Application class");
 var apps = {};
 window.apps = apps;
-var appsSorted = [];
+const appsSorted = [];
 let appTotal = 0;
 let appPosX = 8;
 let appPosY = 8;
@@ -2049,10 +2049,10 @@ window.LOCALFILES = {};
 window.lfload = function (file, debug) {
 	try {
 		if (debug) {
-			doLog("lfload " + file + ":", '#ABCDEF');
-			doLog(apps.files.vars.getRealDir('/LOCALFILES/' + file), '#ABCDEF');
+			doLog("lfload " + file + ":", "#ABCDEF");
+			doLog(apps.files.vars.getRealDir("/LOCALFILES/" + file), "#ABCDEF");
 		}
-		return apps.files.vars.getRealDir('/LOCALFILES/' + file);
+		return apps.files.vars.getRealDir("/LOCALFILES/" + file);
 	} catch (err) {
 		if (debug) {
 			doLog(err, "#FFCDEF");
