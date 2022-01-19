@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const ViewCount = () => {
 	apps.viewCount = new Application({
 		title: "View Counter",

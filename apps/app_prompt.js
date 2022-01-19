@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const AppPrompt = () => {
 	apps.prompt = new Application({
 		title: "Application Prompt",

@@ -1,4 +1,5 @@
-const FileManager = () => { 
+// skipcq JS-0128
+const FileManager = () => {
  
 apps.files = new Application({ 
 	title: "File Manager", 
@@ -158,7 +159,7 @@ apps.files = new Application({
 			['Large List', 'FIL2viewLarge'] 
 		], 
 		currViewMode: 3, 
-		setViewMode: function(newMode, nosave) { 
+		setViewMode: function(newMode) { 
 			try { 
 				getId('FIL2tbl').classList.remove(this.viewModes[this.currViewMode][1]); 
 			} catch (err) { 
@@ -183,9 +184,7 @@ apps.files = new Application({
 				// Window is not open 
 			} 
  
-			if (!nosave) { 
-				apps.savemaster.vars.save("system/apps/files/view_mode", this.currViewMode, 1); 
-			} 
+			apps.savemaster.vars.save("system/apps/files/view_mode", this.currViewMode, 1);
 		}, 
 		back: function() { 
 			this.currLoc = this.currLoc.split("/"); 
@@ -287,7 +286,7 @@ apps.files = new Application({
 			getId("FIL2green").style.width = "0"; 
 			getId('FIL2cntn').classList.add('cursorLoadDark'); 
 			getId("FIL2cntn").innerHTML = '<div id="FIL2tbl" class="' + this.viewModes[this.currViewMode][1] + '" style="width:100%; position:absolute; margin:auto;padding-bottom:3px;"></div>'; 
-			getId("FIL2tbl").style.marginTop = scrollHeight; 
+			getId("FIL2tbl").style.marginTop = getId("findScrollSize").offsetHeight - getId("findScrollSize").clientHeight; 
 			if (this.currLoc === '/') { 
 				getId("FIL2path").innerHTML = '<div id="FIL2green" style="height:100%;background-color:rgb(170, 255, 170)"></div><div style="width:100%;height:25px;"><input id="FIL2input" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="/"></div>'; 
 				getId("FIL2tbl").innerHTML = 
@@ -405,8 +404,8 @@ apps.files = new Application({
 			} 
 		}, 
 		favorites: [], 
-		updateFavorites: function (nosave, mainPage) { 
-			if (!nosave) ufsave('system/apps/files/favorites', JSON.stringify(this.favorites)); 
+		updateFavorites: function (mainPage) { 
+			ufsave('system/apps/files/favorites', JSON.stringify(this.favorites));
 			var tempHTML = ''; 
 			for (let i in this.favorites) { 
 				var currPath = this.favorites[i].split('/'); 

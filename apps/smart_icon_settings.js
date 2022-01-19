@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const SmartIconSettings = () => {
 	apps.smartIconSettings = new Application({
 		title: "Smart Icon Settings",
@@ -76,7 +77,7 @@ const SmartIconSettings = () => {
 					}
 				}
 			},
-			saveRadiuses: function (radiuses, nosave) {
+			saveRadiuses: function (radiuses) {
 				if (radiuses) {
 					const tempR = radiuses;
 					smartIconOptions.radiusTopLeft = tempR[0];
@@ -98,13 +99,13 @@ const SmartIconSettings = () => {
 					updateSmartIconStyle();
 				}
 			},
-			toggleBG: function (nosave) {
+			toggleBG: function () {
 				smartIconOptions.backgroundOpacity = Math.abs(
 					smartIconOptions.backgroundOpacity - 1
 				);
 				updateSmartIconStyle();
 			},
-			setColor: function (color, nosave) {
+			setColor: function (color) {
 				if (color) {
 					smartIconOptions.bgColor = color;
 					updateSmartIconStyle();

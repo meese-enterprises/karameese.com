@@ -81,6 +81,7 @@ let tempwinresmode = [1, 1];
 let winresOrX = 0;
 let winresOrY = 0;
 
+// skipcq JS-0128
 function winres(e) {
 	if (e.currentTarget !== getId("winres")) {
 		getId("winres").style.display = "block";
@@ -191,6 +192,7 @@ function winresing(e) {
 	apps[winmovecurrapp].appWindow.setDims(newLeft, newTop, newWidth, newHeight);
 }
 
+// skipcq JS-0128
 function highlightWindow(app) {
 	getId("windowFrameOverlay").style.display = "block";
 	// The 32 is to compensate for the absoltely positioned top bar, which isn't factored in by default
@@ -326,10 +328,6 @@ function calcWindowblur(win, noBgSize) {
 		getId("tskbrAero").style.backgroundPosition =
 			20 + bgPosition[0] + "px " + (20 + bgPosition[1]) + "px";
 	}
-}
-
-function fitWindowIfPermitted() {
-	fitWindow();
 }
 
 function fitWindow() {

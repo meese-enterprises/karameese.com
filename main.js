@@ -1,5 +1,6 @@
-/*global getId*/
+/* global getId */
 
+// skipcq JS-0128
 const bootTime = new Date().getTime();
 const websiteTitle = "KaraOS";
 document.title = websiteTitle;
@@ -102,7 +103,7 @@ const winFadeDistance = 0;
 const winBorder = 3;
 
 const darkMode = false;
-const darkSwitch = (light, dark) => (darkMode ? dark : light);
+const darkSwitch = (light, dark) => (darkMode ? dark : light); // skipcq JS-0128
 if (darkMode) {
 	document.body.classList.add("darkMode");
 } else {
@@ -260,18 +261,7 @@ getId("taskbar").style.display = "none";
 
 // Find client scrollbar size
 m("init Scrollsize");
-const scrollWidth =
-	getId("findScrollSize").offsetWidth - getId("findScrollSize").clientWidth;
-const scrollHeight =
-	getId("findScrollSize").offsetHeight - getId("findScrollSize").clientHeight;
 getId("findScrollSize").style.display = "none";
-
-// Taskbar settings
-const tskbrToggle = {
-	perfMode: 0,
-	tskbrPos: 1,
-};
-
 getId("icons").innerHTML = "";
 
 // Live elements allow dynamic content to be placed on the page w/o manual updating
@@ -327,9 +317,13 @@ function pinApp(app) {
 m("init Application class");
 var apps = {};
 window.apps = apps;
+
+// skipcq JS-0128
 var appsSorted = [];
 let appPosX = 8;
 let appPosY = 8;
+
+// skipcq JS-0128
 const Application = function (
 	appIcon,
 	appName,
@@ -846,8 +840,7 @@ function newDsktpIcon(
 	action,
 	actionArgs,
 	ctxAction,
-	ctxActionArgs,
-	nosave
+	ctxActionArgs
 ) {
 	if (!id) id = "uico_" + new Date().getTime();
 	if (!title) {
@@ -937,28 +930,24 @@ function newDsktpIcon(
 		title +
 		"</div>";
 	getId("desktop").appendChild(tempIco);
-	if (!nosave) {
-		ufsave("system/desktop/user_icons/ico_" + id, JSON.stringify(dsktp[id]));
-	}
+	ufsave("system/desktop/user_icons/ico_" + id, JSON.stringify(dsktp[id]));
 	arrangeDesktopIcons();
 }
 
-function removeDsktpIcon(id, nosave) {
+function removeDsktpIcon(id) {
 	if (dsktp[id]) {
 		delete dsktp[id];
 		getId("desktop").removeChild(getId("app_" + id));
-		if (!nosave) {
-			if (ufload("system/desktop/user_icons/ico_" + id)) {
-				ufdel("system/desktop/user_icons/ico_" + id);
-			} else {
-				ufsave(
-					"system/desktop/user_icons/ico_" + id,
-					JSON.stringify({
-						removed: "true",
-						id: id,
-					})
-				);
-			}
+		if (ufload("system/desktop/user_icons/ico_" + id)) {
+			ufdel("system/desktop/user_icons/ico_" + id);
+		} else {
+			ufsave(
+				"system/desktop/user_icons/ico_" + id,
+				JSON.stringify({
+					removed: "true",
+					id: id,
+				})
+			);
 		}
 		arrangeDesktopIcons();
 	}
@@ -987,7 +976,8 @@ FlowWidget();
 NotificationsWidget();
 TimeWidget();
 
-// Text-editing functionality
+/** Text-editing functionality */
+// skipcq JS-0128
 function showEditContext(event) {
 	textEditorTools.tempvar = currentSelection.length === 0 ? "-" : " ";
 	let canPasteHere = 0;
@@ -1120,7 +1110,7 @@ function c(code, args) {
 }
 
 let workingcodetorun = [];
-let finishedWaitingCodes = 0;
+let finishedWaitingCodes = 0; // skipcq JS-0128
 window.setInterval(checkWaitingCode, 0);
 
 function checkWaitingCode() {
@@ -1349,6 +1339,8 @@ function icomove(e, elem) {
 }
 
 getId("icomove").addEventListener("click", icomove);
+
+// skipcq JS-0128
 function icomoving(e) {
 	getId(icomoveSelect).style.left =
 		icomoveOrX + (e.pageX - icomovex) * (1 / screenScale) + "px";
@@ -1398,6 +1390,7 @@ function scrollHorizontally(event) {
 }
 getId("icons").addEventListener("wheel", scrollHorizontally);
 
+// skipcq JS-0128
 function highlightHide() {
 	getId("windowFrameOverlay").style.display = "none";
 }
@@ -1432,7 +1425,7 @@ let showingCtxMenu = 0;
 
 function ctxMenu(setupArray, version, event, args) {
 	m("Opening ctxMenu");
-	var tempCtxContent = "";
+	let tempCtxContent = "";
 	
 	if (version) {
 		if (!showingCtxMenu) {
@@ -1464,8 +1457,8 @@ function ctxMenu(setupArray, version, event, args) {
 				getId("ctxMenu").style.top = newCtxCoord[1] + "px";
 			}
 			getId("ctxMenu").innerHTML = "";
-			
-			for (let i in newCtxSetup) {
+
+			for (const i in newCtxSetup) {
 				if (typeof newCtxSetup[i][0] === "function") {
 					if (
 						newCtxSetup[i][0](newCtxArgs)[0] === "+" ||
@@ -1516,6 +1509,8 @@ function ctxMenu(setupArray, version, event, args) {
 					if (newCtxSetup[i][0][0] === "+" || newCtxSetup[i][0][0] === "_") {
 						tempCtxContent += "<hr>";
 					}
+
+					// skipcq JS-D009
 					if (newCtxSetup[i][2]) {
 						ctxMenuImg =
 							'<img src="' +
@@ -1526,7 +1521,7 @@ function ctxMenu(setupArray, version, event, args) {
 							'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 					}
 
-					//// skipcq JS-D009
+					// skipcq JS-D009
 					if (newCtxSetup[i][0][0] === "-" || newCtxSetup[i][0][0] === "_") {
 						tempCtxContent +=
 							'<p class="hiddenCtxOption">' +
@@ -1620,6 +1615,7 @@ function ctxMenu(setupArray, version, event, args) {
 	}
 }
 
+// skipcq JS-0128
 const baseCtx = {
 	hideall: [
 		/* [' Settings', function() {
@@ -1863,29 +1859,6 @@ getId("monitor").setAttribute(
 	'if(event.target !== getId("ctxMenu")){return false}'
 );
 
-let flowMode = 0;
-function exitFlowMode() {
-	if (getId("monitor").classList.contains("flowDesktop")) {
-		getId("monitor").classList.remove("flowDesktop");
-	}
-	flowMode = 0;
-}
-
-function toggleFlowMode() {
-	if (flowMode) {
-		if (getId("monitor").classList.contains("flowDesktop")) {
-			getId("monitor").classList.remove("flowDesktop");
-		}
-		flowMode = 0;
-	} else {
-		if (!getId("monitor").classList.contains("flowDesktop")) {
-			getId("monitor").classList.add("flowDesktop");
-			getId("desktop").scrollTop = 0;
-		}
-		flowMode = 1;
-	}
-}
-
 try {
 	if (typeof sessionStorage === "undefined") {
 		sessionStorage = {
@@ -1948,10 +1921,10 @@ window.LOCALFILES = {};
 window.lfload = function (file, debug) {
 	try {
 		if (debug) {
-			doLog("lfload " + file + ":", '#ABCDEF');
-			doLog(apps.files.vars.getRealDir('/LOCALFILES/' + file), '#ABCDEF');
+			doLog("lfload " + file + ":", "#ABCDEF");
+			doLog(apps.files.vars.getRealDir("/LOCALFILES/" + file), "#ABCDEF");
 		}
-		return apps.files.vars.getRealDir('/LOCALFILES/' + file);
+		return apps.files.vars.getRealDir("/LOCALFILES/" + file);
 	} catch (err) {
 		if (debug) {
 			doLog(err, "#FFCDEF");
@@ -1964,20 +1937,18 @@ window.lfdel = function (filename) {
 };
 
 // Auto-resize display on window change
-window.addEventListener("resize", fitWindowIfPermitted);
+window.addEventListener("resize", fitWindow);
 
 // Set up service worker
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", function () {
-		navigator.serviceWorker.register("serviceworker.js").then(
-			function (err) {
-				try {
-					doLog("ServiceWorker registration failed: " + err, "#F00");
-				} catch (err2) {
-					console.log("ServiceWorker registration failed: " + err);
-				}
+		navigator.serviceWorker.register("serviceworker.js").then(function (err) {
+			try {
+				doLog("ServiceWorker registration failed: " + err, "#F00");
+			} catch (err2) {
+				console.log("ServiceWorker registration failed: " + err);
 			}
-		);
+		});
 	});
 }
 

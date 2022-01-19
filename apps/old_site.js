@@ -7,7 +7,7 @@ const OldSite = () => {
 		image: "appicons/heart.png",
 		hideApp: 0,
 		launchTypes: 1,
-		main: function (launchType) {
+		main: function () {
 			if (!this.appWindow.appIcon) {
 				this.appWindow.paddingMode(0);
 				this.appWindow.setDims("auto", "auto", 525, 350);

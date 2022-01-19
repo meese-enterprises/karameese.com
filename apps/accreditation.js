@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const Accreditation = () => {
 	apps.accreditation = new Application({
 		title: "Accreditation",

@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const Dashboard = () => {
 	apps.startMenu = new Application({
 		title: "Dashboard",

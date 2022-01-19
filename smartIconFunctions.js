@@ -8,6 +8,7 @@ const smartIconOptions = {
 	bgColor: "",
 };
 
+// skipcq JS-0128
 function updateSmartIconStyle() {
 	getId("smartIconStyle").innerHTML =
 		".smarticon_bg{border-top-left-radius:" +
@@ -74,6 +75,7 @@ function updateSmartIconStyle() {
 	}
 }
 
+// skipcq JS-0128
 function buildSmartIcon(size, options, optionalcss) {
 	if (typeof options === "string") {
 		options = {

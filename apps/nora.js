@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const NORA = () => {
 	const currNoraPhrase = "listen computer";
 

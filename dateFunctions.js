@@ -70,7 +70,8 @@ const dateForms = {
 	},
 };
 
-// Function to use above functions to form a date string
+/** Function to use above functions to form a date string. */
+// skipcq JS-0128
 function formDate(dateStr) {
 	tempDate = "";
 	date = new Date();

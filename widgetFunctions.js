@@ -30,7 +30,7 @@ const Widget = function (
 	};
 };
 
-function addWidget(widgetName, nosave) {
+function addWidget(widgetName) {
 	if (widgets[widgetName]) {
 		if (widgets[widgetName].place === -1) {
 			getId("time").innerHTML +=
@@ -70,6 +70,7 @@ function widgetMenu(title, content) {
 	getId("widgetContent").innerHTML = "<hr>" + content;
 }
 
+// skipcq JS-0128
 function closeWidgetMenu() {
 	getId("widgetMenu").style.bottom = "auto";
 	getId("widgetMenu").style.top = "-350px";

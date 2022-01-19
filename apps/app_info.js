@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const AppInfo = () => {
 	apps.appInfo = new Application({
 		title: "Application Info Viewer",

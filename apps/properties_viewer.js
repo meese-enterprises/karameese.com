@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const PropertiesViewer = () => {
 	apps.properties = new Application({
 		title: "Properties Viewer",

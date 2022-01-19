@@ -1,4 +1,5 @@
 /** FROM https://github.com/ajmeese7/cursor-effects/blob/master/src/ghostCursor.js */
+// skipcq JS-0128
 function ghostCursor(options) {
 	const hasWrapperEl = options && options.element;
 	const element = hasWrapperEl || document.body;
