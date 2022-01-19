@@ -291,13 +291,14 @@ const Dashboard = () => {
 						const dsktpIconFolder = ufload("system/desktop/");
 						if (dsktpIconFolder) {
 							for (const file in dsktpIconFolder) {
-								if (file.indexOf("ico_") === 0) {
-									if (getId(file.substring(10, 16)) !== null) {
-										getId(file.substring(4, file.length)).style.left =
-											eval(USERFILES[file])[0] + "px";
-										getId(file.substring(4, file.length)).style.top =
-											eval(USERFILES[file])[1] + "px";
-									}
+								if (
+									file.indexOf("ico_") === 0 &&
+									getId(file.substring(10, 16)) !== null
+								) {
+									getId(file.substring(4, file.length)).style.left =
+										eval(USERFILES[file])[0] + "px";
+									getId(file.substring(4, file.length)).style.top =
+										eval(USERFILES[file])[1] + "px";
 								}
 							}
 						}

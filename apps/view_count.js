@@ -6,7 +6,7 @@ const ViewCount = () => {
 		image: "appicons/systemApp.png",
 		hideApp: 0,
 		resizeable: false,
-		main: function (launchtype) {
+		main: function () {
 			const margins = 15;
 			const size = 250;
 			const x = parseInt(getId("desktop").style.width) - size - margins;
@@ -15,12 +15,12 @@ const ViewCount = () => {
 
 			this.appWindow.paddingMode(0);
 			this.appWindow.setContent(`
-			<iframe
-				data-parent-app="viewCount"
-				id="VWcframe"
-				src="./ViewCount/index.php"
-			></iframe>
-		`);
+				<iframe
+					data-parent-app="viewCount"
+					id="VWcframe"
+					src="./ViewCount/index.php"
+				></iframe>
+			`);
 			getId("icn_viewCount").style.display = "inline-block";
 			this.appWindow.setCaption("View Counter");
 			this.appWindow.openWindow();

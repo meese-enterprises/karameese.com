@@ -5,8 +5,8 @@
 <head>
 	<title>Loading...</title>
 	<?php
-        echo '<link rel="stylesheet" type="text/css" href="style.css?ms='.round(microtime(true) * 1000).'">';
-    ?>
+		echo '<link rel="stylesheet" type="text/css" href="style.css?ms='.round(microtime(true) * 1000).'">';
+	?>
 
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 	<style id="smartIconStyle"></style>
@@ -66,38 +66,38 @@
 </body>
 
 <?php
-    echo '<script src="./helperFunctions.js"></script>';
-    echo '<script src="./dateFunctions.js"></script>';
-    echo '<script src="./smartIconFunctions.js"></script>';
-    echo '<script src="./widgetFunctions.js"></script>';
-    echo '<script src="./windowFunctions.js"></script>';
+	echo '<script src="./helperFunctions.js"></script>';
+	echo '<script src="./dateFunctions.js"></script>';
+	echo '<script src="./smartIconFunctions.js"></script>';
+	echo '<script src="./widgetFunctions.js"></script>';
+	echo '<script src="./windowFunctions.js"></script>';
 
-    echo '<script src="./widgets/flow.js"></script>';
-    echo '<script src="./widgets/notifications.js"></script>';
-    echo '<script src="./widgets/time.js"></script>';
+	echo '<script src="./widgets/flow.js"></script>';
+	echo '<script src="./widgets/notifications.js"></script>';
+	echo '<script src="./widgets/time.js"></script>';
 
-    echo '<script src="./apps/accreditation.js"></script>';
-    echo '<script src="./apps/app_info.js"></script>';
-    echo '<script src="./apps/app_prompt.js"></script>';
-    echo '<script src="./apps/dashboard.js"></script>';
-    echo '<script src="./apps/file_manager.js"></script>';
-    echo '<script src="./apps/help.js"></script>';
-    echo '<script src="./apps/js_paint.js"></script>';
-    echo '<script src="./apps/messaging.js"></script>';
-    echo '<script src="./apps/music_player.js"></script>';
-    echo '<script src="./apps/nora.js"></script>';
-    echo '<script src="./apps/old_site.js"></script>';
-    echo '<script src="./apps/properties_viewer.js"></script>';
-    echo '<script src="./apps/save_master.js"></script>';
-    echo '<script src="./apps/smart_icon_settings.js"></script>';
-    echo '<script src="./apps/view_count.js"></script>';
-    echo '<script src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
+	echo '<script src="./apps/accreditation.js"></script>';
+	echo '<script src="./apps/app_info.js"></script>';
+	echo '<script src="./apps/app_prompt.js"></script>';
+	echo '<script src="./apps/dashboard.js"></script>';
+	echo '<script src="./apps/file_manager.js"></script>';
+	echo '<script src="./apps/help.js"></script>';
+	echo '<script src="./apps/js_paint.js"></script>';
+	echo '<script src="./apps/messaging.js"></script>';
+	echo '<script src="./apps/music_player.js"></script>';
+	echo '<script src="./apps/nora.js"></script>';
+	echo '<script src="./apps/old_site.js"></script>';
+	echo '<script src="./apps/properties_viewer.js"></script>';
+	echo '<script src="./apps/save_master.js"></script>';
+	echo '<script src="./apps/smart_icon_settings.js"></script>';
+	echo '<script src="./apps/view_count.js"></script>';
+	echo '<script src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
 ?>
 
 <?php
-    echo '<script defer>';
-    require 'filepreloaderBeta.php';
-    echo '</script>';
+	echo '<script defer>';
+	require 'filepreloaderBeta.php';
+	echo '</script>';
 ?>
 
 </html>

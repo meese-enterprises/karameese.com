@@ -15,12 +15,12 @@ const OldSite = () => {
 
 			this.appWindow.setCaption("Old Site");
 			this.appWindow.setContent(`
-			<iframe
-				data-parent-app="oldSite"
-				id="oldSiteFrame"
-				src="./old-site/public/index.html"
-			></iframe>
-		`);
+				<iframe
+					data-parent-app="oldSite"
+					id="oldSiteFrame"
+					src="./old-site/public/index.html"
+				></iframe>
+			`);
 			this.appWindow.openWindow();
 		},
 		vars: {

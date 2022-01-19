@@ -14,19 +14,17 @@ if (typeof console === "undefined") {
 let backdropFilterSupport = false;
 let backgroundBlendSupport = false;
 let cssFilterSupport = false;
-if (typeof CSS !== "undefined") {
-	if (typeof CSS.supports !== "undefined") {
-		if (CSS.supports("(backdrop-filter: blur(5px))")) {
-			backdropFilterSupport = true;
-		}
+if (typeof CSS !== "undefined" && typeof CSS.supports !== "undefined") {
+	if (CSS.supports("(backdrop-filter: blur(5px))")) {
+		backdropFilterSupport = true;
+	}
 
-		if (CSS.supports("(background-blend-mode: screen)")) {
-			backgroundBlendSupport = true;
-		}
+	if (CSS.supports("(background-blend-mode: screen)")) {
+		backgroundBlendSupport = true;
+	}
 
-		if (CSS.supports("(filter: blur(5px))")) {
-			cssFilterSupport = true;
-		}
+	if (CSS.supports("(filter: blur(5px))")) {
+		cssFilterSupport = true;
 	}
 }
 
@@ -419,7 +417,7 @@ function pinApp(app) {
 m("init Application class");
 var apps = {};
 window.apps = apps;
-const appsSorted = [];
+var appsSorted = [];
 let appTotal = 0;
 let appPosX = 8;
 let appPosY = 8;
@@ -2048,17 +2046,13 @@ fadeResizeText();
 
 // Set up LOCALFILES
 window.LOCALFILES = {};
-window.lfsave = function (file, content) {
-	sh("mkdir /LOCALFILES/" + file);
-	eval(apps.bash.vars.translateDir("/LOCALFILES/" + file) + " = content");
-};
 window.lfload = function (file, debug) {
 	try {
 		if (debug) {
-			doLog("lfload " + file + ":", "#ABCDEF");
-			doLog(apps.bash.vars.getRealDir("/LOCALFILES/" + file), "#ABCDEF");
+			doLog("lfload " + file + ":", '#ABCDEF');
+			doLog(apps.files.vars.getRealDir('/LOCALFILES/' + file), '#ABCDEF');
 		}
-		return apps.bash.vars.getRealDir("/LOCALFILES/" + file);
+		return apps.files.vars.getRealDir('/LOCALFILES/' + file);
 	} catch (err) {
 		if (debug) {
 			doLog(err, "#FFCDEF");
@@ -2066,11 +2060,8 @@ window.lfload = function (file, debug) {
 		return null;
 	}
 };
-window.lfmkdir = function (dirname) {
-	sh("mkdir /LOCALFILES/" + dirname);
-};
 window.lfdel = function (filename) {
-	eval("delete " + apps.bash.vars.translateDir("/LOCALFILES/" + filename));
+	eval("delete " + apps.files.vars.translateDir("/LOCALFILES/" + filename));
 };
 
 // Auto-resize display on window change
