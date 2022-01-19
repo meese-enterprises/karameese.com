@@ -1,7 +1,7 @@
 import React from "react"
 import Card from "./Card"
 import Fade from "react-reveal/Fade"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 
 const Projects = ({ projectsToRender }) => {
 	// Will prevent the text from ever being too large for the alloted space
@@ -29,7 +29,7 @@ const Projects = ({ projectsToRender }) => {
 }
 
 Projects.propTypes = {
-	projectsToRender: PropTypes.arrayOf(PropTypes.object)
+	projectsToRender: PropTypes.arrayOf(PropTypes.object),
 }
 
 export default Projects
