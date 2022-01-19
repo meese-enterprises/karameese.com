@@ -74,7 +74,7 @@ export const AudioVisualizer = {
 			canvas.fillStyle = "#FFF";
 			canvas.font = window.size[1] * 0.25 + "px W95FA, sans-serif";
 			canvas.fillText(
-				(fileNames[currentSong] || ["No Song"])[0].toUpperCase(),
+				(window.fileNames[window.currentSong] || ["No Song"])[0].toUpperCase(),
 				Math.round(left) + 0.5,
 				window.size[1] * 0.75,
 				Math.floor(maxWidth)

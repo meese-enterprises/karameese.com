@@ -33,4 +33,11 @@ const Card = ({ heading, paragraph, thumbUrl, fullUrl }) => {
 	)
 }
 
+Card.propTypes = {
+	heading: PropTypes.string,
+	paragraph: PropTypes.string,
+	thumbUrl: PropTypes.string,
+	fullUrl: PropTypes.string
+}
+
 export default Card

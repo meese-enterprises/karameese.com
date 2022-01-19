@@ -1,3 +1,5 @@
+/* global getId, ufsave */
+
 // skipcq JS-0128
 const NORA = () => {
 	const currNoraPhrase = "listen computer";
@@ -991,85 +993,84 @@ const NORA = () => {
 				this.ddg.send(); // ddg.onreadystatechange refers to finishDDG
 			},
 			finishDDG: function () {
-				if (this.ddg.readyState === 4) {
-					if (this.ddg.status === 200) {
-						this.ddgResponse = JSON.parse(this.ddg.responseText);
-						this.ddgFinal = "";
-						switch (
-							this.ddgQuery // at the moment all cases are the same, but as more questions are added, different behavior may be needed
-						) {
-							case "who":
-								try {
-									this.ddgFinal =
-										this.ddgResponse.AbstractText ||
-										this.ddgResponse.Abstract ||
-										this.ddgResponse.RelatedTopics[0].Result ||
-										this.ddgResponse.RelatedTopics[0].Text;
-								} catch (err) {
-									doLog("NORAA encountered an error with DuckDuckGo.", "#F00");
-								}
-								if (this.ddgFinal === "") {
-									apps.nora.vars.say(
-										"I couldn't find anything. Here is a <a target='_blank' href='https://duckduckgo.com?q=" +
-											this.ddgText +
-											"'>search page</a> from DuckDuckGo."
-									);
-								}
-								break;
-							case "define":
-								try {
-									this.ddgFinal =
-										this.ddgResponse.AbstractText ||
-										this.ddgResponse.Abstract ||
-										this.ddgResponse.RelatedTopics[0].Result ||
-										this.ddgResponse.RelatedTopics[0].Text;
-								} catch (err) {
-									doLog("NORAA encountered an error with DuckDuckGo.", "#F00");
-								}
-								if (this.ddgFinal === "") {
-									apps.nora.vars.say(
-										"I couldn't find anything. Here is a <a target='_blank' href='https://duckduckgo.com?q=" +
-											this.ddgText +
-											"'>search page</a> from DuckDuckGo."
-									);
-								}
-								break;
-							default:
-								// "what" or unknown
-								try {
-									this.ddgFinal =
-										this.ddgResponse.AbstractText ||
-										this.ddgResponse.Abstract ||
-										this.ddgResponse.RelatedTopics[0].Result ||
-										this.ddgResponse.RelatedTopics[0].Text;
-								} catch (err) {
-									doLog("NORAA encountered an error with DuckDuckGo.", "#F00");
-								}
-								if (this.ddgFinal === "") {
-									apps.nora.vars.say(
-										"I couldn't find anything. Here is a <a target='_blank' href='https://duckduckgo.com?q=" +
-											this.ddgText +
-											"'>search page</a> from DuckDuckGo."
-									);
-								}
-						}
-						if (this.ddgFinal !== "") {
-							this.say(
-								"DuckDuckGo says, " +
-									this.ddgFinal
-										.split("<a href=")
-										.join('<a target="_blank" href=')
-										.split("</a>")
-										.join("</a> is ")
-							);
-						}
-					} else {
-						apps.nora.vars.say(
-							"DuckDuckGo isn't responding. Here's a <a target='_blank' href='https://duckduckgo.com?q=" +
-								this.ddgText +
-								"'>search page</a> from them."
+				if (this.ddg.readyState !== 4) return;
+				if (this.ddg.status === 200) {
+					this.ddgResponse = JSON.parse(this.ddg.responseText);
+					this.ddgFinal = "";
+					switch (
+						this.ddgQuery // at the moment all cases are the same, but as more questions are added, different behavior may be needed
+					) {
+						case "who":
+							try {
+								this.ddgFinal =
+									this.ddgResponse.AbstractText ||
+									this.ddgResponse.Abstract ||
+									this.ddgResponse.RelatedTopics[0].Result ||
+									this.ddgResponse.RelatedTopics[0].Text;
+							} catch (err) {
+								doLog("NORAA encountered an error with DuckDuckGo.", "#F00");
+							}
+							if (this.ddgFinal === "") {
+								apps.nora.vars.say(
+									"I couldn't find anything. Here is a <a target='_blank' href='https://duckduckgo.com?q=" +
+										this.ddgText +
+										"'>search page</a> from DuckDuckGo."
+								);
+							}
+							break;
+						case "define":
+							try {
+								this.ddgFinal =
+									this.ddgResponse.AbstractText ||
+									this.ddgResponse.Abstract ||
+									this.ddgResponse.RelatedTopics[0].Result ||
+									this.ddgResponse.RelatedTopics[0].Text;
+							} catch (err) {
+								doLog("NORAA encountered an error with DuckDuckGo.", "#F00");
+							}
+							if (this.ddgFinal === "") {
+								apps.nora.vars.say(
+									"I couldn't find anything. Here is a <a target='_blank' href='https://duckduckgo.com?q=" +
+										this.ddgText +
+										"'>search page</a> from DuckDuckGo."
+								);
+							}
+							break;
+						default:
+							// "what" or unknown
+							try {
+								this.ddgFinal =
+									this.ddgResponse.AbstractText ||
+									this.ddgResponse.Abstract ||
+									this.ddgResponse.RelatedTopics[0].Result ||
+									this.ddgResponse.RelatedTopics[0].Text;
+							} catch (err) {
+								doLog("NORAA encountered an error with DuckDuckGo.", "#F00");
+							}
+							if (this.ddgFinal === "") {
+								apps.nora.vars.say(
+									"I couldn't find anything. Here is a <a target='_blank' href='https://duckduckgo.com?q=" +
+										this.ddgText +
+										"'>search page</a> from DuckDuckGo."
+								);
+							}
+					}
+					if (this.ddgFinal !== "") {
+						this.say(
+							"DuckDuckGo says, " +
+								this.ddgFinal
+									.split("<a href=")
+									.join('<a target="_blank" href=')
+									.split("</a>")
+									.join("</a> is ")
 						);
 					}
+				} else {
+					apps.nora.vars.say(
+						"DuckDuckGo isn't responding. Here's a <a target='_blank' href='https://duckduckgo.com?q=" +
+							this.ddgText +
+							"'>search page</a> from them."
+					);
 				}
 			},
 			input: function (spoken, silent) {

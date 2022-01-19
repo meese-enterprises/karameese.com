@@ -1,3 +1,4 @@
+// skipcq JS-0128
 const OldSite = () => {
 	apps.oldSite = new Application({
 		title: "Old Site",

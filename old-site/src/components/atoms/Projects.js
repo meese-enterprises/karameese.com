@@ -27,4 +27,8 @@ const Projects = ({ projectsToRender }) => {
 	// side is supposed to be current using even index checker
 }
 
+Projects.propTypes = {
+	projectsToRender: PropTypes.arrayOf(PropTypes.object)
+}
+
 export default Projects

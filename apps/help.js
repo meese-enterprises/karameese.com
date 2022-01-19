@@ -1,3 +1,5 @@
+/* global apps, appsSorted, buildSmartIcon, getId */
+
 const Help = () => {
 	apps.help = new Application({
 		title: "Help",

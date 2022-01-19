@@ -64,6 +64,7 @@ function winmove(e) {
 }
 getId("winmove").addEventListener("click", winmove);
 
+// skipcq JS-0128
 function winmoving(e) {
 	winmovelastx = e.pageX;
 	winmovelasty = e.pageY;
@@ -171,6 +172,7 @@ function winres(e) {
 }
 getId("winres").addEventListener("click", winres);
 
+// skipcq JS-0128
 function winresing(e) {
 	let newWidth = apps[winmovecurrapp].appWindow.windowH;
 	let newHeight = apps[winmovecurrapp].appWindow.windowV;
@@ -329,6 +331,25 @@ function calcWindowblur(win, noBgSize) {
 			20 + bgPosition[0] + "px " + (20 + bgPosition[1]) + "px";
 	}
 }
+window.calcWindowblur = calcWindowblur;
+
+const autoMobile = true;
+function checkMobileSize() {
+	if (!autoMobile) return;
+	if (
+		!mobileMode &&
+		(!window.matchMedia("(pointer: fine)").matches ||
+			parseInt(getId("monitor").style.width, 10) < 768)
+	) {
+		setMobile(true);
+	} else if (
+		mobileMode &&
+		window.matchMedia("(pointer: fine)").matches &&
+		parseInt(getId("monitor").style.width, 10) >= 768
+	) {
+		setMobile(false);
+	}
+}
 
 function fitWindow() {
 	perfStart("fitWindow");
@@ -381,3 +402,7 @@ function fitWindow() {
 		// continue regardless of error
 	}
 }
+
+// Auto-resize display on window change
+window.addEventListener("resize", fitWindow);
+fitWindow();

@@ -1,3 +1,5 @@
+/* global apps, getId, ufsave */
+
 // skipcq JS-0128
 const FileManager = () => {
  
@@ -183,7 +185,7 @@ apps.files = new Application({
 			} catch (err) { 
 				// Window is not open 
 			} 
- 
+
 			apps.savemaster.vars.save("system/apps/files/view_mode", this.currViewMode, 1);
 		}, 
 		back: function() { 

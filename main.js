@@ -1,4 +1,4 @@
-/* global getId */
+/* global buildSmartIcon, getId, ufsave */
 
 // skipcq JS-0128
 const bootTime = new Date().getTime();
@@ -94,7 +94,7 @@ if (typeof document.getElementsByClassName === "undefined") {
 
 // End of IE compatibility fixes
 
-doLog = function (msg, clr) {
+function doLog(msg, clr) {
 	console.log("%c" + msg, "color:" + clr);
 };
 
@@ -108,24 +108,6 @@ if (darkMode) {
 	document.body.classList.add("darkMode");
 } else {
 	document.body.classList.remove("darkMode");
-}
-
-const autoMobile = true;
-function checkMobileSize() {
-	if (!autoMobile) return;
-	if (
-		!mobileMode &&
-		(!window.matchMedia("(pointer: fine)").matches ||
-			parseInt(getId("monitor").style.width, 10) < 768)
-	) {
-		setMobile(true);
-	} else if (
-		mobileMode &&
-		window.matchMedia("(pointer: fine)").matches &&
-		parseInt(getId("monitor").style.width, 10) >= 768
-	) {
-		setMobile(false);
-	}
 }
 
 var mobileMode = false;
@@ -491,7 +473,7 @@ const Application = function (
 					}
 					const aeroOffset = [0, -32];
 					try {
-						calcWindowblur(this.objName, 1);
+						window.calcWindowblur(this.objName, 1);
 					} catch (err) {
 						getId("win_" + this.objName + "_aero").style.backgroundPosition =
 							-1 * xOff +
@@ -1375,6 +1357,8 @@ function icnmove(e, elem) {
 }
 
 getId("icnmove").addEventListener("click", icnmove);
+
+// skipcq JS-0128
 function icnmoving(e) {
 	getId(icomoveSelect).style.left =
 		icomoveOrX + (e.pageX - icomovex) * (1 / screenScale) + "px";
@@ -1425,194 +1409,199 @@ let showingCtxMenu = 0;
 
 function ctxMenu(setupArray, version, event, args) {
 	m("Opening ctxMenu");
-	let tempCtxContent = "";
 	
-	if (version) {
-		if (!showingCtxMenu) {
-			showingCtxMenu = 1;
-			requestAnimationFrame(function () {
-				showingCtxMenu = 0;
-			});
-			newCtxCoord = [
-				event.pageX * (1 / screenScale),
-				event.pageY * (1 / screenScale),
-			];
-			newCtxArgs = args;
-			newCtxSetup = setupArray;
-			getId("ctxMenu").style.display = "block";
-			if (newCtxCoord[0] > (window.innerWidth * (1 / screenScale)) / 2) {
-				getId("ctxMenu").style.removeProperty("left");
-				getId("ctxMenu").style.right =
-					window.innerWidth * (1 / screenScale) - newCtxCoord[0] - 1 + "px";
-			} else {
-				getId("ctxMenu").style.removeProperty("right");
-				getId("ctxMenu").style.left = newCtxCoord[0] + "px";
-			}
-			if (newCtxCoord[1] > (window.innerHeight * (1 / screenScale)) / 2) {
-				getId("ctxMenu").style.removeProperty("top");
-				getId("ctxMenu").style.bottom =
-					window.innerHeight * (1 / screenScale) - newCtxCoord[1] - 1 + "px";
-			} else {
-				getId("ctxMenu").style.removeProperty("bottom");
-				getId("ctxMenu").style.top = newCtxCoord[1] + "px";
-			}
-			getId("ctxMenu").innerHTML = "";
+	if (!showingCtxMenu) {
+		version ?
+			versionCtxMenu(setupArray, event, args) : 
+			unversionedCtxMenu(setupArray);
+	}
+}
 
-			for (const i in newCtxSetup) {
-				if (typeof newCtxSetup[i][0] === "function") {
-					if (
-						newCtxSetup[i][0](newCtxArgs)[0] === "+" ||
-						newCtxSetup[i][0](newCtxArgs)[0] === "_"
-					) {
-						tempCtxContent += "<hr>";
-					}
-
-					// skipcq JS-D009
-					if (newCtxSetup[i][2]) {
-						ctxMenuImg =
-							'<img src="' +
-							newCtxSetup[i][2] +
-							"\" style=\"width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;\" onerror=\"this.style.marginLeft = '0';this.style.marginRight = '1px';this.src = 'ctxMenu/simple.png'\">";
-					} else {
-						ctxMenuImg =
-							'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
-					}
-					
-					// skipcq JS-D009
-					if (
-						newCtxSetup[i][0](newCtxArgs)[0] === "-" ||
-						newCtxSetup[i][0](newCtxArgs)[0] === "_"
-					) {
-						tempCtxContent +=
-							'<p class="hiddenCtxOption">' +
-							ctxMenuImg +
-							"&nbsp;" +
-							newCtxSetup[i][0](newCtxArgs).substring(
-								1,
-								newCtxSetup[i][0](newCtxArgs).length
-							) +
-							"&nbsp;</p>";
-					} else {
-						tempCtxContent +=
-							'<p class="cursorPointer" onClick="newCtxSetup[' +
-							i +
-							'][1](newCtxArgs)">' +
-							ctxMenuImg +
-							"&nbsp;" +
-							newCtxSetup[i][0](newCtxArgs).substring(
-								1,
-								newCtxSetup[i][0](newCtxArgs).length
-							) +
-							"&nbsp;</p>";
-					}
-				} else {
-					if (newCtxSetup[i][0][0] === "+" || newCtxSetup[i][0][0] === "_") {
-						tempCtxContent += "<hr>";
-					}
-
-					// skipcq JS-D009
-					if (newCtxSetup[i][2]) {
-						ctxMenuImg =
-							'<img src="' +
-							newCtxSetup[i][2] +
-							"\" style=\"width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;\" onerror=\"this.style.marginLeft = '0';this.style.marginRight = '1px';this.src = 'ctxMenu/simple.png'\">";
-					} else {
-						ctxMenuImg =
-							'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
-					}
-
-					// skipcq JS-D009
-					if (newCtxSetup[i][0][0] === "-" || newCtxSetup[i][0][0] === "_") {
-						tempCtxContent +=
-							'<p class="hiddenCtxOption">' +
-							ctxMenuImg +
-							"&nbsp;" +
-							newCtxSetup[i][0].substring(1, newCtxSetup[i][0].length) +
-							"&nbsp;</p>";
-					} else {
-						tempCtxContent +=
-							'<p class="cursorPointer" onClick="newCtxSetup[' +
-							i +
-							'][1](newCtxArgs)">' +
-							ctxMenuImg +
-							"&nbsp;" +
-							newCtxSetup[i][0].substring(1, newCtxSetup[i][0].length) +
-							"&nbsp;</p>";
-					}
-				}
-			}
-			getId("ctxMenu").innerHTML = tempCtxContent;
-		}
+function versionCtxMenu(setupArray, event, args) {
+	let tempCtxContent = "";
+	showingCtxMenu = 1;
+	requestAnimationFrame(function () {
+		showingCtxMenu = 0;
+	});
+	newCtxCoord = [
+		event.pageX * (1 / screenScale),
+		event.pageY * (1 / screenScale),
+	];
+	newCtxArgs = args;
+	newCtxSetup = setupArray;
+	getId("ctxMenu").style.display = "block";
+	if (newCtxCoord[0] > (window.innerWidth * (1 / screenScale)) / 2) {
+		getId("ctxMenu").style.removeProperty("left");
+		getId("ctxMenu").style.right =
+			window.innerWidth * (1 / screenScale) - newCtxCoord[0] - 1 + "px";
 	} else {
-		if (!showingCtxMenu) {
-			showingCtxMenu = 1;
-			requestAnimationFrame(function () {
-				showingCtxMenu = 0;
-			});
-			ctxSetup = setupArray;
-			getId("ctxMenu").style.display = "block";
-			ctxSetup[0][0] *= 1 / screenScale;
-			ctxSetup[0][1] *= 1 / screenScale;
-			if (ctxSetup[0][0] > (window.innerWidth * (1 / screenScale)) / 2) {
-				getId("ctxMenu").style.removeProperty("left");
-				getId("ctxMenu").style.right =
-					window.innerWidth * (1 / screenScale) - ctxSetup[0][0] - 1 + "px";
+		getId("ctxMenu").style.removeProperty("right");
+		getId("ctxMenu").style.left = newCtxCoord[0] + "px";
+	}
+	if (newCtxCoord[1] > (window.innerHeight * (1 / screenScale)) / 2) {
+		getId("ctxMenu").style.removeProperty("top");
+		getId("ctxMenu").style.bottom =
+			window.innerHeight * (1 / screenScale) - newCtxCoord[1] - 1 + "px";
+	} else {
+		getId("ctxMenu").style.removeProperty("bottom");
+		getId("ctxMenu").style.top = newCtxCoord[1] + "px";
+	}
+	getId("ctxMenu").innerHTML = "";
+
+	for (const i in newCtxSetup) {
+		if (typeof newCtxSetup[i][0] === "function") {
+			if (
+				newCtxSetup[i][0](newCtxArgs)[0] === "+" ||
+				newCtxSetup[i][0](newCtxArgs)[0] === "_"
+			) {
+				tempCtxContent += "<hr>";
+			}
+
+			// skipcq JS-D009
+			if (newCtxSetup[i][2]) {
+				ctxMenuImg =
+					'<img src="' +
+					newCtxSetup[i][2] +
+					"\" style=\"width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;\" onerror=\"this.style.marginLeft = '0';this.style.marginRight = '1px';this.src = 'ctxMenu/simple.png'\">";
 			} else {
-				getId("ctxMenu").style.removeProperty("right");
-				getId("ctxMenu").style.left = ctxSetup[0][0] + "px";
+				ctxMenuImg =
+					'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 			}
-			if (ctxSetup[0][1] > (window.innerHeight * (1 / screenScale)) / 2) {
-				getId("ctxMenu").style.removeProperty("top");
-				getId("ctxMenu").style.bottom =
-					window.innerHeight * (1 / screenScale) - ctxSetup[0][1] - 1 + "px";
+			
+			// skipcq JS-D009
+			if (
+				newCtxSetup[i][0](newCtxArgs)[0] === "-" ||
+				newCtxSetup[i][0](newCtxArgs)[0] === "_"
+			) {
+				tempCtxContent +=
+					'<p class="hiddenCtxOption">' +
+					ctxMenuImg +
+					"&nbsp;" +
+					newCtxSetup[i][0](newCtxArgs).substring(
+						1,
+						newCtxSetup[i][0](newCtxArgs).length
+					) +
+					"&nbsp;</p>";
 			} else {
-				getId("ctxMenu").style.removeProperty("bottom");
-				getId("ctxMenu").style.top = ctxSetup[0][1] + "px";
+				tempCtxContent +=
+					'<p class="cursorPointer" onClick="newCtxSetup[' +
+					i +
+					'][1](newCtxArgs)">' +
+					ctxMenuImg +
+					"&nbsp;" +
+					newCtxSetup[i][0](newCtxArgs).substring(
+						1,
+						newCtxSetup[i][0](newCtxArgs).length
+					) +
+					"&nbsp;</p>";
+			}
+		} else {
+			if (newCtxSetup[i][0][0] === "+" || newCtxSetup[i][0][0] === "_") {
+				tempCtxContent += "<hr>";
 			}
 
-			getId("ctxMenu").innerHTML = "";
-
-			// First char of name of element: + means new group | - means cannot click | _ means new group and cannot click
-			for (let i = 1; i < ctxSetup.length - 1; i += 2) {
-				if (i !== 1) {
-					if (ctxSetup[i][0] === "+" || ctxSetup[i][0] === "_") {
-						tempCtxContent += "<hr>";
-					}
-				}
-
-				// // skipcq JS-D009
-				if (ctxSetup[0][2]) {
-					ctxMenuImg =
-						'<img src="' +
-						ctxSetup[0][Math.floor(i / 2) + 2] +
-						"\" style=\"width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;\" onerror=\"this.style.marginLeft = '0';this.style.marginRight = '1px';this.src = 'ctxMenu/simple.png'\">";
-				} else {
-					ctxMenuImg =
-						'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
-				}
-
-				// skipcq JS-D009
-				if (ctxSetup[i][0] === "-" || ctxSetup[i][0] === "_") {
-					tempCtxContent +=
-						'<p class="hiddenCtxOption">' +
-						ctxMenuImg +
-						"&nbsp;" +
-						ctxSetup[i].substring(1, ctxSetup[i].length) +
-						"&nbsp;</p>";
-				} else {
-					tempCtxContent +=
-						'<p class="cursorPointer" onClick="' +
-						ctxSetup[i + 1] +
-						'">' +
-						ctxMenuImg +
-						"&nbsp;" +
-						ctxSetup[i].substring(1, ctxSetup[i].length) +
-						"&nbsp;</p>";
-				}
+			// skipcq JS-D009
+			if (newCtxSetup[i][2]) {
+				ctxMenuImg =
+					'<img src="' +
+					newCtxSetup[i][2] +
+					"\" style=\"width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;\" onerror=\"this.style.marginLeft = '0';this.style.marginRight = '1px';this.src = 'ctxMenu/simple.png'\">";
+			} else {
+				ctxMenuImg =
+					'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 			}
-			getId("ctxMenu").innerHTML = tempCtxContent;
+
+			// skipcq JS-D009
+			if (newCtxSetup[i][0][0] === "-" || newCtxSetup[i][0][0] === "_") {
+				tempCtxContent +=
+					'<p class="hiddenCtxOption">' +
+					ctxMenuImg +
+					"&nbsp;" +
+					newCtxSetup[i][0].substring(1, newCtxSetup[i][0].length) +
+					"&nbsp;</p>";
+			} else {
+				tempCtxContent +=
+					'<p class="cursorPointer" onClick="newCtxSetup[' +
+					i +
+					'][1](newCtxArgs)">' +
+					ctxMenuImg +
+					"&nbsp;" +
+					newCtxSetup[i][0].substring(1, newCtxSetup[i][0].length) +
+					"&nbsp;</p>";
+			}
 		}
 	}
+	getId("ctxMenu").innerHTML = tempCtxContent;
+}
+
+function unversionedCtxMenu(setupArray) {
+	let tempCtxContent = "";
+	showingCtxMenu = 1;
+	requestAnimationFrame(function () {
+		showingCtxMenu = 0;
+	});
+	ctxSetup = setupArray;
+	getId("ctxMenu").style.display = "block";
+	ctxSetup[0][0] *= 1 / screenScale;
+	ctxSetup[0][1] *= 1 / screenScale;
+	if (ctxSetup[0][0] > (window.innerWidth * (1 / screenScale)) / 2) {
+		getId("ctxMenu").style.removeProperty("left");
+		getId("ctxMenu").style.right =
+			window.innerWidth * (1 / screenScale) - ctxSetup[0][0] - 1 + "px";
+	} else {
+		getId("ctxMenu").style.removeProperty("right");
+		getId("ctxMenu").style.left = ctxSetup[0][0] + "px";
+	}
+	if (ctxSetup[0][1] > (window.innerHeight * (1 / screenScale)) / 2) {
+		getId("ctxMenu").style.removeProperty("top");
+		getId("ctxMenu").style.bottom =
+			window.innerHeight * (1 / screenScale) - ctxSetup[0][1] - 1 + "px";
+	} else {
+		getId("ctxMenu").style.removeProperty("bottom");
+		getId("ctxMenu").style.top = ctxSetup[0][1] + "px";
+	}
+
+	getId("ctxMenu").innerHTML = "";
+
+	// First char of name of element: + means new group | - means cannot click | _ means new group and cannot click
+	for (let i = 1; i < ctxSetup.length - 1; i += 2) {
+		if (i !== 1) {
+			if (ctxSetup[i][0] === "+" || ctxSetup[i][0] === "_") {
+				tempCtxContent += "<hr>";
+			}
+		}
+
+		// // skipcq JS-D009
+		if (ctxSetup[0][2]) {
+			ctxMenuImg =
+				'<img src="' +
+				ctxSetup[0][Math.floor(i / 2) + 2] +
+				"\" style=\"width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-left:1px;\" onerror=\"this.style.marginLeft = '0';this.style.marginRight = '1px';this.src = 'ctxMenu/simple.png'\">";
+		} else {
+			ctxMenuImg =
+				'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
+		}
+
+		// skipcq JS-D009
+		if (ctxSetup[i][0] === "-" || ctxSetup[i][0] === "_") {
+			tempCtxContent +=
+				'<p class="hiddenCtxOption">' +
+				ctxMenuImg +
+				"&nbsp;" +
+				ctxSetup[i].substring(1, ctxSetup[i].length) +
+				"&nbsp;</p>";
+		} else {
+			tempCtxContent +=
+				'<p class="cursorPointer" onClick="' +
+				ctxSetup[i + 1] +
+				'">' +
+				ctxMenuImg +
+				"&nbsp;" +
+				ctxSetup[i].substring(1, ctxSetup[i].length) +
+				"&nbsp;</p>";
+		}
+	}
+	getId("ctxMenu").innerHTML = tempCtxContent;
 }
 
 // skipcq JS-0128
@@ -1913,7 +1902,6 @@ try {
 		},
 	};
 }
-fitWindow();
 fadeResizeText();
 
 // Set up LOCALFILES
@@ -1936,8 +1924,7 @@ window.lfdel = function (filename) {
 	eval("delete " + apps.files.vars.translateDir("/LOCALFILES/" + filename));
 };
 
-// Auto-resize display on window change
-window.addEventListener("resize", fitWindow);
+
 
 // Set up service worker
 if ("serviceWorker" in navigator) {

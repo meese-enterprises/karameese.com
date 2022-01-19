@@ -1,5 +1,7 @@
 let totalWidgets = 0;
 const widgets = {};
+
+// skipcq JS-0128
 const Widget = function (
 	name,
 	code,
@@ -30,6 +32,7 @@ const Widget = function (
 	};
 };
 
+// skipcq JS-0128
 function addWidget(widgetName) {
 	if (widgets[widgetName]) {
 		if (widgets[widgetName].place === -1) {
@@ -49,6 +52,7 @@ function addWidget(widgetName) {
 	}
 }
 
+// skipcq JS-0128
 function widgetMenu(title, content) {
 	// TODO: Abstract with parameters
 	getId("widgetMenu").style.bottom = "auto";
