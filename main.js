@@ -1,4 +1,4 @@
-/*global getId*/
+/* global getId */
 
 const bootTime = new Date().getTime();
 const websiteTitle = "KaraOS";
@@ -327,7 +327,7 @@ function pinApp(app) {
 m("init Application class");
 var apps = {};
 window.apps = apps;
-var appsSorted = [];
+const appsSorted = [];
 let appPosX = 8;
 let appPosY = 8;
 const Application = function (
@@ -854,11 +854,13 @@ function newDsktpIcon(
 		title = apps[owner] ? apps[owner].appName : "Icon";
 	}
 	if (!icon) {
-		icon = apps[owner] ? {
-				...apps[owner].appWindow.appImg,
-			} : {
-				...apps.startMenu.appWindow.appImg,
-			};
+		icon = apps[owner]
+			? {
+					...apps[owner].appWindow.appImg,
+			  }
+			: {
+					...apps.startMenu.appWindow.appImg,
+			  };
 	}
 	if (typeof icon === "string") {
 		icon = { foreground: icon };
@@ -1432,8 +1434,8 @@ let showingCtxMenu = 0;
 
 function ctxMenu(setupArray, version, event, args) {
 	m("Opening ctxMenu");
-	var tempCtxContent = "";
-	
+	let tempCtxContent = "";
+
 	if (version) {
 		if (!showingCtxMenu) {
 			showingCtxMenu = 1;
@@ -1464,8 +1466,8 @@ function ctxMenu(setupArray, version, event, args) {
 				getId("ctxMenu").style.top = newCtxCoord[1] + "px";
 			}
 			getId("ctxMenu").innerHTML = "";
-			
-			for (let i in newCtxSetup) {
+
+			for (const i in newCtxSetup) {
 				if (typeof newCtxSetup[i][0] === "function") {
 					if (
 						newCtxSetup[i][0](newCtxArgs)[0] === "+" ||
@@ -1484,7 +1486,7 @@ function ctxMenu(setupArray, version, event, args) {
 						ctxMenuImg =
 							'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 					}
-					
+
 					// skipcq JS-D009
 					if (
 						newCtxSetup[i][0](newCtxArgs)[0] === "-" ||
@@ -1526,7 +1528,7 @@ function ctxMenu(setupArray, version, event, args) {
 							'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 					}
 
-					//// skipcq JS-D009
+					/// / skipcq JS-D009
 					if (newCtxSetup[i][0][0] === "-" || newCtxSetup[i][0][0] === "_") {
 						tempCtxContent +=
 							'<p class="hiddenCtxOption">' +
@@ -1948,10 +1950,10 @@ window.LOCALFILES = {};
 window.lfload = function (file, debug) {
 	try {
 		if (debug) {
-			doLog("lfload " + file + ":", '#ABCDEF');
-			doLog(apps.files.vars.getRealDir('/LOCALFILES/' + file), '#ABCDEF');
+			doLog("lfload " + file + ":", "#ABCDEF");
+			doLog(apps.files.vars.getRealDir("/LOCALFILES/" + file), "#ABCDEF");
 		}
-		return apps.files.vars.getRealDir('/LOCALFILES/' + file);
+		return apps.files.vars.getRealDir("/LOCALFILES/" + file);
 	} catch (err) {
 		if (debug) {
 			doLog(err, "#FFCDEF");
@@ -1969,15 +1971,13 @@ window.addEventListener("resize", fitWindowIfPermitted);
 // Set up service worker
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", function () {
-		navigator.serviceWorker.register("serviceworker.js").then(
-			function (err) {
-				try {
-					doLog("ServiceWorker registration failed: " + err, "#F00");
-				} catch (err2) {
-					console.log("ServiceWorker registration failed: " + err);
-				}
+		navigator.serviceWorker.register("serviceworker.js").then(function (err) {
+			try {
+				doLog("ServiceWorker registration failed: " + err, "#F00");
+			} catch (err2) {
+				console.log("ServiceWorker registration failed: " + err);
 			}
-		);
+		});
 	});
 }
 
