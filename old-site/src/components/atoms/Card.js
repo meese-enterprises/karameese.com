@@ -37,7 +37,7 @@ Card.propTypes = {
 	heading: PropTypes.string,
 	paragraph: PropTypes.string,
 	thumbUrl: PropTypes.string,
-	fullUrl: PropTypes.string
+	fullUrl: PropTypes.string,
 }
 
 export default Card

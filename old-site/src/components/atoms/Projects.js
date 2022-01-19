@@ -28,7 +28,7 @@ const Projects = ({ projectsToRender }) => {
 }
 
 Projects.propTypes = {
-	projectsToRender: PropTypes.arrayOf(PropTypes.object)
+	projectsToRender: PropTypes.arrayOf(PropTypes.object),
 }
 
 export default Projects

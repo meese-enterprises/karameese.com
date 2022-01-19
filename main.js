@@ -96,7 +96,7 @@ if (typeof document.getElementsByClassName === "undefined") {
 
 function doLog(msg, clr) {
 	console.log("%c" + msg, "color:" + clr);
-};
+}
 
 // 0 is smaller, 1 is same size, 2 is bigger
 const winFadeDistance = 0;
@@ -110,7 +110,7 @@ if (darkMode) {
 	document.body.classList.remove("darkMode");
 }
 
-var mobileMode = false;
+let mobileMode = false;
 function setMobile(newSetting) {
 	mobileMode = newSetting;
 	if (newSetting) {
@@ -301,7 +301,7 @@ var apps = {};
 window.apps = apps;
 
 // skipcq JS-0128
-var appsSorted = [];
+const appsSorted = [];
 let appPosX = 8;
 let appPosY = 8;
 
@@ -829,11 +829,13 @@ function newDsktpIcon(
 		title = apps[owner] ? apps[owner].appName : "Icon";
 	}
 	if (!icon) {
-		icon = apps[owner] ? {
-				...apps[owner].appWindow.appImg,
-			} : {
-				...apps.startMenu.appWindow.appImg,
-			};
+		icon = apps[owner]
+			? {
+					...apps[owner].appWindow.appImg,
+			  }
+			: {
+					...apps.startMenu.appWindow.appImg,
+			  };
 	}
 	if (typeof icon === "string") {
 		icon = { foreground: icon };
@@ -1409,11 +1411,11 @@ let showingCtxMenu = 0;
 
 function ctxMenu(setupArray, version, event, args) {
 	m("Opening ctxMenu");
-	
+
 	if (!showingCtxMenu) {
-		version ?
-			versionCtxMenu(setupArray, event, args) : 
-			unversionedCtxMenu(setupArray);
+		version
+			? versionCtxMenu(setupArray, event, args)
+			: unversionedCtxMenu(setupArray);
 	}
 }
 
@@ -1467,7 +1469,7 @@ function versionCtxMenu(setupArray, event, args) {
 				ctxMenuImg =
 					'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 			}
-			
+
 			// skipcq JS-D009
 			if (
 				newCtxSetup[i][0](newCtxArgs)[0] === "-" ||
@@ -1923,8 +1925,6 @@ window.lfload = function (file, debug) {
 window.lfdel = function (filename) {
 	eval("delete " + apps.files.vars.translateDir("/LOCALFILES/" + filename));
 };
-
-
 
 // Set up service worker
 if ("serviceWorker" in navigator) {
