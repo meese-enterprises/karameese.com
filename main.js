@@ -12,24 +12,13 @@ if (typeof console === "undefined") {
 
 // Check if backdrop filter blur and others are supported by the browser
 let backdropFilterSupport = false;
-let backgroundBlendSupport = false;
-let cssFilterSupport = false;
 if (typeof CSS !== "undefined" && typeof CSS.supports !== "undefined") {
 	if (CSS.supports("(backdrop-filter: blur(5px))")) {
 		backdropFilterSupport = true;
 	}
-
-	if (CSS.supports("(background-blend-mode: screen)")) {
-		backgroundBlendSupport = true;
-	}
-
-	if (CSS.supports("(filter: blur(5px))")) {
-		cssFilterSupport = true;
-	}
 }
 
 // Substitute performance.now if not intact
-const windowperformancenowIntact = 1;
 if (window.performance === undefined) {
 	window.performance = {
 		now: function () {
@@ -43,12 +32,10 @@ if (window.performance === undefined) {
 }
 
 // Approximately how long it took to load the page
-const timeToPageLoad = Math.round(performance.now() * 10) / 10;
+const timeToPageLoad = Math.round(performance.now() * 10) / 10; // skipcq JS-0128
 
 // See if animationframe is supported - if not, substitute it
-let requestAnimationFrameIntact = 1;
 if (window.requestAnimationFrame === undefined) {
-	requestAnimationFrameIntact = 0;
 	window.requestAnimationFrame = function (func) {
 		window.setTimeout(func, 0);
 	};
@@ -233,7 +220,6 @@ const screenScale = 1;
 
 let modulelast = `init ${websiteTitle}`;
 var module = modulelast;
-let initStatus = 0;
 
 // Changes the current module
 function m(msg) {
@@ -259,20 +245,6 @@ var d = function (level, message) {
 	}
 };
 
-// Formats a number with commas
-function numberCommas(number) {
-	let tempNCnumber = number + "";
-	let tempNCresult = "";
-
-	// Adds commas every third character from right
-	for (let i = tempNCnumber.length - 3; i > 0; i -= 3) {
-		tempNCresult = "," + tempNCnumber.substring(i, i + 3) + tempNCresult;
-		tempNCnumber = tempNCnumber.substring(0, i);
-	}
-	tempNCresult = tempNCnumber + tempNCresult;
-	return tempNCresult;
-}
-
 // Performance-measuring functions
 m("init performance measure");
 const perfObj = {};
@@ -295,7 +267,6 @@ perfStart("masterInit");
 
 // Vartry is used when something might not work
 m("init onerror and USERFILES and getId");
-const vartryArray = {};
 var vartry = function (varname) {
 	try {
 		return eval(varname);
@@ -343,27 +314,6 @@ function ping(callbackScript) {
 	perfStart("ping");
 	apps.savemaster.vars.saving = 1;
 	pingxhttp.send();
-}
-
-// Ping the CORS proxy
-let corspingxhttp = {};
-function corsPing(callbackScript) {
-	d(2, "Pinging CORS...");
-	corspingxhttp = new XMLHttpRequest();
-	corspingxhttp.onreadystatechange = function () {
-		if (corspingxhttp.readyState === 4) {
-			apps.savemaster.vars.saving = 0;
-			callbackScript([perfCheck("corsping"), corspingxhttp.status]);
-		}
-	};
-	corspingxhttp.open(
-		"GET",
-		"https://cors-anywhere.herokuapp.com/" + "https://duckduckgo.com/",
-		"true"
-	);
-	perfStart("corsping");
-	apps.savemaster.vars.saving = 1;
-	corspingxhttp.send();
 }
 
 // Live elements allow dynamic content to be placed on the page w/o manual updating
@@ -418,7 +368,6 @@ m("init Application class");
 var apps = {};
 window.apps = apps;
 var appsSorted = [];
-let appTotal = 0;
 let appPosX = 8;
 let appPosY = 8;
 const Application = function (
@@ -1060,12 +1009,10 @@ function removeDsktpIcon(id, nosave) {
 }
 
 function arrangeDesktopIcons() {
-	appTotal = 0;
 	appPosX = 8;
 	appPosY = 8;
 	for (const ico in dsktp) {
 		if (!dsktp[ico].position) {
-			appTotal++;
 			getId("app_" + ico).style.left = appPosX + "px";
 			getId("app_" + ico).style.top = appPosY + "px";
 			appPosY += 98;
@@ -1080,7 +1027,6 @@ function arrangeDesktopIcons() {
 	}
 }
 
-const widgetsList = {};
 FlowWidget();
 NotificationsWidget();
 TimeWidget();
@@ -1958,14 +1904,6 @@ function exitFlowMode() {
 	flowMode = 0;
 }
 
-function enterFlowMode() {
-	if (!getId("monitor").classList.contains("flowDesktop")) {
-		getId("monitor").classList.add("flowDesktop");
-		getId("desktop").scrollTop = 0;
-	}
-	flowMode = 1;
-}
-
 function toggleFlowMode() {
 	if (flowMode) {
 		if (getId("monitor").classList.contains("flowDesktop")) {
@@ -2011,7 +1949,6 @@ try {
 	};
 	sessionStorageSupported = 0;
 }
-let localStorageSupported = 1;
 try {
 	if (typeof localStorage === "undefined") {
 		localStorage = {
@@ -2025,7 +1962,6 @@ try {
 				return false;
 			},
 		};
-		localStorageSupported = 0;
 	}
 } catch (err) {
 	localStorage = {
@@ -2039,7 +1975,6 @@ try {
 			return false;
 		},
 	};
-	localStorageSupported = 0;
 }
 fitWindow();
 fadeResizeText();
@@ -2066,49 +2001,11 @@ window.lfdel = function (filename) {
 
 // Auto-resize display on window change
 window.addEventListener("resize", fitWindowIfPermitted);
-const monMouseEvent = {};
-function monMouseCheck() {
-	try {
-		if (
-			typeof document.elementFromPoint(monMouseEvent.pageX, monMouseEvent.pageY)
-				.oncontextmenu === "function"
-		) {
-			document
-				.elementFromPoint(monMouseEvent.pageX, monMouseEvent.pageY)
-				.oncontextmenu(monMouseEvent);
-		} else if (
-			typeof document.elementFromPoint(monMouseEvent.pageX, monMouseEvent.pageY)
-				.oncontextmenu === "string"
-		) {
-			eval(
-				document.elementFromPoint(monMouseEvent.pageX, monMouseEvent.pageY)
-					.oncontextmenu
-			);
-		} else {
-			doLog(
-				"Failed to find ctxmenu on " +
-					vartry(
-						"document.elementFromPoint(monMouseEvent.pageX, monMouseEvent.pageY).id"
-					)
-			);
-		}
-	} catch (err) {
-		doLog(
-			"Failed to open ctxmenu on " +
-				vartry(
-					"document.elementFromPoint(monMouseEvent.pageX, monMouseEvent.pageY).id"
-				)
-		);
-	}
-}
-
-const keepingAwake = false;
 
 // Set up service worker
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", function () {
 		navigator.serviceWorker.register("serviceworker.js").then(
-			function (registration) {},
 			function (err) {
 				try {
 					doLog("ServiceWorker registration failed: " + err, "#F00");
@@ -2123,7 +2020,6 @@ if ("serviceWorker" in navigator) {
 c(function () {
 	getId("loadingInfo").innerHTML = "Loading your files...";
 
-	initStatus = 1;
 	doLog("Took " + perfCheck("masterInit") / 1000 + "ms to initialize.");
 	perfStart("masterInit");
 });

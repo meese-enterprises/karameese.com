@@ -1,3 +1,5 @@
+/*global getId*/
+
 // Function to allow app windows to be moved
 let winmoveSelect = "";
 let winmovex = 0;
@@ -385,48 +387,6 @@ function fitWindow() {
 	getId("taskbar").style.transform = "";
 	getId("taskbar").style.width = getId("monitor").style.width;
 	getId("tskbrAero").style.backgroundPosition = "20px 20px";
-
-	checkMobileSize();
-	arrangeDesktopIcons();
-	try {
-		updateBgSize();
-	} catch (err) {}
-}
-
-function fitWindowRes(newmonX, newmonY) {
-	perfStart("fitWindow");
-	if (screenScale === 1 || screenScale < 0.25) {
-		getId("monitor").style.transform = "";
-		var numberOfScreenScale = 1;
-	} else {
-		getId("monitor").style.transform = "scale(" + screenScale + ")";
-		var numberOfScreenScale = screenScale;
-	}
-	getId("monitor").style.width = newmonX * (1 / numberOfScreenScale) + "px";
-	getId("monitor").style.height = newmonY * (1 / numberOfScreenScale) + "px";
-	getId("desktop").style.width = newmonX * (1 / numberOfScreenScale) + "px";
-	getId("desktop").style.height =
-		newmonY * (1 / numberOfScreenScale) - 32 + "px";
-	getId("taskbar").style.width = newmonX * (1 / numberOfScreenScale) + "px";
-	getId("tskbrAero").style.backgroundPosition =
-		"20px " + (-1 * (newmonY * (1 / numberOfScreenScale)) + 52) + "px";
-	getId("tskbrAero").style.width =
-		newmonX * (1 / numberOfScreenScale) + 40 + "px";
-	getId("tskbrAero").style.height = "";
-	getId("tskbrAero").style.transform = "";
-	getId("tskbrAero").style.transformOrigin = "";
-
-	getId("desktop").style.left = "";
-	getId("desktop").style.top = "32px";
-	getId("desktop").style.width = getId("monitor").style.width;
-	getId("desktop").style.height =
-		parseInt(getId("monitor").style.height, 10) - 32 + "px";
-	getId("taskbar").style.top = "0";
-	getId("taskbar").style.left = "";
-	getId("taskbar").style.right = "";
-	getId("taskbar").style.bottom = "auto";
-	getId("taskbar").style.transform = "";
-	getId("taskbar").style.width = getId("monitor").style.width;
 
 	checkMobileSize();
 	arrangeDesktopIcons();

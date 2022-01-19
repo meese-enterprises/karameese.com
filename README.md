@@ -1,9 +1,10 @@
 # karameese.com
 
+[![DeepSource](https://deepsource.io/gh/ajmeese7/karameese.com.svg/?label=active+issues&show_trend=true&token=M8yOCSSOgVKka2ykMLzNJ_mK)](https://deepsource.io/gh/ajmeese7/karameese.com/?ref=repository-badge)
+
 ## Setup
-
 1. PHP Setup
-
+- Install PHP with ...
 - `sudo nano /etc/php/8.0/fpm/php.ini` to turn on `display_errors` and `display_startup_errors`
   - `Ctrl+w` to search for `display_errors`
   - `sudo service php8.0-fpm restart` to restart the service

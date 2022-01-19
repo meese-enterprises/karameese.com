@@ -140,6 +140,7 @@ function generateTextWatermark(text, size) {
  * @param {string} image
  * @param {string} watermarkpath
  */
+// skipcq JS-0128
 async function addImageWatermark(image, watermarkpath) {
 	const opacity = 0.5
 	return Jimp.read(watermarkpath)

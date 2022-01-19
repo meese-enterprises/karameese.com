@@ -45,11 +45,6 @@ function addWidget(widgetName, nosave) {
 			widgets[widgetName].place = totalWidgets;
 			totalWidgets++;
 			widgets[widgetName].start();
-			widgetsList[widgetName] = widgetName;
-
-			if (!nosave) {
-				ufsave("system/taskbar/widget_list", JSON.stringify(widgetsList));
-			}
 		}
 	}
 }

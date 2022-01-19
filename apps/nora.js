@@ -778,7 +778,7 @@ const NORA = () => {
 					"watch the time",
 					"watch the time",
 					"Have me watch the time for you, using an alert window.",
-					function (text) {
+					function () {
 						apps.nora.vars.sayDynamic("okay");
 						apps.prompt.vars.alert(
 							'<h1 class="liveElement" data-live-eval="Date()"></h1>',

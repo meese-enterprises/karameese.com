@@ -289,6 +289,7 @@ window.devTools = {
 	},
 
 	useDefaultContextMenu: true,
+	// skipcq JS-0128
 	windowWasClicked: function (event) {
 		devTools.takeFocus(function () {});
 	},
