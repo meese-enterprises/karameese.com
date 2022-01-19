@@ -306,13 +306,13 @@ const Dashboard = () => {
 
 					// From web_app_maker
 					appsSorted = [];
-					for (var i in apps) {
+					for (let i in apps) {
 						appsSorted.push(
 							apps[i].appName.toLowerCase() + "|WAP_apps_sort|" + i
 						);
 					}
 					appsSorted.sort();
-					for (var i in appsSorted) {
+					for (let i in appsSorted) {
 						let tempStr = appsSorted[i].split("|WAP_apps_sort|");
 						tempStr = tempStr[tempStr.length - 1];
 						appsSorted[i] = tempStr;

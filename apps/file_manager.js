@@ -370,7 +370,7 @@ apps.files = new Application({
 				'<img src="files/small/folder.png"> ' + 
 				'/' + 
 				'</div>'; 
-			for (var i in pathSplit) { 
+			for (let i in pathSplit) { 
 				if (pathSplit.indexOf("apps") === 0 && navDepth === 1) { 
 					tempHTML += '<div class="cursorPointer" onclick="apps.files.vars.currLoc = \'' + navPath + '\';apps.files.vars.next(\'' + pathSplit[i] + '/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + (navPath + pathSplit[i]) + '/\\\');toTop(apps.properties)\', \'_Delete\', \'\'])">' + 
 						buildSmartIcon(16, (apps[pathSplit[i]] || { 
@@ -395,7 +395,7 @@ apps.files = new Application({
 		}, 
 		updateSearch: function (searchStr) { 
 			var searchElems = getId('FIL2tbl').getElementsByClassName('cursorPointer'); 
-			for (var i = 0; i < searchElems.length; i++) { 
+			for (let i = 0; i < searchElems.length; i++) { 
 				if (searchElems[i].innerText.toLowerCase().indexOf(searchStr.toLowerCase()) === -1) { 
 					searchElems[i].style.display = 'none'; 
 				} else { 

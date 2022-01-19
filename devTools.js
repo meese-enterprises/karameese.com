@@ -476,10 +476,10 @@ window.devTools = {
 
 		const existingStyleElements =
 			document.getElementsByClassName("devTools_hubStyle");
-		for (var i = 0; i < existingStyleElements.length; i++) {
+		for (let i = 0; i < existingStyleElements.length; i++) {
 			existingStyleElements[i].remove();
 		}
-		for (var i = data.content.styleLinks.length - 1; i >= 0; i--) {
+		for (let i = data.content.styleLinks.length - 1; i >= 0; i--) {
 			if (data.content.styleLinks[i][1] === "link") {
 				var customElement = document.createElement("link");
 				customElement.className = "devTools_hubStyle";

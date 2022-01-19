@@ -1476,6 +1476,8 @@ let showingCtxMenu = 0;
 
 function ctxMenu(setupArray, version, event, args) {
 	m("Opening ctxMenu");
+	var tempCtxContent = "";
+	
 	if (version) {
 		if (!showingCtxMenu) {
 			showingCtxMenu = 1;
@@ -1506,8 +1508,8 @@ function ctxMenu(setupArray, version, event, args) {
 				getId("ctxMenu").style.top = newCtxCoord[1] + "px";
 			}
 			getId("ctxMenu").innerHTML = "";
-			var tempCtxContent = "";
-			for (var i in newCtxSetup) {
+			
+			for (let i in newCtxSetup) {
 				if (typeof newCtxSetup[i][0] === "function") {
 					if (
 						newCtxSetup[i][0](newCtxArgs)[0] === "+" ||
@@ -1612,10 +1614,9 @@ function ctxMenu(setupArray, version, event, args) {
 			}
 
 			getId("ctxMenu").innerHTML = "";
-			var tempCtxContent = "";
 
 			// First char of name of element: + means new group | - means cannot click | _ means new group and cannot click
-			for (var i = 1; i < ctxSetup.length - 1; i += 2) {
+			for (let i = 1; i < ctxSetup.length - 1; i += 2) {
 				if (i !== 1) {
 					if (ctxSetup[i][0] === "+" || ctxSetup[i][0] === "_") {
 						tempCtxContent += "<hr>";

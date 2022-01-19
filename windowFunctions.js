@@ -213,6 +213,15 @@ function updateBgSize(noWinblur) {
 		getId("bgSizeElement").naturalWidth,
 		getId("bgSizeElement").naturalHeight,
 	];
+	var monsize = [
+		parseInt(getId("monitor").style.width),
+		parseInt(getId("monitor").style.height),
+	];
+	var sizeratio = [
+		monsize[0] / bgNaturalSize[0],
+		monsize[1] / bgNaturalSize[1],
+	];
+
 	switch (bgFit) {
 		case "corner":
 			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
@@ -226,10 +235,6 @@ function updateBgSize(noWinblur) {
 			bgPosition = [0, 0];
 			break;
 		case "center":
-			var monsize = [
-				parseInt(getId("monitor").style.width),
-				parseInt(getId("monitor").style.height),
-			];
 			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
 			bgPosition = [
 				monsize[0] / 2 - bgSize[0] / 2,
@@ -237,14 +242,6 @@ function updateBgSize(noWinblur) {
 			];
 			break;
 		case "fit":
-			var monsize = [
-				parseInt(getId("monitor").style.width),
-				parseInt(getId("monitor").style.height),
-			];
-			var sizeratio = [
-				monsize[0] / bgNaturalSize[0],
-				monsize[1] / bgNaturalSize[1],
-			];
 			if (sizeratio[0] <= sizeratio[1]) {
 				bgSize = [
 					monsize[0],
@@ -260,14 +257,7 @@ function updateBgSize(noWinblur) {
 			}
 			break;
 		case "cover":
-			var monsize = [
-				parseInt(getId("monitor").style.width),
-				parseInt(getId("monitor").style.height),
-			];
-			var sizeratio = [
-				monsize[0] / bgNaturalSize[0],
-				monsize[1] / bgNaturalSize[1],
-			];
+			
 			if (sizeratio[0] >= sizeratio[1]) {
 				bgSize = [
 					monsize[0],
@@ -295,12 +285,13 @@ function updateBgSize(noWinblur) {
 function calcWindowblur(win, noBgSize) {
 	if (!noBgSize) updateBgSize(1);
 	const aeroOffset = [0, -32];
+	let numberOfScreenScale;
 	if (screenScale === 1 || screenScale < 0.25) {
 		getId("monitor").style.transform = "";
-		var numberOfScreenScale = 1;
+		numberOfScreenScale = 1;
 	} else {
 		getId("monitor").style.transform = "scale(" + screenScale + ")";
-		var numberOfScreenScale = screenScale;
+		numberOfScreenScale = screenScale;
 	}
 	if (win === "taskbar") {
 		getId("tskbrAero").style.backgroundSize =
@@ -348,12 +339,13 @@ function fitWindowIfPermitted() {
 
 function fitWindow() {
 	perfStart("fitWindow");
+	let numberOfScreenScale;
 	if (screenScale === 1 || screenScale < 0.25) {
 		getId("monitor").style.transform = "";
-		var numberOfScreenScale = 1;
+		numberOfScreenScale = 1;
 	} else {
 		getId("monitor").style.transform = "scale(" + screenScale + ")";
-		var numberOfScreenScale = screenScale;
+		numberOfScreenScale = screenScale;
 	}
 	getId("monitor").style.width =
 		window.innerWidth * (1 / numberOfScreenScale) + "px";

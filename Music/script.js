@@ -47,7 +47,6 @@ const supportedFormats = [
 	"webm",
 ];
 
-var currentSong = -1;
 function selectSong(id) {
 	currentSong = id;
 	audio.pause();
