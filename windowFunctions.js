@@ -77,8 +77,6 @@ function winmoving(e) {
 	}
 }
 
-const tempwinres = "";
-const tempwinresa = "";
 let tempwinresmode = [1, 1];
 let winresOrX = 0;
 let winresOrY = 0;
@@ -285,13 +283,10 @@ function updateBgSize(noWinblur) {
 function calcWindowblur(win, noBgSize) {
 	if (!noBgSize) updateBgSize(1);
 	const aeroOffset = [0, -32];
-	let numberOfScreenScale;
 	if (screenScale === 1 || screenScale < 0.25) {
 		getId("monitor").style.transform = "";
-		numberOfScreenScale = 1;
 	} else {
 		getId("monitor").style.transform = "scale(" + screenScale + ")";
-		numberOfScreenScale = screenScale;
 	}
 	if (win === "taskbar") {
 		getId("tskbrAero").style.backgroundSize =

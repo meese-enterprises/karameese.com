@@ -370,7 +370,8 @@ apps.files = new Application({
 				'<img src="files/small/folder.png"> ' + 
 				'/' + 
 				'</div>'; 
-			for (let i in pathSplit) { 
+			for (let i in pathSplit) {
+				// skipcq JS-D009 
 				if (pathSplit.indexOf("apps") === 0 && navDepth === 1) { 
 					tempHTML += '<div class="cursorPointer" onclick="apps.files.vars.currLoc = \'' + navPath + '\';apps.files.vars.next(\'' + pathSplit[i] + '/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + (navPath + pathSplit[i]) + '/\\\');toTop(apps.properties)\', \'_Delete\', \'\'])">' + 
 						buildSmartIcon(16, (apps[pathSplit[i]] || { 
@@ -439,6 +440,8 @@ apps.files = new Application({
 						'</div>'; 
 				} else { 
 					var currName = currPath[currPath.length - 1]; 
+
+					// skipcq JS-D009
 					if (currPath.indexOf("apps") === 0 && currPath.length === 2) { 
 						tempHTML += '<div class="cursorPointer" onclick="apps.files.vars.currLoc = \'' + this.favorites[i] + '\';apps.files.vars.update()" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + this.favorites[i] + '\\\');toTop(apps.properties)\', \'+Remove Favorite\', \'apps.files.vars.toggleFavorite(\\\'' + this.favorites[i] + '\\\')\', \'_Delete\', \'\'])">' + 
 							buildSmartIcon(16, (apps[currName] || { 
@@ -492,24 +495,20 @@ apps.files = new Application({
 				}.bind(this), 300); 
 				break; 
 			case "checkrunning": 
-				if (this.appWindow.appIcon) { 
-					return 1; 
-				} else { 
-					return 0; 
+				return this.appWindow.appIcon ? true : false;
+			case "shrink": 
+				this.appWindow.closeKeepTask(); 
+				break; 
+			case "USERFILES_DONE": 
+				if (ufload("system/apps/files/view_mode")) { 
+					this.vars.setViewMode(parseInt(ufload("system/apps/files/view_mode")), 1); 
 				} 
-				case "shrink": 
-					this.appWindow.closeKeepTask(); 
-					break; 
-				case "USERFILES_DONE": 
-					if (ufload("system/apps/files/view_mode")) { 
-						this.vars.setViewMode(parseInt(ufload("system/apps/files/view_mode")), 1); 
-					} 
-					if (ufload("system/apps/files/favorites")) { 
-						this.vars.favorites = JSON.parse(ufload("system/apps/files/favorites")); 
-					} 
-					break; 
-				default: 
-					doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00"); 
+				if (ufload("system/apps/files/favorites")) { 
+					this.vars.favorites = JSON.parse(ufload("system/apps/files/favorites")); 
+				} 
+				break; 
+			default: 
+				doLog("No case found for '" + signal + "' signal in app '" + this.dsktpIcon + "'", "#F00"); 
 		} 
 	} 
 }); 

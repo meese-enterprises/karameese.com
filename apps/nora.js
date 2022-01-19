@@ -260,7 +260,7 @@ const NORA = () => {
 					"hello",
 					null,
 					"Tell NORAA hello, and get Hello back.",
-					function (text) {
+					function () {
 						apps.nora.vars.sayDynamic("hello");
 					},
 				],
@@ -386,7 +386,7 @@ const NORA = () => {
 					"i hate you",
 					null,
 					"",
-					function (text) {
+					function () {
 						apps.nora.vars.sayDynamic("user_mean");
 					},
 				],
@@ -394,7 +394,7 @@ const NORA = () => {
 					"i like you",
 					null,
 					"",
-					function (text) {
+					function () {
 						apps.nora.vars.sayDynamic("user_nice");
 					},
 				],
@@ -636,7 +636,7 @@ const NORA = () => {
 					"read notes",
 					"read notes",
 					"Have me read all your notes.",
-					function (text) {
+					function () {
 						if (apps.nora.vars.notes.length !== 0) {
 							apps.nora.vars.sayDynamic("okay");
 							apps.nora.vars.say(

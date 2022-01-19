@@ -97,15 +97,12 @@ const SmartIconSettings = () => {
 					smartIconOptions.radiusBottomRight = tempR[3];
 					updateSmartIconStyle();
 				}
-
-				if (!nosave) saveSmartIconStyle();
 			},
 			toggleBG: function (nosave) {
 				smartIconOptions.backgroundOpacity = Math.abs(
 					smartIconOptions.backgroundOpacity - 1
 				);
 				updateSmartIconStyle();
-				if (!nosave) saveSmartIconStyle();
 			},
 			setColor: function (color, nosave) {
 				if (color) {
@@ -115,8 +112,6 @@ const SmartIconSettings = () => {
 					smartIconOptions.bgColor = getId("smartIconSettings_bgcolor").value;
 					updateSmartIconStyle();
 				}
-
-				if (!nosave) saveSmartIconStyle();
 			},
 		},
 		signalHandler: function (signal) {

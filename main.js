@@ -1,3 +1,5 @@
+/*global getId*/
+
 const bootTime = new Date().getTime();
 const websiteTitle = "KaraOS";
 document.title = websiteTitle;
@@ -8,14 +10,6 @@ if (typeof console === "undefined") {
 			/* IE compatibility because console doesn't exist */
 		},
 	};
-}
-
-// Check if backdrop filter blur and others are supported by the browser
-let backdropFilterSupport = false;
-if (typeof CSS !== "undefined" && typeof CSS.supports !== "undefined") {
-	if (CSS.supports("(backdrop-filter: blur(5px))")) {
-		backdropFilterSupport = true;
-	}
 }
 
 // Substitute performance.now if not intact
@@ -54,7 +48,7 @@ if (window.requestAnimationFrame === undefined) {
 
 	function addEvent(on, fn, self) {
 		return (self = this).attachEvent("on" + on, function (e) {
-			var e = e || win.event;
+			if (!e) e = win.event;
 			e.preventDefault =
 				e.preventDefault ||
 				function () {
@@ -166,14 +160,6 @@ let lasterrorconfirmation = 0;
 
 // Error handler itself
 window.onerror = function (errorMsg, url, lineNumber) {
-	// Just in case it has been destroyed, vartry is rebuilt - check function vartry(...){...} for commentation on it
-	vartry = function (varname) {
-		try {
-			return eval(varname);
-		} catch (err) {
-			return "-failed vartry(" + varname + ") " + err + "-";
-		}
-	};
 	const errorModule = module;
 	if (formDate("YMDHmSs") - lasterrorconfirmation > 30000) {
 		lasterrorconfirmation = formDate("YMDHmSs");
@@ -265,16 +251,6 @@ function perfCheck(name) {
 // Start measuring boot time
 perfStart("masterInit");
 
-// Vartry is used when something might not work
-m("init onerror and USERFILES and getId");
-var vartry = function (varname) {
-	try {
-		return eval(varname);
-	} catch (err) {
-		return "-failed vartry(" + varname + ") " + err + "-";
-	}
-};
-
 // this is where the user's files go
 let USERFILES = [];
 
@@ -297,24 +273,6 @@ const tskbrToggle = {
 };
 
 getId("icons").innerHTML = "";
-
-// Function to ping the server
-m("init ping functions");
-function ping(callbackScript) {
-	d(1, "Pinging server...");
-	let pingxhttp = {};
-	pingxhttp = new XMLHttpRequest();
-	pingxhttp.onreadystatechange = function () {
-		if (pingxhttp.readyState === 4) {
-			apps.savemaster.vars.saving = 0;
-			callbackScript([perfCheck("ping"), pingxhttp.status]);
-		}
-	};
-	pingxhttp.open("GET", "xmlping.php", "true");
-	perfStart("ping");
-	apps.savemaster.vars.saving = 1;
-	pingxhttp.send();
-}
 
 // Live elements allow dynamic content to be placed on the page w/o manual updating
 let liveElements = [];
@@ -1519,6 +1477,8 @@ function ctxMenu(setupArray, version, event, args) {
 					) {
 						tempCtxContent += "<hr>";
 					}
+
+					// skipcq JS-D009
 					if (newCtxSetup[i][2]) {
 						ctxMenuImg =
 							'<img src="' +
@@ -1528,6 +1488,8 @@ function ctxMenu(setupArray, version, event, args) {
 						ctxMenuImg =
 							'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 					}
+					
+					// skipcq JS-D009
 					if (
 						newCtxSetup[i][0](newCtxArgs)[0] === "-" ||
 						newCtxSetup[i][0](newCtxArgs)[0] === "_"
@@ -1567,6 +1529,8 @@ function ctxMenu(setupArray, version, event, args) {
 						ctxMenuImg =
 							'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 					}
+
+					//// skipcq JS-D009
 					if (newCtxSetup[i][0][0] === "-" || newCtxSetup[i][0][0] === "_") {
 						tempCtxContent +=
 							'<p class="hiddenCtxOption">' +
@@ -1624,6 +1588,8 @@ function ctxMenu(setupArray, version, event, args) {
 						tempCtxContent += "<hr>";
 					}
 				}
+
+				// // skipcq JS-D009
 				if (ctxSetup[0][2]) {
 					ctxMenuImg =
 						'<img src="' +
@@ -1633,6 +1599,8 @@ function ctxMenu(setupArray, version, event, args) {
 					ctxMenuImg =
 						'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 				}
+
+				// skipcq JS-D009
 				if (ctxSetup[i][0] === "-" || ctxSetup[i][0] === "_") {
 					tempCtxContent +=
 						'<p class="hiddenCtxOption">' +
@@ -1922,7 +1890,6 @@ function toggleFlowMode() {
 	}
 }
 
-let sessionStorageSupported = 1;
 try {
 	if (typeof sessionStorage === "undefined") {
 		sessionStorage = {
@@ -1936,7 +1903,6 @@ try {
 				return false;
 			},
 		};
-		sessionStorageSupported = 0;
 	}
 } catch (err) {
 	sessionStorage = {
@@ -1950,7 +1916,6 @@ try {
 			return false;
 		},
 	};
-	sessionStorageSupported = 0;
 }
 try {
 	if (typeof localStorage === "undefined") {

@@ -35,11 +35,7 @@ const dateForms = {
 			date.getHours() > 12
 				? String(date.getHours() - 12)
 				: String(date.getHours());
-		if (tempDayt === "0") {
-			tempDate += "12";
-		} else {
-			tempDate += tempDayt;
-		}
+		tempDate += tempDayt === "0" ? "12" : tempDayt;
 	},
 	H: function () {
 		// 24-hour time

@@ -167,7 +167,7 @@ const AppPrompt = () => {
 										"<p>" +
 										this.notifs[i].content +
 										"</p>";
-									for (var j in this.notifs[i].buttons) {
+									for (let j in this.notifs[i].buttons) {
 										modalText +=
 											'<button onclick="apps.prompt.vars.modalSubmit(this.parentNode, ' +
 											j +
@@ -226,7 +226,7 @@ const AppPrompt = () => {
 									.join("<br>") +
 								"</div>" +
 								'<div class="notifButtons">';
-							for (var j in this.notifs[i].buttons) {
+							for (let j in this.notifs[i].buttons) {
 								notifText +=
 									'<button onclick="apps.prompt.vars.notifClick(this.parentNode.parentNode, ' +
 									j +

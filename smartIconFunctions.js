@@ -74,9 +74,6 @@ function updateSmartIconStyle() {
 	}
 }
 
-function saveSmartIconStyle() {
-	ufsave("system/smarticon_settings", JSON.stringify(smartIconOptions));
-}
 function buildSmartIcon(size, options, optionalcss) {
 	if (typeof options === "string") {
 		options = {
@@ -155,16 +152,4 @@ function buildSmartIcon(size, options, optionalcss) {
 	}
 	icoTemp += "</div></div>";
 	return icoTemp;
-}
-
-function buildMarquee(text, style) {
-	return (
-		'<div class="marquee" style="' +
-		(style || "") +
-		'"><div class="marqueetext1">' +
-		text +
-		'</div><div class="marqueetext2">' +
-		text +
-		"</div></div>"
-	);
 }
