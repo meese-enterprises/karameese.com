@@ -128,7 +128,7 @@ const AppPrompt = () => {
 			checkNotifs: function () {
 				const modalsFound = [];
 				const notifsFound = [];
-				for (let i in this.notifs) {
+				for (const i in this.notifs) {
 					if (this.notifs[i].notifType === "notify") {
 						notifsFound.push(i);
 					} else if (
@@ -143,7 +143,7 @@ const AppPrompt = () => {
 					apps.prompt.vars.showModals();
 					if (modalsFound !== this.lastModalsFound) {
 						let modalText = "";
-						for (let i of modalsFound) {
+						for (const i of modalsFound) {
 							modalText +=
 								'<div style="position:relative" data-modal="' + i + '">';
 							switch (this.notifs[i].notifType) {
@@ -212,7 +212,7 @@ const AppPrompt = () => {
 					apps.prompt.vars.showNotifs();
 					if (notifsFound !== this.lastNotifsFound) {
 						let notifText = "";
-						for (let i of notifsFound) {
+						for (const i of notifsFound) {
 							notifText +=
 								'<div class="notifWindow noselect darkResponsive" data-notif="' +
 								i +

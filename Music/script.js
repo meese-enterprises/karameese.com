@@ -26,7 +26,7 @@ window.setVolume = setVolume;
 
 const fileNames = [];
 window.fileNames = fileNames;
-var currentSong = -1;
+let currentSong = -1;
 window.currentSong = currentSong;
 let winsize = [window.innerWidth, window.innerHeight];
 window.size = [window.innerWidth - 8, window.innerHeight - 81];
