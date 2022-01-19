@@ -343,7 +343,9 @@ function checkLiveElements() {
 							eval(liveElements[elem].getAttribute("data-live-eval")) +
 							'"'
 					);
-				} catch (err) {}
+				} catch (err) {
+					// continue regardless of error
+				}
 			}
 		}
 	}
@@ -2051,7 +2053,9 @@ bootFileHTTP.onreadystatechange = function () {
 
 		try {
 			updateBgSize();
-		} catch (err) {}
+		} catch (err) {
+			// continue regardless of error
+		}
 
 		requestAnimationFrame(function () {
 			bootFileHTTP = null;
@@ -2087,7 +2091,9 @@ c(function () {
 
 	try {
 		updateBgSize();
-	} catch (err) {}
+	} catch (err) {
+		// continue regardless of error
+	}
 	requestAnimationFrame(function () {
 		bootFileHTTP = null;
 	});
@@ -2111,7 +2117,9 @@ c(function () {
 					toTop(apps[document.activeElement.getAttribute("data-parent-app")]);
 				}
 			}
-		} catch (err) {}
+		} catch (err) {
+			// continue regardless of error
+		}
 	};
 
 	setInterval(iframeblurcheck, 500);

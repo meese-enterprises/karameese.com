@@ -384,5 +384,7 @@ function fitWindow() {
 	arrangeDesktopIcons();
 	try {
 		updateBgSize();
-	} catch (err) {}
+	} catch (err) {
+		// continue regardless of error
+	}
 }

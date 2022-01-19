@@ -29,8 +29,7 @@ const PropertiesViewer = () => {
 				this.appWindow.setCaption(fileName + " Properties");
 
 				let fileDescription = "";
-				if (filePath[0] === "USERFILES") {
-				} else if (filePath[0] === "apps" && filePath.length > 1) {
+				if (filePath[0] === "apps" && filePath.length > 1) {
 					fileDescription =
 						"This item belongs to the app " + apps[filePath[1]].appName + ".";
 				}
