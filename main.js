@@ -854,15 +854,11 @@ function newDsktpIcon(
 		title = apps[owner] ? apps[owner].appName : "Icon";
 	}
 	if (!icon) {
-		if (apps[owner]) {
-			icon = {
+		icon = apps[owner] ? {
 				...apps[owner].appWindow.appImg,
-			};
-		} else {
-			icon = {
+			} : {
 				...apps.startMenu.appWindow.appImg,
 			};
-		}
 	}
 	if (typeof icon === "string") {
 		icon = { foreground: icon };
