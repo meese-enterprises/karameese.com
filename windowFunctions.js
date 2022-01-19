@@ -1,4 +1,4 @@
-/*global getId*/
+/* global getId */
 
 // Function to allow app windows to be moved
 let winmoveSelect = "";
