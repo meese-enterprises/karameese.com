@@ -29,11 +29,9 @@ apps.files = new Application({
 				'<div id="FIL2viewModeIcon" style="pointer-events:none; color:#7F7F7F; text-align:right; left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px);"></div>' + 
 				'<div id="FIL2search" class="darkResponsive" style="left:55px; top:26px; font-family:monospace; height:22px; line-height:22px; vertical-align:middle; width:calc(100% - 110px);"><input id="FIL2searchInput" placeholder="Search" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:20px;padding:0;padding-left:8px;" onkeyup="apps.files.vars.updateSearch(this.value)"></div>' + 
 				'<div class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; left:5px; top:27px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center; display:none" onClick=""></div>' + 
-				'<div title="Toggle Favorite" class="cursorPointer darkResponsive" style="width:24px; border-left:1px solid #333; height:18px; padding-top:2px; left:30px; top:27px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center;" onClick="apps.files.vars.toggleFavorite(apps.files.vars.currLoc)"><img class="darkInvert" style="position:absolute;display:block;left:8px;top:5px;" src="ctxMenu/happy.png"></div>' + 
 				'</div>' + 
 				'<div id="FIL2sidebar" class="darkResponsive" style="overflow-y:scroll; border-top-left-radius:5px; font-family:W95FA, Courier, monospace; font-size:12px; width:144px; max-width:30%; padding:3px; height:calc(100% - 56px); top:50px;">' + 
 				'Home<br><div id="FIL2home" class="FIL2sidetbl FIL2viewMedium"></div><br>' + 
-				'Favorites<br><div id="FIL2favorites" class="FIL2sidetbl FIL2viewMedium"></div><br>' + 
 				'Navigation<br><div id="FIL2nav" class="FIL2sidetbl FIL2viewMedium"></div></div>' + 
 				'<div class="darkResponsive" style="width:calc(100% - 151px); border-top-right-radius:5px; min-width:calc(70% - 7px); right:0; height:calc(100% - 50px); top:50px; background-repeat:no-repeat; background-position:center" id="FIL2cntn"></div>' 
 			); 
@@ -42,7 +40,6 @@ apps.files = new Application({
 				'<img src="files/small/folder.png"> ' + 
 				'art/' + 
 				'</div>'; 
-			this.vars.updateFavorites(1); 
 			this.vars.setViewMode(this.vars.currViewMode, 1); 
 		} 
 	}, 
@@ -296,9 +293,7 @@ apps.files = new Application({
 					'<div class="cursorPointer" onClick="apps.files.vars.next(\'art/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'art/\\\');toTop(apps.properties)\'])">' + 
 					'<img src="files/small/folder.png"> ' + 
 					'art/' + 
-					'</div>' + 
-					'<br><br><span style="padding-left:3px;line-height:18px;">Favorites</span><br>'; 
-				this.updateFavorites(1, 1); 
+					'</div>'; 
 				getId("FIL2green").className = ''; 
 				getId('FIL2green').style.backgroundColor = "#FFF"; 
 				getId("FIL2green").style.display = "none"; 
@@ -404,82 +399,7 @@ apps.files = new Application({
 					searchElems[i].style.display = ''; 
 				} 
 			} 
-		}, 
-		favorites: [], 
-		updateFavorites: function (mainPage) { 
-			ufsave('system/apps/files/favorites', JSON.stringify(this.favorites));
-			var tempHTML = ''; 
-			for (let i in this.favorites) { 
-				var currPath = this.favorites[i].split('/'); 
-				var cleanEscapeRun = 0; 
-				while (!cleanEscapeRun) { 
-					cleanEscapeRun = 1; 
-					for (let j = 0; j < currPath.length - 1; j++) { 
-						if (currPath[j][currPath[j].length - 1] === '\\') { 
-							currPath.splice(j, 2, currPath[j].substring(0, currPath[j].length) + '/' + currPath[j + 1]); 
-							cleanEscapeRun = 0; 
-							break; 
-						} 
-					} 
-					if (cleanEscapeRun && currPath.length > 0) { 
-						if (currPath[currPath.length - 1][currPath[currPath.length - 1].length - 1] === '\\') { 
-							currPath.splice(j, 1, currPath[currPath.length - 1].substring(0, currPath[currPath.length - 1].length) + '/'); 
-							cleanEscapeRun = 0; 
-						} 
-					} 
-				} 
-				if (currPath[currPath.length - 1] === "") { 
-					currPath.pop(); 
-				} 
-				if (currPath[0] === "") { 
-					currPath.shift(); 
-				} 
-				if (currPath.length === 0) { 
-					tempHTML += '<div class="cursorPointer" onclick="apps.files.vars.currLoc = \'/\';apps.files.vars.update()" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \'-Properties\', \'\', \'+Remove Favorite\', \'apps.files.vars.toggleFavorite(\\\'/\\\')\', \'_Delete\', \'\'])">' + 
-						'<img src="files/small/folder.png"> ' + 
-						'/' + 
-						'</div>'; 
-				} else { 
-					var currName = currPath[currPath.length - 1]; 
-
-					// skipcq JS-D009
-					if (currPath.indexOf("apps") === 0 && currPath.length === 2) { 
-						tempHTML += '<div class="cursorPointer" onclick="apps.files.vars.currLoc = \'' + this.favorites[i] + '\';apps.files.vars.update()" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + this.favorites[i] + '\\\');toTop(apps.properties)\', \'+Remove Favorite\', \'apps.files.vars.toggleFavorite(\\\'' + this.favorites[i] + '\\\')\', \'_Delete\', \'\'])">' + 
-							buildSmartIcon(16, (apps[currName] || { 
-								appWindow: { 
-									appImg: { 
-										foreground: "appicons/redx.png" 
-									} 
-								} 
-							}).appWindow.appImg) + ' ' + 
-							currName.split('\\/').join('/') + "/" + 
-							'</div>'; 
-					} else { 
-						tempHTML += '<div class="cursorPointer" onclick="apps.files.vars.currLoc = \'' + this.favorites[i] + '\';apps.files.vars.update()" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + this.favorites[i] + '\\\');toTop(apps.properties)\', \'+Remove Favorite\', \'apps.files.vars.toggleFavorite(\\\'' + this.favorites[i] + '\\\')\', \'_Delete\', \'\'])">' + 
-							'<img src="files/small/folder.png"> ' + 
-							currName.split('\\/').join('/') + '/' + 
-							'</div>'; 
-					} 
-				} 
-			} 
-			if (mainPage) { 
-				getId("FIL2tbl").innerHTML += tempHTML; 
-			} else { 
-				getId("FIL2favorites").innerHTML = tempHTML; 
-				if (this.currLoc === '/') { 
-					this.update(); 
-				} 
-			} 
-		}, 
-		toggleFavorite: function (item) { 
-			var itemLocation = this.favorites.indexOf(item); 
-			if (itemLocation === -1) { 
-				this.favorites.push(item); 
-			} else { 
-				this.favorites.splice(itemLocation, 1); 
-			} 
-			this.updateFavorites(); 
-		} 
+		},
 	}, 
 	signalHandler: function (signal) { 
 		switch (signal) { 
@@ -503,9 +423,6 @@ apps.files = new Application({
 			case "USERFILES_DONE": 
 				if (ufload("system/apps/files/view_mode")) { 
 					this.vars.setViewMode(parseInt(ufload("system/apps/files/view_mode")), 1); 
-				} 
-				if (ufload("system/apps/files/favorites")) { 
-					this.vars.favorites = JSON.parse(ufload("system/apps/files/favorites")); 
 				} 
 				break; 
 			default: 

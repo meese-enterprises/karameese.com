@@ -11,7 +11,6 @@
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 	<style id="smartIconStyle"></style>
 	<link rel="stylesheet" type="text/css" href="win95.css">
-	<script src="ghostCursor.js"></script>
 </head>
 
 <body id="pagebody">
@@ -66,11 +65,12 @@
 </body>
 
 <?php
+	// Guarantees the availability of the document.
+	echo '<script src="./ghostCursor.js"></script>';
 	echo '<script src="./helperFunctions.js"></script>';
 	echo '<script src="./dateFunctions.js"></script>';
 	echo '<script src="./smartIconFunctions.js"></script>';
 	echo '<script src="./widgetFunctions.js"></script>';
-	echo '<script src="./windowFunctions.js"></script>';
 
 	echo '<script src="./widgets/flow.js"></script>';
 	echo '<script src="./widgets/notifications.js"></script>';
@@ -92,9 +92,7 @@
 	echo '<script src="./apps/smart_icon_settings.js"></script>';
 	echo '<script src="./apps/view_count.js"></script>';
 	echo '<script src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
-?>
 
-<?php
 	echo '<script defer>';
 	require 'filepreloaderBeta.php';
 	echo '</script>';

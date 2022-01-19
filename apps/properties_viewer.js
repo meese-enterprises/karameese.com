@@ -42,10 +42,10 @@ const PropertiesViewer = () => {
 					"</span><br>" +
 					'<span style="font-size:24px;">' +
 					apps.files.vars.filetype(
-						typeof apps.bash.vars.getRealDir(fileToOpen)
+						typeof apps.files.vars.getRealDir(fileToOpen)
 					) +
 					" / " +
-					typeof apps.bash.vars.getRealDir(fileToOpen) +
+					typeof apps.files.vars.getRealDir(fileToOpen) +
 					"</span><br><br><br>" +
 					fileDescription +
 					"<br><br>" +

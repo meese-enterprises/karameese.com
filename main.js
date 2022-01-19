@@ -110,16 +110,6 @@ if (darkMode) {
 	document.body.classList.remove("darkMode");
 }
 
-var mobileMode = false;
-function setMobile(newSetting) {
-	mobileMode = newSetting;
-	if (newSetting) {
-		getId("monitor").classList.add("mobileMode");
-	} else {
-		getId("monitor").classList.remove("mobileMode");
-	}
-}
-
 // Sanitize a string to make HTML safe
 function cleanStr(str) {
 	return str
@@ -158,7 +148,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
 					randomPhrase,
 				["Open Console", "Dismiss"],
 				function (btn) {
-					if (!btn) openapp(apps.jsConsole, "dsktp");
+					//if (!btn) openapp(apps.jsConsole, "dsktp");
 				},
 				"Uncaught Error",
 				"appicons/redx.png"
@@ -183,9 +173,6 @@ window.onerror = function (errorMsg, url, lineNumber) {
 		console.log("");
 	}
 };
-
-// Scale of screen, for HiDPI compatibility or for smaller devices
-const screenScale = 1;
 
 let modulelast = `init ${websiteTitle}`;
 var module = modulelast;
@@ -283,25 +270,11 @@ function checkLiveElements() {
 }
 requestAnimationFrame(checkLiveElements);
 
-// List of pinned apps
-const pinnedApps = [];
-
-function pinApp(app) {
-	if (pinnedApps.indexOf(app) === -1) {
-		pinnedApps.push(app);
-	} else {
-		pinnedApps.splice(pinnedApps.indexOf(app), 1);
-	}
-	ufsave("system/taskbar/pinned_apps", JSON.stringify(pinnedApps));
-}
-
 // Application class
 m("init Application class");
 var apps = {};
 window.apps = apps;
 
-// skipcq JS-0128
-var appsSorted = [];
 let appPosX = 8;
 let appPosY = 8;
 
@@ -545,9 +518,7 @@ const Application = function (
 					300
 				);
 
-				if (pinnedApps.indexOf(this.objName) === -1) {
-					getId("icn_" + this.objName).style.display = "none";
-				}
+				getId("icn_" + this.objName).style.display = "none";
 				getId("icn_" + this.objName).classList.remove("openAppIcon");
 				this.fullscreen = 0;
 				if (this.folded) {
@@ -561,9 +532,7 @@ const Application = function (
 				);
 			},
 			closeIcon: function () {
-				if (pinnedApps.indexOf(this.objName) === -1) {
-					getId("icn_" + this.objName).style.display = "none";
-				}
+				getId("icn_" + this.objName).style.display = "none";
 			},
 			folded: 0,
 			foldWindow: function () {
@@ -912,27 +881,7 @@ function newDsktpIcon(
 		title +
 		"</div>";
 	getId("desktop").appendChild(tempIco);
-	ufsave("system/desktop/user_icons/ico_" + id, JSON.stringify(dsktp[id]));
 	arrangeDesktopIcons();
-}
-
-function removeDsktpIcon(id) {
-	if (dsktp[id]) {
-		delete dsktp[id];
-		getId("desktop").removeChild(getId("app_" + id));
-		if (ufload("system/desktop/user_icons/ico_" + id)) {
-			ufdel("system/desktop/user_icons/ico_" + id);
-		} else {
-			ufsave(
-				"system/desktop/user_icons/ico_" + id,
-				JSON.stringify({
-					removed: "true",
-					id: id,
-				})
-			);
-		}
-		arrangeDesktopIcons();
-	}
 }
 
 function arrangeDesktopIcons() {
@@ -1193,7 +1142,7 @@ c(function () {
 });
 
 // Function to open apps
-let currTopApp = "";
+var currTopApp = "";
 function toTop(appToNudge, dsktpClick) {
 	if (!appToNudge) return;
 	m("Moving App " + appToNudge.dsktpIcon + " to Top");
@@ -1217,6 +1166,7 @@ function toTop(appToNudge, dsktpClick) {
 			);
 		}
 	}
+
 	if (!dsktpClick) {
 		if (
 			appToNudge.appWindow.appIcon &&
@@ -1239,6 +1189,7 @@ function toTop(appToNudge, dsktpClick) {
 	} else {
 		document.title = websiteTitle;
 	}
+
 	if (appToNudge !== apps.startMenu && apps.startMenu.appWindow.appIcon) {
 		apps.startMenu.signalHandler("shrink");
 	}
@@ -1306,8 +1257,8 @@ function icomove(e, elem) {
 		);
 	} else {
 		getId("icomove").style.display = "none";
-		let newXCoord = icomoveOrX + (e.pageX - icomovex) * (1 / screenScale);
-		let newYCoord = icomoveOrY + (e.pageY - icomovey) * (1 / screenScale);
+		let newXCoord = icomoveOrX + (e.pageX - icomovex);
+		let newYCoord = icomoveOrY + (e.pageY - icomovey);
 		newXCoord = Math.round(newXCoord / 108) * 108 + 8;
 		newYCoord = Math.round(newYCoord / 98) * 98 + 8;
 		dsktp[icomoveSelect.substring(4)].position = [newXCoord, newYCoord];
@@ -1325,9 +1276,9 @@ getId("icomove").addEventListener("click", icomove);
 // skipcq JS-0128
 function icomoving(e) {
 	getId(icomoveSelect).style.left =
-		icomoveOrX + (e.pageX - icomovex) * (1 / screenScale) + "px";
+		icomoveOrX + (e.pageX - icomovex) + "px";
 	getId(icomoveSelect).style.top =
-		icomoveOrY + (e.pageY - icomovey) * (1 / screenScale) + "px";
+		icomoveOrY + (e.pageY - icomovey) + "px";
 }
 
 // Custom icons; TODO
@@ -1347,8 +1298,8 @@ function icnmove(e, elem) {
 		);
 	} else {
 		getId("icnmove").style.display = "none";
-		let newXCoord = icomoveOrX + (e.pageX - icomovex) * (1 / screenScale);
-		let newYCoord = icomoveOrY + (e.pageY - icomovey) * (1 / screenScale);
+		let newXCoord = icomoveOrX + (e.pageX - icomovex);
+		let newYCoord = icomoveOrY + (e.pageY - icomovey);
 		newXCoord = Math.round(newXCoord / 108) * 108 + 8;
 		newYCoord = Math.round(newYCoord / 98) * 98 + 8;
 		getId(icomoveSelect).style.left = newXCoord + "px";
@@ -1361,9 +1312,9 @@ getId("icnmove").addEventListener("click", icnmove);
 // skipcq JS-0128
 function icnmoving(e) {
 	getId(icomoveSelect).style.left =
-		icomoveOrX + (e.pageX - icomovex) * (1 / screenScale) + "px";
+		icomoveOrX + (e.pageX - icomovex) + "px";
 	getId(icomoveSelect).style.top =
-		icomoveOrY + (e.pageY - icomovey) * (1 / screenScale) + "px";
+		icomoveOrY + (e.pageY - icomovey) + "px";
 }
 
 function scrollHorizontally(event) {
@@ -1424,24 +1375,24 @@ function versionCtxMenu(setupArray, event, args) {
 		showingCtxMenu = 0;
 	});
 	newCtxCoord = [
-		event.pageX * (1 / screenScale),
-		event.pageY * (1 / screenScale),
+		event.pageX,
+		event.pageY,
 	];
 	newCtxArgs = args;
 	newCtxSetup = setupArray;
 	getId("ctxMenu").style.display = "block";
-	if (newCtxCoord[0] > (window.innerWidth * (1 / screenScale)) / 2) {
+	if (newCtxCoord[0] > window.innerWidth / 2) {
 		getId("ctxMenu").style.removeProperty("left");
 		getId("ctxMenu").style.right =
-			window.innerWidth * (1 / screenScale) - newCtxCoord[0] - 1 + "px";
+			window.innerWidth - newCtxCoord[0] - 1 + "px";
 	} else {
 		getId("ctxMenu").style.removeProperty("right");
 		getId("ctxMenu").style.left = newCtxCoord[0] + "px";
 	}
-	if (newCtxCoord[1] > (window.innerHeight * (1 / screenScale)) / 2) {
+	if (newCtxCoord[1] > window.innerHeight / 2) {
 		getId("ctxMenu").style.removeProperty("top");
 		getId("ctxMenu").style.bottom =
-			window.innerHeight * (1 / screenScale) - newCtxCoord[1] - 1 + "px";
+			window.innerHeight - newCtxCoord[1] - 1 + "px";
 	} else {
 		getId("ctxMenu").style.removeProperty("bottom");
 		getId("ctxMenu").style.top = newCtxCoord[1] + "px";
@@ -1542,20 +1493,18 @@ function unversionedCtxMenu(setupArray) {
 	});
 	ctxSetup = setupArray;
 	getId("ctxMenu").style.display = "block";
-	ctxSetup[0][0] *= 1 / screenScale;
-	ctxSetup[0][1] *= 1 / screenScale;
-	if (ctxSetup[0][0] > (window.innerWidth * (1 / screenScale)) / 2) {
+	if (ctxSetup[0][0] > window.innerWidth / 2) {
 		getId("ctxMenu").style.removeProperty("left");
 		getId("ctxMenu").style.right =
-			window.innerWidth * (1 / screenScale) - ctxSetup[0][0] - 1 + "px";
+			window.innerWidth - ctxSetup[0][0] - 1 + "px";
 	} else {
 		getId("ctxMenu").style.removeProperty("right");
 		getId("ctxMenu").style.left = ctxSetup[0][0] + "px";
 	}
-	if (ctxSetup[0][1] > (window.innerHeight * (1 / screenScale)) / 2) {
+	if (ctxSetup[0][1] > window.innerHeight / 2) {
 		getId("ctxMenu").style.removeProperty("top");
 		getId("ctxMenu").style.bottom =
-			window.innerHeight * (1 / screenScale) - ctxSetup[0][1] - 1 + "px";
+			window.innerHeight - ctxSetup[0][1] - 1 + "px";
 	} else {
 		getId("ctxMenu").style.removeProperty("bottom");
 		getId("ctxMenu").style.top = ctxSetup[0][1] + "px";
@@ -1611,13 +1560,6 @@ const baseCtx = {
 			openapp(apps.settings, 'dsktp');
 		}, 'ctxMenu/gear.png'], */
 		[
-			" JavaScript Console",
-			function () {
-				openapp(apps.jsConsole, "dsktp");
-			},
-			"ctxMenu/console.png",
-		],
-		[
 			"+Change Screen Resolution",
 			function () {
 				openapp(apps.settings, "dsktp");
@@ -1629,13 +1571,13 @@ const baseCtx = {
 		/* [' Settings', function() {
 			openapp(apps.settings, 'dsktp');
 		}, 'ctxMenu/gear.png'], */
-		[
+		/*[
 			" JavaScript Console",
 			function () {
 				openapp(apps.jsConsole, "dsktp");
 			},
 			"ctxMenu/console.png",
-		],
+		],*/
 		[
 			function () {
 				return "+Speak" + ' "' + currentSelection.substring(0, 5) + '..."';
@@ -1650,13 +1592,13 @@ const baseCtx = {
 		/* [' Settings', function() {
 			openapp(apps.settings, 'dsktp');
 		}, 'ctxMenu/gear.png'], */
-		[
+		/*[
 			" JavaScript Console",
 			function () {
 				openapp(apps.jsConsole, "dsktp");
 			},
 			"ctxMenu/console.png",
-		],
+		],*/
 		/* ['+Taskbar Settings', function() {
 			openapp(apps.settings, 'dsktp');
 		}, 'ctxMenu/gear.png'] */
@@ -1675,13 +1617,6 @@ const baseCtx = {
 				icomove(args[0], args[1]);
 			},
 		],
-		[
-			"+Delete Icon",
-			function (args) {
-				removeDsktpIcon(args[1]);
-			},
-			"ctxMenu/x.png",
-		],
 	],
 	appXXXjs: [
 		[
@@ -1696,13 +1631,6 @@ const baseCtx = {
 			function (args) {
 				icomove(args[0], args[1]);
 			},
-		],
-		[
-			"+Delete Icon",
-			function (args) {
-				removeDsktpIcon(args[1]);
-			},
-			"ctxMenu/x.png",
 		],
 	],
 	icnXXX: [
@@ -1727,44 +1655,6 @@ const baseCtx = {
 				apps[arg].signalHandler("shrink");
 			},
 			"ctxMenu/minimize.png",
-		],
-		[
-			function (arg) {
-				return pinnedApps.indexOf(arg) === -1 ? "+Pin App" : "+Unpin App";
-			},
-			function (arg) {
-				pinApp(arg);
-				if (pinnedApps.indexOf(arg) === -1 && !apps[arg].appWindow.appIcon) {
-					getId("icn_" + arg).style.display = "none";
-				}
-			},
-			"ctxMenu/minimize.png",
-		],
-		[
-			function (arg) {
-				return dsktp[arg] ? "_Add Desktop Icon" : "+Add Desktop Icon";
-			},
-			function (arg) {
-				if (dsktp[arg]) {
-					removeDsktpIcon(arg);
-				} else {
-					newDsktpIcon(arg, arg);
-				}
-			},
-			"ctxMenu/add.png",
-		],
-		[
-			function (arg) {
-				return dsktp[arg] ? " Remove Desktop Icon" : "-Remove Desktop Icon";
-			},
-			function (arg) {
-				if (dsktp[arg]) {
-					removeDsktpIcon(arg);
-				} else {
-					newDsktpIcon(arg, arg);
-				}
-			},
-			"ctxMenu/x.png",
 		],
 		[
 			"+Close",
@@ -1904,41 +1794,6 @@ try {
 }
 fadeResizeText();
 
-// Set up LOCALFILES
-window.LOCALFILES = {};
-window.lfload = function (file, debug) {
-	try {
-		if (debug) {
-			doLog("lfload " + file + ":", "#ABCDEF");
-			doLog(apps.files.vars.getRealDir("/LOCALFILES/" + file), "#ABCDEF");
-		}
-		return apps.files.vars.getRealDir("/LOCALFILES/" + file);
-	} catch (err) {
-		if (debug) {
-			doLog(err, "#FFCDEF");
-		}
-		return null;
-	}
-};
-window.lfdel = function (filename) {
-	eval("delete " + apps.files.vars.translateDir("/LOCALFILES/" + filename));
-};
-
-
-
-// Set up service worker
-if ("serviceWorker" in navigator) {
-	window.addEventListener("load", function () {
-		navigator.serviceWorker.register("serviceworker.js").then(function (err) {
-			try {
-				doLog("ServiceWorker registration failed: " + err, "#F00");
-			} catch (err2) {
-				console.log("ServiceWorker registration failed: " + err);
-			}
-		});
-	});
-}
-
 c(function () {
 	getId("loadingInfo").innerHTML = "Loading your files...";
 
@@ -2050,6 +1905,411 @@ window.resetOS = function () {
 	document.cookie = "keyword=; Max-Age=-99999999;";
 	window.location = "index.php";
 };
+
+/*global getId*/
+
+// Function to allow app windows to be moved
+let winmoveSelect = "";
+let winmovex = 0;
+let winmovey = 0;
+let winmoveOrX = 0;
+let winmoveOrY = 0;
+let winmovecurrapp = "";
+
+function winmove(e) {
+	if (e.currentTarget !== getId("winmove")) {
+		getId("winmove").style.display = "block";
+		winmoveSelect = e.currentTarget.id.substring(
+			0,
+			e.currentTarget.id.length - 4
+		);
+		winmovex = e.pageX;
+		winmovey = e.pageY;
+		for (const app in apps) {
+			if (
+				apps[app].objName == winmoveSelect.substring(4, winmoveSelect.length)
+			) {
+				winmovecurrapp = app;
+				break;
+			}
+		}
+		winmoveOrX = apps[winmovecurrapp].appWindow.windowX;
+		winmoveOrY = apps[winmovecurrapp].appWindow.windowY;
+		if (document.activeElement.tagName === "IFRAME") {
+			if (document.activeElement.getAttribute("data-parent-app")) {
+				if (e.currentTarget.id) {
+					if (
+						"win_" +
+							document.activeElement.getAttribute("data-parent-app") +
+							"_cap" !==
+						e.currentTarget.id
+					) {
+						document.activeElement.blur();
+					}
+				} else {
+					if (
+						"win_" +
+							document.activeElement.getAttribute("data-parent-app") +
+							"_cap" !==
+						e.currentTarget.parentNode.id
+					) {
+						document.activeElement.blur();
+					}
+				}
+			}
+		}
+	} else {
+		getId("winmove").style.display = "none";
+		if (!mobileMode) {
+			apps[winmovecurrapp].appWindow.setDims(
+				winmoveOrX + (e.pageX - winmovex),
+				winmoveOrY + (e.pageY - winmovey),
+				apps[winmovecurrapp].appWindow.windowH,
+				apps[winmovecurrapp].appWindow.windowV
+			);
+		}
+	}
+}
+getId("winmove").addEventListener("click", winmove);
+
+// skipcq JS-0128
+function winmoving(e) {
+	winmovelastx = e.pageX;
+	winmovelasty = e.pageY;
+	if (!mobileMode) {
+		apps[winmovecurrapp].appWindow.setDims(
+			winmoveOrX + (e.pageX - winmovex),
+			winmoveOrY + (e.pageY - winmovey),
+			apps[winmovecurrapp].appWindow.windowH,
+			apps[winmovecurrapp].appWindow.windowV
+		);
+	}
+}
+
+let tempwinresmode = [1, 1];
+let winresOrX = 0;
+let winresOrY = 0;
+
+// skipcq JS-0128
+function winres(e) {
+	if (e.currentTarget !== getId("winres")) {
+		getId("winres").style.display = "block";
+		winmoveSelect = e.currentTarget.id.substring(
+			0,
+			e.currentTarget.id.length - 5
+		);
+		winmovex = e.pageX;
+		winmovey = e.pageY;
+		for (const app in apps) {
+			if (
+				apps[app].objName == winmoveSelect.substring(4, winmoveSelect.length)
+			) {
+				winmovecurrapp = app;
+				break;
+			}
+		}
+
+		winmoveOrX = apps[winmovecurrapp].appWindow.windowH;
+		winmoveOrY = apps[winmovecurrapp].appWindow.windowV;
+
+		tempwinresmode = [1, 1];
+		if (winmovex - apps[winmovecurrapp].appWindow.windowX < winBorder * 5) {
+			tempwinresmode[0] = 0;
+			winresOrX = apps[winmovecurrapp].appWindow.windowX;
+		} else if (
+			winmovex -
+				apps[winmovecurrapp].appWindow.windowX -
+				apps[winmovecurrapp].appWindow.windowH >
+			winBorder * -5
+		) {
+			tempwinresmode[0] = 2;
+		}
+		if (winmovey - apps[winmovecurrapp].appWindow.windowY < winBorder * 5) {
+			tempwinresmode[1] = 0;
+			winresOrY = apps[winmovecurrapp].appWindow.windowY;
+		} else if (
+			winmovey -
+				apps[winmovecurrapp].appWindow.windowY -
+				apps[winmovecurrapp].appWindow.windowV >
+			winBorder * -5
+		) {
+			tempwinresmode[1] = 2;
+		}
+
+		if (document.activeElement.tagName === "IFRAME") {
+			if (document.activeElement.getAttribute("data-parent-app")) {
+				if (e.currentTarget.id) {
+					if (
+						"win_" +
+							document.activeElement.getAttribute("data-parent-app") +
+							"_size" !==
+						e.currentTarget.id
+					) {
+						document.activeElement.blur();
+					}
+				}
+			}
+		}
+	} else {
+		getId("winres").style.display = "none";
+		let newWidth = apps[winmovecurrapp].appWindow.windowH;
+		let newHeight = apps[winmovecurrapp].appWindow.windowV;
+		let newLeft = apps[winmovecurrapp].appWindow.windowX;
+		let newTop = apps[winmovecurrapp].appWindow.windowY;
+		if (tempwinresmode[0] === 2) {
+			newWidth = winmoveOrX + (e.pageX - winmovex);
+		} else if (tempwinresmode[0] === 0) {
+			newWidth = winmoveOrX - (e.pageX - winmovex);
+			newLeft = winresOrX + (e.pageX - winmovex);
+		}
+
+		if (tempwinresmode[1] === 2) {
+			newHeight = winmoveOrY + (e.pageY - winmovey);
+		} else if (tempwinresmode[1] === 0) {
+			newHeight = winmoveOrY - (e.pageY - winmovey);
+			newTop = winresOrY + (e.pageY - winmovey);
+		}
+
+		apps[winmovecurrapp].appWindow.setDims(
+			newLeft,
+			newTop,
+			newWidth,
+			newHeight
+		);
+	}
+}
+getId("winres").addEventListener("click", winres);
+
+// skipcq JS-0128
+function winresing(e) {
+	let newWidth = apps[winmovecurrapp].appWindow.windowH;
+	let newHeight = apps[winmovecurrapp].appWindow.windowV;
+	let newLeft = apps[winmovecurrapp].appWindow.windowX;
+	let newTop = apps[winmovecurrapp].appWindow.windowY;
+	if (tempwinresmode[0] === 2) {
+		newWidth = winmoveOrX + (e.pageX - winmovex);
+	} else if (tempwinresmode[0] === 0) {
+		newWidth = winmoveOrX - (e.pageX - winmovex);
+		newLeft = winresOrX + (e.pageX - winmovex);
+	}
+	if (tempwinresmode[1] === 2) {
+		newHeight = winmoveOrY + (e.pageY - winmovey);
+	} else if (tempwinresmode[1] === 0) {
+		newHeight = winmoveOrY - (e.pageY - winmovey);
+		newTop = winresOrY + (e.pageY - winmovey);
+	}
+
+	apps[winmovecurrapp].appWindow.setDims(newLeft, newTop, newWidth, newHeight);
+}
+
+// skipcq JS-0128
+function highlightWindow(app) {
+	getId("windowFrameOverlay").style.display = "block";
+	// The 32 is to compensate for the absoltely positioned top bar, which isn't factored in by default
+	getId("windowFrameOverlay").style.top =
+		apps[app].appWindow.windowY + 32 + "px";
+	getId("windowFrameOverlay").style.left = apps[app].appWindow.windowX + "px";
+	getId("windowFrameOverlay").style.width = apps[app].appWindow.windowH + "px";
+	getId("windowFrameOverlay").style.height = apps[app].appWindow.windowV + "px";
+}
+
+window.bgNaturalSize = [1920, 1080];
+window.bgSize = [1920, 1080];
+window.bgPosition = [0, 0];
+
+const bgFit = "center";
+function updateBgSize(noWinblur) {
+	bgNaturalSize = [
+		getId("bgSizeElement").naturalWidth,
+		getId("bgSizeElement").naturalHeight,
+	];
+	var monsize = [
+		parseInt(getId("monitor").style.width),
+		parseInt(getId("monitor").style.height),
+	];
+	var sizeratio = [
+		monsize[0] / bgNaturalSize[0],
+		monsize[1] / bgNaturalSize[1],
+	];
+
+	switch (bgFit) {
+		case "corner":
+			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
+			bgPosition = [0, 0];
+			break;
+		case "stretch":
+			bgSize = [
+				parseInt(getId("monitor").style.width),
+				parseInt(getId("monitor").style.height),
+			];
+			bgPosition = [0, 0];
+			break;
+		case "center":
+			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
+			bgPosition = [
+				monsize[0] / 2 - bgSize[0] / 2,
+				monsize[1] / 2 - bgSize[1] / 2,
+			];
+			break;
+		case "fit":
+			if (sizeratio[0] <= sizeratio[1]) {
+				bgSize = [
+					monsize[0],
+					Math.round(bgNaturalSize[1] * (monsize[0] / bgNaturalSize[0])),
+				];
+				bgPosition = [0, Math.round((monsize[1] - bgSize[1]) / 2)];
+			} else {
+				bgSize = [
+					Math.round(bgNaturalSize[0] * (monsize[1] / bgNaturalSize[1])),
+					monsize[1],
+				];
+				bgPosition = [Math.round((monsize[0] - bgSize[0]) / 2), 0];
+			}
+			break;
+		case "cover":
+			
+			if (sizeratio[0] >= sizeratio[1]) {
+				bgSize = [
+					monsize[0],
+					Math.round(bgNaturalSize[1] * (monsize[0] / bgNaturalSize[0])),
+				];
+				bgPosition = [0, Math.round((monsize[1] - bgSize[1]) / 2)];
+			} else {
+				bgSize = [
+					Math.round(bgNaturalSize[0] * (monsize[1] / bgNaturalSize[1])),
+					monsize[1],
+				];
+				bgPosition = [Math.round((monsize[0] - bgSize[0]) / 2), 0];
+			}
+			break;
+		default:
+			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
+			bgPosition = [0, 0];
+	}
+	getId("monitor").style.backgroundSize = bgSize[0] + "px " + bgSize[1] + "px";
+	getId("monitor").style.backgroundPosition =
+		bgPosition[0] + "px " + bgPosition[1] + "px";
+	if (!noWinblur) calcWindowblur(null, 1);
+}
+
+function calcWindowblur(win, noBgSize) {
+	if (!noBgSize) updateBgSize(1);
+	const aeroOffset = [0, -32];
+	getId("monitor").style.transform = "";
+	if (win === "taskbar") {
+		getId("tskbrAero").style.backgroundSize =
+			bgSize[0] + "px " + bgSize[1] + "px";
+		getId("tskbrAero").style.backgroundPosition =
+			20 + bgPosition[0] + "px " + (20 + bgPosition[1]) + "px";
+	} else if (win) {
+		getId("win_" + win + "_aero").style.backgroundPosition =
+			-1 * apps[win].appWindow.windowX +
+			40 +
+			aeroOffset[0] +
+			bgPosition[0] +
+			"px " +
+			(-1 * (apps[win].appWindow.windowY * (apps[win].appWindow.windowY > -1)) +
+				40 +
+				aeroOffset[1] +
+				bgPosition[1]) +
+			"px";
+	} else {
+		for (const i in apps) {
+			getId("win_" + i + "_aero").style.backgroundSize =
+				bgSize[0] + "px " + bgSize[1] + "px";
+			getId("win_" + i + "_aero").style.backgroundPosition =
+				-1 * apps[i].appWindow.windowX +
+				40 +
+				aeroOffset[0] +
+				bgPosition[0] +
+				"px " +
+				(-1 * (apps[i].appWindow.windowY * (apps[i].appWindow.windowY > -1)) +
+					40 +
+					aeroOffset[1] +
+					bgPosition[1]) +
+				"px";
+		}
+		getId("tskbrAero").style.backgroundSize =
+			bgSize[0] + "px " + bgSize[1] + "px";
+		getId("tskbrAero").style.backgroundPosition =
+			20 + bgPosition[0] + "px " + (20 + bgPosition[1]) + "px";
+	}
+}
+window.calcWindowblur = calcWindowblur;
+
+function setMobile(newSetting) {
+	mobileMode = newSetting;
+	if (newSetting) {
+		getId("monitor").classList.add("mobileMode");
+	} else {
+		getId("monitor").classList.remove("mobileMode");
+	}
+}
+
+const autoMobile = true;
+function checkMobileSize() {
+	if (!autoMobile) return;
+	if (
+		!mobileMode &&
+		(!window.matchMedia("(pointer: fine)").matches ||
+			parseInt(getId("monitor").style.width, 10) < 768)
+	) {
+		setMobile(true);
+	} else if (
+		mobileMode &&
+		window.matchMedia("(pointer: fine)").matches &&
+		parseInt(getId("monitor").style.width, 10) >= 768
+	) {
+		setMobile(false);
+	}
+}
+
+function fitWindow() {
+	getId("monitor").style.width =
+		window.innerWidth + "px";
+	getId("monitor").style.height =
+		window.innerHeight + "px";
+	getId("desktop").style.width =
+		window.innerWidth + "px";
+	getId("desktop").style.height =
+		window.innerHeight - 32 + "px";
+	getId("taskbar").style.width =
+		window.innerWidth + "px";
+	getId("tskbrAero").style.backgroundPosition =
+		"20px " +
+		(-1 * window.innerHeight + 52) +
+		"px";
+	getId("tskbrAero").style.width =
+		window.innerWidth + 40 + "px";
+	getId("tskbrAero").style.height = "";
+	getId("tskbrAero").style.transform = "";
+	getId("tskbrAero").style.transformOrigin = "";
+
+	getId("desktop").style.left = "";
+	getId("desktop").style.top = "32px";
+	getId("desktop").style.width = getId("monitor").style.width;
+	getId("desktop").style.height =
+		parseInt(getId("monitor").style.height, 10) - 32 + "px";
+	getId("taskbar").style.top = "0";
+	getId("taskbar").style.left = "";
+	getId("taskbar").style.right = "";
+	getId("taskbar").style.bottom = "auto";
+	getId("taskbar").style.transform = "";
+	getId("taskbar").style.width = getId("monitor").style.width;
+	getId("tskbrAero").style.backgroundPosition = "20px 20px";
+
+	checkMobileSize();
+	arrangeDesktopIcons();
+	try {
+		updateBgSize();
+	} catch (err) {
+		// continue regardless of error
+	}
+}
+
+// Auto-resize display on window change
+window.addEventListener("resize", fitWindow);
+fitWindow();
 
 // Open apps on startup
 c(function () {

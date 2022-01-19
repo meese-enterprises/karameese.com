@@ -1,5 +1,8 @@
 // skipcq JS-0128
 const Dashboard = () => {
+	var appsSorted = [];
+	window.appsSorted = appsSorted;
+
 	apps.startMenu = new Application({
 		title: "Dashboard",
 		abbreviation: "DsB",
@@ -190,30 +193,6 @@ const Dashboard = () => {
 						openapp(apps[arg], "dsktp");
 					},
 					"ctxMenu/window.png",
-				],
-				[
-					function (arg) {
-						return dsktp[arg] ? "_Add Desktop Icon" : "+Add Desktop Icon";
-					},
-					function (arg) {
-						if (dsktp[arg]) {
-							removeDsktpIcon(arg);
-						} else {
-							newDsktpIcon(arg, arg);
-						}
-						openapp(apps.startMenu, "tskbr");
-					},
-					"ctxMenu/add.png",
-				],
-				[
-					function (arg) {
-						return `${dsktp[arg] ? " " : "-"}Remove Desktop Icon`;
-					},
-					function (arg) {
-						dsktp[arg] ? removeDsktpIcon(arg) : newDsktpIcon(arg, arg);
-						openapp(apps.startMenu, "tskbr");
-					},
-					"ctxMenu/x.png",
 				],
 				[
 					"+About This App",
