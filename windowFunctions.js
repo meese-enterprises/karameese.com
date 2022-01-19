@@ -1,4 +1,4 @@
-/*global getId*/
+/* global getId */
 
 // Function to allow app windows to be moved
 let winmoveSelect = "";
@@ -211,11 +211,11 @@ function updateBgSize(noWinblur) {
 		getId("bgSizeElement").naturalWidth,
 		getId("bgSizeElement").naturalHeight,
 	];
-	var monsize = [
+	const monsize = [
 		parseInt(getId("monitor").style.width),
 		parseInt(getId("monitor").style.height),
 	];
-	var sizeratio = [
+	const sizeratio = [
 		monsize[0] / bgNaturalSize[0],
 		monsize[1] / bgNaturalSize[1],
 	];
@@ -255,7 +255,6 @@ function updateBgSize(noWinblur) {
 			}
 			break;
 		case "cover":
-			
 			if (sizeratio[0] >= sizeratio[1]) {
 				bgSize = [
 					monsize[0],

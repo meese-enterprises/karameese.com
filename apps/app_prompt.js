@@ -128,7 +128,7 @@ const AppPrompt = () => {
 			checkNotifs: function () {
 				const modalsFound = [];
 				const notifsFound = [];
-				for (let i in this.notifs) {
+				for (const i in this.notifs) {
 					if (this.notifs[i].notifType === "notify") {
 						notifsFound.push(i);
 					} else if (
@@ -143,7 +143,7 @@ const AppPrompt = () => {
 					apps.prompt.vars.showModals();
 					if (modalsFound !== this.lastModalsFound) {
 						let modalText = "";
-						for (let i of modalsFound) {
+						for (const i of modalsFound) {
 							modalText +=
 								'<div style="position:relative" data-modal="' + i + '">';
 							switch (this.notifs[i].notifType) {
@@ -167,7 +167,7 @@ const AppPrompt = () => {
 										"<p>" +
 										this.notifs[i].content +
 										"</p>";
-									for (let j in this.notifs[i].buttons) {
+									for (const j in this.notifs[i].buttons) {
 										modalText +=
 											'<button onclick="apps.prompt.vars.modalSubmit(this.parentNode, ' +
 											j +
@@ -212,7 +212,7 @@ const AppPrompt = () => {
 					apps.prompt.vars.showNotifs();
 					if (notifsFound !== this.lastNotifsFound) {
 						let notifText = "";
-						for (let i of notifsFound) {
+						for (const i of notifsFound) {
 							notifText +=
 								'<div class="notifWindow noselect darkResponsive" data-notif="' +
 								i +
@@ -226,7 +226,7 @@ const AppPrompt = () => {
 									.join("<br>") +
 								"</div>" +
 								'<div class="notifButtons">';
-							for (let j in this.notifs[i].buttons) {
+							for (const j in this.notifs[i].buttons) {
 								notifText +=
 									'<button onclick="apps.prompt.vars.notifClick(this.parentNode.parentNode, ' +
 									j +
