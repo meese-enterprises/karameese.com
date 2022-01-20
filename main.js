@@ -96,7 +96,7 @@ if (typeof document.getElementsByClassName === "undefined") {
 
 function doLog(msg, clr) {
 	console.log("%c" + msg, "color:" + clr);
-};
+}
 
 // 0 is smaller, 1 is same size, 2 is bigger
 const winFadeDistance = 0;
@@ -148,7 +148,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
 					randomPhrase,
 				["Open Console", "Dismiss"],
 				function (btn) {
-					//if (!btn) openapp(apps.jsConsole, "dsktp");
+					// if (!btn) openapp(apps.jsConsole, "dsktp");
 				},
 				"Uncaught Error",
 				"appicons/redx.png"
@@ -798,11 +798,13 @@ function newDsktpIcon(
 		title = apps[owner] ? apps[owner].appName : "Icon";
 	}
 	if (!icon) {
-		icon = apps[owner] ? {
-				...apps[owner].appWindow.appImg,
-			} : {
-				...apps.startMenu.appWindow.appImg,
-			};
+		icon = apps[owner]
+			? {
+					...apps[owner].appWindow.appImg,
+			  }
+			: {
+					...apps.startMenu.appWindow.appImg,
+			  };
 	}
 	if (typeof icon === "string") {
 		icon = { foreground: icon };
@@ -1142,7 +1144,7 @@ c(function () {
 });
 
 // Function to open apps
-var currTopApp = "";
+let currTopApp = "";
 function toTop(appToNudge, dsktpClick) {
 	if (!appToNudge) return;
 	m("Moving App " + appToNudge.dsktpIcon + " to Top");
@@ -1275,10 +1277,8 @@ getId("icomove").addEventListener("click", icomove);
 
 // skipcq JS-0128
 function icomoving(e) {
-	getId(icomoveSelect).style.left =
-		icomoveOrX + (e.pageX - icomovex) + "px";
-	getId(icomoveSelect).style.top =
-		icomoveOrY + (e.pageY - icomovey) + "px";
+	getId(icomoveSelect).style.left = icomoveOrX + (e.pageX - icomovex) + "px";
+	getId(icomoveSelect).style.top = icomoveOrY + (e.pageY - icomovey) + "px";
 }
 
 // Custom icons; TODO
@@ -1311,10 +1311,8 @@ getId("icnmove").addEventListener("click", icnmove);
 
 // skipcq JS-0128
 function icnmoving(e) {
-	getId(icomoveSelect).style.left =
-		icomoveOrX + (e.pageX - icomovex) + "px";
-	getId(icomoveSelect).style.top =
-		icomoveOrY + (e.pageY - icomovey) + "px";
+	getId(icomoveSelect).style.left = icomoveOrX + (e.pageX - icomovex) + "px";
+	getId(icomoveSelect).style.top = icomoveOrY + (e.pageY - icomovey) + "px";
 }
 
 function scrollHorizontally(event) {
@@ -1360,11 +1358,11 @@ let showingCtxMenu = 0;
 
 function ctxMenu(setupArray, version, event, args) {
 	m("Opening ctxMenu");
-	
+
 	if (!showingCtxMenu) {
-		version ?
-			versionCtxMenu(setupArray, event, args) : 
-			unversionedCtxMenu(setupArray);
+		version
+			? versionCtxMenu(setupArray, event, args)
+			: unversionedCtxMenu(setupArray);
 	}
 }
 
@@ -1374,10 +1372,7 @@ function versionCtxMenu(setupArray, event, args) {
 	requestAnimationFrame(function () {
 		showingCtxMenu = 0;
 	});
-	newCtxCoord = [
-		event.pageX,
-		event.pageY,
-	];
+	newCtxCoord = [event.pageX, event.pageY];
 	newCtxArgs = args;
 	newCtxSetup = setupArray;
 	getId("ctxMenu").style.display = "block";
@@ -1418,7 +1413,7 @@ function versionCtxMenu(setupArray, event, args) {
 				ctxMenuImg =
 					'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 			}
-			
+
 			// skipcq JS-D009
 			if (
 				newCtxSetup[i][0](newCtxArgs)[0] === "-" ||
@@ -1571,13 +1566,13 @@ const baseCtx = {
 		/* [' Settings', function() {
 			openapp(apps.settings, 'dsktp');
 		}, 'ctxMenu/gear.png'], */
-		/*[
+		/* [
 			" JavaScript Console",
 			function () {
 				openapp(apps.jsConsole, "dsktp");
 			},
 			"ctxMenu/console.png",
-		],*/
+		], */
 		[
 			function () {
 				return "+Speak" + ' "' + currentSelection.substring(0, 5) + '..."';
@@ -1592,13 +1587,13 @@ const baseCtx = {
 		/* [' Settings', function() {
 			openapp(apps.settings, 'dsktp');
 		}, 'ctxMenu/gear.png'], */
-		/*[
+		/* [
 			" JavaScript Console",
 			function () {
 				openapp(apps.jsConsole, "dsktp");
 			},
 			"ctxMenu/console.png",
-		],*/
+		], */
 		/* ['+Taskbar Settings', function() {
 			openapp(apps.settings, 'dsktp');
 		}, 'ctxMenu/gear.png'] */
@@ -1906,7 +1901,7 @@ window.resetOS = function () {
 	window.location = "index.php";
 };
 
-/*global getId*/
+/* global getId */
 
 // Function to allow app windows to be moved
 let winmoveSelect = "";
@@ -2123,11 +2118,11 @@ function updateBgSize(noWinblur) {
 		getId("bgSizeElement").naturalWidth,
 		getId("bgSizeElement").naturalHeight,
 	];
-	var monsize = [
+	const monsize = [
 		parseInt(getId("monitor").style.width),
 		parseInt(getId("monitor").style.height),
 	];
-	var sizeratio = [
+	const sizeratio = [
 		monsize[0] / bgNaturalSize[0],
 		monsize[1] / bgNaturalSize[1],
 	];
@@ -2167,7 +2162,6 @@ function updateBgSize(noWinblur) {
 			}
 			break;
 		case "cover":
-			
 			if (sizeratio[0] >= sizeratio[1]) {
 				bgSize = [
 					monsize[0],
@@ -2265,22 +2259,14 @@ function checkMobileSize() {
 }
 
 function fitWindow() {
-	getId("monitor").style.width =
-		window.innerWidth + "px";
-	getId("monitor").style.height =
-		window.innerHeight + "px";
-	getId("desktop").style.width =
-		window.innerWidth + "px";
-	getId("desktop").style.height =
-		window.innerHeight - 32 + "px";
-	getId("taskbar").style.width =
-		window.innerWidth + "px";
+	getId("monitor").style.width = window.innerWidth + "px";
+	getId("monitor").style.height = window.innerHeight + "px";
+	getId("desktop").style.width = window.innerWidth + "px";
+	getId("desktop").style.height = window.innerHeight - 32 + "px";
+	getId("taskbar").style.width = window.innerWidth + "px";
 	getId("tskbrAero").style.backgroundPosition =
-		"20px " +
-		(-1 * window.innerHeight + 52) +
-		"px";
-	getId("tskbrAero").style.width =
-		window.innerWidth + 40 + "px";
+		"20px " + (-1 * window.innerHeight + 52) + "px";
+	getId("tskbrAero").style.width = window.innerWidth + 40 + "px";
 	getId("tskbrAero").style.height = "";
 	getId("tskbrAero").style.transform = "";
 	getId("tskbrAero").style.transformOrigin = "";

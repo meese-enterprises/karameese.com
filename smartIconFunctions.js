@@ -38,7 +38,7 @@ function updateSmartIconStyle() {
 		";}";
 	const allSmartIconsBG = document.getElementsByClassName("smarticon_bg");
 	for (let i = 0; i < allSmartIconsBG.length; i++) {
-		let currSize = parseFloat(
+		const currSize = parseFloat(
 			allSmartIconsBG[i].getAttribute("data-smarticon-size")
 		);
 		allSmartIconsBG[i].style.borderTopLeftRadius =
@@ -57,7 +57,7 @@ function updateSmartIconStyle() {
 	const allSmartIconsBorder =
 		document.getElementsByClassName("smarticon_border");
 	for (let i = 0; i < allSmartIconsBorder.length; i++) {
-		let currSize = parseFloat(
+		const currSize = parseFloat(
 			allSmartIconsBorder[i].getAttribute("data-smarticon-size")
 		);
 		allSmartIconsBorder[i].style.borderTopLeftRadius =

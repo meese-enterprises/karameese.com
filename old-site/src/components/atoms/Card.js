@@ -1,5 +1,5 @@
 import React from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 
 const Card = ({ heading, paragraph, thumbUrl, fullUrl }) => {
 	return (
@@ -38,7 +38,7 @@ Card.propTypes = {
 	heading: PropTypes.string,
 	paragraph: PropTypes.string,
 	thumbUrl: PropTypes.string,
-	fullUrl: PropTypes.string
+	fullUrl: PropTypes.string,
 }
 
 export default Card

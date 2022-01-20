@@ -12,38 +12,38 @@ const SmartIconSettings = () => {
 			this.appWindow.setDims("auto", "auto", 800, 600);
 			this.appWindow.setContent(
 				'<div style="position:relative;width:100%;height:256px;padding-top:10px;padding-bottom:10px;background:#000;box-shadow:0 0 5px #000;text-align:center;">' +
-				buildSmartIcon(256, this.vars.aOSicon) +
-				"&nbsp;" +
-				buildSmartIcon(128, this.vars.aOSicon) +
-				"&nbsp;" +
-				buildSmartIcon(64, this.vars.aOSicon) +
-				"&nbsp;" +
-				buildSmartIcon(32, this.vars.aOSicon) +
-				"</div>" +
-				"<br><br>&nbsp;Border Radius:<br>" +
-				'&nbsp;<input id="smartIconSettings_tl" value="' +
-				smartIconOptions.radiusTopLeft +
-				'" size="3" placeholder="100"> ' +
-				'<div style="width:64px;position:relative;display:inline-block"></div> ' +
-				'<input id="smartIconSettings_tr" value="' +
-				smartIconOptions.radiusTopRight +
-				'" size="3" placeholder="100">' +
-				"<br>" +
-				'&nbsp;<input id="smartIconSettings_bl" value="' +
-				smartIconOptions.radiusBottomLeft +
-				'" size="3" placeholder="100"> ' +
-				buildSmartIcon(64, this.vars.aOSicon, "margin-top:-1em") +
-				" " +
-				'<input id="smartIconSettings_br" value="' +
-				smartIconOptions.radiusBottomRight +
-				'" size="3" placeholder="100">' +
-				"<br><br>" +
-				'&nbsp;<button onclick="apps.smartIconSettings.vars.saveRadiuses()">Save</button> ' +
-				'<button onclick="apps.smartIconSettings.vars.toggleBG()">Toggle Background</button><br><br>' +
-				'<input id="smartIconSettings_bgcolor" value="' +
-				smartIconOptions.bgColor +
-				'" placeholder="color"> <button onclick="apps.smartIconSettings.vars.setColor()">Override Background Color</button><br><br>' +
-				'Test an image: <input type="file" accept="image/*" onchange="apps.smartIconSettings.vars.changeImage(this)">'
+					buildSmartIcon(256, this.vars.aOSicon) +
+					"&nbsp;" +
+					buildSmartIcon(128, this.vars.aOSicon) +
+					"&nbsp;" +
+					buildSmartIcon(64, this.vars.aOSicon) +
+					"&nbsp;" +
+					buildSmartIcon(32, this.vars.aOSicon) +
+					"</div>" +
+					"<br><br>&nbsp;Border Radius:<br>" +
+					'&nbsp;<input id="smartIconSettings_tl" value="' +
+					smartIconOptions.radiusTopLeft +
+					'" size="3" placeholder="100"> ' +
+					'<div style="width:64px;position:relative;display:inline-block"></div> ' +
+					'<input id="smartIconSettings_tr" value="' +
+					smartIconOptions.radiusTopRight +
+					'" size="3" placeholder="100">' +
+					"<br>" +
+					'&nbsp;<input id="smartIconSettings_bl" value="' +
+					smartIconOptions.radiusBottomLeft +
+					'" size="3" placeholder="100"> ' +
+					buildSmartIcon(64, this.vars.aOSicon, "margin-top:-1em") +
+					" " +
+					'<input id="smartIconSettings_br" value="' +
+					smartIconOptions.radiusBottomRight +
+					'" size="3" placeholder="100">' +
+					"<br><br>" +
+					'&nbsp;<button onclick="apps.smartIconSettings.vars.saveRadiuses()">Save</button> ' +
+					'<button onclick="apps.smartIconSettings.vars.toggleBG()">Toggle Background</button><br><br>' +
+					'<input id="smartIconSettings_bgcolor" value="' +
+					smartIconOptions.bgColor +
+					'" placeholder="color"> <button onclick="apps.smartIconSettings.vars.setColor()">Override Background Color</button><br><br>' +
+					'Test an image: <input type="file" accept="image/*" onchange="apps.smartIconSettings.vars.changeImage(this)">'
 			);
 			this.appWindow.paddingMode(0);
 			this.appWindow.openWindow();

@@ -1,6 +1,6 @@
 // skipcq JS-0128
 const Dashboard = () => {
-	var appsSorted = [];
+	let appsSorted = [];
 	window.appsSorted = appsSorted;
 
 	apps.startMenu = new Application({
@@ -286,13 +286,13 @@ const Dashboard = () => {
 
 					// From web_app_maker
 					appsSorted = [];
-					for (let i in apps) {
+					for (const i in apps) {
 						appsSorted.push(
 							apps[i].appName.toLowerCase() + "|WAP_apps_sort|" + i
 						);
 					}
 					appsSorted.sort();
-					for (let i in appsSorted) {
+					for (const i in appsSorted) {
 						let tempStr = appsSorted[i].split("|WAP_apps_sort|");
 						tempStr = tempStr[tempStr.length - 1];
 						appsSorted[i] = tempStr;

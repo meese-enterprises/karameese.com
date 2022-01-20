@@ -6,7 +6,7 @@
  */
 
 import React from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 
 // import Navbar from "./Navbar";
 import "../styles/mains.scss"
@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
 }
 
 Layout.propTypes = {
-	children: PropTypes.any.isRequired
+	children: PropTypes.any.isRequired,
 }
 
 export default Layout

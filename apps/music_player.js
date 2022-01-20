@@ -21,7 +21,7 @@ const MusicPlayer = () => {
 					this.appWindow.appIcon = 1;
 				});
 			}
-			
+
 			this.appWindow.setCaption("Music Player");
 			this.appWindow.setDims("auto", "auto", 500, 150);
 			if (this.appWindow.appIcon) {
