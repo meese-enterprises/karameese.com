@@ -351,9 +351,11 @@ const AppPrompt = () => {
 					}, 300);
 					for (let i = 1; i < nTimes; i++) {
 						setTimeout(function () {
+							// skipcq JS-0073
 							getId("notifContainer").style.opacity = "0.2";
 						}, i * 600);
 						setTimeout(function () {
+							// skipcq JS-0073
 							getId("notifContainer").style.opacity = "";
 						}, i * 600 + 300);
 					}

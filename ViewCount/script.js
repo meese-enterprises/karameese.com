@@ -4,7 +4,7 @@ const rawFile = new XMLHttpRequest();
 rawFile.open("GET", "../counter.txt", false);
 rawFile.onreadystatechange = function () {
 	if (rawFile.readyState === 4) {
-		if (rawFile.status === 200 || rawFile.status == 0) {
+		if (rawFile.status === 200 || rawFile.status === 0) {
 			const numbers = rawFile.responseText.padStart(6, "0").split("");
 			let newHTML = "";
 

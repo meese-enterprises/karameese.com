@@ -1,3 +1,5 @@
+/* global getId, widgets, formDate */
+
 const TimeWidget = () => {
 	// TODO: MAKE THIS UPDATE EVERY SECOND
 	widgets.time = new Widget(

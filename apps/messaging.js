@@ -21,9 +21,9 @@ const Messaging = () => {
 			// Get the contents of messaging.html and load into the window
 			const xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function () {
-				if (this.readyState == 4) {
+				if (this.readyState === 4) {
 					const elmnt = document.getElementById("messagingDisplay");
-					if (this.status == 200) {
+					if (this.status === 200) {
 						elmnt.innerHTML = this.responseText;
 					}
 				}

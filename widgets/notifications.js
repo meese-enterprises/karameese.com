@@ -1,3 +1,5 @@
+/* global getId, widgets, apps */
+
 const NotificationsWidget = () => {
 	widgets.notifications = new Widget(
 		"Notifications",

@@ -26,9 +26,9 @@ const Accreditation = () => {
 			// Get the contents of accreditation.html and load into the window
 			const xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function () {
-				if (this.readyState == 4) {
+				if (this.readyState === 4) {
 					const elmnt = document.getElementById("accreditationDisplay");
-					if (this.status == 200) {
+					if (this.status === 200) {
 						elmnt.innerHTML = this.responseText;
 					}
 				}

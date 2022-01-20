@@ -1,3 +1,5 @@
+/* global getId */
+
 let totalWidgets = 0;
 const widgets = {};
 

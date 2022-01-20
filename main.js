@@ -96,7 +96,7 @@ if (typeof document.getElementsByClassName === "undefined") {
 
 function doLog(msg, clr) {
 	console.log("%c" + msg, "color:" + clr);
-};
+}
 
 // 0 is smaller, 1 is same size, 2 is bigger
 const winFadeDistance = 0;
@@ -129,34 +129,9 @@ function checkMonitorMovement() {
 }
 requestAnimationFrame(checkMonitorMovement);
 
-let lasterrorconfirmation = 0;
-
 // Error handler itself
 window.onerror = function (errorMsg, url, lineNumber) {
 	const errorModule = module;
-	if (formDate("YMDHmSs") - lasterrorconfirmation > 30000) {
-		lasterrorconfirmation = formDate("YMDHmSs");
-		try {
-			apps.prompt.vars.notify(
-				"Error in " +
-					errorModule +
-					"<br>[" +
-					lineNumber +
-					"] " +
-					errorMsg +
-					"<br><br>" +
-					randomPhrase,
-				["Open Console", "Dismiss"],
-				function (btn) {
-					//if (!btn) openapp(apps.jsConsole, "dsktp");
-				},
-				"Uncaught Error",
-				"appicons/redx.png"
-			);
-		} catch (err) {
-			console.log("Could not prompt error!");
-		}
-	}
 	try {
 		doLog("");
 		doLog("You found an error! " + randomPhrase, "#F00");
@@ -240,7 +215,7 @@ let liveElements = [];
 function checkLiveElements() {
 	liveElements = document.getElementsByClassName("liveElement");
 	for (const elem in liveElements) {
-		if (elem == parseInt(elem)) {
+		if (elem === parseInt(elem)) {
 			if (liveElements[elem].getAttribute("data-live-target") === null) {
 				try {
 					liveElements[elem].innerHTML = eval(
@@ -798,11 +773,13 @@ function newDsktpIcon(
 		title = apps[owner] ? apps[owner].appName : "Icon";
 	}
 	if (!icon) {
-		icon = apps[owner] ? {
-				...apps[owner].appWindow.appImg,
-			} : {
-				...apps.startMenu.appWindow.appImg,
-			};
+		icon = apps[owner]
+			? {
+					...apps[owner].appWindow.appImg,
+			  }
+			: {
+					...apps.startMenu.appWindow.appImg,
+			  };
 	}
 	if (typeof icon === "string") {
 		icon = { foreground: icon };
@@ -1045,7 +1022,7 @@ let finishedWaitingCodes = 0; // skipcq JS-0128
 window.setInterval(checkWaitingCode, 0);
 
 function checkWaitingCode() {
-	if (codeToRun.length == 0) return;
+	if (codeToRun.length === 0) return;
 
 	m("Running Waiting Code");
 	workingcodetorun = codeToRun.shift();
@@ -1058,20 +1035,17 @@ function checkWaitingCode() {
 	finishedWaitingCodes++;
 }
 
-getId("loadingInfo").innerHTML = "Applications List";
+//getId("loadingInfo").innerHTML = "Applications List";
 c(function () {
 	Dashboard();
-	getId("loadingInfo").innerHTML = "NORAA";
 });
 
 c(function () {
 	NORA();
-	getId("loadingInfo").innerHTML = "Info Viewer...";
 });
 
 c(function () {
 	AppInfo();
-	getId("loadingInfo").innerHTML = "JavaScript Console";
 });
 
 var currentSelection = "";
@@ -1083,57 +1057,47 @@ function setCurrentSelection() {
 requestAnimationFrame(setCurrentSelection);
 c(function () {
 	AppPrompt();
-	getId("loadingInfo").innerHTML = "Smart Icon Settings";
 });
 
 c(function () {
 	SmartIconSettings();
-	getId("loadingInfo").innerHTML = "JS Paint";
 });
 
 c(function () {
 	JSPaint();
-	getId("loadingInfo").innerHTML = "Properties Viewer";
 });
 
 c(function () {
 	PropertiesViewer();
-	getId("loadingInfo").innerHTML = "File Manager";
 });
+
 c(function () {
 	FileManager();
-	getId("loadingInfo").innerHTML = "Save Master";
 });
 
 c(function () {
 	window.SRVRKEYWORD = window.SRVRKEYWORD || "";
 	SaveMaster();
-	getId("loadingInfo").innerHTML = "Messaging";
 });
 
 c(function () {
 	Messaging();
-	getId("loadingInfo").innerHTML = "Music Player";
 });
 
 c(function () {
 	MusicPlayer();
-	getId("loadingInfo").innerHTML = "Old Site";
 });
 
 c(function () {
 	OldSite();
-	getId("loadingInfo").innerHTML = "Help";
 });
 
 c(function () {
 	Help();
-	getId("loadingInfo").innerHTML = "Accreditation";
 });
 
 c(function () {
 	Accreditation();
-	getId("loadingInfo").innerHTML = "View Count";
 });
 
 c(function () {
@@ -1142,7 +1106,7 @@ c(function () {
 });
 
 // Function to open apps
-var currTopApp = "";
+let currTopApp = "";
 function toTop(appToNudge, dsktpClick) {
 	if (!appToNudge) return;
 	m("Moving App " + appToNudge.dsktpIcon + " to Top");
@@ -1311,10 +1275,8 @@ getId("icnmove").addEventListener("click", icnmove);
 
 // skipcq JS-0128
 function icnmoving(e) {
-	getId(icomoveSelect).style.left =
-		icomoveOrX + (e.pageX - icomovex) + "px";
-	getId(icomoveSelect).style.top =
-		icomoveOrY + (e.pageY - icomovey) + "px";
+	getId(icomoveSelect).style.left = icomoveOrX + (e.pageX - icomovex) + "px";
+	getId(icomoveSelect).style.top = icomoveOrY + (e.pageY - icomovey) + "px";
 }
 
 function scrollHorizontally(event) {
@@ -1360,11 +1322,11 @@ let showingCtxMenu = 0;
 
 function ctxMenu(setupArray, version, event, args) {
 	m("Opening ctxMenu");
-	
+
 	if (!showingCtxMenu) {
-		version ?
-			versionCtxMenu(setupArray, event, args) : 
-			unversionedCtxMenu(setupArray);
+		version
+			? versionCtxMenu(setupArray, event, args)
+			: unversionedCtxMenu(setupArray);
 	}
 }
 
@@ -1374,10 +1336,7 @@ function versionCtxMenu(setupArray, event, args) {
 	requestAnimationFrame(function () {
 		showingCtxMenu = 0;
 	});
-	newCtxCoord = [
-		event.pageX,
-		event.pageY,
-	];
+	newCtxCoord = [event.pageX, event.pageY];
 	newCtxArgs = args;
 	newCtxSetup = setupArray;
 	getId("ctxMenu").style.display = "block";
@@ -1418,7 +1377,7 @@ function versionCtxMenu(setupArray, event, args) {
 				ctxMenuImg =
 					'<img src="ctxMenu/simple.png" style="width:10px; height:10px; margin-top:1px; margin-bottom:-2px; margin-right:1px">';
 			}
-			
+
 			// skipcq JS-D009
 			if (
 				newCtxSetup[i][0](newCtxArgs)[0] === "-" ||
@@ -1556,9 +1515,6 @@ function unversionedCtxMenu(setupArray) {
 // skipcq JS-0128
 const baseCtx = {
 	hideall: [
-		/* [' Settings', function() {
-			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/gear.png'], */
 		[
 			"+Change Screen Resolution",
 			function () {
@@ -1568,16 +1524,6 @@ const baseCtx = {
 		],
 	],
 	desktop: [
-		/* [' Settings', function() {
-			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/gear.png'], */
-		/*[
-			" JavaScript Console",
-			function () {
-				openapp(apps.jsConsole, "dsktp");
-			},
-			"ctxMenu/console.png",
-		],*/
 		[
 			function () {
 				return "+Speak" + ' "' + currentSelection.substring(0, 5) + '..."';
@@ -1588,21 +1534,7 @@ const baseCtx = {
 			"ctxMenu/happy.png",
 		],
 	],
-	taskbar: [
-		/* [' Settings', function() {
-			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/gear.png'], */
-		/*[
-			" JavaScript Console",
-			function () {
-				openapp(apps.jsConsole, "dsktp");
-			},
-			"ctxMenu/console.png",
-		],*/
-		/* ['+Taskbar Settings', function() {
-			openapp(apps.settings, 'dsktp');
-		}, 'ctxMenu/gear.png'] */
-	],
+	taskbar: [],
 	appXXX: [
 		[
 			" Open",
@@ -1906,8 +1838,6 @@ window.resetOS = function () {
 	window.location = "index.php";
 };
 
-/*global getId*/
-
 // Function to allow app windows to be moved
 let winmoveSelect = "";
 let winmovex = 0;
@@ -1927,7 +1857,7 @@ function winmove(e) {
 		winmovey = e.pageY;
 		for (const app in apps) {
 			if (
-				apps[app].objName == winmoveSelect.substring(4, winmoveSelect.length)
+				apps[app].objName === winmoveSelect.substring(4, winmoveSelect.length)
 			) {
 				winmovecurrapp = app;
 				break;
@@ -2002,7 +1932,7 @@ function winres(e) {
 		winmovey = e.pageY;
 		for (const app in apps) {
 			if (
-				apps[app].objName == winmoveSelect.substring(4, winmoveSelect.length)
+				apps[app].objName === winmoveSelect.substring(4, winmoveSelect.length)
 			) {
 				winmovecurrapp = app;
 				break;
@@ -2123,11 +2053,11 @@ function updateBgSize(noWinblur) {
 		getId("bgSizeElement").naturalWidth,
 		getId("bgSizeElement").naturalHeight,
 	];
-	var monsize = [
+	const monsize = [
 		parseInt(getId("monitor").style.width),
 		parseInt(getId("monitor").style.height),
 	];
-	var sizeratio = [
+	const sizeratio = [
 		monsize[0] / bgNaturalSize[0],
 		monsize[1] / bgNaturalSize[1],
 	];
@@ -2167,7 +2097,6 @@ function updateBgSize(noWinblur) {
 			}
 			break;
 		case "cover":
-			
 			if (sizeratio[0] >= sizeratio[1]) {
 				bgSize = [
 					monsize[0],
@@ -2265,22 +2194,14 @@ function checkMobileSize() {
 }
 
 function fitWindow() {
-	getId("monitor").style.width =
-		window.innerWidth + "px";
-	getId("monitor").style.height =
-		window.innerHeight + "px";
-	getId("desktop").style.width =
-		window.innerWidth + "px";
-	getId("desktop").style.height =
-		window.innerHeight - 32 + "px";
-	getId("taskbar").style.width =
-		window.innerWidth + "px";
+	getId("monitor").style.width = window.innerWidth + "px";
+	getId("monitor").style.height = window.innerHeight + "px";
+	getId("desktop").style.width = window.innerWidth + "px";
+	getId("desktop").style.height = window.innerHeight - 32 + "px";
+	getId("taskbar").style.width = window.innerWidth + "px";
 	getId("tskbrAero").style.backgroundPosition =
-		"20px " +
-		(-1 * window.innerHeight + 52) +
-		"px";
-	getId("tskbrAero").style.width =
-		window.innerWidth + 40 + "px";
+		"20px " + (-1 * window.innerHeight + 52) + "px";
+	getId("tskbrAero").style.width = window.innerWidth + 40 + "px";
 	getId("tskbrAero").style.height = "";
 	getId("tskbrAero").style.transform = "";
 	getId("tskbrAero").style.transformOrigin = "";
