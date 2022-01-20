@@ -1,7 +1,7 @@
 // skipcq JS-0128
 const Dashboard = () => {
 	// eslint-disable-line
-	var appsSorted = [];
+	let appsSorted = [];
 	window.appsSorted = appsSorted;
 
 	apps.startMenu = new Application({

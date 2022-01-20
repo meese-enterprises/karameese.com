@@ -2,7 +2,7 @@
 new ghostCursor();
 
 // eslint-disable-line
-var mobileMode = false;
+const mobileMode = false;
 
 // element control shorthand
 function getId(target) {
