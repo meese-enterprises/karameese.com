@@ -3,7 +3,7 @@ const MusicPlayer = () => {
 		title: "Music Player",
 		abbreviation: "MPl",
 		codeName: "musicPlayer",
-		image: "smarticons/musicPlayer/fg.png",
+		image: "appicons/vinyl_v2.png",
 		hideApp: 0,
 		resizeable: false,
 		main: function () {

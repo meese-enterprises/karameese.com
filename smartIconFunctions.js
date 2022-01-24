@@ -1,9 +1,9 @@
 // Smart Icon Builder
 const smartIconOptions = {
-	radiusTopLeft: 100,
-	radiusTopRight: 100,
-	radiusBottomLeft: 100,
-	radiusBottomRight: 100,
+	radiusTopLeft: 0,
+	radiusTopRight: 0,
+	radiusBottomLeft: 0,
+	radiusBottomRight: 0,
 	backgroundOpacity: 1,
 	bgColor: "",
 };

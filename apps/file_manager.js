@@ -320,7 +320,6 @@ apps.files = new Application({
 								this.currentDirectoryFiles[item].split('\\/').join('/') +
 								'</div>';
 						} else {
-							// TODO: Onclick with JS Paint
 							// TODO: Style this
 							// TODO: Minimize images, show smaller thumbnail images (Gatsby?) for speed initially
 							temphtml += '<div class="cursorPointer" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\', \'ctxMenu/x.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'' + (this.currLoc + this.currentDirectoryFiles[item]).split('\\').join('\\\\') + '\\\');toTop(apps.properties)\'])">' +

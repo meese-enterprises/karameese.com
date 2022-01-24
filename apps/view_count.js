@@ -4,7 +4,7 @@ const ViewCount = () => {
 		title: "View Counter",
 		abbreviation: "vwC",
 		codeName: "viewCount",
-		image: "appicons/systemApp.png",
+		image: "appicons/evil_eye.png",
 		hideApp: 0,
 		resizeable: false,
 		main: function () {
