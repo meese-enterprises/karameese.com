@@ -247,7 +247,7 @@ requestAnimationFrame(checkLiveElements);
 
 // Application class
 m("init Application class");
-var apps = {};
+const apps = {};
 window.apps = apps;
 
 let appPosX = 8;
@@ -1035,7 +1035,7 @@ function checkWaitingCode() {
 	finishedWaitingCodes++;
 }
 
-//getId("loadingInfo").innerHTML = "Applications List";
+// getId("loadingInfo").innerHTML = "Applications List";
 c(function () {
 	Dashboard();
 });
@@ -1239,10 +1239,8 @@ getId("icomove").addEventListener("click", icomove);
 
 // skipcq JS-0128
 function icomoving(e) {
-	getId(icomoveSelect).style.left =
-		icomoveOrX + (e.pageX - icomovex) + "px";
-	getId(icomoveSelect).style.top =
-		icomoveOrY + (e.pageY - icomovey) + "px";
+	getId(icomoveSelect).style.left = icomoveOrX + (e.pageX - icomovex) + "px";
+	getId(icomoveSelect).style.top = icomoveOrY + (e.pageY - icomovey) + "px";
 }
 
 // Custom icons; TODO
