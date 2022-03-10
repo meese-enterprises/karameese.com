@@ -4,13 +4,12 @@ apps.jsPaint = new Application({
 	title: "JS Paint",
 	abbreviation: "jsP",
 	codeName: "jsPaint",
-	image: "appicons/CSE.png",
+	image: "appicons/paint_bucket.png",
 	hideApp: 0,
 	main: function() {
 		this.appWindow.setDims("auto", "auto", 753, 507);
 		this.appWindow.paddingMode(0);
 
-		// TODO: Custom instance of JS Paint hosted that supports URL as a parameter
 		this.appWindow.setContent(`
 			<iframe
 				data-parent-app="jsPaint"

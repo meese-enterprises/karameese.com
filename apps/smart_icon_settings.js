@@ -4,7 +4,7 @@ const SmartIconSettings = () => {
 		title: "Smart Icon Settings",
 		abbreviation: "SIS",
 		codeName: "smartIconSettings",
-		image: "smarticons/aOS/fg.png",
+		image: "logo.png",
 		hideApp: 2,
 		launchTypes: 1,
 		main: function () {
@@ -12,13 +12,13 @@ const SmartIconSettings = () => {
 			this.appWindow.setDims("auto", "auto", 800, 600);
 			this.appWindow.setContent(
 				'<div style="position:relative;width:100%;height:256px;padding-top:10px;padding-bottom:10px;background:#000;box-shadow:0 0 5px #000;text-align:center;">' +
-				buildSmartIcon(256, this.vars.aOSicon) +
+				buildSmartIcon(256, this.vars.OSicon) +
 				"&nbsp;" +
-				buildSmartIcon(128, this.vars.aOSicon) +
+				buildSmartIcon(128, this.vars.OSicon) +
 				"&nbsp;" +
-				buildSmartIcon(64, this.vars.aOSicon) +
+				buildSmartIcon(64, this.vars.OSicon) +
 				"&nbsp;" +
-				buildSmartIcon(32, this.vars.aOSicon) +
+				buildSmartIcon(32, this.vars.OSicon) +
 				"</div>" +
 				"<br><br>&nbsp;Border Radius:<br>" +
 				'&nbsp;<input id="smartIconSettings_tl" value="' +
@@ -32,7 +32,7 @@ const SmartIconSettings = () => {
 				'&nbsp;<input id="smartIconSettings_bl" value="' +
 				smartIconOptions.radiusBottomLeft +
 				'" size="3" placeholder="100"> ' +
-				buildSmartIcon(64, this.vars.aOSicon, "margin-top:-1em") +
+				buildSmartIcon(64, this.vars.OSicon, "margin-top:-1em") +
 				" " +
 				'<input id="smartIconSettings_br" value="' +
 				smartIconOptions.radiusBottomRight +
@@ -52,15 +52,15 @@ const SmartIconSettings = () => {
 			appInfo: "This app is used to configure Smart Icons.",
 			testSmartIcon: {
 				backgroundColor: "#303947",
-				foreground: "smarticons/aOS/fg.png",
+				foreground: "logo.png",
 				backgroundBorder: {
 					thickness: 2,
 					color: "#252F3A",
 				},
 			},
-			aOSicon: {
+			OSicon: {
 				backgroundColor: "#303947",
-				foreground: "smarticons/aOS/fg.png",
+				foreground: "logo.png",
 				backgroundBorder: {
 					thickness: 2,
 					color: "#252F3A",

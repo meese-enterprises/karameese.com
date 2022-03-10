@@ -8,7 +8,7 @@
 		echo '<link rel="stylesheet" type="text/css" href="style.css?ms='.round(microtime(true) * 1000).'">';
 	?>
 
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="icon" href="logo.png" type="image/x-icon">
 	<style id="smartIconStyle"></style>
 	<link rel="stylesheet" type="text/css" href="win95.css">
 </head>
@@ -33,7 +33,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="winmove" class="cursorOpenHand" onmouseup="winmove(event)" onmousemove="winmoving(event)"></div>
 		<div id="icomove" class="cursorOpenHand" onclick="icomove(event)" onmousemove="icomoving(event)"></div>
 		<div id="icnmove" class="cursorOpenHand" onclick="icnmove(event)" onmousemove="icnmoving(event)"></div>
@@ -60,7 +60,6 @@
 			</div>
 		</div>
 	</div>
-	<img id="bgSizeElement" src="images/pink_square.png" onload="try{updateBgSize()}catch(err){}">
 	<?php include "updateViewCounter.php"; ?>
 </body>
 

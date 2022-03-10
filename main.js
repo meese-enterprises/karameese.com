@@ -272,7 +272,7 @@ const Application = function (
 			if (Object.prototype.hasOwnProperty.call(appIcon, "resizeable")) {
 				resizeable = appIcon.resizeable;
 			}
-			appImg = appIcon.image || "appicons/aOS.png";
+			appImg = appIcon.image || "logo.png";
 			appPath = appIcon.codeName;
 			keepOffDesktop =
 				typeof appIcon.hideApp === "number" ? appIcon.hideApp : 1;
@@ -421,7 +421,7 @@ const Application = function (
 					}
 					const aeroOffset = [0, -32];
 					try {
-						window.calcWindowblur(this.objName, 1);
+						window.calcWindowblur(this.objName);
 					} catch (err) {
 						getId("win_" + this.objName + "_aero").style.backgroundPosition =
 							-1 * xOff +
@@ -1757,12 +1757,6 @@ bootFileHTTP.onreadystatechange = function () {
 			}
 		}
 
-		try {
-			updateBgSize();
-		} catch (err) {
-			// continue regardless of error
-		}
-
 		requestAnimationFrame(function () {
 			bootFileHTTP = null;
 		});
@@ -1795,11 +1789,6 @@ c(function () {
 		}
 	}
 
-	try {
-		updateBgSize();
-	} catch (err) {
-		// continue regardless of error
-	}
 	requestAnimationFrame(function () {
 		bootFileHTTP = null;
 	});
@@ -2043,86 +2032,10 @@ function highlightWindow(app) {
 	getId("windowFrameOverlay").style.height = apps[app].appWindow.windowV + "px";
 }
 
-window.bgNaturalSize = [1920, 1080];
 window.bgSize = [1920, 1080];
 window.bgPosition = [0, 0];
 
-const bgFit = "center";
-function updateBgSize(noWinblur) {
-	bgNaturalSize = [
-		getId("bgSizeElement").naturalWidth,
-		getId("bgSizeElement").naturalHeight,
-	];
-	const monsize = [
-		parseInt(getId("monitor").style.width),
-		parseInt(getId("monitor").style.height),
-	];
-	const sizeratio = [
-		monsize[0] / bgNaturalSize[0],
-		monsize[1] / bgNaturalSize[1],
-	];
-
-	switch (bgFit) {
-		case "corner":
-			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
-			bgPosition = [0, 0];
-			break;
-		case "stretch":
-			bgSize = [
-				parseInt(getId("monitor").style.width),
-				parseInt(getId("monitor").style.height),
-			];
-			bgPosition = [0, 0];
-			break;
-		case "center":
-			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
-			bgPosition = [
-				monsize[0] / 2 - bgSize[0] / 2,
-				monsize[1] / 2 - bgSize[1] / 2,
-			];
-			break;
-		case "fit":
-			if (sizeratio[0] <= sizeratio[1]) {
-				bgSize = [
-					monsize[0],
-					Math.round(bgNaturalSize[1] * (monsize[0] / bgNaturalSize[0])),
-				];
-				bgPosition = [0, Math.round((monsize[1] - bgSize[1]) / 2)];
-			} else {
-				bgSize = [
-					Math.round(bgNaturalSize[0] * (monsize[1] / bgNaturalSize[1])),
-					monsize[1],
-				];
-				bgPosition = [Math.round((monsize[0] - bgSize[0]) / 2), 0];
-			}
-			break;
-		case "cover":
-			if (sizeratio[0] >= sizeratio[1]) {
-				bgSize = [
-					monsize[0],
-					Math.round(bgNaturalSize[1] * (monsize[0] / bgNaturalSize[0])),
-				];
-				bgPosition = [0, Math.round((monsize[1] - bgSize[1]) / 2)];
-			} else {
-				bgSize = [
-					Math.round(bgNaturalSize[0] * (monsize[1] / bgNaturalSize[1])),
-					monsize[1],
-				];
-				bgPosition = [Math.round((monsize[0] - bgSize[0]) / 2), 0];
-			}
-			break;
-		default:
-			bgSize = [bgNaturalSize[0], bgNaturalSize[1]];
-			bgPosition = [0, 0];
-	}
-	getId("monitor").style.backgroundSize = bgSize[0] + "px " + bgSize[1] + "px";
-	getId("monitor").style.backgroundPosition =
-		bgPosition[0] + "px " + bgPosition[1] + "px";
-	if (!noWinblur) calcWindowblur(null, 1);
-}
-
-function calcWindowblur(win, noBgSize) {
-	if (!noBgSize) updateBgSize(1);
+function calcWindowblur(win) {
 	const aeroOffset = [0, -32];
 	getId("monitor").style.transform = "";
 	if (win === "taskbar") {
@@ -2221,11 +2134,6 @@ function fitWindow() {
 
 	checkMobileSize();
 	arrangeDesktopIcons();
-	try {
-		updateBgSize();
-	} catch (err) {
-		// continue regardless of error
-	}
 }
 
 // Auto-resize display on window change

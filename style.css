@@ -266,23 +266,15 @@ div {
 	left: 0;
 	top: 0;
 	width: 100%;
-	/* 1050 x 600 original */
 	height: 100%;
-	background-color: #000;
-	/*
-	original = url(http://upload.wikimedia.org/wikipedia/commons/d/d2/Campania_Capri1_tango7174.jpg)
-	second   = url(http://golfunfiltered.com/wp-content/uploads/2014/10/moutains-golf-course.jpg)
-	third    = url(https://grapevineonline.files.wordpress.com/2014/12/x6vezahrpqd8lczpaogc_2014-08-27-02-46-52-1.jpg)
-	fourth   = url(https://newevolutiondesigns.com/images/freebies/nature-hd-background-9.jpg)
-		aeroFriendly1 = url(http://i40.photobucket.com/albums/e220/benjamin_allen1/lava_zpsce2852a9.gif)
-		aeroFriendly2 = url(http://i.giphy.com/g1tZmuF6BKBcA.gif)
-		aeroFriendly3 = url(http://i50.photobucket.com/albums/f331/HawaiiWirikidor/ththththStickPeople.gif)
-		interesting1 = url(http://orig11.deviantart.net/dec2/f/2012/185/9/2/tileable_futuristic_grid_by_ndugger-d55yz5h.png)
-	*/
-	background-image: url(images/pink_square.png);
-	/*background-size:cover;*/
 	background-position: 0 0;
 	transform-origin: 0 0;
+
+	background-image:
+		conic-gradient(from 90deg at 1px 1px, #0000 90deg, rgba(255,255,255, 0.7) 0),
+		linear-gradient(35deg, var(--cotton-candy), var(--barbie), var(--barney), var(--bsod), var(--blue-razz), var(--carribbean));
+  background-size: 50px 50px, cover;
+  filter: opacity(0.8);
 
 	/* width of window borders */
 	--windowBorderWidth: 3px;
@@ -291,8 +283,6 @@ div {
 #desktop {
 	top: 0;
 	left: 0;
-	width: 1050px;
-	height: 570px;
 	overflow: visible;
 }
 
@@ -942,7 +932,6 @@ div {
 	bottom: 0;
 	left: 0;
 	user-select: none;
-	width: 1050px;
 	height: 32px;
 	color: #fff;
 	text-shadow: 0px 0px 2px #000;
@@ -1132,10 +1121,16 @@ div {
 	z-index: 9999999999999998;
 	transition: opacity 1s;
 	background-color: #000;
-	background-image: url("images/pink_square.png");
 	filter: blur(10px);
 	background-position: center;
 	background-size: cover;
+
+	/* TODO: Redo this entirely with Kara's new design */
+	background-image:
+		conic-gradient(from 90deg at 1px 1px, #0000 90deg, rgba(255,255,255, 0.7) 0),
+		linear-gradient(35deg, #fa87f4, #fe00c0, #9701ff, #4900ff, #01b9ff, #01fff8);
+	background-size: 50px 50px, cover;
+  filter: opacity(0.8);
 }
 
 #isLoading {
@@ -1512,8 +1507,4 @@ div {
 	height: 100px;
 	width: 100px;
 	overflow: scroll;
-}
-
-#bgSizeElement {
-	display: none;
 }

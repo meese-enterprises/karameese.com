@@ -205,7 +205,7 @@ const AppPrompt = () => {
 							<div id="notifTitle">Notification</div>
 							<div id="notifContent">Content</div>
 							<div id="notifButtons"><button>Button 1</button> <button>Button 2</button></div>
-							<img id="notifImage" src="appicons/aOS.png">
+							<img id="notifImage" src="logo.png">
 							<div class="winExit cursorPointer" onClick="getId('notifWindow').style.opacity='0';getId('notifWindow').style.pointerEvents='none';getId('notifWindow').style.right = '-350px';window.setTimeout(function(){apps.prompt.vars.checkPrompts();}, 300);apps.prompt.vars.currprompt[3](-1);">x</div>
 					</div>
 			*/

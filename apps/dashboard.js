@@ -8,7 +8,7 @@ const Dashboard = () => {
 		title: "Dashboard",
 		abbreviation: "DsB",
 		codeName: "startMenu",
-		image: "smarticons/aOS/fg.png",
+		image: "logo.png",
 		hideApp: 1,
 		launchTypes: 1,
 		main: function (launchType) {
@@ -62,9 +62,6 @@ const Dashboard = () => {
 					this.appWindow.setContent(
 						'<div style="width:100%;height:100%;">' +
 							'<div style="position:relative;text-align:center;">' +
-							"<button onclick=\"openapp(apps.files, 'dsktp')\">Files</button> " +
-							// TODO: Unbreak this
-							"<button onclick=\"openapp(apps.appsbrowser, 'dsktp')\">All Apps</button><br>" +
 							'<input autocomplete="off" style="width:calc(100% - 6px);margin-top:3px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
 							'</div><div id="appDsBtableWrapper" class="noselect" style="width:100%;overflow-y:scroll;background-color:rgba(' +
 							darkSwitch("255, 255, 255", "39, 39, 39") +
