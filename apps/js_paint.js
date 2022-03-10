@@ -1,16 +1,15 @@
 const JSPaint = () => {
+	apps.jsPaint = new Application({
+		title: "JS Paint",
+		abbreviation: "jsP",
+		codeName: "jsPaint",
+		image: "appicons/paint_bucket.png",
+		hideApp: 0,
+		main: function () {
+			this.appWindow.setDims("auto", "auto", 753, 507);
+			this.appWindow.paddingMode(0);
 
-apps.jsPaint = new Application({
-	title: "JS Paint",
-	abbreviation: "jsP",
-	codeName: "jsPaint",
-	image: "appicons/paint_bucket.png",
-	hideApp: 0,
-	main: function() {
-		this.appWindow.setDims("auto", "auto", 753, 507);
-		this.appWindow.paddingMode(0);
-
-		this.appWindow.setContent(`
+			this.appWindow.setContent(`
 			<iframe
 				data-parent-app="jsPaint"
 				id="jsPframe"
@@ -19,14 +18,13 @@ apps.jsPaint = new Application({
 			></iframe>
 		`);
 
-		getId("icn_jsPaint").style.display = "inline-block";
-		this.appWindow.setCaption("JS Paint");
-		this.appWindow.openWindow();
-	},
-	vars: {
-		appInfo:
-			"A retro throwback app intended to show off my most recent creation.",
-	},
-});
-
+			getId("icn_jsPaint").style.display = "inline-block";
+			this.appWindow.setCaption("JS Paint");
+			this.appWindow.openWindow();
+		},
+		vars: {
+			appInfo:
+				"A retro throwback app intended to show off my most recent creation.",
+		},
+	});
 }; // End initial variable declaration
