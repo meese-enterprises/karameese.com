@@ -111,7 +111,7 @@ window.devTools = {
 			}
 			if (!requestData.conversation) {
 				this.totalRequests++;
-				requestData.conversation = "" + this.totalRequests;
+				requestData.conversation = String(this.totalRequests);
 			}
 			requestData.devToolsFrameID = devTools.pageID;
 			this.callbacks[this.totalRequests] = callback || function () {};
@@ -481,13 +481,13 @@ window.devTools = {
 		}
 		for (let i = data.content.styleLinks.length - 1; i >= 0; i--) {
 			if (data.content.styleLinks[i][1] === "link") {
-				let customElement = document.createElement("link");
+				const customElement = document.createElement("link");
 				customElement.className = "devTools_hubStyle";
 				customElement.rel = "stylesheet";
 				customElement.href = data.content.styleLinks[i][0];
 				document.head.prepend(customElement);
 			} else if (data.content.styleLinks[i][1] === "literal") {
-				let customElement = document.createElement("style");
+				const customElement = document.createElement("style");
 				customElement.className = "devTools_hubStyle";
 				customElement.innerHTML = data.content.styleLinks[i][0];
 				document.head.prepend(customElement);
