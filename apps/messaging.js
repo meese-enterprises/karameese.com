@@ -4,7 +4,7 @@ const Messaging = () => {
 		abbreviation: "MSG",
 		codeName: "messaging",
 		desc: "Message me directly if you would like to connect!",
-		image: "smarticons/messaging/fg.png",
+		image: "appicons/messaging_v2.png",
 		hideApp: 0,
 		launchTypes: 1,
 		main: function () {

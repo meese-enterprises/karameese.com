@@ -3,7 +3,7 @@ const MusicPlayer = () => {
 		title: "Music Player",
 		abbreviation: "MPl",
 		codeName: "musicPlayer",
-		image: "appicons/vinyl_v2.png",
+		image: "appicons/vinyl_v4.png",
 		hideApp: 0,
 		resizeable: false,
 		main: function () {
@@ -21,10 +21,13 @@ const MusicPlayer = () => {
 					this.appWindow.appIcon = 1;
 				});
 			}
-			
+
 			this.appWindow.setCaption("Music Player");
 			this.appWindow.setDims("auto", "auto", 500, 150);
 			if (this.appWindow.appIcon) {
+				// TODO: THIS IS THE PROBLEM;
+				// Removing the if condition renders the app broken,
+				// but leaving it renders the app only on the second attempt to open it
 				this.appWindow.openWindow();
 			}
 		},

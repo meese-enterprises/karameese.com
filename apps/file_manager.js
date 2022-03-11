@@ -7,7 +7,7 @@ apps.files = new Application({
 	title: "File Manager",
 	abbreviation: "FIL",
 	codeName: "files",
-	image: "smarticons/files/fg.png",
+	image: "appicons/folder_v1.png",
 	hideApp: 0,
 	launchTypes: 1,
 	// TODO: Fix home page on boot

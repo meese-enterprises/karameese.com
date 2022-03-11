@@ -5,7 +5,7 @@ const Help = () => {
 		title: "Help",
 		abbreviation: "hlp",
 		codeName: "help",
-		image: "appicons/question_mark.png",
+		image: "appicons/question_mark_v1.png",
 		hideApp: 0,
 		main: function () {
 			this.appWindow.paddingMode(0);
