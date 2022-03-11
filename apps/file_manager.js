@@ -367,7 +367,7 @@ const FileManager = () => {
 						'<div id="FIL2green" class="liveElement" data-live-target="style.width" data-live-eval="apps.files.vars.currItem/apps.files.vars.currTotal*100+\'%\'" style="height:100%;background-color:rgb(170, 255, 170);box-shadow:0 0 20px 10px rgb(170, 255, 170)"></div><div style="width:100%;height:25px;"><input id="FIL2input" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="' +
 						this.currLoc +
 						'"></div>';
-					this.currentDirectoryFiles = this.ls("" + this.currLoc);
+					this.currentDirectoryFiles = this.ls(String(this.currLoc));
 					this.currentDirectoryFiles.sort(function (a, b) {
 						const aLow = a.toLowerCase();
 						const bLow = b.toLowerCase();
@@ -553,7 +553,7 @@ const FileManager = () => {
 					);
 					break;
 				case "checkrunning":
-					return !!this.appWindow.appIcon;
+					return Boolean(this.appWindow.appIcon);
 				case "shrink":
 					this.appWindow.closeKeepTask();
 					break;

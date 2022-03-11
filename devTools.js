@@ -111,7 +111,7 @@ window.devTools = {
 			}
 			if (!requestData.conversation) {
 				this.totalRequests++;
-				requestData.conversation = "" + this.totalRequests;
+				requestData.conversation = String(this.totalRequests);
 			}
 			requestData.devToolsFrameID = devTools.pageID;
 			this.callbacks[this.totalRequests] = callback || function () {};
