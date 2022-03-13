@@ -245,11 +245,7 @@ class Application {
 		div .winShrink #win_settings_shrink     Button to shrink, or hide, the window
 		div .winExit   #win_settings_exit       Button to close window
 	*/
-	appWindow(
-		appIcon,
-		appImg,
-		appPath,
-	) {
+	appWindow(appIcon, appImg, appPath) {
 		return {
 			dsktpIcon: appIcon,
 			objName: appPath,
@@ -502,5 +498,5 @@ class Application {
 				}
 			},
 		};
-	};
+	}
 }
