@@ -65,6 +65,7 @@
 
 <?php
 	// Guarantees the availability of the document.
+	echo '<script src="./Application.js"></script>';
 	echo '<script src="./ghostCursor.js"></script>';
 	echo '<script src="./helperFunctions.js"></script>';
 	echo '<script src="./dateFunctions.js"></script>';
