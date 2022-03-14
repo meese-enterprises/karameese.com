@@ -227,7 +227,7 @@ const Dashboard = () => {
 
 					break;
 				case "checkrunning":
-					return this.appWindow.appIcon ? 1 : 0;
+					return Boolean(this.appWindow.appIcon);
 				case "shrink":
 					setTimeout(apps.startMenu.vars.minimize, 350);
 					this.appWindow.setDims(-305, 0, 300, 370);

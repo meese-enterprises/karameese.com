@@ -20,7 +20,6 @@
 	<!-- computer screen and content inside on startup -->
 	<div id="monitor" class="cursorDefault">
 		<div id="desktop" onclick="try{exitFlowMode()}catch(err){}" oncontextmenu="showEditContext(event)">
-			<div id="hideall" onClick="toTop({dsktpIcon: 'DESKTOP'}, 1)"></div>
 			<p id="timesUpdated">Oops!</p>
 			<div id="widgetMenu" class="darkResponsive noselect">
 				<div id="widgetTitle"></div>
@@ -65,17 +64,25 @@
 
 <?php
 	// Guarantees the availability of the document.
-	echo '<script src="./Application.js"></script>';
+
+	// Classes
+	echo '<script src="./classes/Application.js"></script>';
+	echo '<script src="./classes/DesktopIcon.js"></script>';
+	echo '<script src="./classes/Widget.js"></script>';
+
+	// Supporting scripts
 	echo '<script src="./ghostCursor.js"></script>';
 	echo '<script src="./helperFunctions.js"></script>';
 	echo '<script src="./dateFunctions.js"></script>';
 	echo '<script src="./smartIconFunctions.js"></script>';
 	echo '<script src="./widgetFunctions.js"></script>';
 
+	// Widgets
 	echo '<script src="./widgets/flow.js"></script>';
 	echo '<script src="./widgets/notifications.js"></script>';
 	echo '<script src="./widgets/time.js"></script>';
 
+	// Apps and main application
 	echo '<script src="./apps/accreditation.js"></script>';
 	echo '<script src="./apps/app_info.js"></script>';
 	echo '<script src="./apps/app_prompt.js"></script>';

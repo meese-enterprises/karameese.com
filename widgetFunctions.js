@@ -4,74 +4,32 @@ let totalWidgets = 0;
 const widgets = {};
 
 // skipcq JS-0128
-const Widget = function (
-	name,
-	code,
-	clickFunc,
-	startFunc,
-	frameFunc,
-	endFunc,
-	vars
-) {
-	this.name = name;
-	this.codeName = code;
-	this.main = clickFunc;
-	this.start = startFunc;
-	this.frame = frameFunc;
-	this.end = endFunc;
-	this.vars = vars;
-	this.place = -1;
-	this.element = null;
-	this.setWidth = function (width) {
-		if (this.element !== null) {
-			this.element.style.width = width;
-		}
-	};
-	this.setContent = function (content) {
-		if (this.element !== null) {
-			this.element.innerHTML = content;
-		}
-	};
-};
-
-// skipcq JS-0128
 function addWidget(widgetName) {
-	if (widgets[widgetName]) {
-		if (widgets[widgetName].place === -1) {
-			getId("time").innerHTML +=
-				'<div id="widget_' +
-				widgetName +
-				'" class="widget" data-widget-name="' +
-				widgetName +
-				'" onclick="widgets.' +
-				widgetName +
-				'.main()"></div>';
-			widgets[widgetName].element = getId("widget_" + widgetName);
-			widgets[widgetName].place = totalWidgets;
-			totalWidgets++;
-			widgets[widgetName].start();
-		}
-	}
+	const widget = widgets[widgetName];
+	if (!widget || widget.place !== -1) return;
+
+	// TODO: Convert this to JavaScript
+	getId("time").innerHTML +=
+		`<div id="widget_${widgetName}" ` +
+		`class="widget" data-widget-name="${widgetName}" ` +
+		`onclick="widgets.${widgetName}.main()"` +
+		"></div>";
+	widget.element = getId("widget_" + widgetName);
+	widget.place = totalWidgets;
+	totalWidgets++;
+	widget.start();
 }
 
 // skipcq JS-0128
 function widgetMenu(title, content) {
-	// TODO: Abstract with parameters
 	getId("widgetMenu").style.bottom = "auto";
 	getId("widgetMenu").style.top = "0";
-	getId("widgetMenu").style.left = "";
-	getId("widgetMenu").style.right = "";
-	getId("widgetMenu").style.borderBottom = "";
-	getId("widgetMenu").style.borderLeft = "";
-	getId("widgetMenu").style.borderRight = "";
 	getId("widgetMenu").style.borderTop = "none";
-	getId("widgetMenu").style.borderBottomLeftRadius = "";
-	getId("widgetMenu").style.borderBottomRightRadius = "";
 	getId("widgetMenu").style.borderTopLeftRadius = "0";
 	getId("widgetMenu").style.borderTopRightRadius = "0";
 
-	getId("widgetMenu").style.opacity = "";
-	getId("widgetMenu").style.pointerEvents = "";
+	getId("widgetMenu").style.opacity = "1";
+	getId("widgetMenu").style.pointerEvents = "auto";
 	getId("widgetTitle").innerHTML = title;
 	getId("widgetContent").innerHTML = "<hr>" + content;
 }
@@ -80,8 +38,6 @@ function widgetMenu(title, content) {
 function closeWidgetMenu() {
 	getId("widgetMenu").style.bottom = "auto";
 	getId("widgetMenu").style.top = "-350px";
-	getId("widgetMenu").style.left = "";
-	getId("widgetMenu").style.right = "";
 
 	getId("widgetMenu").style.opacity = "0";
 	getId("widgetMenu").style.pointerEvents = "none";

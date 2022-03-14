@@ -12,22 +12,26 @@ const FlowWidget = () => {
 		flowMode = 0;
 	}
 
+	function toggleFlowMode() {
+		if (flowMode) {
+			if (getId("monitor").classList.contains("flowDesktop")) {
+				getId("monitor").classList.remove("flowDesktop");
+			}
+			flowMode = 0;
+		} else {
+			if (!getId("monitor").classList.contains("flowDesktop")) {
+				getId("monitor").classList.add("flowDesktop");
+				getId("desktop").scrollTop = 0;
+			}
+			flowMode = 1;
+		}
+	}
+
 	widgets.flow = new Widget(
 		"Flow Mode",
 		"flow",
 		function () {
-			if (flowMode) {
-				if (getId("monitor").classList.contains("flowDesktop")) {
-					getId("monitor").classList.remove("flowDesktop");
-				}
-				flowMode = 0;
-			} else {
-				if (!getId("monitor").classList.contains("flowDesktop")) {
-					getId("monitor").classList.add("flowDesktop");
-					getId("desktop").scrollTop = 0;
-				}
-				flowMode = 1;
-			}
+			toggleFlowMode();
 		},
 		function () {
 			getId("widget_flow").innerHTML = "~";

@@ -1,9 +1,45 @@
+const defaultSignalHandlerFunction = function (signal) {
+	switch (signal) {
+		case "forceclose":
+			this.appWindow.closeWindow();
+			this.appWindow.closeIcon();
+			break;
+		case "close":
+			this.appWindow.closeWindow();
+			setTimeout(
+				function () {
+					if (
+						getId("win_" + this.objName + "_top").style.opacity === "0"
+					) {
+						this.appWindow.setContent("");
+					}
+				}.bind(this),
+				300
+			);
+			break;
+		case "checkrunning":
+			return Boolean(this.appWindow.appIcon);
+		case "shrink":
+			this.appWindow.closeKeepTask();
+			break;
+		case "USERFILES_DONE":
+			break;
+		default:
+			doLog(
+				`No case found for '${signal}' signal in app '${this.dsktpIcon}'`,
+				"#F00"
+			);
+	}
+};
+
 class Application {
+	// TODO: Destructuring assignment as opposed to appIcon method;
+		// added benefit of allowing for easy assignment of default values
 	constructor(
 		appIcon,
 		appName,
 		appDesc,
-		handlesLaunchTypes,
+		launchTypes,
 		mainFunction,
 		signalHandlerFunction,
 		appVariables,
@@ -16,6 +52,7 @@ class Application {
 			if (Object.prototype.hasOwnProperty.call(appIcon, "resizeable")) {
 				resizeable = appIcon.resizeable;
 			}
+
 			appImg = appIcon.image || "logo.png";
 			appPath = appIcon.codeName;
 			keepOffDesktop =
@@ -23,45 +60,9 @@ class Application {
 			appVariables = appIcon.vars || {};
 			signalHandlerFunction =
 				appIcon.signalHandler ||
-				function (signal) {
-					switch (signal) {
-						case "forceclose":
-							this.appWindow.closeWindow();
-							this.appWindow.closeIcon();
-							break;
-						case "close":
-							this.appWindow.closeWindow();
-							setTimeout(
-								function () {
-									if (
-										getId("win_" + this.objName + "_top").style.opacity === "0"
-									) {
-										this.appWindow.setContent("");
-									}
-								}.bind(this),
-								300
-							);
-							break;
-						case "checkrunning":
-							return this.appWindow.appIcon ? 1 : 0;
-						case "shrink":
-							this.appWindow.closeKeepTask();
-							break;
-						case "USERFILES_DONE":
-							break;
-						default:
-							doLog(
-								"No case found for '" +
-									signal +
-									"' signal in app '" +
-									this.dsktpIcon +
-									"'",
-								"#F00"
-							);
-					}
-				};
+				defaultSignalHandlerFunction.bind(this);
 			mainFunction = appIcon.main || function () {};
-			handlesLaunchTypes = appIcon.launchTypes || 0;
+			launchTypes = appIcon.launchTypes || 0;
 			appName = appIcon.title || "Application";
 			appDesc = appIcon.desc || "No description available.";
 			appIcon = appIcon.abbreviation || "App";
@@ -75,7 +76,7 @@ class Application {
 		this.appDesc = appDesc;
 		this.main = mainFunction;
 		this.signalHandler = signalHandlerFunction;
-		this.launchTypes = handlesLaunchTypes ? 1 : 0;
+		this.launchTypes = Boolean(launchTypes);
 		this.vars = appVariables;
 		this.resizeable = resizeable;
 		this.appWindow = this.appWindow(appIcon, appImg, appPath);
@@ -87,10 +88,8 @@ class Application {
 
 		this.keepOffDesktop = keepOffDesktop;
 		if (!this.keepOffDesktop) {
-			newDsktpIcon(
+			new DesktopIcon(
 				appPath,
-				appPath,
-				null,
 				this.appName,
 				this.appWindow.appImg,
 				["arg", 'openapp(apps[arg], "dsktp");'],
@@ -101,69 +100,37 @@ class Application {
 					"ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, arg2]);",
 				],
 				[appPath, appIcon],
-				1
 			);
 		}
 
 		getId("desktop").innerHTML +=
-			'<div class="window closedWindow" id="win_' +
-			appPath +
-			'_top">' +
-			'<div class="winAero" id="win_' +
-			appPath +
-			'_aero"></div>' +
-			'<div class="winBimg" id="win_' +
-			appPath +
-			'_img"></div>' +
-			'<div class="winRes cursorOpenHand" id="win_' +
-			appPath +
-			'_size"></div>' +
-			'<div class="winCap cursorOpenHand noselect" id="win_' +
-			appPath +
-			'_cap">' +
-			"</div>" +
-			'<div class="winFld cursorPointer noselect" id="win_' +
-			appPath +
-			'_fold">^' +
-			"</div>" +
-			'<div class="winHTML" id="win_' +
-			appPath +
-			'_html">' +
-			"</div>" +
-			'<div class="winBig cursorPointer noselect" id="win_' +
-			appPath +
-			'_big">o' +
-			"</div>" +
-			'<div class="winShrink cursorPointer noselect" id="win_' +
-			appPath +
-			'_shrink">v' +
-			"</div>" +
-			'<div class="winExit cursorPointer noselect" id="win_' +
-			appPath +
-			'_exit">x' +
-			"</div></div>";
+			`<div class="window closedWindow" id="win_${appPath}_top">` +
+				`<div class="winAero" id="win_${appPath}_aero"></div>` +
+				`<div class="winBimg" id="win_${appPath}_img"></div>` +
+				`<div class="winRes cursorOpenHand" id="win_${appPath}_size"></div>` +
+				`<div class="winCap cursorOpenHand noselect" id="win_${appPath}_cap"></div>` +
+				`<div class="winFld cursorPointer noselect" id="win_${appPath}_fold">^</div>` +
+				`<div class="winHTML" id="win_${appPath}_html"></div>` +
+				`<div class="winBig cursorPointer noselect" id="win_${appPath}_big">o</div>` +
+				`<div class="winShrink cursorPointer noselect" id="win_${appPath}_shrink">v</div>` +
+				`<div class="winExit cursorPointer noselect" id="win_${appPath}_exit">x</div>` +
+			"</div>";
+
 		if (this.appWindow.appImg) {
 			getId("icons").innerHTML +=
-				'<div class="icon cursorPointer" id="icn_' +
-				appPath +
-				'">' +
-				'<div class="iconOpenIndicator"></div>' +
-				buildSmartIcon(32, this.appWindow.appImg, "margin-left:6px") +
-				'<div class="taskbarIconTitle" id="icntitle_' +
-				appPath +
-				'">' +
-				appName +
-				"</div>" +
+				`<div class="icon cursorPointer" id="icn_${appPath}">` +
+					'<div class="iconOpenIndicator"></div>' +
+					buildSmartIcon(32, this.appWindow.appImg, "margin-left:6px") +
+					`<div class="taskbarIconTitle" id="icntitle_${appPath}">` +
+						appName +
+					"</div>" +
 				"</div>";
 		} else {
 			getId("icons").innerHTML +=
-				'<div class="icon cursorPointer" id="icn_' +
-				appPath +
-				'">' +
-				'<div class="iconOpenIndicator"></div>' +
-				'<div class="iconImg">' +
-				appIcon +
-				"</div></div>";
+				`<div class="icon cursorPointer" id="icn_${appPath}">` +
+					'<div class="iconOpenIndicator"></div>' +
+					`<div class="iconImg">${appIcon}</div>` +
+				"</div>";
 		}
 
 		if (this.resizeable) {
@@ -183,50 +150,49 @@ class Application {
 		);
 		getId("icn_" + appPath).setAttribute(
 			"onClick",
-			"openapp(apps." +
-				appPath +
-				", function(){if(apps." +
-				appPath +
-				".appWindow.appIcon){return 'tskbr'}else{return 'dsktp'}}())"
+			`openapp(apps.${appPath}, function() {` +
+				`if (apps.${appPath}.appWindow.appIcon) { return "tskbr" }` +
+				`else { return "dsktp" }` +
+			`}())`
 		);
 		getId("win_" + appPath + "_top").setAttribute(
 			"onClick",
 			"toTop(apps." + appPath + ")"
 		);
+
 		if (appPath !== "startMenu") {
-			getId("icn_" + appPath).setAttribute(
+			const icon = getId("icn_" + appPath);
+			icon.setAttribute(
 				"oncontextmenu",
-				"ctxMenu(baseCtx.icnXXX, 1, event, '" + appPath + "')"
+				`ctxMenu(baseCtx.icnXXX, 1, event, "${appPath}")`
 			);
-			getId("icn_" + appPath).setAttribute(
+			icon.setAttribute(
 				"onmouseenter",
-				"if(apps." +
-					appPath +
-					".appWindow.appIcon){highlightWindow('" +
-					appPath +
-					"')}"
+				`if (apps.${appPath}.appWindow.appIcon)` +
+					`{ highlightWindow("${appPath}") }`
 			);
-			getId("icn_" + appPath).setAttribute("onmouseleave", "highlightHide()");
+			icon.setAttribute("onmouseleave", "highlightHide()");
 		}
+
 		getId("win_" + appPath + "_exit").setAttribute(
 			"onClick",
-			"apps." + appPath + ".signalHandler('close');event.stopPropagation()"
+			`apps.${appPath}.signalHandler('close');event.stopPropagation()`
 		);
 		getId("win_" + appPath + "_shrink").setAttribute(
 			"onClick",
-			"apps." + appPath + ".signalHandler('shrink');event.stopPropagation()"
+			`apps.${appPath}.signalHandler("shrink");event.stopPropagation()`
 		);
 		getId("win_" + appPath + "_big").setAttribute(
 			"onClick",
-			"apps." + appPath + ".appWindow.toggleFullscreen()"
+			`apps.${appPath}.appWindow.toggleFullscreen()`
 		);
 		getId("win_" + appPath + "_fold").setAttribute(
 			"onClick",
-			"apps." + appPath + ".appWindow.foldWindow()"
+			`apps.${appPath}.appWindow.foldWindow()`
 		);
 		getId("win_" + appPath + "_cap").setAttribute(
 			"oncontextmenu",
-			"ctxMenu(baseCtx.winXXXc, 1, event, '" + appPath + "')"
+			`ctxMenu(baseCtx.winXXXc, 1, event, "${appPath}")`
 		);
 	}
 
@@ -250,6 +216,7 @@ class Application {
 		appImg,
 		appPath,
 	) {
+		// TODO: See if I can return implicitly
 		return {
 			dsktpIcon: appIcon,
 			objName: appPath,
@@ -373,20 +340,20 @@ class Application {
 			},
 			closeWindow: function () {
 				this.appIcon = 0;
-				getId("win_" + this.objName + "_top").classList.add("closedWindow");
 
-				getId("win_" + this.objName + "_top").style.transformOrigin = "";
-				getId(
-					"win_" + this.objName + "_top"
-				).style.transform = `scale(${winFadeDistance})`;
-				getId("win_" + this.objName + "_top").style.opacity = "0";
-				getId("win_" + this.objName + "_top").style.pointerEvents = "none";
+				const top = getId("win_" + this.objName + "_top");
+				top.classList.add("closedWindow");
+				top.style.transformOrigin = "";
+				top.style.transform = `scale(${winFadeDistance})`;
+				top.style.opacity = "0";
+				top.style.pointerEvents = "none";
+
 				setTimeout(
 					function () {
 						if (!this.appIcon) {
-							getId("win_" + this.objName + "_top").style.display = "none";
-							getId("win_" + this.objName + "_top").style.width = "";
-							getId("win_" + this.objName + "_top").style.height = "";
+							top.style.display = "none";
+							top.style.width = "";
+							top.style.height = "";
 							this.windowH = -1;
 							this.windowV = -1;
 						}

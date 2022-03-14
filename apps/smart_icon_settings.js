@@ -133,7 +133,7 @@ const SmartIconSettings = () => {
 					);
 					break;
 				case "checkrunning":
-					return this.appWindow.appIcon ? 1 : 0;
+					return Boolean(this.appWindow.appIcon);
 				case "shrink":
 					this.appWindow.closeKeepTask();
 					break;
