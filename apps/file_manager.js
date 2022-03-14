@@ -20,24 +20,24 @@ const FileManager = () => {
 				getId("win_files_html").style.background = "none";
 				this.appWindow.setContent(
 					'<div id="FIL2topdiv" class="noselect" style="width:calc(100% - 96px); min-width:calc(70% + 48px); right:0; height:50px;">' +
-					'<div title="Back" class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; left:5px; top:4px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center;" onClick="apps.files.vars.back()">&lArr; &nbsp;</div>' +
-					'<div title="Home" class="cursorPointer darkResponsive" style="width:24px; border-left:1px solid #333; height:18px; padding-top:2px; left:30px; top:4px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center;" onClick="apps.files.vars.home()">H</div>' +
-					'<div title="View Mode" class="cursorPointer darkResponsive" style="width:24px; border-right:1px solid #333; height:18px; padding-top:2px; right:31px; top:4px; border-top-right-radius:10px; border-bottom-right-radius:10px; text-align:center;" onClick="apps.files.vars.setViewMode()">&#8801;</div>' +
-					'<div id="FIL2path" class="darkResponsive" style="left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px); border-top-left-radius:5px; border-top-right-radius:5px;"><div id="FIL2green" style="width:0;height:100%;"></div><div style="width:100%;height:25px;"><input id="FIL2input" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="/"></div></div>' +
-					'<div id="FIL2viewModeIcon" style="pointer-events:none; color:#7F7F7F; text-align:right; left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px);"></div>' +
-					'<div id="FIL2search" class="darkResponsive" style="left:55px; top:26px; font-family:monospace; height:22px; line-height:22px; vertical-align:middle; width:calc(100% - 110px);"><input id="FIL2searchInput" placeholder="Search" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:20px;padding:0;padding-left:8px;" onkeyup="apps.files.vars.updateSearch(this.value)"></div>' +
-					'<div class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; left:5px; top:27px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center; display:none" onClick=""></div>' +
-					'</div>' +
-					'<div id="FIL2sidebar" class="darkResponsive" style="overflow-y:scroll; border-top-left-radius:5px; font-family:W95FA, Courier, monospace; font-size:12px; width:144px; max-width:30%; padding:3px; height:calc(100% - 56px); top:50px;">' +
-					'Home<br><div id="FIL2home" class="FIL2sidetbl FIL2viewMedium"></div><br>' +
-					'Navigation<br><div id="FIL2nav" class="FIL2sidetbl FIL2viewMedium"></div></div>' +
-					'<div class="darkResponsive" style="width:calc(100% - 151px); border-top-right-radius:5px; min-width:calc(70% - 7px); right:0; height:calc(100% - 50px); top:50px; background-repeat:no-repeat; background-position:center" id="FIL2cntn"></div>'
+						'<div title="Back" class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; left:5px; top:4px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center;" onClick="apps.files.vars.back()">&lArr; &nbsp;</div>' +
+						'<div title="Home" class="cursorPointer darkResponsive" style="width:24px; border-left:1px solid #333; height:18px; padding-top:2px; left:30px; top:4px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center;" onClick="apps.files.vars.home()">H</div>' +
+						'<div title="View Mode" class="cursorPointer darkResponsive" style="width:24px; border-right:1px solid #333; height:18px; padding-top:2px; right:31px; top:4px; border-top-right-radius:10px; border-bottom-right-radius:10px; text-align:center;" onClick="apps.files.vars.setViewMode()">&#8801;</div>' +
+						'<div id="FIL2path" class="darkResponsive" style="left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px); border-top-left-radius:5px; border-top-right-radius:5px;"><div id="FIL2green" style="width:0;height:100%;"></div><div style="width:100%;height:25px;"><input id="FIL2input" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="/"></div></div>' +
+						'<div id="FIL2viewModeIcon" style="pointer-events:none; color:#7F7F7F; text-align:right; left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px);"></div>' +
+						'<div id="FIL2search" class="darkResponsive" style="left:55px; top:26px; font-family:monospace; height:22px; line-height:22px; vertical-align:middle; width:calc(100% - 110px);"><input id="FIL2searchInput" placeholder="Search" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:20px;padding:0;padding-left:8px;" onkeyup="apps.files.vars.updateSearch(this.value)"></div>' +
+						'<div class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; left:5px; top:27px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center; display:none" onClick=""></div>' +
+						"</div>" +
+						'<div id="FIL2sidebar" class="darkResponsive" style="overflow-y:scroll; border-top-left-radius:5px; font-family:W95FA, Courier, monospace; font-size:12px; width:144px; max-width:30%; padding:3px; height:calc(100% - 56px); top:50px;">' +
+						'Home<br><div id="FIL2home" class="FIL2sidetbl FIL2viewMedium"></div><br>' +
+						'Navigation<br><div id="FIL2nav" class="FIL2sidetbl FIL2viewMedium"></div></div>' +
+						'<div class="darkResponsive" style="width:calc(100% - 151px); border-top-right-radius:5px; min-width:calc(70% - 7px); right:0; height:calc(100% - 50px); top:50px; background-repeat:no-repeat; background-position:center" id="FIL2cntn"></div>'
 				);
 				getId("FIL2home").innerHTML =
-					'<div class="cursorPointer" onClick="apps.files.vars.currLoc = \'/\';apps.files.vars.next(\'art/\')" oncontextmenu="ctxMenu([[event.pageX, event.pageY, \'ctxMenu/file.png\'], \' Properties\', \'apps.properties.main(\\\'openFile\\\', \\\'art/\\\');toTop(apps.properties)\'])">' +
+					"<div class=\"cursorPointer\" onClick=\"apps.files.vars.currLoc = '/';apps.files.vars.next('art/')\" oncontextmenu=\"ctxMenu([[event.pageX, event.pageY, 'ctxMenu/file.png'], ' Properties', 'apps.properties.main(\\'openFile\\', \\'art/\\');toTop(apps.properties)'])\">" +
 					'<img src="files/small/folder.png"> ' +
-					'art/' +
-					'</div>';
+					"art/" +
+					"</div>";
 				this.vars.setViewMode(this.vars.currViewMode, 1);
 			}
 		},
@@ -361,9 +361,9 @@ const FileManager = () => {
 					getId("FIL2cntn").style.backgroundImage = "";
 					getId("FIL2cntn").classList.remove("cursorLoadDark");
 				} else {
-					tempNextName = tempNextName.join('\\/');
+					tempNextName = tempNextName.join("\\/");
 				}
-			}
+			},
 		},
 		signalHandler: function (signal) {
 			switch (signal) {
