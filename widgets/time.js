@@ -1,5 +1,3 @@
-/* global getId, widgets, formDate */
-
 const getTimeWidgetContents = () => {
 	let currentTime = new Date().getTime() - bootTime;
 	const currentDays = Math.floor(currentTime / 86400000);

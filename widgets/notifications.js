@@ -1,5 +1,3 @@
-/* global getId, widgets, apps */
-
 const NotificationsWidget = () => {
 	widgets.notifications = new Widget(
 		"Notifications",
@@ -32,7 +30,7 @@ const NotificationsWidget = () => {
 			requestAnimationFrame(widgets.notifications.frame);
 			const notifCount = apps.prompt.vars.lastNotifsFound.length;
 			if (
-				notifCount + ":" + apps.prompt.vars.notifsVisible ==
+				notifCount + ":" + apps.prompt.vars.notifsVisible ===
 				widgets.notifications.vars.lastDisplay
 			) {
 				return;

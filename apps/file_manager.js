@@ -1,5 +1,3 @@
-/* global apps, getId, ufsave */
-
 // skipcq JS-0128
 const FileManager = () => {
 	apps.files = new Application({

@@ -1,5 +1,3 @@
-/* global buildSmartIcon, getId, ufsave */
-
 // skipcq JS-0128
 const bootTime = new Date().getTime();
 const websiteTitle = "KaraOS";

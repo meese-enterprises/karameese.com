@@ -1,5 +1,3 @@
-/* global getId */
-
 // skipcq JS-0128
 const FlowWidget = () => {
 	let flowMode = 0;
