@@ -10,8 +10,10 @@ const getTimeWidgetContents = () => {
 	currentTime -= currentMinutes * 60000;
 	const currentSeconds = Math.floor(currentTime / 1000);
 
-	return `${websiteTitle} has been running for:<br>${currentDays} days, ` +
+	return (
+		`${websiteTitle} has been running for:<br>${currentDays} days, ` +
 		`${currentHours} hours, ${currentMinutes} minutes, and ${currentSeconds} seconds.`
+	);
 };
 
 const TimeWidget = () => {
@@ -24,7 +26,7 @@ const TimeWidget = () => {
 			widgetMenu(
 				"Time Widget",
 				// TODO: Unbreak this
-				getTimeWidgetContents(),
+				getTimeWidgetContents()
 			);
 		},
 		function () {

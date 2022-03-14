@@ -11,15 +11,7 @@ class Widget {
 	 * @param {Function} endFunc Stop/cleanup function
 	 * @param {Object} vars Relevant variables for the widget
 	 */
-	constructor(
-		title,
-		name,
-		clickFunc,
-		startFunc,
-		frameFunc,
-		endFunc,
-		vars
-	) {
+	constructor(title, name, clickFunc, startFunc, frameFunc, endFunc, vars) {
 		this.title = title;
 		this.name = name;
 		this.main = clickFunc;
@@ -29,17 +21,19 @@ class Widget {
 		this.vars = vars;
 		this.place = -1;
 		this.element = null;
-		this.setWidth = function (width) { //(width) => {
+		this.setWidth = function (width) {
+			// (width) => {
 			if (this.element !== null) {
 				this.element.style.width = width;
 			}
 		};
-		this.setContent = function (content) { //(content) => {
+		this.setContent = function (content) {
+			// (content) => {
 			if (this.element !== null) {
 				this.element.innerHTML = content;
 			}
 		};
-	};
+	}
 
 	// TODO: Import other functions from widgetFunctions.js
 }
