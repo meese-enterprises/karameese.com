@@ -2,7 +2,7 @@
  * An extensible DesktopIcon class for creating icons that will
  * be visible on the desktop.
  */
- class DesktopIcon {
+class DesktopIcon {
 	/**
 	 * TODO: @typedefs
 	 * @param {string} id
@@ -13,15 +13,7 @@
 	 * @param {*} ctxAction
 	 * @param {*} ctxActionArgs
 	 */
-	constructor(
-		id,
-		title,
-		icon,
-		action,
-		actionArgs,
-		ctxAction,
-		ctxActionArgs
-	) {
+	constructor(id, title, icon, action, actionArgs, ctxAction, ctxActionArgs) {
 		if (!id) id = "uico_" + new Date().getTime();
 		if (!title) {
 			title = apps[id] ? apps[id].appName : "Icon";
@@ -30,10 +22,10 @@
 			icon = apps[id]
 				? {
 						...apps[id].appWindow.appImg,
-					}
+				  }
 				: {
 						...apps.startMenu.appWindow.appImg,
-					};
+				  };
 		}
 		if (typeof icon === "string") {
 			icon = { foreground: icon };
@@ -103,14 +95,14 @@
 		);
 		tempIco.innerHTML =
 			`<div class="appIcon" id="ico_${id}" style="pointer-events:none">` +
-				buildSmartIcon(64, icon) +
+			buildSmartIcon(64, icon) +
 			"</div>" +
 			`<div class="appName" id="dsc_${id}">` +
-				title +
+			title +
 			"</div>";
 		getId("desktop").appendChild(tempIco);
 		arrangeDesktopIcons();
-	};
+	}
 
 	// TODO: Import other functions from widgetFunctions.js
 }

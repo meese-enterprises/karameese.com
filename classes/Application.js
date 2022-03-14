@@ -8,9 +8,7 @@ const defaultSignalHandlerFunction = function (signal) {
 			this.appWindow.closeWindow();
 			setTimeout(
 				function () {
-					if (
-						getId("win_" + this.objName + "_top").style.opacity === "0"
-					) {
+					if (getId("win_" + this.objName + "_top").style.opacity === "0") {
 						this.appWindow.setContent("");
 					}
 				}.bind(this),
@@ -34,7 +32,7 @@ const defaultSignalHandlerFunction = function (signal) {
 
 class Application {
 	// TODO: Destructuring assignment as opposed to appIcon method;
-		// added benefit of allowing for easy assignment of default values
+	// added benefit of allowing for easy assignment of default values
 	constructor(
 		appIcon,
 		appName,
@@ -59,8 +57,7 @@ class Application {
 				typeof appIcon.hideApp === "number" ? appIcon.hideApp : 1;
 			appVariables = appIcon.vars || {};
 			signalHandlerFunction =
-				appIcon.signalHandler ||
-				defaultSignalHandlerFunction.bind(this);
+				appIcon.signalHandler || defaultSignalHandlerFunction.bind(this);
 			mainFunction = appIcon.main || function () {};
 			launchTypes = appIcon.launchTypes || 0;
 			appName = appIcon.title || "Application";
@@ -99,37 +96,37 @@ class Application {
 					"arg2",
 					"ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, arg2]);",
 				],
-				[appPath, appIcon],
+				[appPath, appIcon]
 			);
 		}
 
 		getId("desktop").innerHTML +=
 			`<div class="window closedWindow" id="win_${appPath}_top">` +
-				`<div class="winAero" id="win_${appPath}_aero"></div>` +
-				`<div class="winBimg" id="win_${appPath}_img"></div>` +
-				`<div class="winRes cursorOpenHand" id="win_${appPath}_size"></div>` +
-				`<div class="winCap cursorOpenHand noselect" id="win_${appPath}_cap"></div>` +
-				`<div class="winFld cursorPointer noselect" id="win_${appPath}_fold">^</div>` +
-				`<div class="winHTML" id="win_${appPath}_html"></div>` +
-				`<div class="winBig cursorPointer noselect" id="win_${appPath}_big">o</div>` +
-				`<div class="winShrink cursorPointer noselect" id="win_${appPath}_shrink">v</div>` +
-				`<div class="winExit cursorPointer noselect" id="win_${appPath}_exit">x</div>` +
+			`<div class="winAero" id="win_${appPath}_aero"></div>` +
+			`<div class="winBimg" id="win_${appPath}_img"></div>` +
+			`<div class="winRes cursorOpenHand" id="win_${appPath}_size"></div>` +
+			`<div class="winCap cursorOpenHand noselect" id="win_${appPath}_cap"></div>` +
+			`<div class="winFld cursorPointer noselect" id="win_${appPath}_fold">^</div>` +
+			`<div class="winHTML" id="win_${appPath}_html"></div>` +
+			`<div class="winBig cursorPointer noselect" id="win_${appPath}_big">o</div>` +
+			`<div class="winShrink cursorPointer noselect" id="win_${appPath}_shrink">v</div>` +
+			`<div class="winExit cursorPointer noselect" id="win_${appPath}_exit">x</div>` +
 			"</div>";
 
 		if (this.appWindow.appImg) {
 			getId("icons").innerHTML +=
 				`<div class="icon cursorPointer" id="icn_${appPath}">` +
-					'<div class="iconOpenIndicator"></div>' +
-					buildSmartIcon(32, this.appWindow.appImg, "margin-left:6px") +
-					`<div class="taskbarIconTitle" id="icntitle_${appPath}">` +
-						appName +
-					"</div>" +
+				'<div class="iconOpenIndicator"></div>' +
+				buildSmartIcon(32, this.appWindow.appImg, "margin-left:6px") +
+				`<div class="taskbarIconTitle" id="icntitle_${appPath}">` +
+				appName +
+				"</div>" +
 				"</div>";
 		} else {
 			getId("icons").innerHTML +=
 				`<div class="icon cursorPointer" id="icn_${appPath}">` +
-					'<div class="iconOpenIndicator"></div>' +
-					`<div class="iconImg">${appIcon}</div>` +
+				'<div class="iconOpenIndicator"></div>' +
+				`<div class="iconImg">${appIcon}</div>` +
 				"</div>";
 		}
 
@@ -152,8 +149,8 @@ class Application {
 			"onClick",
 			`openapp(apps.${appPath}, function() {` +
 				`if (apps.${appPath}.appWindow.appIcon) { return "tskbr" }` +
-				`else { return "dsktp" }` +
-			`}())`
+				'else { return "dsktp" }' +
+				"}())"
 		);
 		getId("win_" + appPath + "_top").setAttribute(
 			"onClick",
@@ -211,11 +208,7 @@ class Application {
 		div .winShrink #win_settings_shrink     Button to shrink, or hide, the window
 		div .winExit   #win_settings_exit       Button to close window
 	*/
-	appWindow(
-		appIcon,
-		appImg,
-		appPath,
-	) {
+	appWindow(appIcon, appImg, appPath) {
 		// TODO: See if I can return implicitly
 		return {
 			dsktpIcon: appIcon,
@@ -469,5 +462,5 @@ class Application {
 				}
 			},
 		};
-	};
+	}
 }
