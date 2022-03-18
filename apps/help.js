@@ -1,9 +1,9 @@
 const Help = () => {
 	apps.help = new Application({
+		name: "help",
 		title: "Help",
 		abbreviation: "hlp",
-		codeName: "help",
-		image: "appicons/question_mark_v1.png",
+		image: "icons/question_mark_v1.png",
 		hideApp: 0,
 		main: function () {
 			this.appWindow.paddingMode(0);
@@ -17,12 +17,14 @@ const Help = () => {
 					"</div></div>"
 			);
 			this.vars.appsListed = 1;
+
+			const appsSorted = Object.keys(apps).sort();
 			for (const appHandle in appsSorted) {
 				const app = appsSorted[appHandle];
-				this.vars.currAppImg = apps[app].appWindow.appImg;
-				this.vars.currAppIcon = apps[app].dsktpIcon;
-				this.vars.currAppName = apps[app].appName;
-				this.vars.currAppDesc = apps[app].appDesc;
+				this.vars.currAppImg = apps[app].appWindow.image;
+				this.vars.currAppAbbr = apps[app].abbreviation;
+				this.vars.currAppTitle = apps[app].title;
+				this.vars.currAppDesc = apps[app].description;
 				getId("helpDiv").innerHTML +=
 					'<div id="APBapp_' +
 					app +
@@ -46,7 +48,7 @@ const Help = () => {
 					buildSmartIcon(128, this.vars.currAppImg, "margin-left:1px;") +
 					'<div class="helpItemText">' +
 					'<p class="helpAppName">' +
-					this.vars.currAppName +
+					this.vars.currAppTitle +
 					"</p>" +
 					'<p class="helpAppDesc">' +
 					this.vars.currAppDesc +
@@ -63,8 +65,8 @@ const Help = () => {
 			appInfo: "A handy tool to navigate all of the apps you may come across.",
 			appsListed: 1,
 			currAppImg: "",
-			currAppIcon: "",
-			currAppName: "",
+			currAppAbbr: "",
+			currAppTitle: "",
 			search: function (text) {
 				const allDivs = getId("helpDiv").getElementsByClassName("helpItem");
 				const textSplit = text.toLowerCase().split(" ");

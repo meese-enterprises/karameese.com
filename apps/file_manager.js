@@ -1,10 +1,10 @@
 // skipcq JS-0128
 const FileManager = () => {
 	apps.files = new Application({
+		name: "files",
 		title: "File Manager",
 		abbreviation: "FIL",
-		codeName: "files",
-		image: "appicons/folder_v1.png",
+		image: "icons/folder_v1.png",
 		hideApp: 0,
 		launchTypes: 1,
 		// TODO: Fix home page on boot
@@ -18,28 +18,21 @@ const FileManager = () => {
 			if (launchType === "dsktp") {
 				this.vars.currLoc = "/";
 				getId("win_files_html").style.background = "none";
-				this.appWindow.setContent(
-					'<div id="FIL2topdiv" class="noselect" style="width:calc(100% - 96px); min-width:calc(70% + 48px); right:0; height:50px;">' +
-						'<div title="Back" class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; left:5px; top:4px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center;" onClick="apps.files.vars.back()">&lArr; &nbsp;</div>' +
-						'<div title="Home" class="cursorPointer darkResponsive" style="width:24px; border-left:1px solid #333; height:18px; padding-top:2px; left:30px; top:4px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center;" onClick="apps.files.vars.home()">H</div>' +
-						'<div title="View Mode" class="cursorPointer darkResponsive" style="width:24px; border-right:1px solid #333; height:18px; padding-top:2px; right:31px; top:4px; border-top-right-radius:10px; border-bottom-right-radius:10px; text-align:center;" onClick="apps.files.vars.setViewMode()">&#8801;</div>' +
-						'<div id="FIL2path" class="darkResponsive" style="left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px); border-top-left-radius:5px; border-top-right-radius:5px;"><div id="FIL2green" style="width:0;height:100%;"></div><div style="width:100%;height:25px;"><input id="FIL2input" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="/"></div></div>' +
-						'<div id="FIL2viewModeIcon" style="pointer-events:none; color:#7F7F7F; text-align:right; left:55px; font-family:monospace; height:25px; line-height:25px; vertical-align:middle; width:calc(100% - 110px);"></div>' +
-						'<div id="FIL2search" class="darkResponsive" style="left:55px; top:26px; font-family:monospace; height:22px; line-height:22px; vertical-align:middle; width:calc(100% - 110px);"><input id="FIL2searchInput" placeholder="Search" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:20px;padding:0;padding-left:8px;" onkeyup="apps.files.vars.updateSearch(this.value)"></div>' +
-						'<div class="cursorPointer darkResponsive" style="width:34px; height:18px; padding-top:2px; left:5px; top:27px; border-top-left-radius:10px; border-bottom-left-radius:10px; text-align:center; display:none" onClick=""></div>' +
-						"</div>" +
-						'<div id="FIL2sidebar" class="darkResponsive" style="overflow-y:scroll; border-top-left-radius:5px; font-family:W95FA, Courier, monospace; font-size:12px; width:144px; max-width:30%; padding:3px; height:calc(100% - 56px); top:50px;">' +
-						'Home<br><div id="FIL2home" class="FIL2sidetbl FIL2viewMedium"></div><br>' +
-						'Navigation<br><div id="FIL2nav" class="FIL2sidetbl FIL2viewMedium"></div></div>' +
-						'<div class="darkResponsive" style="width:calc(100% - 151px); border-top-right-radius:5px; min-width:calc(70% - 7px); right:0; height:calc(100% - 50px); top:50px; background-repeat:no-repeat; background-position:center" id="FIL2cntn"></div>'
-				);
-				getId("FIL2home").innerHTML =
-					"<div class=\"cursorPointer\" onClick=\"apps.files.vars.currLoc = '/';apps.files.vars.next('art/')\" oncontextmenu=\"ctxMenu([[event.pageX, event.pageY, 'ctxMenu/file.png'], ' Properties', 'apps.properties.main(\\'openFile\\', \\'art/\\');toTop(apps.properties)'])\">" +
-					'<img src="files/small/folder.png"> ' +
-					"art/" +
-					"</div>";
-				this.vars.setViewMode(this.vars.currViewMode, 1);
+				this.appWindow.setContent('<div id="fileManagerDisplay" class="full-iframe"></div>');
 			}
+
+			// Get the contents of accreditation.html and load into the window
+			const xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState === 4) {
+					const elmnt = document.getElementById("fileManagerDisplay");
+					if (this.status === 200) {
+						elmnt.innerHTML = this.responseText;
+					}
+				}
+			};
+			xhttp.open("GET", "./apps/filemanager.html", true);
+			xhttp.send();
 		},
 		vars: {
 			appInfo:
@@ -179,47 +172,6 @@ const FileManager = () => {
 				this.selectedDirectoryFiles = loadFiles();
 				return this.selectedDirectoryFiles;
 			},
-			viewModes: [
-				["Small Grid", "FIL2viewCompact"],
-				["Large Grid", "FIL2viewSmall"],
-				["Small List", "FIL2viewMedium"],
-				["Large List", "FIL2viewLarge"],
-			],
-			currViewMode: 3,
-			setViewMode: function (newMode) {
-				try {
-					getId("FIL2tbl").classList.remove(
-						this.viewModes[this.currViewMode][1]
-					);
-				} catch (err) {
-					// Window is not open
-				}
-
-				if (typeof newMode === "number") {
-					if (newMode < this.viewModes.length) {
-						this.currViewMode = newMode;
-					}
-				} else {
-					this.currViewMode++;
-					if (this.currViewMode >= this.viewModes.length) {
-						this.currViewMode = 0;
-					}
-				}
-
-				try {
-					getId("FIL2viewModeIcon").innerHTML =
-						this.viewModes[this.currViewMode][0] + "&nbsp;";
-					getId("FIL2tbl").classList.add(this.viewModes[this.currViewMode][1]);
-				} catch (err) {
-					// Window is not open
-				}
-
-				apps.savemaster.vars.save(
-					"system/apps/files/view_mode",
-					this.currViewMode,
-					1
-				);
-			},
 			back: function () {
 				this.currLoc = this.currLoc.split("/");
 				let cleanEscapeRun = 0;
@@ -335,31 +287,27 @@ const FileManager = () => {
 			currentDirectoryFiles: [],
 			update: function () {
 				this.currContentStr = "";
-				getId("FIL2searchInput").value = "";
+				getId("fileSearchInput").value = "";
 				getId("FIL2green").style.backgroundColor = "rgb(170, 255, 170)";
 				getId("FIL2green").style.width = "0";
-				getId("FIL2cntn").classList.add("cursorLoadDark");
-				getId("FIL2cntn").innerHTML =
-					'<div id="FIL2tbl" class="' +
-					this.viewModes[this.currViewMode][1] +
-					'" style="width:100%; position:absolute; margin:auto;padding-bottom:3px;"></div>';
-				getId("FIL2tbl").style.marginTop =
+				getId("fileManagerContent").classList.add("cursorLoadDark");
+				getId("fileManagerContent").style.marginTop =
 					getId("findScrollSize").offsetHeight -
 					getId("findScrollSize").clientHeight;
 				if (this.currLoc === "/") {
-					getId("FIL2path").innerHTML =
+					getId("filePath").innerHTML =
 						'<div id="FIL2green" style="height:100%;background-color:rgb(170, 255, 170)"></div><div style="width:100%;height:25px;"><input id="FIL2input" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="/"></div>';
-					getId("FIL2tbl").innerHTML =
+					getId("fileManagerContent").innerHTML =
 						'<span style="padding-left:3px;line-height:18px">Home</span><br>' +
 						"<div class=\"cursorPointer\" onClick=\"apps.files.vars.next('art/')\" oncontextmenu=\"ctxMenu([[event.pageX, event.pageY, 'ctxMenu/file.png'], ' Properties', 'apps.properties.main(\\'openFile\\', \\'art/\\');toTop(apps.properties)'])\">" +
-						'<img src="files/small/folder.png"> ' +
+						'<img src="images/folder.png"> ' +
 						"art/" +
 						"</div>";
 					getId("FIL2green").className = "";
 					getId("FIL2green").style.backgroundColor = "#FFF";
 					getId("FIL2green").style.display = "none";
-					getId("FIL2cntn").style.backgroundImage = "";
-					getId("FIL2cntn").classList.remove("cursorLoadDark");
+					getId("fileManagerContent").style.backgroundImage = "";
+					getId("fileManagerContent").classList.remove("cursorLoadDark");
 				} else {
 					tempNextName = tempNextName.join("\\/");
 				}
@@ -375,7 +323,7 @@ const FileManager = () => {
 					this.appWindow.closeWindow();
 					setTimeout(
 						function () {
-							if (getId("win_" + this.objName + "_top").style.opacity === "0") {
+							if (getId("win_" + this.name + "_top").style.opacity === "0") {
 								this.appWindow.setContent("");
 							}
 						}.bind(this),
@@ -388,20 +336,10 @@ const FileManager = () => {
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					if (ufload("system/apps/files/view_mode")) {
-						this.vars.setViewMode(
-							parseInt(ufload("system/apps/files/view_mode")),
-							1
-						);
-					}
 					break;
 				default:
 					doLog(
-						"No case found for '" +
-							signal +
-							"' signal in app '" +
-							this.dsktpIcon +
-							"'",
+						`No case found for '${signal}' signal in app '${this.abbreviation}'`,
 						"#F00"
 					);
 			}

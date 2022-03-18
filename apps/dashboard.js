@@ -1,17 +1,14 @@
 // skipcq JS-0128
 const Dashboard = () => {
-	// eslint-disable-line
-	let appsSorted = [];
-	window.appsSorted = appsSorted;
-
 	apps.startMenu = new Application({
+		name: "startMenu",
 		title: "Dashboard",
 		abbreviation: "DsB",
-		codeName: "startMenu",
 		image: "logo.png",
 		hideApp: 1,
 		launchTypes: 1,
 		main: function (launchType) {
+			// TODO: Stop this from opening strangely at start
 			if (launchType === "srtup") {
 				this.appWindow.paddingMode(0);
 				getId("win_startMenu_shrink").style.display = "none";
@@ -80,25 +77,26 @@ const Dashboard = () => {
 					if (this.vars.listOfApps.length === 0) {
 						getId("appDsBtable").innerHTML = "<tr><td></td></tr>";
 						getId("appDsBtable").classList.add("cursorLoadDark");
-						for (const appHandle in appsSorted) {
-							if (apps[appsSorted[appHandle]].keepOffDesktop < 2) {
+						for (const appHandle in this.vars.appsSorted) {
+							const app = this.vars.appsSorted[appHandle];
+							if (apps[app].hideApp < 2) {
 								apps.startMenu.vars.listOfApps +=
 									'<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' +
-									appsSorted[appHandle] +
+									app +
 									", 'dsktp')\" oncontextmenu=\"ctxMenu(apps.startMenu.vars.ctx, 1, event, '" +
-									appsSorted[appHandle] +
+									app +
 									"')\">" +
 									"<th>" +
 									buildSmartIcon(
 										32,
-										apps[appsSorted[appHandle]].appWindow.appImg
+										apps[app].appWindow.image
 									) +
 									"</th>" +
 									"<td>" +
-									apps[appsSorted[appHandle]].appName +
+									apps[app].title +
 									"</td>" +
 									'<td style="text-align:right;opacity:0.5">' +
-									apps[appsSorted[appHandle]].dsktpIcon +
+									apps[app].abbreviation +
 									"</td>" +
 									"</tr>";
 							}
@@ -127,26 +125,26 @@ const Dashboard = () => {
 		vars: {
 			appInfo: "",
 			appElems: null,
+			appsSorted: [],
 			search: function (event, iblock) {
-				if (this.appElems !== null) {
-					if (event.keyCode === 13) {
-						for (let i = 0; i < this.appElems.length; i++) {
-							if (this.appElems[i].style.display !== "none") {
-								this.appElems[i].click();
-								break;
-							}
+				if (this.appElems === null) return;
+				if (event.keyCode === 13) {
+					for (let i = 0; i < this.appElems.length; i++) {
+						if (this.appElems[i].style.display !== "none") {
+							this.appElems[i].click();
+							break;
 						}
-					} else {
-						for (let i = 0; i < this.appElems.length; i++) {
-							if (
-								this.appElems[i].innerText
-									.toLowerCase()
-									.indexOf(getId("appDsBsearch").value.toLowerCase()) > -1
-							) {
-								this.appElems[i].style.display = iblock ? "inline-block" : "";
-							} else {
-								this.appElems[i].style.display = "none";
-							}
+					}
+				} else {
+					for (let i = 0; i < this.appElems.length; i++) {
+						if (
+							this.appElems[i].innerText
+								.toLowerCase()
+								.indexOf(getId("appDsBsearch").value.toLowerCase()) > -1
+						) {
+							this.appElems[i].style.display = iblock ? "inline-block" : "";
+						} else {
+							this.appElems[i].style.display = "none";
 						}
 					}
 				}
@@ -279,31 +277,16 @@ const Dashboard = () => {
 						}
 					}, 0);
 
-					// From web_app_maker
-					appsSorted = [];
-					for (const i in apps) {
-						appsSorted.push(
-							apps[i].appName.toLowerCase() + "|WAP_apps_sort|" + i
-						);
-					}
-					appsSorted.sort();
-					for (const i in appsSorted) {
-						let tempStr = appsSorted[i].split("|WAP_apps_sort|");
-						tempStr = tempStr[tempStr.length - 1];
-						appsSorted[i] = tempStr;
-					}
+					this.vars.appsSorted = Object.keys(apps).sort();
 
 					break;
 				default:
 					doLog(
-						"No case found for '" +
-							signal +
-							"' signal in app '" +
-							this.dsktpIcon +
-							"'"
+						`No case found for '${signal}' signal in app '${this.abbreviation}'`
 					);
 			}
 		},
 	});
+
 	apps.startMenu.main("srtup");
 }; // End initial variable declaration

@@ -1,10 +1,10 @@
 // skipcq JS-0128
 const ViewCount = () => {
 	apps.viewCount = new Application({
+		name: "viewCount",
 		title: "View Counter",
 		abbreviation: "vwC",
-		codeName: "viewCount",
-		image: "appicons/evil_eye_v1.png",
+		image: "icons/evil_eye_v1.png",
 		hideApp: 0,
 		resizeable: false,
 		main: function () {

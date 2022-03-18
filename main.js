@@ -500,23 +500,23 @@ c(function () {
 let currTopApp = "";
 function toTop(appToNudge, dsktpClick) {
 	if (!appToNudge) return;
-	m("Moving App " + appToNudge.dsktpIcon + " to Top");
+	m("Moving App " + appToNudge.abbreviation + " to Top");
 	currTopApp = "";
 	if (dsktpClick !== 2) {
 		for (const appLication in apps) {
 			if (
-				getId("win_" + apps[appLication].objName + "_top").style.zIndex !==
+				getId("win_" + apps[appLication].name + "_top").style.zIndex !==
 				"100"
 			) {
-				getId("win_" + apps[appLication].objName + "_top").style.zIndex =
+				getId("win_" + apps[appLication].name + "_top").style.zIndex =
 					parseInt(
-						getId("win_" + apps[appLication].objName + "_top").style.zIndex,
+						getId("win_" + apps[appLication].name + "_top").style.zIndex,
 						10
 					) - 1;
 			}
-			getId("win_" + apps[appLication].objName + "_cap").style.opacity = "1";
-			getId("win_" + apps[appLication].objName + "_aero").style.opacity = "1";
-			getId("icn_" + apps[appLication].objName).classList.remove(
+			getId("win_" + apps[appLication].name + "_cap").style.opacity = "1";
+			getId("win_" + apps[appLication].name + "_aero").style.opacity = "1";
+			getId("icn_" + apps[appLication].name).classList.remove(
 				"activeAppIcon"
 			);
 		}
@@ -525,19 +525,19 @@ function toTop(appToNudge, dsktpClick) {
 	if (!dsktpClick) {
 		if (
 			appToNudge.appWindow.appIcon &&
-			getId("win_" + appToNudge.objName + "_top").style.opacity !== "1"
+			getId("win_" + appToNudge.name + "_top").style.opacity !== "1"
 		) {
 			appToNudge.appWindow.openWindow();
 		}
-		if (getId("win_" + appToNudge.objName + "_top").style.zIndex !== "100") {
-			getId("win_" + appToNudge.objName + "_top").style.zIndex = "90";
+		if (getId("win_" + appToNudge.name + "_top").style.zIndex !== "100") {
+			getId("win_" + appToNudge.name + "_top").style.zIndex = "90";
 		}
-		getId("win_" + appToNudge.objName + "_cap").style.opacity = "1";
-		getId("win_" + appToNudge.objName + "_aero").style.opacity = "1";
-		getId("icn_" + appToNudge.objName).classList.add("activeAppIcon");
+		getId("win_" + appToNudge.name + "_cap").style.opacity = "1";
+		getId("win_" + appToNudge.name + "_aero").style.opacity = "1";
+		getId("icn_" + appToNudge.name).classList.add("activeAppIcon");
 		try {
-			currTopApp = appToNudge.objName;
-			document.title = appToNudge.appName + " | " + websiteTitle;
+			currTopApp = appToNudge.name;
+			document.title = `${appToNudge.title} | ${websiteTitle}`;
 		} catch (err) {
 			document.title = websiteTitle;
 		}
@@ -550,17 +550,17 @@ function toTop(appToNudge, dsktpClick) {
 	}
 	getId("ctxMenu").style.display = "none";
 
-	if (appToNudge.dsktpIcon !== "CLOSING") {
+	if (appToNudge.abbreviation !== "CLOSING") {
 		const tempAppsList = [];
 		for (const appLication in apps) {
 			if (
-				getId("win_" + apps[appLication].objName + "_top").style.zIndex !==
+				getId("win_" + apps[appLication].name + "_top").style.zIndex !==
 					"100" &&
 				apps[appLication].appWindow.appIcon
 			) {
 				tempAppsList.push([
 					appLication,
-					getId("win_" + apps[appLication].objName + "_top").style.zIndex,
+					getId("win_" + apps[appLication].name + "_top").style.zIndex,
 				]);
 			}
 		}
@@ -568,7 +568,7 @@ function toTop(appToNudge, dsktpClick) {
 			return b[1] - a[1];
 		});
 		for (let i = 0; i < tempAppsList.length; i++) {
-			getId("win_" + apps[tempAppsList[i][0]].objName + "_top").style.zIndex =
+			getId("win_" + apps[tempAppsList[i][0]].name + "_top").style.zIndex =
 				90 - i;
 		}
 	}
@@ -576,7 +576,7 @@ function toTop(appToNudge, dsktpClick) {
 
 function openapp(appToOpen, launchTypeUsed) {
 	if (!appToOpen) return;
-	m("Opening App " + appToOpen.dsktpIcon);
+	m("Opening App " + appToOpen.abbreviation);
 	if (appToOpen.launchTypes) {
 		appToOpen.main(launchTypeUsed);
 	} else {
@@ -606,7 +606,7 @@ function icomove(e, elem) {
 		icomoveOrY = parseInt(getId(icomoveSelect).style.top, 10);
 		toTop(
 			{
-				dsktpIcon: "DESKTOP",
+				abbreviation: "DESKTOP",
 			},
 			1
 		);
@@ -645,7 +645,7 @@ function icnmove(e, elem) {
 		icomoveOrY = parseInt(getId(icomoveSelect).style.top, 10);
 		toTop(
 			{
-				dsktpIcon: "DESKTOP",
+				abbreviation: "DESKTOP",
 			},
 			1
 		);
@@ -682,7 +682,7 @@ function highlightHide() {
 }
 
 let ctxSetup = [
-	[0, 0, "appicons/redx.png", "appicons/redx.png"],
+	[0, 0, "icons/redx.png", "icons/redx.png"],
 	" Context",
 	'alert("Context Menu Not Correctly Initialized")',
 	" Menu",
@@ -694,14 +694,14 @@ let newCtxSetup = [
 		function () {
 			alert("context");
 		},
-		"appicons/redx.png",
+		"icons/redx.png",
 	],
 	[
 		" Menu",
 		function () {
 			alert("menu");
 		},
-		"appicons/redx.png",
+		"icons/redx.png",
 	],
 ];
 let newCtxCoord = [10, 10];
@@ -1212,7 +1212,7 @@ function winmove(e) {
 		winmovey = e.pageY;
 		for (const app in apps) {
 			if (
-				apps[app].objName === winmoveSelect.substring(4, winmoveSelect.length)
+				apps[app].name === winmoveSelect.substring(4, winmoveSelect.length)
 			) {
 				winmovecurrapp = app;
 				break;
@@ -1287,7 +1287,7 @@ function winres(e) {
 		winmovey = e.pageY;
 		for (const app in apps) {
 			if (
-				apps[app].objName === winmoveSelect.substring(4, winmoveSelect.length)
+				apps[app].name === winmoveSelect.substring(4, winmoveSelect.length)
 			) {
 				winmovecurrapp = app;
 				break;

@@ -1,10 +1,10 @@
 // skipcq JS-0128
 const Accreditation = () => {
 	apps.accreditation = new Application({
+		name: "accreditation",
 		title: "Accreditation",
 		abbreviation: "aDN",
-		codeName: "accreditation",
-		desc: "Gives props to the awesome people that helped make this website possible :)",
+		description: "Gives props to the awesome people that helped make this website possible :)",
 		image: "smarticons/accreditation/fg.png",
 		hideApp: 0,
 		main: function () {
@@ -18,7 +18,7 @@ const Accreditation = () => {
 				this.appWindow.alwaysOnTop(1);
 				this.appWindow.paddingMode(0);
 				this.appWindow.setDims(x, margins, width, height);
-				this.appWindow.setContent('<div id="accreditationDisplay"></div>');
+				this.appWindow.setContent('<div id="accreditationDisplay" class="full-iframe"></div>');
 				this.appWindow.alwaysOnTop(1);
 			}
 			this.appWindow.openWindow();

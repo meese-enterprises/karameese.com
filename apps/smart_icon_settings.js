@@ -1,9 +1,9 @@
 // skipcq JS-0128
 const SmartIconSettings = () => {
 	apps.smartIconSettings = new Application({
+		name: "smartIconSettings",
 		title: "Smart Icon Settings",
 		abbreviation: "SIS",
-		codeName: "smartIconSettings",
 		image: "logo.png",
 		hideApp: 2,
 		launchTypes: 1,
@@ -125,7 +125,7 @@ const SmartIconSettings = () => {
 					this.appWindow.closeWindow();
 					setTimeout(
 						function () {
-							if (getId("win_" + this.objName + "_top").style.opacity === "0") {
+							if (getId("win_" + this.name + "_top").style.opacity === "0") {
 								this.appWindow.setContent("");
 							}
 						}.bind(this),
@@ -145,11 +145,7 @@ const SmartIconSettings = () => {
 					break;
 				default:
 					doLog(
-						"No case found for '" +
-							signal +
-							"' signal in app '" +
-							this.dsktpIcon +
-							"'"
+						`No case found for '${signal}' signal in app '${this.abbreviation}'`
 					);
 			}
 		},

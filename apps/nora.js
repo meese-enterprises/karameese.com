@@ -3,9 +3,9 @@ const NORA = () => {
 	const currNoraPhrase = "listen computer";
 
 	apps.nora = new Application({
+		name: "nora",
 		title: "NORAA",
 		abbreviation: "NRA",
-		codeName: "nora",
 		image: "smarticons/noraa/fg.png",
 		hideApp: 1,
 		launchTypes: 1,
@@ -410,7 +410,7 @@ const NORA = () => {
 							if (
 								apps[app] !== apps.startMenu &&
 								apps[app] !== apps.nora &&
-								apps[app].appName.toLowerCase() === text.toLowerCase()
+								apps[app].title.toLowerCase() === text.toLowerCase()
 							) {
 								this[4].found = 1;
 								openapp(apps[app], "dsktp");
@@ -473,7 +473,7 @@ const NORA = () => {
 							if (
 								apps[app] !== apps.startMenu &&
 								apps[app] !== apps.nora &&
-								apps[app].appName.toLowerCase() === text.toLowerCase()
+								apps[app].title.toLowerCase() === text.toLowerCase()
 							) {
 								this[4].found = 1;
 								openapp(apps[app], "dsktp");
@@ -724,7 +724,7 @@ const NORA = () => {
 							if (
 								apps[app] !== apps.startMenu &&
 								apps[app] !== apps.nora &&
-								apps[app].appName.toLowerCase() === text.toLowerCase()
+								apps[app].title.toLowerCase() === text.toLowerCase()
 							) {
 								this[4].found = 1;
 								openapp(apps[app], "dsktp");
@@ -1193,15 +1193,12 @@ const NORA = () => {
 					break;
 				default:
 					doLog(
-						"No case found for '" +
-							signal +
-							"' signal in app '" +
-							this.dsktpIcon +
-							"'"
+						`No case found for '${signal}' signal in app '${this.abbreviation}'`
 					);
 			}
 		},
 	});
+
 	apps.nora.main("srtup");
 
 	function textspeech(message) {

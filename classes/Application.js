@@ -1,4 +1,4 @@
-const defaultSignalHandlerFunction = function (signal) {
+const defaultSignalHandler = function (signal) {
 	switch (signal) {
 		case "forceclose":
 			this.appWindow.closeWindow();
@@ -8,7 +8,7 @@ const defaultSignalHandlerFunction = function (signal) {
 			this.appWindow.closeWindow();
 			setTimeout(
 				function () {
-					if (getId("win_" + this.objName + "_top").style.opacity === "0") {
+					if (getId("win_" + this.name + "_top").style.opacity === "0") {
 						this.appWindow.setContent("");
 					}
 				}.bind(this),
@@ -16,7 +16,7 @@ const defaultSignalHandlerFunction = function (signal) {
 			);
 			break;
 		case "checkrunning":
-			return Boolean(this.appWindow.appIcon);
+			return Boolean(this.appWindow.abbreviation);
 		case "shrink":
 			this.appWindow.closeKeepTask();
 			break;
@@ -24,172 +24,151 @@ const defaultSignalHandlerFunction = function (signal) {
 			break;
 		default:
 			doLog(
-				`No case found for '${signal}' signal in app '${this.dsktpIcon}'`,
+				`No case found for '${signal}' signal in app '${this.abbreviation}'`,
 				"#F00"
 			);
 	}
 };
 
 class Application {
-	// TODO: Destructuring assignment as opposed to appIcon method;
-	// added benefit of allowing for easy assignment of default values
-	constructor(
-		appIcon,
-		appName,
-		appDesc,
-		launchTypes,
-		mainFunction,
-		signalHandlerFunction,
-		appVariables,
-		keepOffDesktop,
-		appPath,
-		appImg,
+	constructor({
+		name,
+		title = "Application",
+		abbreviation = "App",
+		description = "No description available.",
+		launchTypes = 0,
+		main = function () {},
+		signalHandler = defaultSignalHandler,
+		vars = {},
+		hideApp = 1,
+		image = "logo.png",
 		resizeable = true
-	) {
-		if (typeof appIcon === "object") {
-			if (Object.prototype.hasOwnProperty.call(appIcon, "resizeable")) {
-				resizeable = appIcon.resizeable;
-			}
-
-			appImg = appIcon.image || "logo.png";
-			appPath = appIcon.codeName;
-			keepOffDesktop =
-				typeof appIcon.hideApp === "number" ? appIcon.hideApp : 1;
-			appVariables = appIcon.vars || {};
-			signalHandlerFunction =
-				appIcon.signalHandler || defaultSignalHandlerFunction.bind(this);
-			mainFunction = appIcon.main || function () {};
-			launchTypes = appIcon.launchTypes || 0;
-			appName = appIcon.title || "Application";
-			appDesc = appIcon.desc || "No description available.";
-			appIcon = appIcon.abbreviation || "App";
-		}
-
-		// this used to be used in HTML elements but now is just an abbreviation
-		this.dsktpIcon = appIcon;
-		// now HTML elements match the codename of apps
-		this.objName = appPath;
-		this.appName = appName;
-		this.appDesc = appDesc;
-		this.main = mainFunction;
-		this.signalHandler = signalHandlerFunction;
+	}) {
+		// TODO: Finish figuring out this migration
+		this.abbreviation = abbreviation;
+		this.name = name;
+		this.title = title;
+		this.description = description;
+		this.main = main;
+		this.signalHandler = signalHandler;
 		this.launchTypes = Boolean(launchTypes);
-		this.vars = appVariables;
+		this.vars = vars;
 		this.resizeable = resizeable;
-		this.appWindow = this.appWindow(appIcon, appImg, appPath);
-		if (typeof this.appWindow.appImg === "string") {
-			this.appWindow.appImg = {
-				foreground: this.appWindow.appImg,
+		this.appWindow = this.appWindow(abbreviation, image, name);
+		if (typeof this.appWindow.image === "string") {
+			this.appWindow.image = {
+				// TODO: See if this is still necessary without Smart Icons
+				foreground: this.appWindow.image,
 			};
 		}
 
-		this.keepOffDesktop = keepOffDesktop;
-		if (!this.keepOffDesktop) {
+		this.hideApp = hideApp;
+		if (!this.hideApp) {
 			new DesktopIcon(
-				appPath,
-				this.appName,
-				this.appWindow.appImg,
+				this.name,
+				this.title,
+				this.appWindow.image,
 				["arg", 'openapp(apps[arg], "dsktp");'],
-				[appPath],
+				[this.name],
 				[
 					"arg1",
 					"arg2",
 					"ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, arg2]);",
 				],
-				[appPath, appIcon]
+				[this.name, this.abbreviation]
 			);
 		}
 
 		getId("desktop").innerHTML +=
-			`<div class="window closedWindow" id="win_${appPath}_top">` +
-			`<div class="winAero" id="win_${appPath}_aero"></div>` +
-			`<div class="winBimg" id="win_${appPath}_img"></div>` +
-			`<div class="winRes cursorOpenHand" id="win_${appPath}_size"></div>` +
-			`<div class="winCap cursorOpenHand noselect" id="win_${appPath}_cap"></div>` +
-			`<div class="winFld cursorPointer noselect" id="win_${appPath}_fold">^</div>` +
-			`<div class="winHTML" id="win_${appPath}_html"></div>` +
-			`<div class="winBig cursorPointer noselect" id="win_${appPath}_big">o</div>` +
-			`<div class="winShrink cursorPointer noselect" id="win_${appPath}_shrink">v</div>` +
-			`<div class="winExit cursorPointer noselect" id="win_${appPath}_exit">x</div>` +
+			`<div class="window closedWindow" id="win_${name}_top">` +
+			`<div class="winAero" id="win_${name}_aero"></div>` +
+			`<div class="winBimg" id="win_${name}_img"></div>` +
+			`<div class="winRes cursorOpenHand" id="win_${name}_size"></div>` +
+			`<div class="winCap cursorOpenHand noselect" id="win_${name}_cap"></div>` +
+			`<div class="winFld cursorPointer noselect" id="win_${name}_fold">^</div>` +
+			`<div class="winHTML" id="win_${name}_html"></div>` +
+			`<div class="winBig cursorPointer noselect" id="win_${name}_big">o</div>` +
+			`<div class="winShrink cursorPointer noselect" id="win_${name}_shrink">v</div>` +
+			`<div class="winExit cursorPointer noselect" id="win_${name}_exit">x</div>` +
 			"</div>";
 
-		if (this.appWindow.appImg) {
+		if (this.appWindow.image) {
 			getId("icons").innerHTML +=
-				`<div class="icon cursorPointer" id="icn_${appPath}">` +
+				`<div class="icon cursorPointer" id="icn_${name}">` +
 				'<div class="iconOpenIndicator"></div>' +
-				buildSmartIcon(32, this.appWindow.appImg, "margin-left:6px") +
-				`<div class="taskbarIconTitle" id="icntitle_${appPath}">` +
-				appName +
+				buildSmartIcon(32, this.appWindow.image, "margin-left:6px") +
+				`<div class="taskbarIconTitle" id="icntitle_${name}">` +
+				title +
 				"</div>" +
 				"</div>";
 		} else {
 			getId("icons").innerHTML +=
-				`<div class="icon cursorPointer" id="icn_${appPath}">` +
+				`<div class="icon cursorPointer" id="icn_${name}">` +
 				'<div class="iconOpenIndicator"></div>' +
-				`<div class="iconImg">${appIcon}</div>` +
+				`<div class="iconImg">${abbreviation}</div>` +
 				"</div>";
 		}
 
 		if (this.resizeable) {
-			getId("win_" + appPath + "_size").setAttribute(
+			getId("win_" + name + "_size").setAttribute(
 				"onmousedown",
 				"if(event.button!==2){toTop(apps." +
-					appPath +
+					name +
 					");winres(event);}event.preventDefault();return false;"
 			);
 		}
 
-		getId("win_" + appPath + "_cap").setAttribute(
+		getId("win_" + name + "_cap").setAttribute(
 			"onmousedown",
 			"if(event.button!==2){toTop(apps." +
-				appPath +
+				name +
 				");winmove(event);}event.preventDefault();return false;"
 		);
-		getId("icn_" + appPath).setAttribute(
+		getId("icn_" + name).setAttribute(
 			"onClick",
-			`openapp(apps.${appPath}, function() {` +
-				`if (apps.${appPath}.appWindow.appIcon) { return "tskbr" }` +
+			`openapp(apps.${name}, function() {` +
+				`if (apps.${name}.appWindow.abbreviation) { return "tskbr" }` +
 				'else { return "dsktp" }' +
 				"}())"
 		);
-		getId("win_" + appPath + "_top").setAttribute(
+		getId("win_" + name + "_top").setAttribute(
 			"onClick",
-			"toTop(apps." + appPath + ")"
+			"toTop(apps." + name + ")"
 		);
 
-		if (appPath !== "startMenu") {
-			const icon = getId("icn_" + appPath);
+		if (name !== "startMenu") {
+			const icon = getId("icn_" + name);
 			icon.setAttribute(
 				"oncontextmenu",
-				`ctxMenu(baseCtx.icnXXX, 1, event, "${appPath}")`
+				`ctxMenu(baseCtx.icnXXX, 1, event, "${name}")`
 			);
 			icon.setAttribute(
 				"onmouseenter",
-				`if (apps.${appPath}.appWindow.appIcon)` +
-					`{ highlightWindow("${appPath}") }`
+				`if (apps.${name}.appWindow.abbreviation)` +
+					`{ highlightWindow("${name}") }`
 			);
 			icon.setAttribute("onmouseleave", "highlightHide()");
 		}
 
-		getId("win_" + appPath + "_exit").setAttribute(
+		getId("win_" + name + "_exit").setAttribute(
 			"onClick",
-			`apps.${appPath}.signalHandler('close');event.stopPropagation()`
+			`apps.${name}.signalHandler('close');event.stopPropagation()`
 		);
-		getId("win_" + appPath + "_shrink").setAttribute(
+		getId("win_" + name + "_shrink").setAttribute(
 			"onClick",
-			`apps.${appPath}.signalHandler("shrink");event.stopPropagation()`
+			`apps.${name}.signalHandler("shrink");event.stopPropagation()`
 		);
-		getId("win_" + appPath + "_big").setAttribute(
+		getId("win_" + name + "_big").setAttribute(
 			"onClick",
-			`apps.${appPath}.appWindow.toggleFullscreen()`
+			`apps.${name}.appWindow.toggleFullscreen()`
 		);
-		getId("win_" + appPath + "_fold").setAttribute(
+		getId("win_" + name + "_fold").setAttribute(
 			"onClick",
-			`apps.${appPath}.appWindow.foldWindow()`
+			`apps.${name}.appWindow.foldWindow()`
 		);
-		getId("win_" + appPath + "_cap").setAttribute(
+		getId("win_" + name + "_cap").setAttribute(
 			"oncontextmenu",
-			`ctxMenu(baseCtx.winXXXc, 1, event, "${appPath}")`
+			`ctxMenu(baseCtx.winXXXc, 1, event, "${name}")`
 		);
 	}
 
@@ -208,34 +187,34 @@ class Application {
 		div .winShrink #win_settings_shrink     Button to shrink, or hide, the window
 		div .winExit   #win_settings_exit       Button to close window
 	*/
-	appWindow(appIcon, appImg, appPath) {
+	appWindow(abbreviation, image, name) {
 		// TODO: See if I can return implicitly
 		return {
-			dsktpIcon: appIcon,
-			objName: appPath,
-			appImg: appImg,
+			abbreviation: abbreviation,
+			name: name,
+			image: image,
 			windowX: 100,
 			windowY: 50,
 			windowH: 525,
 			windowV: 300,
 			fullscreen: 0,
-			appIcon: 0,
+			abbreviation: 0,
 			dimsSet: 0,
 			onTop: 0,
 			alwaysOnTop: function (setTo) {
 				if (setTo && !this.onTop) {
-					getId("win_" + this.objName + "_top").style.zIndex = "100";
+					getId("win_" + this.name + "_top").style.zIndex = "100";
 					this.onTop = 1;
 				} else if (!setTo && this.onTop) {
-					getId("win_" + this.objName + "_top").style.zIndex = "90";
+					getId("win_" + this.name + "_top").style.zIndex = "90";
 					this.onTop = 0;
 				}
 			},
 			paddingMode: function (mode) {
 				if (mode) {
-					getId("win_" + this.objName + "_html").classList.remove("noPadding");
+					getId("win_" + this.name + "_html").classList.remove("noPadding");
 				} else {
-					getId("win_" + this.objName + "_html").classList.add("noPadding");
+					getId("win_" + this.name + "_html").classList.add("noPadding");
 				}
 			},
 			setDims: function (xOff, yOff, xSiz, ySiz, ignoreDimsSet) {
@@ -257,34 +236,34 @@ class Application {
 					xOff = Math.round(xOff);
 					yOff = Math.round(yOff);
 					if (this.windowX !== xOff) {
-						getId("win_" + this.objName + "_top").style.left = xOff + "px";
+						getId("win_" + this.name + "_top").style.left = xOff + "px";
 						this.windowX = Math.round(xOff);
 					}
 					if (this.windowY !== yOff) {
-						getId("win_" + this.objName + "_top").style.top =
+						getId("win_" + this.name + "_top").style.top =
 							yOff * (yOff > -1) + "px";
 						this.windowY = Math.round(yOff);
 					}
 					if (this.windowH !== xSiz) {
-						getId("win_" + this.objName + "_top").style.width = xSiz + "px";
-						getId("win_" + this.objName + "_aero").style.width =
+						getId("win_" + this.name + "_top").style.width = xSiz + "px";
+						getId("win_" + this.name + "_aero").style.width =
 							xSiz + 80 + "px";
 						this.windowH = xSiz;
 					}
 					if (this.windowV !== ySiz) {
 						if (!this.folded) {
-							getId("win_" + this.objName + "_top").style.height = ySiz + "px";
+							getId("win_" + this.name + "_top").style.height = ySiz + "px";
 						}
 
-						getId("win_" + this.objName + "_aero").style.height =
+						getId("win_" + this.name + "_aero").style.height =
 							ySiz + 80 + "px";
 						this.windowV = ySiz;
 					}
 					const aeroOffset = [0, -32];
 					try {
-						window.calcWindowblur(this.objName);
+						window.calcWindowblur(this.name);
 					} catch (err) {
-						getId("win_" + this.objName + "_aero").style.backgroundPosition =
+						getId("win_" + this.name + "_aero").style.backgroundPosition =
 							-1 * xOff +
 							40 +
 							aeroOffset[0] +
@@ -308,33 +287,33 @@ class Application {
 				}
 			},
 			openWindow: function () {
-				this.appIcon = 1;
-				getId("win_" + this.objName + "_top").classList.remove("closedWindow");
-				getId("win_" + this.objName + "_top").style.display = "block";
-				getId("icn_" + this.objName).style.display = "inline-block";
-				getId("icn_" + this.objName).classList.add("openAppIcon");
-				getId("win_" + this.objName + "_top").style.pointerEvents = "";
+				this.abbreviation = 1;
+				getId("win_" + this.name + "_top").classList.remove("closedWindow");
+				getId("win_" + this.name + "_top").style.display = "block";
+				getId("icn_" + this.name).style.display = "inline-block";
+				getId("icn_" + this.name).classList.add("openAppIcon");
+				getId("win_" + this.name + "_top").style.pointerEvents = "";
 
 				requestAnimationFrame(
 					function () {
-						getId("win_" + this.objName + "_top").style.transform = "scale(1)";
-						getId("win_" + this.objName + "_top").style.opacity = "1";
+						getId("win_" + this.name + "_top").style.transform = "scale(1)";
+						getId("win_" + this.name + "_top").style.opacity = "1";
 					}.bind(this)
 				);
 				setTimeout(
 					function () {
-						if (this.appIcon) {
-							getId("win_" + this.objName + "_top").style.display = "block";
-							getId("win_" + this.objName + "_top").style.opacity = "1";
+						if (this.abbreviation) {
+							getId("win_" + this.name + "_top").style.display = "block";
+							getId("win_" + this.name + "_top").style.opacity = "1";
 						}
 					}.bind(this),
 					300
 				);
 			},
 			closeWindow: function () {
-				this.appIcon = 0;
+				this.abbreviation = 0;
 
-				const top = getId("win_" + this.objName + "_top");
+				const top = getId("win_" + this.name + "_top");
 				top.classList.add("closedWindow");
 				top.style.transformOrigin = "";
 				top.style.transform = `scale(${winFadeDistance})`;
@@ -343,7 +322,7 @@ class Application {
 
 				setTimeout(
 					function () {
-						if (!this.appIcon) {
+						if (!this.abbreviation) {
 							top.style.display = "none";
 							top.style.width = "";
 							top.style.height = "";
@@ -354,109 +333,109 @@ class Application {
 					300
 				);
 
-				getId("icn_" + this.objName).style.display = "none";
-				getId("icn_" + this.objName).classList.remove("openAppIcon");
+				getId("icn_" + this.name).style.display = "none";
+				getId("icn_" + this.name).classList.remove("openAppIcon");
 				this.fullscreen = 0;
 				if (this.folded) {
 					this.foldWindow();
 				}
 				toTop(
 					{
-						dsktpIcon: "CLOSING",
+						abbreviation: "CLOSING",
 					},
 					1
 				);
 			},
 			closeIcon: function () {
-				getId("icn_" + this.objName).style.display = "none";
+				getId("icn_" + this.name).style.display = "none";
 			},
 			folded: 0,
 			foldWindow: function () {
 				if (this.folded) {
-					getId("win_" + this.objName + "_html").style.display = "block";
-					getId("win_" + this.objName + "_top").style.height =
+					getId("win_" + this.name + "_html").style.display = "block";
+					getId("win_" + this.name + "_top").style.height =
 						this.windowV + "px";
 					this.folded = 0;
 				} else {
-					getId("win_" + this.objName + "_html").style.display = "none";
-					getId("win_" + this.objName + "_top").style.height =
+					getId("win_" + this.name + "_html").style.display = "none";
+					getId("win_" + this.name + "_top").style.height =
 						32 + winBorder + "px";
 					this.folded = 1;
 				}
 			},
 			closeKeepTask: function () {
-				if (this.objName !== "startMenu") {
+				if (this.name !== "startMenu") {
+					console.log("closeKeepTask NOT start menu:", this.name);
 					if (!mobileMode) {
 						try {
-							getId("win_" + this.objName + "_top").style.transformOrigin =
-								getId("icn_" + this.objName).getBoundingClientRect().left -
+							getId("win_" + this.name + "_top").style.transformOrigin =
+								getId("icn_" + this.name).getBoundingClientRect().left -
 								this.windowX +
 								23 +
 								"px " +
 								(0 - this.windowY) +
 								"px";
 						} catch (err) {
-							getId("win_" + this.objName + "_top").style.transformOrigin =
+							getId("win_" + this.name + "_top").style.transformOrigin =
 								"50% -" + window.innerHeight + "px";
 						}
 					} else {
 						try {
-							getId("win_" + this.objName + "_top").style.transformOrigin =
-								getId("icn_" + this.objName).getBoundingClientRect().left +
+							getId("win_" + this.name + "_top").style.transformOrigin =
+								getId("icn_" + this.name).getBoundingClientRect().left +
 								23 +
 								"px 0px";
 						} catch (err) {
-							getId("win_" + this.objName + "_top").style.transformOrigin =
+							getId("win_" + this.name + "_top").style.transformOrigin =
 								"50% -" + window.innerHeight + "px";
 						}
 					}
-					getId("win_" + this.objName + "_top").style.transform = "scale(0.1)";
-					getId("win_" + this.objName + "_top").style.opacity = "0";
+					getId("win_" + this.name + "_top").style.transform = "scale(0.1)";
+					getId("win_" + this.name + "_top").style.opacity = "0";
 					setTimeout(
 						function () {
-							getId("win_" + this.objName + "_top").style.display = "none";
+							getId("win_" + this.name + "_top").style.display = "none";
 						}.bind(this),
 						300
 					);
 				} else {
-					getId("win_" + this.objName + "_top").style.display = "none";
+					console.log("Should be hiding start menu...");
+					getId("win_startMenu_top").style.display = "none";
 				}
 
 				setTimeout(
-					"getId('icn_" + this.objName + "').classList.remove('activeAppIcon')",
+					"getId('icn_" + this.name + "').classList.remove('activeAppIcon')",
 					0
 				);
 			},
 			setCaption: function (newCap) {
 				d(1, "Changing caption.");
-				if (this.appImg) {
-					getId("win_" + this.objName + "_cap").innerHTML =
-						buildSmartIcon(32, this.appImg) +
+				if (this.image) {
+					getId("win_" + this.name + "_cap").innerHTML =
+						buildSmartIcon(32, this.image) +
 						'<div class="winCaptionTitle">' +
 						newCap +
 						"</div>";
 				} else {
-					getId("win_" + this.objName + "_cap").innerHTML =
+					getId("win_" + this.name + "_cap").innerHTML =
 						'<div class="winCaptionTitle">' +
-						this.dsktpIcon +
-						"|" +
-						newCap +
+						`${this.abbreviation}|${newCap}` +
 						"</div>";
 				}
 			},
 			setContent: function (newHTML) {
-				getId("win_" + this.objName + "_html").innerHTML = newHTML;
+				getId("win_" + this.name + "_html").innerHTML = newHTML;
 			},
 			toggleFullscreen: function () {
 				d(1, "Setting Maximise.");
 				if (this.fullscreen) {
 					this.fullscreen = 0;
-					getId("win_" + this.objName + "_top").classList.remove(
+					getId("win_" + this.name + "_top").classList.remove(
 						"maximizedWindow"
 					);
 				} else {
 					this.fullscreen = 1;
-					getId("win_" + this.objName + "_top").classList.add(
+					getId("win_" + this.name + "_top").classList.add(
 						"maximizedWindow"
 					);
 				}

@@ -15,18 +15,7 @@ class DesktopIcon {
 	 */
 	constructor(id, title, icon, action, actionArgs, ctxAction, ctxActionArgs) {
 		if (!id) id = "uico_" + new Date().getTime();
-		if (!title) {
-			title = apps[id] ? apps[id].appName : "Icon";
-		}
-		if (!icon) {
-			icon = apps[id]
-				? {
-						...apps[id].appWindow.appImg,
-				  }
-				: {
-						...apps.startMenu.appWindow.appImg,
-				  };
-		}
+
 		if (typeof icon === "string") {
 			icon = { foreground: icon };
 		}
@@ -52,7 +41,7 @@ class DesktopIcon {
 					"arg2",
 					"ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, arg2]);",
 				];
-				ctxActionArgs = [id, apps[id].dsktpIcon];
+				ctxActionArgs = [id, apps[id].abbreviation];
 			} else {
 				ctxAction = [
 					"arg1",

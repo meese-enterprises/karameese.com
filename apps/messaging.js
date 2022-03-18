@@ -1,10 +1,10 @@
 const Messaging = () => {
 	apps.messaging = new Application({
+		name: "messaging",
 		title: "Messaging",
 		abbreviation: "MSG",
-		codeName: "messaging",
-		desc: "Message me directly if you would like to connect!",
-		image: "appicons/messaging_v2.png",
+		description: "Message me directly if you would like to connect!",
+		image: "icons/messaging_v2.png",
 		hideApp: 0,
 		launchTypes: 1,
 		main: function () {

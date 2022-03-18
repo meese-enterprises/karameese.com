@@ -1,10 +1,10 @@
 // skipcq JS-0128
 const PropertiesViewer = () => {
 	apps.properties = new Application({
+		name: "properties",
 		title: "Properties Viewer",
 		abbreviation: "PPT",
-		codeName: "properties",
-		image: "appicons/PPT.png",
+		image: "icons/PPT.png",
 		hideApp: 2,
 		launchTypes: 1,
 		main: function (launchtype, fileToOpen) {
@@ -32,7 +32,7 @@ const PropertiesViewer = () => {
 				let fileDescription = "";
 				if (filePath[0] === "apps" && filePath.length > 1) {
 					fileDescription =
-						"This item belongs to the app " + apps[filePath[1]].appName + ".";
+						"This item belongs to the app " + apps[filePath[1]].title + ".";
 				}
 
 				this.appWindow.setContent(

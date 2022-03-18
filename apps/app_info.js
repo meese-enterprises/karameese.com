@@ -1,10 +1,10 @@
 // skipcq JS-0128
 const AppInfo = () => {
 	apps.appInfo = new Application({
+		name: "appInfo",
 		title: "Application Info Viewer",
 		abbreviation: "Nfo",
-		codeName: "appInfo",
-		image: "appicons/systemApp.png",
+		image: "icons/systemApp.png",
 		hideApp: 2,
 		launchTypes: 1,
 		main: function (launchtype) {
@@ -14,21 +14,21 @@ const AppInfo = () => {
 				this.appWindow.setDims("auto", "auto", 400, 500);
 				getId("win_appInfo_html").style.overflowY = "auto";
 				try {
-					this.appWindow.setCaption("App Info: " + apps[launchtype].appName);
+					this.appWindow.setCaption("App Info: " + apps[launchtype].title);
 					this.appWindow.setContent(
 						'<div style="font-size:12px;font-family:W95FA, monospace;top:0;right:0;color:#7F7F7F">' +
-							apps[launchtype].dsktpIcon +
+							apps[launchtype].abbreviation +
 							"</div>" +
 							'<div style="font-size:12px;font-family:W95FA, monospace;top:0;left:0;color:#7F7F7F">' +
 							launchtype +
 							"</div>" +
 							buildSmartIcon(
 								256,
-								apps[launchtype].appWindow.appImg,
+								apps[launchtype].appWindow.image,
 								"margin-left:calc(50% - 128px);margin-top:16px;"
 							) +
 							'<h1 style="text-align:center;">' +
-							apps[launchtype].appName +
+							apps[launchtype].title +
 							"</h1>" +
 							"<hr>" +
 							(apps[launchtype].vars.appInfo ||
@@ -36,9 +36,7 @@ const AppInfo = () => {
 					);
 				} catch (e) {
 					apps.prompt.vars.alert(
-						"There was an error generating the information for app " +
-							launchtype +
-							".",
+						`There was an error generating the information for app ${launchtype}.`,
 						"OK",
 						function () {
 							apps.appInfo.signalHandler("close");

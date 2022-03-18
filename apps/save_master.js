@@ -1,10 +1,10 @@
 const SaveMaster = () => {
-	
+
 apps.savemaster = new Application({
+	name: "savemaster",
 	title: "SaveMaster",
 	abbreviation: "SAV",
-	codeName: "savemaster",
-	image: "appicons/SAV.png",
+	image: "icons/SAV.png",
 	hideApp: 2,
 	main: function () {
 		this.appWindow.setCaption("SaveMaster");

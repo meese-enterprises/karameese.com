@@ -1,9 +1,9 @@
 // skipcq JS-0128
 const AppPrompt = () => {
 	apps.prompt = new Application({
+		name: "prompt",
 		title: "Application Prompt",
 		abbreviation: "PMT",
-		codeName: "prompt",
 		image: "smarticons/prompt/fg.png",
 		hideApp: 2,
 		launchTypes: 1,
@@ -381,7 +381,7 @@ const AppPrompt = () => {
 					}, 0);
 					setTimeout(
 						function () {
-							if (getId("win_" + this.objName + "_top").style.opacity === "0") {
+							if (getId("win_" + this.name + "_top").style.opacity === "0") {
 								this.appWindow.setContent("");
 							}
 						}.bind(this),
@@ -399,15 +399,12 @@ const AppPrompt = () => {
 					break;
 				default:
 					doLog(
-						"No case found for '" +
-							signal +
-							"' signal in app '" +
-							this.dsktpIcon +
-							"'"
+						`No case found for '${signal}' signal in app '${this.abbreviation}'`
 					);
 			}
 		},
 	});
+
 	openapp(apps.prompt, "dsktp");
 	requestAnimationFrame(function () {
 		apps.prompt.signalHandler("close");
