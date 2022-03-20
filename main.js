@@ -451,10 +451,6 @@ c(function () {
 });
 
 c(function () {
-	SmartIconSettings();
-});
-
-c(function () {
 	JSPaint();
 });
 
