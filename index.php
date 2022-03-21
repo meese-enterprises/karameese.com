@@ -42,7 +42,7 @@
 			<div id="tskbrAero" class="winAero"></div>
 			<div id="tskbrBimg" class="winBimg"></div>
 			<div id="time"></div>
-			<div id="icons">Loading, please wait.</div>
+			<div id="taskbarIcons"></div>
 		</div>
 		<div id="ctxMenu" onclick="getId('ctxMenu').style.display='none'" class="backdropFilterCtxMenu noselect"></div>
 		<div id="loadingBg"></div>
@@ -74,7 +74,7 @@
 	echo '<script src="./ghostCursor.js"></script>';
 	echo '<script src="./helperFunctions.js"></script>';
 	echo '<script src="./dateFunctions.js"></script>';
-	echo '<script src="./smartIconFunctions.js"></script>';
+	echo '<script src="./iconFunctions.js"></script>';
 	echo '<script src="./widgetFunctions.js"></script>';
 
 	// Widgets
@@ -96,7 +96,6 @@
 	echo '<script src="./apps/old_site.js"></script>';
 	echo '<script src="./apps/properties_viewer.js"></script>';
 	echo '<script src="./apps/save_master.js"></script>';
-	echo '<script src="./apps/smart_icon_settings.js"></script>';
 	echo '<script src="./apps/view_count.js"></script>';
 	echo '<script src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
 

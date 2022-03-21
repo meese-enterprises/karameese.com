@@ -8,13 +8,13 @@ const Dashboard = () => {
 		hideApp: 1,
 		launchTypes: 1,
 		main: function (launchType) {
-			// TODO: Stop this from opening strangely at start
 			if (launchType === "srtup") {
 				this.appWindow.paddingMode(0);
 				getId("win_startMenu_shrink").style.display = "none";
 				getId("win_startMenu_big").style.display = "none";
 				getId("win_startMenu_exit").style.display = "none";
 				getId("win_startMenu_fold").style.display = "none";
+				getId("win_startMenu_top").style.display = "none";
 				getId("win_startMenu_top").style.transform = "scale(1)";
 				getId("win_startMenu_cap").classList.add("cursorDefault");
 				getId("win_startMenu_cap").setAttribute("onmousedown", "");
@@ -40,85 +40,81 @@ const Dashboard = () => {
 					"ctxMenu(apps.startMenu.vars.iconCtx, 1, event)"
 				);
 
-				getId("win_startMenu_top").style.transition = "0.35s";
-				getId("win_startMenu_aero").style.transition = "0.35s";
-
-				this.appWindow.alwaysOnTop(1);
-
+				this.appWindow.setAlwaysOnTop();
 				this.appWindow.setCaption("Dashboard");
 				this.appWindow.openWindow();
 				this.appWindow.closeKeepTask();
 			} else if (launchType === "dsktp" || launchType === "tskbr") {
-				if (getId("win_startMenu_top").style.display !== "block") {
-					requestAnimationFrame(function () {
-						apps.startMenu.appWindow.setDims(0, 0, 300, 370);
-					});
+				if (getId("win_startMenu_top").style.display === "block") {
+					return apps.startMenu.signalHandler("shrink");
+				}
+
+				getId("win_startMenu_top").style.display = "block";
+
+				requestAnimationFrame(function () {
+					apps.startMenu.appWindow.setDims(0, 0, 300, 370);
+				});
 
 					this.appWindow.openWindow();
 					this.vars.listOfApps = "";
-					this.appWindow.setContent(
-						'<div style="width:100%;height:100%;">' +
-							'<div style="position:relative;text-align:center;">' +
-							'<input autocomplete="off" style="width:calc(100% - 6px);margin-top:3px;" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appDsBsearch">' +
-							'</div><div id="appDsBtableWrapper" class="noselect" style="width:100%;overflow-y:scroll;background-color:rgba(' +
-							darkSwitch("255, 255, 255", "39, 39, 39") +
-							', 0.5);">' +
-							'<table id="appDsBtable" style="color:#000;font-family:W95FA, monospace; font-size:12px; width:100%;color:' +
-							darkSwitch("#000", "#FFF") +
-							';"></table>' +
-							"</div></div>"
+				this.appWindow.setContent(
+					'<div style="width:100%;height:100%;">' +
+						'<div style="position:relative;text-align:center;">' +
+						'<input autocomplete="off" placeholder="App Search" onkeyup="apps.startMenu.vars.search(event)" id="appSearch">' +
+						'</div><div id="dashboardWrapper" class="noselect" style="width:100%;overflow-y:scroll;background-color:rgba(' +
+						darkSwitch("255, 255, 255", "39, 39, 39") +
+						', 0.5);">' +
+						'<table id="appList" style="color:#000;font-family:W95FA, monospace; font-size:12px; width:100%;color:' +
+						darkSwitch("#000", "#FFF") +
+						';"></table>' +
+						"</div></div>"
 					);
-					const outerbound =
-						getId("win_startMenu_html").getBoundingClientRect();
-					const innerbound =
-						getId("appDsBtableWrapper").getBoundingClientRect();
-					getId("appDsBtableWrapper").style.height =
-						outerbound.height - (innerbound.top - outerbound.top) + "px";
-					if (this.vars.listOfApps.length === 0) {
-						getId("appDsBtable").innerHTML = "<tr><td></td></tr>";
-						getId("appDsBtable").classList.add("cursorLoadDark");
-						for (const appHandle in this.vars.appsSorted) {
-							const app = this.vars.appsSorted[appHandle];
-							if (apps[app].hideApp < 2) {
+				const outerbound =
+					getId("win_startMenu_html").getBoundingClientRect();
+				const innerbound =
+					getId("dashboardWrapper").getBoundingClientRect();
+				getId("dashboardWrapper").style.height = "calc(100% - " + (innerbound.top - outerbound.top) + "px)";
+				if (this.vars.listOfApps.length === 0) {
+					getId("appList").innerHTML = "<tr><td></td></tr>";
+					getId("appList").classList.add("cursorLoadDark");
+					for (const appHandle in this.vars.appsSorted) {
+						const app = this.vars.appsSorted[appHandle];
+						if (apps[app].hideApp < 2) {
 								apps.startMenu.vars.listOfApps +=
 									'<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' +
 									app +
 									", 'dsktp')\" oncontextmenu=\"ctxMenu(apps.startMenu.vars.ctx, 1, event, '" +
-									app +
-									"')\">" +
-									"<th>" +
-									buildSmartIcon(
-										32,
-										apps[app].appWindow.image
-									) +
-									"</th>" +
-									"<td>" +
-									apps[app].title +
+								app +
+								"')\">" +
+								"<th>" +
+								buildIcon({
+									size: 32,
+									image: apps[app].appWindow.image
+								}) +
+								"</th>" +
+								"<td>" +
+								apps[app].title +
 									"</td>" +
 									'<td style="text-align:right;opacity:0.5">' +
 									apps[app].abbreviation +
 									"</td>" +
 									"</tr>";
-							}
 						}
+					}
 
-						getId("appDsBtable").innerHTML = apps.startMenu.vars.listOfApps;
-						getId("appDsBtable").innerHTML +=
-							'<tr><th><div style="width:32px;height:32px;position:relative;"></div></th><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td>';
-						getId("appDsBtable").classList.remove("cursorLoadDark");
-						apps.startMenu.vars.appElems = getId(
-							"appDsBtable"
-						).getElementsByClassName("dashboardSearchItem");
-					} else {
-						getId("appDsBtable").innerHTML = this.vars.listOfApps;
-						this.vars.appElems =
-							getId("appDsBtable").getElementsByTagName("tr");
-					}
-					if (!mobileMode) {
-						getId("appDsBsearch").focus();
-					}
+					getId("appList").innerHTML = apps.startMenu.vars.listOfApps;
+					getId("appList").innerHTML +=
+						'<tr><th><div style="width:32px;height:32px;position:relative;"></div></th><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td>';
+					getId("appList").classList.remove("cursorLoadDark");
+					apps.startMenu.vars.appElems = getId(
+						"appList"
+					).getElementsByClassName("dashboardSearchItem");
 				} else {
-					apps.startMenu.signalHandler("shrink");
+					getId("appList").innerHTML = this.vars.listOfApps;
+					this.vars.appElems = getId("appList").getElementsByTagName("tr");
+				}
+				if (!mobileMode) {
+					getId("appSearch").focus();
 				}
 			}
 		},
@@ -140,7 +136,7 @@ const Dashboard = () => {
 						if (
 							this.appElems[i].innerText
 								.toLowerCase()
-								.indexOf(getId("appDsBsearch").value.toLowerCase()) > -1
+								.indexOf(getId("appSearch").value.toLowerCase()) > -1
 						) {
 							this.appElems[i].style.display = iblock ? "inline-block" : "";
 						} else {

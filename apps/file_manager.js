@@ -11,17 +11,16 @@ const FileManager = () => {
 		main: function (launchType) {
 			if (!this.appWindow.appIcon) {
 				this.appWindow.paddingMode(0);
-				this.appWindow.setDims("auto", "auto", 796, 400, 1);
+				this.appWindow.setDims("auto", "auto", 796, 400, true);
 			}
 			this.appWindow.setCaption("File Manager");
 			this.appWindow.openWindow();
 			if (launchType === "dsktp") {
 				this.vars.currLoc = "/";
-				getId("win_files_html").style.background = "none";
 				this.appWindow.setContent('<div id="fileManagerDisplay" class="full-iframe"></div>');
 			}
 
-			// Get the contents of accreditation.html and load into the window
+			// Get the contents of filemanager.html and load into the window
 			const xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function () {
 				if (this.readyState === 4) {
@@ -262,54 +261,35 @@ const FileManager = () => {
 						return type;
 				}
 			},
-			icontype: function (type) {
-				switch (type) {
-					case "object":
-						return "folder";
-					case "string":
-						return "file";
-					case "function":
-						return "console";
-					case "boolean":
-						return "gear";
-					case "undefined":
-						return "x";
-					case "number":
-						return "performance";
-					default:
-						return "agent";
-				}
-			},
-			currTotal: 0,
-			currItem: 0,
-			currEffect: 0,
-			currContentStr: "",
-			currentDirectoryFiles: [],
 			update: function () {
-				this.currContentStr = "";
 				getId("fileSearchInput").value = "";
-				getId("FIL2green").style.backgroundColor = "rgb(170, 255, 170)";
-				getId("FIL2green").style.width = "0";
 				getId("fileManagerContent").classList.add("cursorLoadDark");
 				getId("fileManagerContent").style.marginTop =
 					getId("findScrollSize").offsetHeight -
 					getId("findScrollSize").clientHeight;
 				if (this.currLoc === "/") {
 					getId("filePath").innerHTML =
-						'<div id="FIL2green" style="height:100%;background-color:rgb(170, 255, 170)"></div><div style="width:100%;height:25px;"><input id="FIL2input" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="/"></div>';
+						'</div><div style="width:100%;height:25px;"><input id="filePathInput" style="background:transparent;box-shadow:none;color:inherit;font-family:monospace;border:none;width:calc(100% - 8px);height:25px;padding:0;padding-left:8px;border-top-left-radius:5px;border-top-right-radius:5px;" onkeypress="if(event.keyCode===13){apps.files.vars.navigate(this.value)}" value="/"></div>';
 					getId("fileManagerContent").innerHTML =
 						'<span style="padding-left:3px;line-height:18px">Home</span><br>' +
 						"<div class=\"cursorPointer\" onClick=\"apps.files.vars.next('art/')\" oncontextmenu=\"ctxMenu([[event.pageX, event.pageY, 'ctxMenu/file.png'], ' Properties', 'apps.properties.main(\\'openFile\\', \\'art/\\');toTop(apps.properties)'])\">" +
 						'<img src="images/folder.png"> ' +
 						"art/" +
 						"</div>";
-					getId("FIL2green").className = "";
-					getId("FIL2green").style.backgroundColor = "#FFF";
-					getId("FIL2green").style.display = "none";
 					getId("fileManagerContent").style.backgroundImage = "";
 					getId("fileManagerContent").classList.remove("cursorLoadDark");
 				} else {
-					tempNextName = tempNextName.join("\\/");
+					//tempNextName = tempNextName.join("\\/");
+				}
+			},
+			updateSearch: function(searchStr) {
+				let searchElems = getId("fileManagerContent").getElementsByClassName("cursorPointer");
+				for (let i = 0; i < searchElems.length; i++) {
+					if (searchElems[i].innerText.toLowerCase().indexOf(searchStr.toLowerCase()) === -1) {
+						searchElems[i].style.display = "none";
+					} else {
+						searchElems[i].style.display = "";
+					}
 				}
 			},
 		},

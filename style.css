@@ -1,3 +1,7 @@
+:root {
+	--start-menu-width: 300px;
+}
+
 /* TODO: Come back and try to steal Aero transparency */
 @font-face {
 	font-family: "W95FA";
@@ -293,6 +297,11 @@ div {
 	overflow: visible;
 }
 
+#win_startMenu_top {
+	transition: all 0.35s ease 0s;
+	width: var(--start-menu-width);
+}
+
 .smarticon {
 	display: inline-block;
 	position: relative;
@@ -307,7 +316,6 @@ div {
 	height: 100%;
 	background-size: contain !important;
 	overflow: hidden;
-	border-radius: 100%;
 	display: block;
 }
 
@@ -512,30 +520,39 @@ div {
 	height: calc(100% - 3px);
 	overflow-y: scroll;
 	font-size: 12px;
+	width: calc(100% - 151px);
+	border-top-right-radius: 5px;
+	min-width: calc(70% - 7px);
+	right: 0;
+	height: calc(100% - 50px);
+	top: 50px;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 #fileManagerContent>div,
-.FIL2sidetbl>div {
+.sidebarCategories>div {
 	position: relative;
 	white-space: nowrap;
+
 }
 
-.FIL2sidetbl {
+.sidebarCategories {
 	position: relative;
 }
 
 #fileManagerContent>div:hover,
-.FIL2sidetbl>div:hover {
+.sidebarCategories>div:hover {
 	background-color: #aaa;
 }
 
 .darkMode #fileManagerContent>div:hover,
-.darkMode .FIL2sidetbl>div:hover {
+.darkMode .sidebarCategories>div:hover {
 	background-color: #555;
 }
 
 #fileManagerContent img,
-.FIL2sidetbl img {
+.sidebarCategories img {
 	display: inline-block;
 	margin-top: 2px;
 	margin-bottom: -2px;
@@ -545,14 +562,12 @@ div {
 }
 
 .darkMode #fileManagerContent img,
-.darkMode .FIL2sidetbl img {
+.darkMode .sidebarCategories img {
 	filter: invert(1);
 }
 
-#fileManagerContent .FIL2AppIcon,
-.FIL2sidetbl .FIL2AppIcon,
 #fileManagerContent .smarticon,
-.FIL2sidetbl .smarticon {
+.sidebarCategories .smarticon {
 	width: 16px;
 	height: 16px;
 	margin-top: 0;
@@ -560,46 +575,7 @@ div {
 	margin-left: 1px;
 }
 
-.darkMode #fileManagerContent .FIL2AppIcon,
-.darkMode .FIL2sidetbl .FIL2AppIcon {
-	filter: none;
-}
-
-.FIL2viewCompact>div {
-	font-size: 12px;
-	width: 148px;
-	height: 18px;
-	line-height: 18px;
-	display: inline-block;
-	margin-left: 3px;
-	margin-top: 3px;
-	margin-bottom: -3px;
-	border: 1px solid #000;
-	padding: 1px;
-}
-
-.darkMode .FIL2viewCompact>div {
-	border: 1px solid #fff;
-}
-
-.FIL2viewSmall>div {
-	font-size: 12px;
-	width: 298px;
-	height: 18px;
-	line-height: 18px;
-	display: inline-block;
-	margin-left: 3px;
-	margin-top: 3px;
-	margin-bottom: -3px;
-	border: 1px solid #000;
-	padding: 1px;
-}
-
-.darkMode .FIL2viewSmall>div {
-	border: 1px solid #fff;
-}
-
-.FIL2viewMedium>div {
+.sidebarCategories>div {
 	font-size: 12px;
 	width: calc(100% - 8px);
 	height: 14px;
@@ -610,28 +586,10 @@ div {
 	padding: 1px;
 }
 
-#fileManagerContent.FIL2viewMedium .FIL2AppIcon,
-.FIL2sidetbl.FIL2viewMedium .FIL2AppIcon,
-#fileManagerContent.FIL2viewMedium .smarticon,
-.FIL2sidetbl.FIL2viewMedium .smarticon {
+#fileManagerContent .smarticon,
+.sidebarCategories .smarticon {
 	margin-top: -1px;
 	margin-bottom: -5px;
-}
-
-.FIL2viewLarge>div {
-	font-size: 12px;
-	width: calc(100% - 10px);
-	height: 18px;
-	line-height: 18px;
-	display: block;
-	margin-left: 3px;
-	margin-top: 3px;
-	border: 1px solid #000;
-	padding: 1px;
-}
-
-.darkMode .FIL2viewLarge>div {
-	border: 1px solid #fff;
 }
 
 #tMgMemTable {
@@ -942,34 +900,34 @@ div {
 	backdrop-filter: blur(5px);
 }
 
-#icons {
+#taskbarIcons {
 	height: 32px;
 	max-width: calc(100% - 300px);
 	overflow-x: auto;
 	white-space: nowrap;
 }
 
-.mobileMode #icons {
+.mobileMode #taskbarIcons {
 	max-width: calc(100% - 200px);
 }
 
-#icons::-webkit-scrollbar {
+#taskbarIcons::-webkit-scrollbar {
 	height: 1px !important;
 	background: #626262 !important;
 	box-shadow: none !important;
 }
 
-#icons::-webkit-scrollbar-thumb {
+#taskbarIcons::-webkit-scrollbar-thumb {
 	background: #bfbfbf !important;
 	box-shadow: none !important;
 	border-radius: 0;
 }
 
-#icons::-webkit-scrollbar-button {
+#taskbarIcons::-webkit-scrollbar-button {
 	display: none;
 }
 
-#icons .icon {
+#taskbarIcons .icon {
 	height: 32px;
 	border-radius: 2px;
 	display: none;
@@ -978,7 +936,7 @@ div {
 	padding-right: 5px;
 }
 
-#icons .icon:hover {
+#taskbarIcons .icon:hover {
 	background: rgba(255, 255, 255, 0.1);
 }
 
@@ -995,15 +953,15 @@ div {
 	display: none;
 }
 
-#icons .icon.activeAppIcon {
+#taskbarIcons .icon.activeAppIcon {
 	background: rgba(255, 255, 255, 0.25);
 }
 
-#icons .icon.activeAppIcon:hover {
+#taskbarIcons .icon.activeAppIcon:hover {
 	background: rgba(255, 255, 255, 0.35);
 }
 
-#icons .icon .iconOpenIndicator {
+#taskbarIcons .icon .iconOpenIndicator {
 	position: relative;
 	height: 5px;
 	width: 34px;
@@ -1013,11 +971,11 @@ div {
 	transition: box-shadow 0.3s;
 }
 
-#icons .icon.openAppIcon .iconOpenIndicator {
+#taskbarIcons .icon.openAppIcon .iconOpenIndicator {
 	box-shadow: 0 0 5px #fff;
 }
 
-#icons .iconImg {
+#taskbarIcons .iconImg {
 	margin-top: 5px;
 	position: static;
 	text-align: center;
@@ -1605,13 +1563,7 @@ div {
 	top: 50px;
 }
 
-#fileManagerContent {
-	width: calc(100% - 151px);
-	border-top-right-radius: 5px;
-	min-width: calc(70% - 7px);
-	right: 0;
-	height: calc(100% - 50px);
-	top: 50px;
-	background-repeat: no-repeat;
-	background-position: center;
+#appSearch {
+	width: calc(100% - 6px);
+	margin-top: 3px;
 }

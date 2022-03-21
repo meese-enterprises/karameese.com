@@ -98,7 +98,7 @@ button:active {
 	border-right: 2px solid #dedede;
 }
 
-#FIL2tbl div {
+#fileManagerContent div {
 	background-color: #bdbdbd;
 	border-top: 2px solid #dedede;
 	border-left: 2px solid #dedede;
@@ -108,7 +108,7 @@ button:active {
 	color: #000;
 }
 
-#FIL2tbl div:active {
+#fileManagerContent div:active {
 	border-top: 2px solid #7b7b7b;
 	border-left: 2px solid #7b7b7b;
 	border-bottom: 2px solid #dedede;

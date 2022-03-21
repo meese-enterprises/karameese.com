@@ -22,11 +22,11 @@ const AppInfo = () => {
 							'<div style="font-size:12px;font-family:W95FA, monospace;top:0;left:0;color:#7F7F7F">' +
 							launchtype +
 							"</div>" +
-							buildSmartIcon(
-								256,
-								apps[launchtype].appWindow.image,
-								"margin-left:calc(50% - 128px);margin-top:16px;"
-							) +
+							buildIcon({
+								size: 256,
+								image: apps[launchtype].appWindow.image,
+								css: "margin-left:calc(50% - 128px);margin-top:16px;"
+							}) +
 							'<h1 style="text-align:center;">' +
 							apps[launchtype].title +
 							"</h1>" +

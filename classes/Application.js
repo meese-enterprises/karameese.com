@@ -44,7 +44,6 @@ class Application {
 		image = "logo.png",
 		resizeable = true
 	}) {
-		// TODO: Finish figuring out this migration
 		this.abbreviation = abbreviation;
 		this.name = name;
 		this.title = title;
@@ -64,19 +63,19 @@ class Application {
 
 		this.hideApp = hideApp;
 		if (!this.hideApp) {
-			new DesktopIcon(
-				this.name,
-				this.title,
-				this.appWindow.image,
-				["arg", 'openapp(apps[arg], "dsktp");'],
-				[this.name],
-				[
+			new DesktopIcon({
+				id: this.name,
+				title: this.title,
+				icon: this.appWindow.image,
+				action: ["arg", 'openapp(apps[arg], "dsktp");'],
+				actionArgs: [this.name],
+				ctxAction: [
 					"arg1",
 					"arg2",
 					"ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, arg2]);",
 				],
-				[this.name, this.abbreviation]
-			);
+				ctxActionArgs: [this.name, this.abbreviation]
+			});
 		}
 
 		getId("desktop").innerHTML +=
@@ -93,16 +92,20 @@ class Application {
 			"</div>";
 
 		if (this.appWindow.image) {
-			getId("icons").innerHTML +=
+			getId("taskbarIcons").innerHTML +=
 				`<div class="icon cursorPointer" id="icn_${name}">` +
 				'<div class="iconOpenIndicator"></div>' +
-				buildSmartIcon(32, this.appWindow.image, "margin-left:6px") +
+				buildIcon({
+					size: 32,
+					image: this.appWindow.image,
+					css: "margin-left:6px"
+				}) +
 				`<div class="taskbarIconTitle" id="icntitle_${name}">` +
 				title +
 				"</div>" +
 				"</div>";
 		} else {
-			getId("icons").innerHTML +=
+			getId("taskbarIcons").innerHTML +=
 				`<div class="icon cursorPointer" id="icn_${name}">` +
 				'<div class="iconOpenIndicator"></div>' +
 				`<div class="iconImg">${abbreviation}</div>` +
@@ -133,7 +136,7 @@ class Application {
 		);
 		getId("win_" + name + "_top").setAttribute(
 			"onClick",
-			"toTop(apps." + name + ")"
+			`toTop(apps.${name})`
 		);
 
 		if (name !== "startMenu") {
@@ -187,42 +190,42 @@ class Application {
 		div .winShrink #win_settings_shrink     Button to shrink, or hide, the window
 		div .winExit   #win_settings_exit       Button to close window
 	*/
-	appWindow(abbreviation, image, name) {
-		// TODO: See if I can return implicitly
-		return {
-			abbreviation: abbreviation,
-			name: name,
-			image: image,
-			windowX: 100,
-			windowY: 50,
-			windowH: 525,
-			windowV: 300,
-			fullscreen: 0,
-			abbreviation: 0,
-			dimsSet: 0,
-			onTop: 0,
-			alwaysOnTop: function (setTo) {
-				if (setTo && !this.onTop) {
-					getId("win_" + this.name + "_top").style.zIndex = "100";
-					this.onTop = 1;
-				} else if (!setTo && this.onTop) {
-					getId("win_" + this.name + "_top").style.zIndex = "90";
-					this.onTop = 0;
-				}
-			},
-			paddingMode: function (mode) {
+	appWindow = (abbreviation, image, name) => ({
+		// TODO: See if I can move all of these to the Application class directly
+		abbreviation: abbreviation,
+		name: name,
+		image: image,
+		xPos: 100,
+		yPos: 50,
+		width: 525,
+		height: 300,
+		fullscreen: false,
+		abbreviation: 0,
+		dimsSet: false,
+		onTop: false,
+		setAlwaysOnTop: function (setTo = true) {
+			if (setTo && !this.onTop) {
+				getId("win_" + this.name + "_top").style.zIndex = "100";
+				this.onTop = true;
+			} else if (!setTo && this.onTop) {
+				getId("win_" + this.name + "_top").style.zIndex = "90";
+				this.onTop = false;
+			}
+		},
+		paddingMode: function (mode) {
 				if (mode) {
 					getId("win_" + this.name + "_html").classList.remove("noPadding");
 				} else {
-					getId("win_" + this.name + "_html").classList.add("noPadding");
-				}
-			},
-			setDims: function (xOff, yOff, xSiz, ySiz, ignoreDimsSet) {
-				d(2, "Setting dims of window.");
-				if (!this.fullscreen) {
-					const windowCentered = [0, 0];
-					if (xOff === "auto") {
-						xOff = Math.round(
+				getId("win_" + this.name + "_html").classList.add("noPadding");
+			}
+		},
+		setDims: function (xOff, yOff, xSiz, ySiz, ignoreDimsSet = false) {
+			d(2, "Setting dimensions of window.");
+			if (this.fullscreen) return;
+
+			const windowCentered = [0, 0];
+			if (xOff === "auto") {
+				xOff = Math.round(
 							parseInt(getId("desktop").style.width) / 2 - xSiz / 2
 						);
 						windowCentered[0] = 1;
@@ -232,62 +235,61 @@ class Application {
 							parseInt(getId("desktop").style.height) / 2 - ySiz / 2
 						);
 						windowCentered[1] = 1;
-					}
-					xOff = Math.round(xOff);
-					yOff = Math.round(yOff);
-					if (this.windowX !== xOff) {
-						getId("win_" + this.name + "_top").style.left = xOff + "px";
-						this.windowX = Math.round(xOff);
-					}
-					if (this.windowY !== yOff) {
-						getId("win_" + this.name + "_top").style.top =
-							yOff * (yOff > -1) + "px";
-						this.windowY = Math.round(yOff);
-					}
-					if (this.windowH !== xSiz) {
-						getId("win_" + this.name + "_top").style.width = xSiz + "px";
-						getId("win_" + this.name + "_aero").style.width =
-							xSiz + 80 + "px";
-						this.windowH = xSiz;
-					}
-					if (this.windowV !== ySiz) {
-						if (!this.folded) {
-							getId("win_" + this.name + "_top").style.height = ySiz + "px";
-						}
+			}
+			xOff = Math.round(xOff);
+			yOff = Math.round(yOff);
+			if (this.xPos !== xOff) {
+				getId("win_" + this.name + "_top").style.left = xOff + "px";
+				this.xPos = Math.round(xOff);
+			}
+			if (this.yPos !== yOff) {
+				getId("win_" + this.name + "_top").style.top =
+					yOff * (yOff > -1) + "px";
+				this.yPos = Math.round(yOff);
+			}
+			if (this.width !== xSiz) {
+				getId("win_" + this.name + "_top").style.width = xSiz + "px";
+				getId("win_" + this.name + "_aero").style.width =
+					xSiz + 80 + "px";
+				this.width = xSiz;
+			}
+			if (this.height !== ySiz) {
+				if (!this.folded) {
+					getId("win_" + this.name + "_top").style.height = ySiz + "px";
+				}
 
-						getId("win_" + this.name + "_aero").style.height =
-							ySiz + 80 + "px";
-						this.windowV = ySiz;
-					}
-					const aeroOffset = [0, -32];
-					try {
-						window.calcWindowblur(this.name);
-					} catch (err) {
-						getId("win_" + this.name + "_aero").style.backgroundPosition =
-							-1 * xOff +
-							40 +
-							aeroOffset[0] +
-							"px " +
-							(-1 * (yOff * (yOff > -1)) + 40 + aeroOffset[1]) +
-							"px";
-					}
+				getId("win_" + this.name + "_aero").style.height =
+					ySiz + 80 + "px";
+				this.height = ySiz;
+			}
+			const aeroOffset = [0, -32];
+			try {
+				window.calcWindowblur(this.name);
+			} catch (err) {
+				const xOffset = -1 * xOff + 40 + aeroOffset[0];
+				const yOffset = -1 * (yOff * (yOff > -1)) + 40 + aeroOffset[1];
 
-					if (typeof this.dimsSet === "function" && !ignoreDimsSet) {
-						this.dimsSet();
-					}
-					if (
-						!this.fullscreen &&
-						((windowCentered[0] &&
+				getId("win_" + this.name + "_aero").style.backgroundPosition =
+					xOffset + "px " + yOffset + "px";
+			}
+
+			// TODO: See how this would ever be a function
+			if (typeof this.dimsSet === "function" && !ignoreDimsSet) {
+				this.dimsSet();
+			}
+
+			if (
+				!this.fullscreen &&
+				((windowCentered[0] &&
 							xSiz > parseInt(getId("desktop").style.width, 10)) ||
 							(windowCentered[1] &&
 								ySiz > parseInt(getId("desktop").style.height, 10)))
-					) {
-						this.toggleFullscreen();
-					}
-				}
-			},
-			openWindow: function () {
-				this.abbreviation = 1;
+			) {
+				this.toggleFullscreen();
+			}
+		},
+		openWindow: function () {
+			this.abbreviation = 1;
 				getId("win_" + this.name + "_top").classList.remove("closedWindow");
 				getId("win_" + this.name + "_top").style.display = "block";
 				getId("icn_" + this.name).style.display = "inline-block";
@@ -335,48 +337,44 @@ class Application {
 
 				getId("icn_" + this.name).style.display = "none";
 				getId("icn_" + this.name).classList.remove("openAppIcon");
-				this.fullscreen = 0;
-				if (this.folded) {
-					this.foldWindow();
-				}
-				toTop(
-					{
-						abbreviation: "CLOSING",
-					},
-					1
-				);
-			},
-			closeIcon: function () {
-				getId("icn_" + this.name).style.display = "none";
+			this.fullscreen = false;
+			if (this.folded) {
+				this.foldWindow();
+			}
+			toTop({ abbreviation: "CLOSING" }, 1);
+		},
+		closeIcon: function () {
+			getId("icn_" + this.name).style.display = "none";
 			},
 			folded: 0,
 			foldWindow: function () {
-				if (this.folded) {
-					getId("win_" + this.name + "_html").style.display = "block";
-					getId("win_" + this.name + "_top").style.height =
-						this.windowV + "px";
-					this.folded = 0;
-				} else {
-					getId("win_" + this.name + "_html").style.display = "none";
+			if (this.folded) {
+				getId("win_" + this.name + "_html").style.display = "block";
+				getId("win_" + this.name + "_top").style.height =
+					this.height + "px";
+				this.folded = 0;
+			} else {
+				getId("win_" + this.name + "_html").style.display = "none";
 					getId("win_" + this.name + "_top").style.height =
 						32 + winBorder + "px";
 					this.folded = 1;
-				}
-			},
-			closeKeepTask: function () {
-				if (this.name !== "startMenu") {
-					console.log("closeKeepTask NOT start menu:", this.name);
-					if (!mobileMode) {
-						try {
-							getId("win_" + this.name + "_top").style.transformOrigin =
-								getId("icn_" + this.name).getBoundingClientRect().left -
-								this.windowX +
-								23 +
-								"px " +
-								(0 - this.windowY) +
-								"px";
-						} catch (err) {
-							getId("win_" + this.name + "_top").style.transformOrigin =
+			}
+		},
+		closeKeepTask: function () {
+			if (this.name === "startMenu") {
+				getId("win_startMenu_top").style.display = "none";
+			} else {
+				if (!mobileMode) {
+					try {
+						getId("win_" + this.name + "_top").style.transformOrigin =
+							getId("icn_" + this.name).getBoundingClientRect().left -
+							this.xPos +
+							23 +
+							"px " +
+							(0 - this.yPos) +
+							"px";
+					} catch (err) {
+						getId("win_" + this.name + "_top").style.transformOrigin =
 								"50% -" + window.innerHeight + "px";
 						}
 					} else {
@@ -395,51 +393,40 @@ class Application {
 					setTimeout(
 						function () {
 							getId("win_" + this.name + "_top").style.display = "none";
-						}.bind(this),
-						300
-					);
-				} else {
-					console.log("Should be hiding start menu...");
-					getId("win_startMenu_top").style.display = "none";
-				}
-
-				setTimeout(
-					"getId('icn_" + this.name + "').classList.remove('activeAppIcon')",
-					0
+					}.bind(this),
+					300
 				);
-			},
-			setCaption: function (newCap) {
-				d(1, "Changing caption.");
-				if (this.image) {
-					getId("win_" + this.name + "_cap").innerHTML =
-						buildSmartIcon(32, this.image) +
-						'<div class="winCaptionTitle">' +
-						newCap +
-						"</div>";
-				} else {
-					getId("win_" + this.name + "_cap").innerHTML =
-						'<div class="winCaptionTitle">' +
-						`${this.abbreviation}|${newCap}` +
-						"</div>";
-				}
-			},
+			}
+
+			setTimeout(
+					"getId('icn_" + this.name + "').classList.remove('activeAppIcon')",
+				0
+			);
+		},
+		setCaption: function (newCaption) {
+			d(1, "Changing caption.");
+			if (this.image) {
+				getId("win_" + this.name + "_cap").innerHTML =
+					buildIcon({ size: 32, image: this.image }) +
+					'<div class="winCaptionTitle">' +
+					newCaption +
+					"</div>";
+			} else {
+				getId("win_" + this.name + "_cap").innerHTML =
+					'<div class="winCaptionTitle">' +
+					`${this.abbreviation}|${newCaption}` +
+					"</div>";
+			}
+		},
 			setContent: function (newHTML) {
-				getId("win_" + this.name + "_html").innerHTML = newHTML;
-			},
-			toggleFullscreen: function () {
-				d(1, "Setting Maximise.");
-				if (this.fullscreen) {
-					this.fullscreen = 0;
-					getId("win_" + this.name + "_top").classList.remove(
-						"maximizedWindow"
-					);
-				} else {
-					this.fullscreen = 1;
-					getId("win_" + this.name + "_top").classList.add(
-						"maximizedWindow"
-					);
-				}
-			},
-		};
-	}
+			getId("win_" + this.name + "_html").innerHTML = newHTML;
+		},
+		toggleFullscreen: function () {
+			d(1, "Toggling fullscreen.");
+			this.fullscreen = !this.fullscreen;
+			getId("win_" + this.name + "_top").classList.toggle(
+				"maximizedWindow"
+			);
+		},
+	});
 }

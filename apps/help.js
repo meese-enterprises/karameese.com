@@ -45,7 +45,11 @@ const Help = () => {
 					app +
 					"/\\')})})'" +
 					']);">' +
-					buildSmartIcon(128, this.vars.currAppImg, "margin-left:1px;") +
+					buildIcon({
+						size: 128,
+						image: this.vars.currAppImg,
+						css: "margin-left:1px;"
+					}) +
 					'<div class="helpItemText">' +
 					'<p class="helpAppName">' +
 					this.vars.currAppTitle +

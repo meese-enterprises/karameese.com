@@ -15,7 +15,7 @@ const AppPrompt = () => {
 				this.appWindow.setCaption("Modal Dialogue");
 				getId("win_prompt_big").style.display = "none";
 				getId("win_prompt_exit").style.display = "none";
-				this.appWindow.alwaysOnTop(1);
+				this.appWindow.setAlwaysOnTop();
 				this.vars.checkNotifs();
 			}
 		},
@@ -242,11 +242,11 @@ const AppPrompt = () => {
 									this.notifs[i].image +
 									'" onerror="this.src=\'\'">';
 							} else if (typeof this.notifs[i].image === "object") {
-								notifText += buildSmartIcon(
-									50,
-									this.notifs[i].image,
-									"display:block;position:absolute;right:2px;top:calc(50% - 25px);"
-								);
+								notifText += buildIcon({
+									size: 50,
+									image: this.notifs[i].image,
+									css: "display:block;position:absolute;right:2px;top:calc(50% - 25px);"
+								});
 							}
 							notifText +=
 								'<div class="winExit cursorPointer" onclick="apps.prompt.vars.notifClick(this.parentNode, -1)">x</div>' +
@@ -394,7 +394,7 @@ const AppPrompt = () => {
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					this.appWindow.alwaysOnTop(1);
+					this.appWindow.setAlwaysOnTop();
 					this.appWindow.paddingMode(1);
 					break;
 				default:

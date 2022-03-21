@@ -10,7 +10,7 @@ const PropertiesViewer = () => {
 		main: function (launchtype, fileToOpen) {
 			getId("win_properties_html").style.overflow = "auto";
 			if (!this.appWindow.appIcon) {
-				this.appWindow.setDims("auto", "auto", 400, 500, 1);
+				this.appWindow.setDims("auto", "auto", 400, 500, true);
 			}
 			this.appWindow.setCaption("Properties Viewer");
 			if (launchtype !== "openFile" && launchtype !== "tskbr") {

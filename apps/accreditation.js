@@ -15,11 +15,10 @@ const Accreditation = () => {
 
 			this.appWindow.setCaption("Accreditation");
 			if (!this.appWindow.appIcon) {
-				this.appWindow.alwaysOnTop(1);
+				this.appWindow.setAlwaysOnTop();
 				this.appWindow.paddingMode(0);
 				this.appWindow.setDims(x, margins, width, height);
 				this.appWindow.setContent('<div id="accreditationDisplay" class="full-iframe"></div>');
-				this.appWindow.alwaysOnTop(1);
 			}
 			this.appWindow.openWindow();
 
