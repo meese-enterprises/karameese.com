@@ -302,16 +302,16 @@ div {
 	width: var(--start-menu-width);
 }
 
-.smarticon {
+.appicon {
 	display: inline-block;
 	position: relative;
 }
 
-.smarticon div {
+.appicon div {
 	pointer-events: none;
 }
 
-.smarticon_bg {
+.appicon_bg {
 	width: 100%;
 	height: 100%;
 	background-size: contain !important;
@@ -319,20 +319,20 @@ div {
 	display: block;
 }
 
-.smarticon_fg {
+.appicon_fg {
 	width: 100%;
 	height: 100%;
 	background-size: contain !important;
 }
 
-.smarticon_border {
+.appicon_border {
 	width: 100%;
 	height: 100%;
 	background: none;
 	border-radius: 100%;
 }
 
-.smarticon_nobg {
+.appicon_nobg {
 	width: 100%;
 	height: 100%;
 	background-size: contain !important;
@@ -512,103 +512,6 @@ div {
 	filter: invert(1);
 }
 
-#tItabC:focus {
-	outline: none;
-}
-
-#fileManagerContent {
-	height: calc(100% - 3px);
-	overflow-y: scroll;
-	font-size: 12px;
-	width: calc(100% - 151px);
-	border-top-right-radius: 5px;
-	min-width: calc(70% - 7px);
-	right: 0;
-	height: calc(100% - 50px);
-	top: 50px;
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-#fileManagerContent>div,
-.sidebarCategories>div {
-	position: relative;
-	white-space: nowrap;
-
-}
-
-.sidebarCategories {
-	position: relative;
-}
-
-#fileManagerContent>div:hover,
-.sidebarCategories>div:hover {
-	background-color: #aaa;
-}
-
-.darkMode #fileManagerContent>div:hover,
-.darkMode .sidebarCategories>div:hover {
-	background-color: #555;
-}
-
-#fileManagerContent img,
-.sidebarCategories img {
-	display: inline-block;
-	margin-top: 2px;
-	margin-bottom: -2px;
-	margin-left: 3px;
-	width: 10px;
-	height: 10px;
-}
-
-.darkMode #fileManagerContent img,
-.darkMode .sidebarCategories img {
-	filter: invert(1);
-}
-
-#fileManagerContent .smarticon,
-.sidebarCategories .smarticon {
-	width: 16px;
-	height: 16px;
-	margin-top: 0;
-	margin-bottom: -5px;
-	margin-left: 1px;
-}
-
-.sidebarCategories>div {
-	font-size: 12px;
-	width: calc(100% - 8px);
-	height: 14px;
-	line-height: 14px;
-	display: block;
-	margin-left: 3px;
-	margin-top: 1px;
-	padding: 1px;
-}
-
-#fileManagerContent .smarticon,
-.sidebarCategories .smarticon {
-	margin-top: -1px;
-	margin-bottom: -5px;
-}
-
-#tMgMemTable {
-	width: 100%;
-	text-align: right;
-}
-
-#tMgMemTable td {
-	background-color: #bbb;
-}
-
-.darkMode #tMgMemTable td {
-	background-color: #444;
-}
-
-.monoinput {
-	font-family: monospace;
-}
-
 #NORAout {
 	width: 100%;
 	height: 95%;
@@ -683,7 +586,7 @@ div {
 	background-color: #222;
 }
 
-.helpItem .smarticon {
+.helpItem .appicon {
 	display: inline-block;
 	width: 128px;
 	height: 128px;
@@ -1566,4 +1469,130 @@ div {
 #appSearch {
 	width: calc(100% - 6px);
 	margin-top: 3px;
+}
+
+#fileManagerDisplay {
+	background-color: white;
+}
+
+#fileManagerTopbar {
+	width: 100%;
+	height: 50px;
+}
+
+.sidebarItem {
+	width: 100%;
+	display: inline-flex;
+	position: relative;
+}
+
+.sidebarItem p {
+	margin: 0;
+}
+
+.sidebarIcon {
+	width: 25px;
+	aspect-ratio: 1;
+	margin-right: 5px;
+}
+
+.fileManagerContentItem {
+	overflow: visible;
+	margin: 0;
+	text-align: center;
+}
+
+.folderIcon,
+.fileIcon {
+	width: 80%;
+	height: 80%;
+	object-fit: cover;
+	display: block;
+	margin: auto;
+
+	/* TODO: Convert this to JavaScript for automatic sizing */
+	mask-image:
+		url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"><style type="text/css">.blur{filter:url(%23softedge);}</style><filter id="softedge"><feGaussianBlur stdDeviation="3.5"></feGaussianBlur></filter><g class="blur"><rect x="5" y="5" width="90" height="90"/></g></svg>');
+	mask-size: cover;
+	-webkit-mask-image:
+		url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"><style type="text/css">.blur{filter:url(%23softedge);}</style><filter id="softedge"><feGaussianBlur stdDeviation="3.5"></feGaussianBlur></filter><g class="blur"><rect x="5" y="5" width="90" height="90"/></g></svg>');
+	-webkit-mask-size: cover;
+}
+
+#fileManagerContent {
+	height: calc(100% - 3px);
+	overflow-y: scroll;
+	font-size: 12px;
+	width: calc(100% - 151px);
+	border-top-right-radius: 5px;
+	right: 0;
+	height: calc(100% - 50px);
+	top: 50px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: flex-start;
+}
+
+#fileManagerContent>div,
+.sidebarCategories>div {
+	position: relative;
+	white-space: nowrap;
+	display: inline-block;
+	height: 100px;
+	width: 100px;
+}
+
+.sidebarCategories {
+	position: relative;
+}
+
+#fileManagerContent>div:hover,
+.sidebarCategories>div:hover {
+	background-color: #aaa;
+}
+
+.darkMode #fileManagerContent>div:hover,
+.darkMode .sidebarCategories>div:hover {
+	background-color: #555;
+}
+
+.sidebarCategories img {
+	display: inline-block;
+	margin-top: 2px;
+	margin-bottom: -2px;
+	margin-left: 3px;
+	width: 10px;
+	height: 10px;
+}
+
+.darkMode #fileManagerContent img,
+.darkMode .sidebarCategories img {
+	filter: invert(1);
+}
+
+#fileManagerContent .appicon,
+.sidebarCategories .appicon {
+	width: 16px;
+	height: 16px;
+	margin-top: 0;
+	margin-bottom: -5px;
+	margin-left: 1px;
+}
+
+.sidebarCategories>div {
+	font-size: 12px;
+	width: calc(100% - 8px);
+	height: 14px;
+	line-height: 14px;
+	display: block;
+	margin-left: 3px;
+	margin-top: 1px;
+	padding: 1px;
+}
+
+#fileManagerContent .appicon,
+.sidebarCategories .appicon {
+	margin-top: -1px;
+	margin-bottom: -5px;
 }

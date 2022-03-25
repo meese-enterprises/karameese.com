@@ -9,7 +9,7 @@
 	?>
 
 	<link rel="icon" href="logo.png" type="image/x-icon">
-	<style id="smartIconStyle"></style>
+	<style id="appIconStyle"></style>
 	<link rel="stylesheet" type="text/css" href="win95.css">
 </head>
 

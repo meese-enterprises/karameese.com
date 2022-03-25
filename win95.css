@@ -99,21 +99,22 @@ button:active {
 }
 
 #fileManagerContent div {
-	background-color: #bdbdbd;
+	/*background-color: #bdbdbd;
 	border-top: 2px solid #dedede;
 	border-left: 2px solid #dedede;
 	border-bottom: 1px solid #7b7b7b;
 	border-right: 1px solid #7b7b7b;
-	box-shadow: inset -1px 0 0 #7b7b7b;
+	box-shadow: inset -1px 0 0 #7b7b7b;*/
 	color: #000;
 }
 
 #fileManagerContent div:active {
-	border-top: 2px solid #7b7b7b;
+	/*border-top: 2px solid #7b7b7b;
 	border-left: 2px solid #7b7b7b;
 	border-bottom: 2px solid #dedede;
 	border-right: 1px solid #dedede;
-	box-shadow: inset -1px 0 0 #dedede;
+	box-shadow: inset -1px 0 0 #dedede;*/
+	border: 1px dashed #7b7b7b;
 }
 
 /* inputs */
@@ -195,7 +196,7 @@ hr {
 	);
 }
 
-.winCap .smarticon {
+.winCap .appicon {
 	margin-top: -2px;
 	margin-bottom: 2px;
 }
