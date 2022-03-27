@@ -339,24 +339,6 @@ div {
 	display: none;
 }
 
-#timesUpdated {
-	display: block;
-	position: absolute;
-	text-align: right;
-	top: -3px;
-	right: 8px;
-	font-size: 20px;
-	color: #0fa;
-	transition: 3s;
-	transition: 3s;
-	z-index: 101;
-	pointer-events: none;
-}
-
-#timesUpdated::selection {
-	background: none;
-}
-
 .window {
 	width: 525px;
 	height: 300px;
@@ -1481,9 +1463,10 @@ div {
 }
 
 .sidebarItem {
-	width: 100%;
-	display: inline-flex;
 	position: relative;
+	width: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .sidebarItem p {
@@ -1492,6 +1475,7 @@ div {
 
 .sidebarIcon {
 	width: 25px;
+	height: 25px;
 	aspect-ratio: 1;
 	margin-right: 5px;
 }
@@ -1534,8 +1518,7 @@ div {
 	align-content: flex-start;
 }
 
-#fileManagerContent>div,
-.sidebarCategories>div {
+#fileManagerContent>div {
 	position: relative;
 	white-space: nowrap;
 	display: inline-block;
@@ -1543,17 +1526,11 @@ div {
 	width: 100px;
 }
 
-.sidebarCategories {
-	position: relative;
-}
-
-#fileManagerContent>div:hover,
-.sidebarCategories>div:hover {
+#fileManagerContent>div:hover {
 	background-color: #aaa;
 }
 
-.darkMode #fileManagerContent>div:hover,
-.darkMode .sidebarCategories>div:hover {
+.darkMode #fileManagerContent>div:hover {
 	background-color: #555;
 }
 
@@ -1566,13 +1543,11 @@ div {
 	height: 10px;
 }
 
-.darkMode #fileManagerContent img,
-.darkMode .sidebarCategories img {
+.darkMode #fileManagerContent img {
 	filter: invert(1);
 }
 
-#fileManagerContent .appicon,
-.sidebarCategories .appicon {
+#fileManagerContent .appicon {
 	width: 16px;
 	height: 16px;
 	margin-top: 0;
@@ -1580,19 +1555,7 @@ div {
 	margin-left: 1px;
 }
 
-.sidebarCategories>div {
-	font-size: 12px;
-	width: calc(100% - 8px);
-	height: 14px;
-	line-height: 14px;
-	display: block;
-	margin-left: 3px;
-	margin-top: 1px;
-	padding: 1px;
-}
-
-#fileManagerContent .appicon,
-.sidebarCategories .appicon {
+#fileManagerContent .appicon {
 	margin-top: -1px;
 	margin-bottom: -5px;
 }

@@ -20,16 +20,13 @@
 	<!-- computer screen and content inside on startup -->
 	<div id="monitor" class="cursorDefault">
 		<div id="desktop" onclick="try{exitFlowMode()}catch(err){}" oncontextmenu="showEditContext(event)">
-			<p id="timesUpdated">Oops!</p>
 			<div id="widgetMenu" class="darkResponsive noselect">
 				<div id="widgetTitle"></div>
 				<div id="widgetContent" class="canselect"></div>
 				<div class="winExit cursorPointer" onClick="closeWidgetMenu()">x</div>
 			</div>
 			<div id="notifContainer">
-				<div id="notifications">
-
-				</div>
+				<div id="notifications"></div>
 			</div>
 		</div>
 

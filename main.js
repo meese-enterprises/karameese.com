@@ -578,11 +578,6 @@ function openapp(appToOpen, launchTypeUsed) {
 	toTop(appToOpen);
 }
 
-// Function to remove broken text warning
-function fadeResizeText() {
-	getId("timesUpdated").style.display = "none";
-}
-
 let icomoveSelect = "";
 let icomovex = 0;
 let icomovey = 0;
@@ -1083,7 +1078,6 @@ try {
 		},
 	};
 }
-fadeResizeText();
 
 c(function () {
 	getId("loadingInfo").innerHTML = "Loading your files...";

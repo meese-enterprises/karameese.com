@@ -17,8 +17,8 @@ const JSPaint = () => {
 				<iframe
 					data-parent-app="jsPaint"
 					id="jsPframe"
+					class="full-iframe"
 					src="${url}"
-					style="width:100%;height:100%;border:none;"
 				></iframe>
 			`);
 
