@@ -3,9 +3,40 @@
 <html>
 
 <head>
-	<title>Loading...</title>
+	<title>Kara Meese</title>
+
 	<?php
+		# To prevent the browser from caching the page
 		echo '<link rel="stylesheet" type="text/css" href="style.css?ms='.round(microtime(true) * 1000).'">';
+
+		# Site metadata
+		$author = "Meese Enterprises, LLC";
+		$description = "An artistic portfolio website.";
+		$title = "Kara Meese";
+		$previewImage = "";
+		$favicon = "logo.png";
+		$themeColor = "#fa87f4";
+
+		echo "<meta charset='UTF-8'>";
+		echo "<meta property='description' content='$description' />";
+		echo "<link rel='shortcut icon' href='$favicon' />";
+		echo "<meta property='theme-color' content='$themeColor' />";
+		echo "<meta property='image' content='$favicon' />";
+		echo "<meta itemProp='name' content='$title' />";
+		echo "<meta itemProp='description' content='$description' />";
+		echo "<meta itemProp='image' content='$favicon' />";
+		echo "<meta property='og:title' content='$title' />";
+		echo "<meta property='og:description' content='$description' />";
+		echo "<meta property='og:image' content='$previewImage' />";
+		echo "<meta property='og:site_name' content='$title' />";
+		echo "<meta property='og:locale' content='en_US' />";
+		echo "<meta property='og:type' content='website' />";
+		echo "<meta property='twitter:card' content='summary' />";
+		echo "<meta property='twitter:title' content='$title' />";
+		echo "<meta property='twitter:description' content='$description' />";
+		echo "<meta property='twitter:image' content='$previewImage' />";
+		echo "<meta property='twitter:image:src' content='$previewImage' />";
+		echo "<meta name='twitter:image:alt' content='$title Icon' />";
 	?>
 
 	<link rel="icon" href="logo.png" type="image/x-icon">
