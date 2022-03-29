@@ -58,11 +58,15 @@ const FileManager = () => {
 					body: JSON.stringify({ path }),
 				})
 				.then(response => response.text())
-				.then(data => document.querySelector("#fileManagerContent").innerHTML = JSON.parse(data));
+				.then(data => {
+					const dataObj = JSON.parse(data);
+					document.querySelector("#fileManagerContent").innerHTML = dataObj.fileManager;
+					document.querySelector("#fileManagerSidebar").innerHTML = dataObj.sidebar;
+				});
 			},
 			openFile: function (path) {
-				// TODO: Remove `.filesystem`?
-				const URL = `https://karameese.com/.filesystem/${path}`;
+				// TODO: If support for anything other than images is desired in the future, this will need to change
+				const URL = `https://karameese.com/${path}`;
 				apps.jsPaint.main(URL);
 			},
 		},

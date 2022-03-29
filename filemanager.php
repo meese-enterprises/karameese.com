@@ -12,14 +12,18 @@
 		$json = file_get_contents("php://input");
 		$data = json_decode($json);
 
-		$newContent = getFileManagerContent($data->path);
-		echo json_encode($newContent);
+		$content = (object) [
+			"fileManager" => getFileManagerContent($data->path),
+			// IDEA: Tree-like hierarchy of directories here instead
+			"sidebar" => getSidebarContent($data->path)
+		];
+		echo json_encode($content);
 		return;
 	}
 
 	/**
 	 * Returns the contents of the given path.
-	 * @param relativePath - the path to the directory, relative to the root.
+	 * @param path - the path to the directory.
 	 * @param sidebar - if true, only directories are returned because the sidebar
 	 *                   is not intended to display files.
 	 * @return array - "Returns an array containing the matched files/directories, an empty array if no file matched."
@@ -36,14 +40,14 @@
 
 	/**
 	 * Generates HTML of the content in the given path.
-	 * @param relativePath - the path to the directory, relative to the root.
+	 * @param path - the path to the directory.
 	 * @return string - string containing the HTML of the content.
 	 */
-	function getFileManagerContent($relativePath) {
+	function getFileManagerContent($path) {
 		global $directoryContextMenu, $fileContextMenu, $root;
 
 		# Gets all the content in the specified directory
-		$content = getContentInDirectory($relativePath);
+		$content = getContentInDirectory($path);
 		$HTML = "";
 
 		// TODO: If empty, display a message.
@@ -81,7 +85,25 @@
 			// IDEA: filesize with filesize($filename)
 		}
 
-		//echo "HTML: " . $HTML . "<br>";
+		return $HTML;
+	}
+
+	function getSidebarContent($path) {
+		global $directoryContextMenu, $root;
+		$HTML = "";
+		$content = getContentInDirectory($path, true);
+
+		# Loops through each directory
+		foreach($content as $directoryPath) {
+			$directoryName = basename($directoryPath);
+			$openDir = "apps.files.vars.openDirectory(\"$directoryPath\")";
+
+			$HTML .= "<div class='cursorPointer sidebarItem' oncontextmenu='$directoryContextMenu'>" .
+				"<img class='sidebarIcon' src='icons/folder_v1.png'>" .
+				"<p class='fileManagerSidebarItem' onclick='$openDir'>$directoryName</p>" .
+			'</div>';
+		}
+
 		return $HTML;
 	}
 ?>
@@ -91,23 +113,7 @@
 </div>
 
 <div id="fileManagerSidebar">
-	<?php
-		# Gets all the subdirectories in the root directory
-		$directories = getContentInDirectory($root, true);
-
-		// TODO: Function to update sidebar when opening new directory
-
-		# Loops through each directory
-		foreach($directories as $directoryPath) {
-			$directoryName = basename($directoryPath);
-			$openDir = "apps.files.vars.openDirectory(\"$directoryPath\")";
-
-			echo "<div class='cursorPointer sidebarItem' oncontextmenu='$directoryContextMenu'>" .
-				"<img class='sidebarIcon' src='icons/folder_v1.png'>" .
-				"<p class='fileManagerSidebarItem' onclick='$openDir'>$directoryName</p>" .
-			'</div>';
-		}
-	?>
+	<?php echo getSidebarContent($root); ?>
 </div>
 
 <div id="fileManagerContent">
