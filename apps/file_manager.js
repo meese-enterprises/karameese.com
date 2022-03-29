@@ -28,7 +28,7 @@ const FileManager = () => {
 					}
 				}
 			};
-			xhttp.open("GET", "./apps/filemanager.php", true);
+			xhttp.open("GET", "filemanager.php", true);
 			xhttp.send();
 		},
 		vars: {
@@ -50,10 +50,19 @@ const FileManager = () => {
 				]);
 			},
 			openDirectory: function (path) {
-				// TODO: Update the innerHTML of #fileManagerContent here
+				fetch("filemanager.php", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+					},
+					body: JSON.stringify({ path }),
+				})
+				.then(response => response.text())
+				.then(data => document.querySelector("#fileManagerContent").innerHTML = JSON.parse(data));
 			},
 			openFile: function (path) {
-				const URL = `https://karameese.com/art/${path}`;
+				// TODO: Remove `.filesystem`?
+				const URL = `https://karameese.com/.filesystem/${path}`;
 				apps.jsPaint.main(URL);
 			},
 		},
