@@ -50,7 +50,16 @@
 		$content = getContentInDirectory($path);
 		$HTML = "";
 
-		// TODO: If empty, display a message.
+		if (!$content) {
+			$altText = "Boo says hi :)";
+			$HTML .= "<div class='empty-directory'>";
+			$HTML .= "<img src='images/cute-ghost.png' alt='$altText' title='$altText' />";
+			$HTML .= "<p>There is nothing here yet! Stay tuned <3</p>";
+			$HTML .= "</div>";
+
+			return $HTML;
+		}
+
 		foreach($content as $contentPath) {
 			$info = pathinfo($contentPath);
 			$basename = $info["basename"];

@@ -1534,6 +1534,31 @@ div {
 	background-color: #555;
 }
 
+#fileManagerContent>.empty-directory {
+	width: auto;
+	height: auto;
+	margin: auto;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#fileManagerContent>.empty-directory:hover {
+	background-color: transparent;
+}
+
+#fileManagerContent>.empty-directory img {
+	width: 200px;
+	display: block;
+	margin: auto;
+	filter: opacity(0.75);
+}
+
+#fileManagerContent>.empty-directory p {
+	text-align: center;
+	color: gray;
+}
+
 .sidebarCategories img {
 	display: inline-block;
 	margin-top: 2px;
