@@ -15,7 +15,9 @@
 		$content = (object) [
 			"fileManager" => getFileManagerContent($data->path),
 			// IDEA: Tree-like hierarchy of directories here instead
-			"sidebar" => getSidebarContent($data->path)
+			"sidebar" => getSidebarContent($data->path),
+			// IDEA: Function to get absolute path of file/directory
+			"path" => $data->path // TODO: Return an absolute path here
 		];
 		echo json_encode($content);
 		return;
@@ -25,7 +27,7 @@
 	 * Returns the contents of the given path.
 	 * @param path - the path to the directory.
 	 * @param sidebar - if true, only directories are returned because the sidebar
-	 *                   is not intended to display files.
+	 *                  is not intended to display files.
 	 * @return array - "Returns an array containing the matched files/directories, an empty array if no file matched."
 	 */
 	function getContentInDirectory($path, $sidebar = false) {
@@ -72,6 +74,8 @@
 				$item .= " onclick='apps.files.vars.openDirectory(\"$basename\")'>";
 				$item .= "<img class='folderIcon' src='icons/folder_v1.png'>";
 				$item .= "<p class='fileManagerContentItem'>$filename</p>";
+
+				// TODO: This is where I need to update the top bar.
 			} else {
 				$item .= $fileContextMenu;
 				$item .= " onclick='apps.files.vars.openFile(\"$basename\")'>";
@@ -118,7 +122,13 @@
 ?>
 
 <div id="fileManagerTopbar">
-
+	<?php
+		$pathMessage = "Enter a path...";
+		echo "<input type='text' id='fileManagerPath' placeholder='$pathMessage' title='$pathMessage' value='$root' ";
+		echo "onkeyup='apps.files.vars.pathInput(event)'>";
+	?>
+	<!--<input type="search" id="fileManagerSearch" placeholder="Search..."
+	"onkeydown='apps.files.vars.updateFileManagerContent(event)' />";-->
 </div>
 
 <div id="fileManagerSidebar">

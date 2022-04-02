@@ -49,6 +49,12 @@ const FileManager = () => {
 					"apps.properties.main(\'openFile\', \'art/\');toTop(apps.properties)",
 				]);
 			},
+			pathInput: function (event) {
+				if (event.keyCode === 13) {
+					// Open the typed directory on enter key
+					this.openDirectory(event.target.value);
+				}
+			},
 			openDirectory: function (path) {
 				fetch("filemanager.php", {
 					method: "POST",
@@ -62,6 +68,7 @@ const FileManager = () => {
 					const dataObj = JSON.parse(data);
 					document.querySelector("#fileManagerContent").innerHTML = dataObj.fileManager;
 					document.querySelector("#fileManagerSidebar").innerHTML = dataObj.sidebar;
+					document.querySelector("#fileManagerPath").value = path;
 				});
 			},
 			openFile: function (path) {
