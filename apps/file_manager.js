@@ -49,6 +49,9 @@ const FileManager = () => {
 					"apps.properties.main(\'openFile\', \'art/\');toTop(apps.properties)",
 				]);
 			},
+			fileSearch: function (event) {
+				// TODO: Implement this
+			},
 			pathInput: function (event) {
 				if (event.keyCode === 13) {
 					// Open the typed directory on enter key
@@ -73,7 +76,7 @@ const FileManager = () => {
 			},
 			openFile: function (path) {
 				// TODO: If support for anything other than images is desired in the future, this will need to change
-				const URL = `https://karameese.com/${path}`;
+				const URL = `https://karameese.com/art/${path}`;
 				apps.jsPaint.main(URL);
 			},
 		},

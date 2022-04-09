@@ -274,6 +274,7 @@ div {
 	background-position: 0 0;
 	transform-origin: 0 0;
 
+	/* IDEA: Animate with https://codepen.io/P1N2O/pen/pyBNzX or https://codepen.io/alvarotrigo/pen/dyzgOER */
 	background-image: conic-gradient(from 90deg at 1px 1px,
 			#0000 90deg,
 			rgba(255, 255, 255, 0.7) 0),
@@ -1460,6 +1461,18 @@ div {
 #fileManagerTopbar {
 	width: 100%;
 	height: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+#fileManagerPath,
+#fileManagerSearch {
+	display: block;
+}
+#fileManagerPath {
+	width: 200px;
 }
 
 .sidebarItem {

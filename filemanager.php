@@ -126,9 +126,11 @@
 		$pathMessage = "Enter a path...";
 		echo "<input type='text' id='fileManagerPath' placeholder='$pathMessage' title='$pathMessage' value='$root' ";
 		echo "onkeyup='apps.files.vars.pathInput(event)'>";
+
+		$searchMessage = "Search...";
+		echo "<input type='search' id='fileManagerSearch' placeholder='$searchMessage' title='$searchMessage' ";
+		echo "onkeydown='apps.files.vars.fileSearch(event)' />";
 	?>
-	<!--<input type="search" id="fileManagerSearch" placeholder="Search..."
-	"onkeydown='apps.files.vars.updateFileManagerContent(event)' />";-->
 </div>
 
 <div id="fileManagerSidebar">
