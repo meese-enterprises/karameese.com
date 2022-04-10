@@ -5,7 +5,7 @@ const Accreditation = () => {
 		title: "Accreditation",
 		abbreviation: "aDN",
 		description: "Gives props to the awesome people that helped make this website possible :)",
-		image: "smarticons/accreditation/fg.png",
+		image: "icons/notepad_v1.png",
 		hideApp: 0,
 		main: function () {
 			const margins = 15;
