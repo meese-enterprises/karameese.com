@@ -1467,12 +1467,19 @@ div {
 	align-items: center;
 }
 
+#backArrow {
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+	cursor: pointer;
+}
 #fileManagerPath,
 #fileManagerSearch {
 	display: block;
 }
 #fileManagerPath {
 	width: 200px;
+	margin-right: 10px;
 }
 
 .sidebarItem {

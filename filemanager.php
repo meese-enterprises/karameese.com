@@ -122,6 +122,8 @@
 ?>
 
 <div id="fileManagerTopbar">
+	<img src="./icons/back_arrow.svg" id="backArrow" onclick="apps.files.vars.goBack()" />
+
 	<?php
 		$pathMessage = "Enter a path...";
 		echo "<input type='text' id='fileManagerPath' placeholder='$pathMessage' title='$pathMessage' value='$root' ";

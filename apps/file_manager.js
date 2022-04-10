@@ -34,6 +34,7 @@ const FileManager = () => {
 		vars: {
 			appInfo:
 				"Take a peek in here to see what pieces of work I finished and would like to share.",
+			history: [ ".filesystem" ],
 			// TODO: Fix these context menus
 			openDirectoryContextMenu: function (event) {
 				ctxMenu([
@@ -48,6 +49,16 @@ const FileManager = () => {
 					" Properties",
 					"apps.properties.main(\'openFile\', \'art/\');toTop(apps.properties)",
 				]);
+			},
+			goBack: function () {
+				const history = this.history;
+				const lastLocation = history.pop();
+				this.history = history;
+				this.openDirectory(lastLocation);
+
+				if (history.length === 0) {
+					this.history = [ ".filesystem" ];
+				}
 			},
 			fileSearch: function (event) {
 				// TODO: Implement this
