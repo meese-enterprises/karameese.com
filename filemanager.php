@@ -26,13 +26,19 @@
 		} else if ($data->purpose === "search") {
 			# Search for files and directories matching the given query
 			$search = $data->search;
-			$matchingFiles = [];
+			if ($search === "") {
+				# Display the root directory if the search query is empty
+				$result = getFileManagerContent($root);
+				$content = (object) [ "searchResults" => $result ];
+				echo json_encode($content);
+				return;
+			}
 
 			# https://stackoverflow.com/a/12236744/6456163
 			$dir   = new RecursiveDirectoryIterator($root);
 			$files = new RecursiveIteratorIterator($dir);
 
-			// TODO: If no search content, default to default directory view
+			$matchingFiles = [];
 			foreach ($files as $file) {
 				# Ignores ".." directories
 				if (preg_match("/\.\.$/", $file)) continue;
