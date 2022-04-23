@@ -7,20 +7,127 @@
 	$fileContextMenu = "apps.files.vars.openFileContextMenu(event)";
 	$root = ".filesystem";
 
-	# Listens for POST requests to update the file manager content.
+	# Listens for POST requests
 	if ( "POST" === $_SERVER["REQUEST_METHOD"] ) {
 		$json = file_get_contents("php://input");
 		$data = json_decode($json);
 
-		$content = (object) [
-			"fileManager" => getFileManagerContent($data->path),
-			// IDEA: Tree-like hierarchy of directories here instead
-			"sidebar" => getSidebarContent($data->path),
-			// IDEA: Function to get absolute path of file/directory
-			"path" => $data->path // TODO: Return an absolute path here
-		];
-		echo json_encode($content);
+		if ($data->purpose === "updateContent") {
+			# Update the file manager content, the sidebar content, and the path
+			$content = (object) [
+				"fileManager" => getFileManagerContent($data->path),
+				// TODO: Tree-like hierarchy of directories here instead
+				"sidebar" => getSidebarContent($data->path),
+				// TODO: Return an absolute path here
+				"path" => $data->path
+			];
+
+			echo json_encode($content);
+		} else if ($data->purpose === "search") {
+			# Search for files and directories matching the given query
+			$search = $data->search;
+			$matchingFiles = [];
+
+			# https://stackoverflow.com/a/12236744/6456163
+			$dir   = new RecursiveDirectoryIterator($root);
+			$files = new RecursiveIteratorIterator($dir);
+
+			// TODO: If no search content, default to default directory view
+			foreach ($files as $file) {
+				# Ignores ".." directories
+				if (preg_match("/\.\.$/", $file)) continue;
+
+				# Uses non-capturing groups to match the file name efficiently
+				if (preg_match("/(?:^.*" . $search . ".*$)/", $file)) {
+					$fileName = $file->getFilename();
+					if ($fileName === ".") {
+						# Remove the "." from the path to give the real folder name
+						$absolutePath = substr($file->getPathname(), 0, -2);
+						$pathSections = explode("/", $absolutePath);
+						$fileName = end($pathSections);
+					}
+
+					$fileObj = (object) [
+						"type" => $file->getType(),
+						"name" => $fileName,
+						"path" => $file->getPathname(),
+						"size" => $file->getSize()
+					];
+
+					array_push($matchingFiles, $fileObj);
+				}
+			}
+
+			$result = "";
+			if (count($matchingFiles) === 0) {
+				$result = getEmptyFileManagerContent();
+			} else {
+				foreach ($matchingFiles as $file) {
+					if ($file->type === "dir") {
+						$result .= createFolderElement($file->name, $file->path);
+					} else {
+						$result .= createFileElement($file->name, $file->path);
+					}
+				}
+			}
+
+			# TODO: After everything works, do the HTML generation on the client side
+			# to reduce data sent across the wire
+			$content = (object) [ "searchResults" => $result ];
+			echo json_encode($content);
+		}
+
 		return;
+	}
+
+	/**
+	 * Gets content for the file manager when it is empty.
+	 */
+	function getEmptyFileManagerContent() {
+		$altText = "Boo says hi :)";
+		$HTML    = "<div class='empty-directory'>";
+		$HTML   .= "<img src='images/cute-ghost.png' alt='$altText' title='$altText' />";
+		$HTML   .= "<p>There is nothing here yet! Stay tuned <3</p>";
+		$HTML   .= "</div>";
+		return $HTML;
+	}
+
+	/**
+	 * Creates a folder HTML string for the file explorer based on the given parameters.
+	 * @param name - the name of the folder.
+	 * @param path - the path to the folder.
+	 * @todo - set the title of the folder element to the absolute path for search result context
+	 */
+	function createFolderElement($name, $path) {
+		global $directoryContextMenu;
+
+		$HTML  = "<div class='fileManagerContentItem cursorPointer' oncontextmenu=";
+		$HTML .= $directoryContextMenu;
+		$HTML .= " onclick='apps.files.vars.openDirectory(\"$path\")'>";
+		$HTML .= "<img class='folderIcon' src='icons/folder_v1.png'>";
+		$HTML .= "<p class='fileManagerContentItem'>$name</p>";
+		$HTML .= "</div>";
+		return $HTML;
+	}
+
+	/**
+	 * Creates a file HTML string for the file explorer based on the given parameters.
+	 * @param name - the name of the file.
+	 * @param filePath - the path to the file.
+	 * @param iconPath - the path to the icon to use for the file; defaults to the file path if not specified.
+	 * @todo - set the title of the file element to the absolute path for search result context
+	 */
+	function createFileElement($name, $filePath, $iconPath = null) {
+		global $fileContextMenu;
+		if (!isset($iconPath)) $iconPath = $filePath;
+
+		$HTML  = "<div class='fileManagerContentItem cursorPointer' oncontextmenu=";
+		$HTML .= $fileContextMenu;
+		$HTML .= " onclick='apps.files.vars.openFile(\"$filePath\")'>";
+		$HTML .= "<img class='fileIcon' src='$iconPath'>";
+		$HTML .= "<p class='fileManagerContentItem'>$name</p>";
+		$HTML .= "</div>";
+		return $HTML;
 	}
 
 	/**
@@ -50,17 +157,8 @@
 
 		# Gets all the content in the specified directory
 		$content = getContentInDirectory($path);
+		if (!$content) return getEmptyFileManagerContent();
 		$HTML = "";
-
-		if (!$content) {
-			$altText = "Boo says hi :)";
-			$HTML .= "<div class='empty-directory'>";
-			$HTML .= "<img src='images/cute-ghost.png' alt='$altText' title='$altText' />";
-			$HTML .= "<p>There is nothing here yet! Stay tuned <3</p>";
-			$HTML .= "</div>";
-
-			return $HTML;
-		}
 
 		foreach($content as $contentPath) {
 			$info = pathinfo($contentPath);
@@ -68,23 +166,12 @@
 			$filename = $info["filename"];
 			$isDirectory = is_dir($contentPath);
 
-			$item = "<div class='fileManagerContentItem cursorPointer' oncontextmenu=";
+			// TODO: This is where I need to update the top bar.
 			if ($isDirectory) {
-				$item .= $directoryContextMenu;
-				$item .= " onclick='apps.files.vars.openDirectory(\"$basename\")'>";
-				$item .= "<img class='folderIcon' src='icons/folder_v1.png'>";
-				$item .= "<p class='fileManagerContentItem'>$filename</p>";
-
-				// TODO: This is where I need to update the top bar.
+				$HTML .= createFolderElement($filename, $basename);
 			} else {
-				$item .= $fileContextMenu;
-				$item .= " onclick='apps.files.vars.openFile(\"$basename\")'>";
-				$item .= "<img class='fileIcon' src='$contentPath'>";
-				$item .= "<p class='fileManagerContentItem'>$filename</p>";
+				$HTML .= createFileElement($filename, $basename, $contentPath);
 			}
-
-			$item .= "</div>";
-			$HTML .= $item;
 
 			// Gets the number of files in the directory
 			//$numberOfFiles = count(glob("$directory/*"));
@@ -111,6 +198,7 @@
 			$directoryName = basename($directoryPath);
 			$openDir = "apps.files.vars.openDirectory(\"$directoryPath\")";
 
+			// TODO: Do this as a nested list underneath the root level directory
 			$HTML .= "<div class='cursorPointer sidebarItem' oncontextmenu='$directoryContextMenu'>" .
 				"<img class='sidebarIcon' src='icons/folder_v1.png'>" .
 				"<p class='fileManagerSidebarItem' onclick='$openDir'>$directoryName</p>" .
@@ -131,7 +219,7 @@
 
 		$searchMessage = "Search...";
 		echo "<input type='search' id='fileManagerSearch' placeholder='$searchMessage' title='$searchMessage' ";
-		echo "onkeydown='apps.files.vars.fileSearch(event)' />";
+		echo "onkeyup='apps.files.vars.fileSearch(event)' />";
 	?>
 </div>
 

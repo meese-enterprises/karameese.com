@@ -35,6 +35,9 @@ const FileManager = () => {
 			appInfo:
 				"Take a peek in here to see what pieces of work I finished and would like to share.",
 			history: [ ".filesystem" ],
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+			},
 			// TODO: Fix these context menus
 			openDirectoryContextMenu: function (event) {
 				ctxMenu([
@@ -60,8 +63,25 @@ const FileManager = () => {
 					this.history = [ ".filesystem" ];
 				}
 			},
-			fileSearch: function (event) {
-				// TODO: Implement this
+			fileSearch: function () {
+				const search = getId("fileManagerSearch").value;
+				fetch("filemanager.php", {
+					method: "POST",
+					headers: this.headers,
+					body: JSON.stringify({
+						purpose: "search",
+						search
+					}),
+				})
+				.then(response => response.text())
+				.then(data => {
+					return console.log(data);
+
+					const dataObj = JSON.parse(data);
+					console.log("dataObj", dataObj);
+					document.querySelector("#fileManagerContent").innerHTML = dataObj.searchResults;
+					//this.history.push(search);
+				});
 			},
 			pathInput: function (event) {
 				if (event.keyCode === 13) {
@@ -72,10 +92,11 @@ const FileManager = () => {
 			openDirectory: function (path) {
 				fetch("filemanager.php", {
 					method: "POST",
-					headers: {
-						"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-					},
-					body: JSON.stringify({ path }),
+					headers: this.headers,
+					body: JSON.stringify({
+						purpose: "updateContent",
+						path
+					}),
 				})
 				.then(response => response.text())
 				.then(data => {
@@ -83,6 +104,7 @@ const FileManager = () => {
 					document.querySelector("#fileManagerContent").innerHTML = dataObj.fileManager;
 					document.querySelector("#fileManagerSidebar").innerHTML = dataObj.sidebar;
 					document.querySelector("#fileManagerPath").value = path;
+					this.history.push(path);
 				});
 			},
 			openFile: function (path) {
