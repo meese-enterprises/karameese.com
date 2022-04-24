@@ -1572,6 +1572,8 @@ div {
 	display: block;
 	margin: auto;
 	filter: opacity(0.75);
+	user-select: none;
+	pointer-events: none;
 }
 
 #fileManagerContent>.empty-directory p {

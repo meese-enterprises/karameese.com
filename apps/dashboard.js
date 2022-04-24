@@ -55,8 +55,8 @@ const Dashboard = () => {
 					apps.startMenu.appWindow.setDims(0, 0, 300, 370);
 				});
 
-					this.appWindow.openWindow();
-					this.vars.listOfApps = "";
+				this.appWindow.openWindow();
+				this.vars.listOfApps = "";
 				this.appWindow.setContent(
 					'<div style="width:100%;height:100%;">' +
 						'<div style="position:relative;text-align:center;">' +
@@ -68,7 +68,7 @@ const Dashboard = () => {
 						darkSwitch("#000", "#FFF") +
 						';"></table>' +
 						"</div></div>"
-					);
+				);
 				const outerbound =
 					getId("win_startMenu_html").getBoundingClientRect();
 				const innerbound =
@@ -80,10 +80,10 @@ const Dashboard = () => {
 					for (const appHandle in this.vars.appsSorted) {
 						const app = this.vars.appsSorted[appHandle];
 						if (apps[app].hideApp < 2) {
-								apps.startMenu.vars.listOfApps +=
-									'<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' +
-									app +
-									", 'dsktp')\" oncontextmenu=\"ctxMenu(apps.startMenu.vars.ctx, 1, event, '" +
+							apps.startMenu.vars.listOfApps +=
+								'<tr class="cursorPointer dashboardSearchItem" onClick="openapp(apps.' +
+								app +
+								", 'dsktp')\" oncontextmenu=\"ctxMenu(apps.startMenu.vars.ctx, 1, event, '" +
 								app +
 								"')\">" +
 								"<th>" +
@@ -94,11 +94,11 @@ const Dashboard = () => {
 								"</th>" +
 								"<td>" +
 								apps[app].title +
-									"</td>" +
-									'<td style="text-align:right;opacity:0.5">' +
-									apps[app].abbreviation +
-									"</td>" +
-									"</tr>";
+								"</td>" +
+								'<td style="text-align:right;opacity:0.5">' +
+								apps[app].abbreviation +
+								"</td>" +
+								"</tr>";
 						}
 					}
 

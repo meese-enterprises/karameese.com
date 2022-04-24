@@ -172,9 +172,8 @@
 			$filename = $info["filename"];
 			$isDirectory = is_dir($contentPath);
 
-			// TODO: This is where I need to update the top bar.
 			if ($isDirectory) {
-				$HTML .= createFolderElement($filename, $basename);
+				$HTML .= createFolderElement($filename, $contentPath);
 			} else {
 				$HTML .= createFileElement($filename, $basename, $contentPath);
 			}
@@ -189,6 +188,7 @@
 			//$numberOfFilesAndFolders = $numberOfFiles + $numberOfFolders;
 
 			// IDEA: filesize with filesize($filename)
+				// Could pass this to the context menu
 		}
 
 		return $HTML;
@@ -205,10 +205,10 @@
 			$openDir = "apps.files.vars.openDirectory(\"$directoryPath\")";
 
 			// TODO: Do this as a nested list underneath the root level directory
-			$HTML .= "<div class='cursorPointer sidebarItem' oncontextmenu='$directoryContextMenu'>" .
+			$HTML .= "<div class='cursorPointer sidebarItem' oncontextmenu='$directoryContextMenu' onclick='$openDir'>" .
 				"<img class='sidebarIcon' src='icons/folder_v1.png'>" .
-				"<p class='fileManagerSidebarItem' onclick='$openDir'>$directoryName</p>" .
-			'</div>';
+				"<p class='fileManagerSidebarItem'>$directoryName</p>" .
+			"</div>";
 		}
 
 		return $HTML;

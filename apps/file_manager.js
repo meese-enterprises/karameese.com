@@ -34,6 +34,7 @@ const FileManager = () => {
 		vars: {
 			appInfo:
 				"Take a peek in here to see what pieces of work I finished and would like to share.",
+			// Initialize to the root of the filesystem, should be the same as in the PHP file
 			history: [ ".filesystem" ],
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -54,12 +55,10 @@ const FileManager = () => {
 				]);
 			},
 			goBack: function () {
-				const history = this.history;
-				const lastLocation = history.pop();
-				this.history = history;
-				this.openDirectory(lastLocation);
+				const currentLocation = this.history.pop();
+				this.openDirectory(this.history.pop());
 
-				if (history.length === 0) {
+				if (this.history.length === 0) {
 					this.history = [ ".filesystem" ];
 				}
 			},
@@ -75,10 +74,7 @@ const FileManager = () => {
 				})
 				.then(response => response.text())
 				.then(data => {
-					return console.log(data);
-
 					const dataObj = JSON.parse(data);
-					console.log("dataObj", dataObj);
 					document.querySelector("#fileManagerContent").innerHTML = dataObj.searchResults;
 					//this.history.push(search);
 				});
@@ -104,11 +100,12 @@ const FileManager = () => {
 					document.querySelector("#fileManagerContent").innerHTML = dataObj.fileManager;
 					document.querySelector("#fileManagerSidebar").innerHTML = dataObj.sidebar;
 					document.querySelector("#fileManagerPath").value = path;
+
 					this.history.push(path);
 				});
 			},
 			openFile: function (path) {
-				// TODO: If support for anything other than images is desired in the future, this will need to change
+				// NOTE: If support for anything other than images is desired in the future, this will need to change
 				const URL = `https://karameese.com/art/${path}`;
 				apps.jsPaint.main(URL);
 			},
