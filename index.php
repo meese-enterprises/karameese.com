@@ -3,13 +3,44 @@
 <html>
 
 <head>
-	<title>Loading...</title>
+	<title>Kara Meese</title>
+
 	<?php
+		# To prevent the browser from caching the page
 		echo '<link rel="stylesheet" type="text/css" href="style.css?ms='.round(microtime(true) * 1000).'">';
+
+		# Site metadata
+		$author = "Meese Enterprises, LLC";
+		$description = "An artistic portfolio website.";
+		$title = "Kara Meese";
+		$previewImage = "";
+		$favicon = "logo.png";
+		$themeColor = "#fa87f4";
+
+		echo "<meta charset='UTF-8'>";
+		echo "<meta property='description' content='$description' />";
+		echo "<link rel='shortcut icon' href='$favicon' />";
+		echo "<meta property='theme-color' content='$themeColor' />";
+		echo "<meta property='image' content='$favicon' />";
+		echo "<meta itemProp='name' content='$title' />";
+		echo "<meta itemProp='description' content='$description' />";
+		echo "<meta itemProp='image' content='$favicon' />";
+		echo "<meta property='og:title' content='$title' />";
+		echo "<meta property='og:description' content='$description' />";
+		echo "<meta property='og:image' content='$previewImage' />";
+		echo "<meta property='og:site_name' content='$title' />";
+		echo "<meta property='og:locale' content='en_US' />";
+		echo "<meta property='og:type' content='website' />";
+		echo "<meta property='twitter:card' content='summary' />";
+		echo "<meta property='twitter:title' content='$title' />";
+		echo "<meta property='twitter:description' content='$description' />";
+		echo "<meta property='twitter:image' content='$previewImage' />";
+		echo "<meta property='twitter:image:src' content='$previewImage' />";
+		echo "<meta name='twitter:image:alt' content='$title Icon' />";
 	?>
 
 	<link rel="icon" href="logo.png" type="image/x-icon">
-	<style id="smartIconStyle"></style>
+	<style id="appIconStyle"></style>
 	<link rel="stylesheet" type="text/css" href="win95.css">
 </head>
 
@@ -20,16 +51,13 @@
 	<!-- computer screen and content inside on startup -->
 	<div id="monitor" class="cursorDefault">
 		<div id="desktop" onclick="try{exitFlowMode()}catch(err){}" oncontextmenu="showEditContext(event)">
-			<p id="timesUpdated">Oops!</p>
 			<div id="widgetMenu" class="darkResponsive noselect">
 				<div id="widgetTitle"></div>
 				<div id="widgetContent" class="canselect"></div>
 				<div class="winExit cursorPointer" onClick="closeWidgetMenu()">x</div>
 			</div>
 			<div id="notifContainer">
-				<div id="notifications">
-
-				</div>
+				<div id="notifications"></div>
 			</div>
 		</div>
 
@@ -42,7 +70,7 @@
 			<div id="tskbrAero" class="winAero"></div>
 			<div id="tskbrBimg" class="winBimg"></div>
 			<div id="time"></div>
-			<div id="icons">Loading, please wait.</div>
+			<div id="taskbarIcons"></div>
 		</div>
 		<div id="ctxMenu" onclick="getId('ctxMenu').style.display='none'" class="backdropFilterCtxMenu noselect"></div>
 		<div id="loadingBg"></div>
@@ -74,7 +102,7 @@
 	echo '<script src="./ghostCursor.js"></script>';
 	echo '<script src="./helperFunctions.js"></script>';
 	echo '<script src="./dateFunctions.js"></script>';
-	echo '<script src="./smartIconFunctions.js"></script>';
+	echo '<script src="./iconFunctions.js"></script>';
 	echo '<script src="./widgetFunctions.js"></script>';
 
 	// Widgets
@@ -96,7 +124,6 @@
 	echo '<script src="./apps/old_site.js"></script>';
 	echo '<script src="./apps/properties_viewer.js"></script>';
 	echo '<script src="./apps/save_master.js"></script>';
-	echo '<script src="./apps/smart_icon_settings.js"></script>';
 	echo '<script src="./apps/view_count.js"></script>';
 	echo '<script src="main.js?ms='.round(microtime(true) * 1000).'"></script>';
 

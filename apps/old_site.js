@@ -1,11 +1,12 @@
 // skipcq JS-0128
 const OldSite = () => {
 	apps.oldSite = new Application({
+		name: "oldSite",
 		title: "Old Site",
 		abbreviation: "OLD",
-		codeName: "oldSite",
-		desc: "My previous website, which was crafted for me by my husband for our first Valentine's Day.",
-		image: "appicons/heart.png",
+		description:
+			"My previous website, which was crafted for me by my husband for our first Valentine's Day.",
+		image: "icons/heart.png",
 		hideApp: 0,
 		launchTypes: 1,
 		main: function () {

@@ -1,8 +1,8 @@
 const NotificationsWidget = () => {
-	widgets.notifications = new Widget(
-		"Notifications",
-		"notifications",
-		function () {
+	widgets.notifications = new Widget({
+		title: "Notifications",
+		name: "notifications",
+		clickFunc: function () {
 			if (apps.prompt.vars.notifsVisible) {
 				apps.prompt.vars.hideNotifs();
 			} else {
@@ -15,16 +15,14 @@ const NotificationsWidget = () => {
 				);
 			}
 		},
-		function () {
-			// Startup func
+		startFunc: function () {
 			widgets.notifications.running = 1;
 			getId("widget_notifications").style.paddingLeft = "6px";
 			getId("widget_notifications").style.paddingRight = "6px";
 			getId("widget_notifications").style.lineHeight = "26px";
 			widgets.notifications.frame();
 		},
-		function () {
-			// Frame func
+		frameFunc: function () {
 			if (!widgets.notifications.running) return;
 
 			requestAnimationFrame(widgets.notifications.frame);
@@ -50,14 +48,12 @@ const NotificationsWidget = () => {
 			widgets.notifications.vars.lastDisplay =
 				notifCount + ":" + apps.prompt.vars.notifsVisible;
 		},
-		function () {
-			// Disable func
+		endFunc: function () {
 			widgets.notifications.vars.running = 0;
 		},
-		{
-			// Vars
+		vars: {
 			running: 0,
 			lastDisplay: [],
-		}
-	);
+		},
+	});
 }; // End initial variable declaration

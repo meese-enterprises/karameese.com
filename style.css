@@ -1,3 +1,7 @@
+:root {
+	--start-menu-width: 300px;
+}
+
 /* TODO: Come back and try to steal Aero transparency */
 @font-face {
 	font-family: "W95FA";
@@ -270,6 +274,7 @@ div {
 	background-position: 0 0;
 	transform-origin: 0 0;
 
+	/* IDEA: Animate with https://codepen.io/P1N2O/pen/pyBNzX or https://codepen.io/alvarotrigo/pen/dyzgOER */
 	background-image: conic-gradient(
 			from 90deg at 1px 1px,
 			#0000 90deg,
@@ -297,60 +302,46 @@ div {
 	overflow: visible;
 }
 
-.smarticon {
+#win_startMenu_top {
+	transition: all 0.35s ease 0s;
+	width: var(--start-menu-width);
+}
+
+.appicon {
 	display: inline-block;
 	position: relative;
 }
 
-.smarticon div {
+.appicon div {
 	pointer-events: none;
 }
 
-.smarticon_bg {
+.appicon_bg {
 	width: 100%;
 	height: 100%;
 	background-size: contain !important;
 	overflow: hidden;
-	border-radius: 100%;
 	display: block;
 }
 
-.smarticon_fg {
+.appicon_fg {
 	width: 100%;
 	height: 100%;
 	background-size: contain !important;
 }
 
-.smarticon_border {
+.appicon_border {
 	width: 100%;
 	height: 100%;
 	background: none;
 	border-radius: 100%;
 }
 
-.smarticon_nobg {
+.appicon_nobg {
 	width: 100%;
 	height: 100%;
 	background-size: contain !important;
 	display: none;
-}
-
-#timesUpdated {
-	display: block;
-	position: absolute;
-	text-align: right;
-	top: -3px;
-	right: 8px;
-	font-size: 20px;
-	color: #0fa;
-	transition: 3s;
-	transition: 3s;
-	z-index: 101;
-	pointer-events: none;
-}
-
-#timesUpdated::selection {
-	background: none;
 }
 
 .window {
@@ -510,153 +501,6 @@ div {
 	filter: invert(1);
 }
 
-#tItabC:focus {
-	outline: none;
-}
-
-#FIL2tbl {
-	height: calc(100% - 3px);
-	overflow-y: scroll;
-	font-size: 12px;
-}
-
-#FIL2tbl > div,
-.FIL2sidetbl > div {
-	position: relative;
-	white-space: nowrap;
-}
-
-.FIL2sidetbl {
-	position: relative;
-}
-
-#FIL2tbl > div:hover,
-.FIL2sidetbl > div:hover {
-	background-color: #aaa;
-}
-
-.darkMode #FIL2tbl > div:hover,
-.darkMode .FIL2sidetbl > div:hover {
-	background-color: #555;
-}
-
-#FIL2tbl img,
-.FIL2sidetbl img {
-	display: inline-block;
-	margin-top: 2px;
-	margin-bottom: -2px;
-	margin-left: 3px;
-	width: 10px;
-	height: 10px;
-}
-
-.darkMode #FIL2tbl img,
-.darkMode .FIL2sidetbl img {
-	filter: invert(1);
-}
-
-#FIL2tbl .FIL2AppIcon,
-.FIL2sidetbl .FIL2AppIcon,
-#FIL2tbl .smarticon,
-.FIL2sidetbl .smarticon {
-	width: 16px;
-	height: 16px;
-	margin-top: 0;
-	margin-bottom: -5px;
-	margin-left: 1px;
-}
-
-.darkMode #FIL2tbl .FIL2AppIcon,
-.darkMode .FIL2sidetbl .FIL2AppIcon {
-	filter: none;
-}
-
-.FIL2viewCompact > div {
-	font-size: 12px;
-	width: 148px;
-	height: 18px;
-	line-height: 18px;
-	display: inline-block;
-	margin-left: 3px;
-	margin-top: 3px;
-	margin-bottom: -3px;
-	border: 1px solid #000;
-	padding: 1px;
-}
-
-.darkMode .FIL2viewCompact > div {
-	border: 1px solid #fff;
-}
-
-.FIL2viewSmall > div {
-	font-size: 12px;
-	width: 298px;
-	height: 18px;
-	line-height: 18px;
-	display: inline-block;
-	margin-left: 3px;
-	margin-top: 3px;
-	margin-bottom: -3px;
-	border: 1px solid #000;
-	padding: 1px;
-}
-
-.darkMode .FIL2viewSmall > div {
-	border: 1px solid #fff;
-}
-
-.FIL2viewMedium > div {
-	font-size: 12px;
-	width: calc(100% - 8px);
-	height: 14px;
-	line-height: 14px;
-	display: block;
-	margin-left: 3px;
-	margin-top: 1px;
-	padding: 1px;
-}
-
-#FIL2tbl.FIL2viewMedium .FIL2AppIcon,
-.FIL2sidetbl.FIL2viewMedium .FIL2AppIcon,
-#FIL2tbl.FIL2viewMedium .smarticon,
-.FIL2sidetbl.FIL2viewMedium .smarticon {
-	margin-top: -1px;
-	margin-bottom: -5px;
-}
-
-.FIL2viewLarge > div {
-	font-size: 12px;
-	width: calc(100% - 10px);
-	height: 18px;
-	line-height: 18px;
-	display: block;
-	margin-left: 3px;
-	margin-top: 3px;
-	border: 1px solid #000;
-	padding: 1px;
-}
-
-.darkMode .FIL2viewLarge > div {
-	border: 1px solid #fff;
-}
-
-#tMgMemTable {
-	width: 100%;
-	text-align: right;
-}
-
-#tMgMemTable td {
-	background-color: #bbb;
-}
-
-.darkMode #tMgMemTable td {
-	background-color: #444;
-}
-
-.monoinput {
-	font-family: monospace;
-}
-
 #NORAout {
 	width: 100%;
 	height: 95%;
@@ -731,7 +575,7 @@ div {
 	background-color: #222;
 }
 
-.helpItem .smarticon {
+.helpItem .appicon {
 	display: inline-block;
 	width: 128px;
 	height: 128px;
@@ -948,34 +792,34 @@ div {
 	backdrop-filter: blur(5px);
 }
 
-#icons {
+#taskbarIcons {
 	height: 32px;
 	max-width: calc(100% - 300px);
 	overflow-x: auto;
 	white-space: nowrap;
 }
 
-.mobileMode #icons {
+.mobileMode #taskbarIcons {
 	max-width: calc(100% - 200px);
 }
 
-#icons::-webkit-scrollbar {
+#taskbarIcons::-webkit-scrollbar {
 	height: 1px !important;
 	background: #626262 !important;
 	box-shadow: none !important;
 }
 
-#icons::-webkit-scrollbar-thumb {
+#taskbarIcons::-webkit-scrollbar-thumb {
 	background: #bfbfbf !important;
 	box-shadow: none !important;
 	border-radius: 0;
 }
 
-#icons::-webkit-scrollbar-button {
+#taskbarIcons::-webkit-scrollbar-button {
 	display: none;
 }
 
-#icons .icon {
+#taskbarIcons .icon {
 	height: 32px;
 	border-radius: 2px;
 	display: none;
@@ -984,7 +828,7 @@ div {
 	padding-right: 5px;
 }
 
-#icons .icon:hover {
+#taskbarIcons .icon:hover {
 	background: rgba(255, 255, 255, 0.1);
 }
 
@@ -1001,15 +845,15 @@ div {
 	display: none;
 }
 
-#icons .icon.activeAppIcon {
+#taskbarIcons .icon.activeAppIcon {
 	background: rgba(255, 255, 255, 0.25);
 }
 
-#icons .icon.activeAppIcon:hover {
+#taskbarIcons .icon.activeAppIcon:hover {
 	background: rgba(255, 255, 255, 0.35);
 }
 
-#icons .icon .iconOpenIndicator {
+#taskbarIcons .icon .iconOpenIndicator {
 	position: relative;
 	height: 5px;
 	width: 34px;
@@ -1019,11 +863,11 @@ div {
 	transition: box-shadow 0.3s;
 }
 
-#icons .icon.openAppIcon .iconOpenIndicator {
+#taskbarIcons .icon.openAppIcon .iconOpenIndicator {
 	box-shadow: 0 0 5px #fff;
 }
 
-#icons .iconImg {
+#taskbarIcons .iconImg {
 	margin-top: 5px;
 	position: static;
 	text-align: center;
@@ -1457,7 +1301,7 @@ div {
 	pointer-events: none;
 }
 
-#accreditationDisplay {
+.full-iframe {
 	padding: 0;
 	color: #000;
 	border: none;
@@ -1465,6 +1309,9 @@ div {
 	display: block;
 	width: 100%;
 	height: 100%;
+}
+
+#accreditationDisplay {
 	background-color: #01fff8;
 	text-align: center;
 	overflow-y: scroll;
@@ -1519,4 +1366,249 @@ div {
 	height: 100px;
 	width: 100px;
 	overflow: scroll;
+}
+
+#fileSearch {
+	width: calc(100% - 96px);
+	min-width: calc(70% + 48px);
+	right: 0;
+	height: 50px;
+}
+
+#fileSearch div[title="Back"] {
+	width: 34px;
+	height: 18px;
+	padding-top: 2px;
+	left: 5px;
+	top: 4px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	text-align: center;
+}
+
+#fileSearch div[title="Home"] {
+	width: 24px;
+	border-left: 1px solid #333;
+	height: 18px;
+	padding-top: 2px;
+	left: 30px;
+	top: 4px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	text-align: center;
+}
+
+#filePath {
+	left: 55px;
+	font-family: monospace;
+	height: 25px;
+	line-height: 25px;
+	vertical-align: middle;
+	width: calc(100% - 110px);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#filePathInput {
+	background: transparent;
+	box-shadow: none;
+	color: inherit;
+	font-family: monospace;
+	border: none;
+	width: calc(100% - 8px);
+	height: 25px;
+	padding: 0;
+	padding-left: 8px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#fileSearchDiv {
+	left: 55px;
+	top: 26px;
+	font-family: monospace;
+	height: 22px;
+	line-height: 22px;
+	vertical-align: middle;
+	width: calc(100% - 110px);
+}
+
+#fileSearchInput {
+	background: transparent;
+	box-shadow: none;
+	color: inherit;
+	font-family: monospace;
+	border: none;
+	width: calc(100% - 8px);
+	height: 20px;
+	padding: 0;
+	padding-left: 8px;
+}
+
+#fileManagerSidebar {
+	overflow-y: scroll;
+	border-top-left-radius: 5px;
+	font-family: W95FA, Courier, monospace;
+	font-size: 12px;
+	width: 144px;
+	max-width: 30%;
+	padding: 3px;
+	height: calc(100% - 56px);
+	top: 50px;
+}
+
+#appSearch {
+	width: calc(100% - 6px);
+	margin-top: 3px;
+}
+
+#fileManagerDisplay {
+	background-color: white;
+}
+
+#fileManagerTopbar {
+	width: 100%;
+	height: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+#backArrow {
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+#fileManagerPath,
+#fileManagerSearch {
+	display: block;
+}
+#fileManagerPath {
+	width: 200px;
+	margin-right: 10px;
+}
+
+.sidebarItem {
+	position: relative;
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.sidebarItem p {
+	margin: 0;
+}
+
+.sidebarIcon {
+	width: 25px;
+	height: 25px;
+	aspect-ratio: 1;
+	margin-right: 5px;
+}
+
+.fileManagerContentItem {
+	overflow: visible;
+	margin: 0;
+	text-align: center;
+}
+
+.folderIcon,
+.fileIcon {
+	width: 80%;
+	height: 80%;
+	object-fit: cover;
+	display: block;
+	margin: auto;
+
+	/* TODO: Convert this to JavaScript for automatic sizing */
+	mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"><style type="text/css">.blur{filter:url(%23softedge);}</style><filter id="softedge"><feGaussianBlur stdDeviation="3.5"></feGaussianBlur></filter><g class="blur"><rect x="5" y="5" width="90" height="90"/></g></svg>');
+	mask-size: cover;
+	-webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"><style type="text/css">.blur{filter:url(%23softedge);}</style><filter id="softedge"><feGaussianBlur stdDeviation="3.5"></feGaussianBlur></filter><g class="blur"><rect x="5" y="5" width="90" height="90"/></g></svg>');
+	-webkit-mask-size: cover;
+}
+
+#fileManagerContent {
+	height: calc(100% - 3px);
+	overflow-y: scroll;
+	font-size: 12px;
+	width: calc(100% - 151px);
+	border-top-right-radius: 5px;
+	right: 0;
+	height: calc(100% - 50px);
+	top: 50px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: flex-start;
+}
+
+#fileManagerContent > div {
+	position: relative;
+	white-space: nowrap;
+	display: inline-block;
+	height: 100px;
+	width: 100px;
+}
+
+#fileManagerContent > div:hover {
+	background-color: #aaa;
+}
+
+.darkMode #fileManagerContent > div:hover {
+	background-color: #555;
+}
+
+#fileManagerContent > .empty-directory {
+	width: auto;
+	height: auto;
+	margin: auto;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#fileManagerContent > .empty-directory:hover {
+	background-color: transparent;
+}
+
+#fileManagerContent > .empty-directory img {
+	width: 200px;
+	display: block;
+	margin: auto;
+	filter: opacity(0.75);
+	user-select: none;
+	pointer-events: none;
+}
+
+#fileManagerContent > .empty-directory p {
+	text-align: center;
+	color: gray;
+}
+
+.sidebarCategories img {
+	display: inline-block;
+	margin-top: 2px;
+	margin-bottom: -2px;
+	margin-left: 3px;
+	width: 10px;
+	height: 10px;
+}
+
+.darkMode #fileManagerContent img {
+	filter: invert(1);
+}
+
+#fileManagerContent .appicon {
+	width: 16px;
+	height: 16px;
+	margin-top: 0;
+	margin-bottom: -5px;
+	margin-left: 1px;
+}
+
+#fileManagerContent .appicon {
+	margin-top: -1px;
+	margin-bottom: -5px;
 }

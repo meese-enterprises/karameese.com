@@ -1,9 +1,9 @@
 const MusicPlayer = () => {
 	apps.musicPlayer = new Application({
+		name: "musicPlayer",
 		title: "Music Player",
 		abbreviation: "MPl",
-		codeName: "musicPlayer",
-		image: "appicons/vinyl_v4.png",
+		image: "icons/vinyl_v4.png",
 		hideApp: 0,
 		resizeable: false,
 		main: function () {

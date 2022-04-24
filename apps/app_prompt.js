@@ -1,9 +1,9 @@
 // skipcq JS-0128
 const AppPrompt = () => {
 	apps.prompt = new Application({
+		name: "prompt",
 		title: "Application Prompt",
 		abbreviation: "PMT",
-		codeName: "prompt",
 		image: "smarticons/prompt/fg.png",
 		hideApp: 2,
 		launchTypes: 1,
@@ -15,7 +15,7 @@ const AppPrompt = () => {
 				this.appWindow.setCaption("Modal Dialogue");
 				getId("win_prompt_big").style.display = "none";
 				getId("win_prompt_exit").style.display = "none";
-				this.appWindow.alwaysOnTop(1);
+				this.appWindow.setAlwaysOnTop();
 				this.vars.checkNotifs();
 			}
 		},
@@ -242,11 +242,11 @@ const AppPrompt = () => {
 									this.notifs[i].image +
 									'" onerror="this.src=\'\'">';
 							} else if (typeof this.notifs[i].image === "object") {
-								notifText += buildSmartIcon(
-									50,
-									this.notifs[i].image,
-									"display:block;position:absolute;right:2px;top:calc(50% - 25px);"
-								);
+								notifText += buildIcon({
+									size: 50,
+									image: this.notifs[i].image,
+									css: "display:block;position:absolute;right:2px;top:calc(50% - 25px);",
+								});
 							}
 							notifText +=
 								'<div class="winExit cursorPointer" onclick="apps.prompt.vars.notifClick(this.parentNode, -1)">x</div>' +
@@ -381,7 +381,7 @@ const AppPrompt = () => {
 					}, 0);
 					setTimeout(
 						function () {
-							if (getId("win_" + this.objName + "_top").style.opacity === "0") {
+							if (getId("win_" + this.name + "_top").style.opacity === "0") {
 								this.appWindow.setContent("");
 							}
 						}.bind(this),
@@ -394,20 +394,17 @@ const AppPrompt = () => {
 					this.appWindow.closeKeepTask();
 					break;
 				case "USERFILES_DONE":
-					this.appWindow.alwaysOnTop(1);
+					this.appWindow.setAlwaysOnTop();
 					this.appWindow.paddingMode(1);
 					break;
 				default:
 					doLog(
-						"No case found for '" +
-							signal +
-							"' signal in app '" +
-							this.dsktpIcon +
-							"'"
+						`No case found for '${signal}' signal in app '${this.abbreviation}'`
 					);
 			}
 		},
 	});
+
 	openapp(apps.prompt, "dsktp");
 	requestAnimationFrame(function () {
 		apps.prompt.signalHandler("close");

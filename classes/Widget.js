@@ -3,7 +3,7 @@
  */
 class Widget {
 	/**
-	 * @param {string} title
+	 * @param {string} title The title of the widget
 	 * @param {string} name Name of the widget to be used in the widget object
 	 * @param {Function} clickFunc Onclick function
 	 * @param {Function} startFunc Start/initialize function
@@ -11,7 +11,15 @@ class Widget {
 	 * @param {Function} endFunc Stop/cleanup function
 	 * @param {Object} vars Relevant variables for the widget
 	 */
-	constructor(title, name, clickFunc, startFunc, frameFunc, endFunc, vars) {
+	constructor({
+		title = "Widget",
+		name = "widget",
+		clickFunc = function () {},
+		startFunc = function () {},
+		frameFunc = function () {},
+		endFunc = function () {},
+		vars = {},
+	}) {
 		this.title = title;
 		this.name = name;
 		this.main = clickFunc;
@@ -21,14 +29,12 @@ class Widget {
 		this.vars = vars;
 		this.place = -1;
 		this.element = null;
-		this.setWidth = function (width) {
-			// (width) => {
+		this.setWidth = (width) => {
 			if (this.element !== null) {
 				this.element.style.width = width;
 			}
 		};
-		this.setContent = function (content) {
-			// (content) => {
+		this.setContent = (content) => {
 			if (this.element !== null) {
 				this.element.innerHTML = content;
 			}

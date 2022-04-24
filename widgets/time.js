@@ -15,26 +15,22 @@ const getTimeWidgetContents = () => {
 };
 
 const TimeWidget = () => {
-	// TODO: MAKE THIS UPDATE EVERY SECOND
-	widgets.time = new Widget(
-		"Time", // title
-		"time", // name in widgets object
-		function () {
-			// onclick function
+	widgets.time = new Widget({
+		title: "Time",
+		name: "time",
+		clickFunc: function () {
 			widgetMenu(
 				"Time Widget",
-				// TODO: Unbreak this
+				// TODO: MAKE THIS UPDATE EVERY SECOND
 				getTimeWidgetContents()
 			);
 		},
-		function () {
-			// start function
+		startFunc: function () {
 			widgets.time.vars.running = 1;
 			widgets.time.frame();
 		},
-		// TODO: Poll the frames less frequently
-		function () {
-			// frame function (this.vars.frame())
+		frameFunc: function () {
+			// TODO: Poll the frames less frequently
 			if (!widgets.time.vars.running) return;
 
 			const date = String(new Date());
@@ -49,13 +45,12 @@ const TimeWidget = () => {
 			}
 			requestAnimationFrame(widgets.time.frame);
 		},
-		function () {
-			// stop/cleanup function
+		endFunc: function () {
 			widgets.time.vars.running = 0;
 		},
-		{
+		vars: {
 			running: 0,
 			lastTime: String(new Date()),
-		}
-	);
+		},
+	});
 }; // End initial variable declaration
