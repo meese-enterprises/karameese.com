@@ -4,7 +4,8 @@ const OldSite = () => {
 		name: "oldSite",
 		title: "Old Site",
 		abbreviation: "OLD",
-		description: "My previous website, which was crafted for me by my husband for our first Valentine's Day.",
+		description:
+			"My previous website, which was crafted for me by my husband for our first Valentine's Day.",
 		image: "icons/heart.png",
 		hideApp: 0,
 		launchTypes: 1,

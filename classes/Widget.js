@@ -18,7 +18,7 @@ class Widget {
 		startFunc = function () {},
 		frameFunc = function () {},
 		endFunc = function () {},
-		vars = {}
+		vars = {},
 	}) {
 		this.title = title;
 		this.name = name;

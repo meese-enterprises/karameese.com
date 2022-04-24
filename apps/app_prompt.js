@@ -245,7 +245,7 @@ const AppPrompt = () => {
 								notifText += buildIcon({
 									size: 50,
 									image: this.notifs[i].image,
-									css: "display:block;position:absolute;right:2px;top:calc(50% - 25px);"
+									css: "display:block;position:absolute;right:2px;top:calc(50% - 25px);",
 								});
 							}
 							notifText +=

@@ -48,7 +48,7 @@ const Help = () => {
 					buildIcon({
 						size: 128,
 						image: this.vars.currAppImg,
-						css: "margin-left:1px;"
+						css: "margin-left:1px;",
 					}) +
 					'<div class="helpItemText">' +
 					'<p class="helpAppName">' +

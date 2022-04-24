@@ -23,7 +23,7 @@ class DesktopIcon {
 		action,
 		actionArgs = [],
 		ctxAction,
-		ctxActionArgs = []
+		ctxActionArgs = [],
 	}) {
 		if (typeof action === "string") action = [action];
 		if (typeof ctxAction === "string") ctxAction = [ctxAction];

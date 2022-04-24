@@ -275,16 +275,20 @@ div {
 	transform-origin: 0 0;
 
 	/* IDEA: Animate with https://codepen.io/P1N2O/pen/pyBNzX or https://codepen.io/alvarotrigo/pen/dyzgOER */
-	background-image: conic-gradient(from 90deg at 1px 1px,
+	background-image: conic-gradient(
+			from 90deg at 1px 1px,
 			#0000 90deg,
-			rgba(255, 255, 255, 0.7) 0),
-		linear-gradient(35deg,
+			rgba(255, 255, 255, 0.7) 0
+		),
+		linear-gradient(
+			35deg,
 			var(--cotton-candy),
 			var(--barbie),
 			var(--barney),
 			var(--bsod),
 			var(--blue-razz),
-			var(--carribbean));
+			var(--carribbean)
+		);
 	background-size: 50px 50px, cover;
 	filter: opacity(0.8);
 
@@ -411,7 +415,9 @@ div {
 	top: 0px;
 	left: var(--windowBorderWidth);
 	padding-left: 23px;
-	width: calc(100% - 92px - var(--windowBorderWidth) - var(--windowBorderWidth));
+	width: calc(
+		100% - 92px - var(--windowBorderWidth) - var(--windowBorderWidth)
+	);
 	white-space: nowrap;
 	height: 32px;
 	text-shadow: 0px 0px 2px #000;
@@ -969,9 +975,11 @@ div {
 	background-size: cover;
 
 	/* TODO: Redo this entirely with Kara's new design */
-	background-image: conic-gradient(from 90deg at 1px 1px,
+	background-image: conic-gradient(
+			from 90deg at 1px 1px,
 			#0000 90deg,
-			rgba(255, 255, 255, 0.7) 0),
+			rgba(255, 255, 255, 0.7) 0
+		),
 		linear-gradient(35deg, #fa87f4, #fe00c0, #9701ff, #4900ff, #01b9ff, #01fff8);
 	background-size: 50px 50px, cover;
 	filter: opacity(0.8);
@@ -1515,11 +1523,9 @@ div {
 	margin: auto;
 
 	/* TODO: Convert this to JavaScript for automatic sizing */
-	mask-image:
-		url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"><style type="text/css">.blur{filter:url(%23softedge);}</style><filter id="softedge"><feGaussianBlur stdDeviation="3.5"></feGaussianBlur></filter><g class="blur"><rect x="5" y="5" width="90" height="90"/></g></svg>');
+	mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"><style type="text/css">.blur{filter:url(%23softedge);}</style><filter id="softedge"><feGaussianBlur stdDeviation="3.5"></feGaussianBlur></filter><g class="blur"><rect x="5" y="5" width="90" height="90"/></g></svg>');
 	mask-size: cover;
-	-webkit-mask-image:
-		url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"><style type="text/css">.blur{filter:url(%23softedge);}</style><filter id="softedge"><feGaussianBlur stdDeviation="3.5"></feGaussianBlur></filter><g class="blur"><rect x="5" y="5" width="90" height="90"/></g></svg>');
+	-webkit-mask-image: url('data:image/svg+xml;utf8,<svg preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 100 100" xml:space="preserve"><style type="text/css">.blur{filter:url(%23softedge);}</style><filter id="softedge"><feGaussianBlur stdDeviation="3.5"></feGaussianBlur></filter><g class="blur"><rect x="5" y="5" width="90" height="90"/></g></svg>');
 	-webkit-mask-size: cover;
 }
 
@@ -1538,7 +1544,7 @@ div {
 	align-content: flex-start;
 }
 
-#fileManagerContent>div {
+#fileManagerContent > div {
 	position: relative;
 	white-space: nowrap;
 	display: inline-block;
@@ -1546,15 +1552,15 @@ div {
 	width: 100px;
 }
 
-#fileManagerContent>div:hover {
+#fileManagerContent > div:hover {
 	background-color: #aaa;
 }
 
-.darkMode #fileManagerContent>div:hover {
+.darkMode #fileManagerContent > div:hover {
 	background-color: #555;
 }
 
-#fileManagerContent>.empty-directory {
+#fileManagerContent > .empty-directory {
 	width: auto;
 	height: auto;
 	margin: auto;
@@ -1563,11 +1569,11 @@ div {
 	transform: translateY(-50%);
 }
 
-#fileManagerContent>.empty-directory:hover {
+#fileManagerContent > .empty-directory:hover {
 	background-color: transparent;
 }
 
-#fileManagerContent>.empty-directory img {
+#fileManagerContent > .empty-directory img {
 	width: 200px;
 	display: block;
 	margin: auto;
@@ -1576,7 +1582,7 @@ div {
 	pointer-events: none;
 }
 
-#fileManagerContent>.empty-directory p {
+#fileManagerContent > .empty-directory p {
 	text-align: center;
 	color: gray;
 }

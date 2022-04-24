@@ -54,6 +54,6 @@ const NotificationsWidget = () => {
 		vars: {
 			running: 0,
 			lastDisplay: [],
-		}
+		},
 	});
 }; // End initial variable declaration

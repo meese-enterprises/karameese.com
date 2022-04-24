@@ -4,7 +4,8 @@ const Accreditation = () => {
 		name: "accreditation",
 		title: "Accreditation",
 		abbreviation: "aDN",
-		description: "Gives props to the awesome people that helped make this website possible :)",
+		description:
+			"Gives props to the awesome people that helped make this website possible :)",
 		image: "icons/notepad_v1.png",
 		hideApp: 0,
 		main: function () {
@@ -18,7 +19,9 @@ const Accreditation = () => {
 				this.appWindow.setAlwaysOnTop();
 				this.appWindow.paddingMode(0);
 				this.appWindow.setDims(x, margins, width, height);
-				this.appWindow.setContent('<div id="accreditationDisplay" class="full-iframe"></div>');
+				this.appWindow.setContent(
+					'<div id="accreditationDisplay" class="full-iframe"></div>'
+				);
 			}
 			this.appWindow.openWindow();
 

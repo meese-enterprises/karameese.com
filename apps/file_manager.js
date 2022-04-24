@@ -15,7 +15,9 @@ const FileManager = () => {
 			this.appWindow.setCaption("File Manager");
 			this.appWindow.openWindow();
 			if (launchType === "dsktp") {
-				this.appWindow.setContent('<div id="fileManagerDisplay" class="full-iframe"></div>');
+				this.appWindow.setContent(
+					'<div id="fileManagerDisplay" class="full-iframe"></div>'
+				);
 			}
 
 			// Get the contents of filemanager.php and load into the window
@@ -35,23 +37,23 @@ const FileManager = () => {
 			appInfo:
 				"Take a peek in here to see what pieces of work I finished and would like to share.",
 			// Initialize to the root of the filesystem, should be the same as in the PHP file
-			history: [ ".filesystem" ],
+			history: [".filesystem"],
 			headers: {
-				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 			},
 			// TODO: Fix these context menus
 			openDirectoryContextMenu: function (event) {
 				ctxMenu([
 					[event.pageX, event.pageY, "ctxMenu/file.png"],
 					" Properties",
-					"apps.properties.main(\'openDirectory\', \'art/\');toTop(apps.properties)",
+					"apps.properties.main('openDirectory', 'art/');toTop(apps.properties)",
 				]);
 			},
 			openFileContextMenu: function (event) {
 				ctxMenu([
 					[event.pageX, event.pageY, "ctxMenu/file.png"],
 					" Properties",
-					"apps.properties.main(\'openFile\', \'art/\');toTop(apps.properties)",
+					"apps.properties.main('openFile', 'art/');toTop(apps.properties)",
 				]);
 			},
 			goBack: function () {
@@ -59,7 +61,7 @@ const FileManager = () => {
 				this.openDirectory(this.history.pop());
 
 				if (this.history.length === 0) {
-					this.history = [ ".filesystem" ];
+					this.history = [".filesystem"];
 				}
 			},
 			fileSearch: function () {
@@ -69,15 +71,16 @@ const FileManager = () => {
 					headers: this.headers,
 					body: JSON.stringify({
 						purpose: "search",
-						search
+						search,
 					}),
 				})
-				.then(response => response.text())
-				.then(data => {
-					const dataObj = JSON.parse(data);
-					document.querySelector("#fileManagerContent").innerHTML = dataObj.searchResults;
-					//this.history.push(search);
-				});
+					.then((response) => response.text())
+					.then((data) => {
+						const dataObj = JSON.parse(data);
+						document.querySelector("#fileManagerContent").innerHTML =
+							dataObj.searchResults;
+						// this.history.push(search);
+					});
 			},
 			pathInput: function (event) {
 				if (event.keyCode === 13) {
@@ -91,18 +94,20 @@ const FileManager = () => {
 					headers: this.headers,
 					body: JSON.stringify({
 						purpose: "updateContent",
-						path
+						path,
 					}),
 				})
-				.then(response => response.text())
-				.then(data => {
-					const dataObj = JSON.parse(data);
-					document.querySelector("#fileManagerContent").innerHTML = dataObj.fileManager;
-					document.querySelector("#fileManagerSidebar").innerHTML = dataObj.sidebar;
-					document.querySelector("#fileManagerPath").value = path;
+					.then((response) => response.text())
+					.then((data) => {
+						const dataObj = JSON.parse(data);
+						document.querySelector("#fileManagerContent").innerHTML =
+							dataObj.fileManager;
+						document.querySelector("#fileManagerSidebar").innerHTML =
+							dataObj.sidebar;
+						document.querySelector("#fileManagerPath").value = path;
 
-					this.history.push(path);
-				});
+						this.history.push(path);
+					});
 			},
 			openFile: function (path) {
 				// NOTE: If support for anything other than images is desired in the future, this will need to change

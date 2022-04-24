@@ -500,19 +500,12 @@ function toTop(appToNudge, dsktpClick) {
 	if (dsktpClick !== 2) {
 		for (const application in apps) {
 			const name = apps[application].name;
-			if (
-				getId("win_" + name + "_top").style.zIndex !== "100"
-			) {
+			if (getId("win_" + name + "_top").style.zIndex !== "100") {
 				getId("win_" + name + "_top").style.zIndex =
-					parseInt(
-						getId("win_" + name + "_top").style.zIndex,
-						10
-					) - 1;
+					parseInt(getId("win_" + name + "_top").style.zIndex, 10) - 1;
 			}
 			getId("win_" + name + "_cap").style.opacity = "1";
-			getId("icn_" + name).classList.remove(
-				"activeAppIcon"
-			);
+			getId("icn_" + name).classList.remove("activeAppIcon");
 		}
 	}
 
@@ -1004,9 +997,7 @@ const baseCtx = {
 		],
 		[
 			function (arg) {
-				return apps[arg].appWindow.onTop
-					? " Stay On Top"
-					: "-Stay On Top";
+				return apps[arg].appWindow.onTop ? " Stay On Top" : "-Stay On Top";
 			},
 			function (arg) {
 				apps[arg].appWindow.setAlwaysOnTop(false);
@@ -1198,9 +1189,7 @@ function winmove(e) {
 		winmovex = e.pageX;
 		winmovey = e.pageY;
 		for (const app in apps) {
-			if (
-				apps[app].name === winmoveSelect.substring(4, winmoveSelect.length)
-			) {
+			if (apps[app].name === winmoveSelect.substring(4, winmoveSelect.length)) {
 				winmovecurrapp = app;
 				break;
 			}
@@ -1273,9 +1262,7 @@ function winres(e) {
 		winmovex = e.pageX;
 		winmovey = e.pageY;
 		for (const app in apps) {
-			if (
-				apps[app].name === winmoveSelect.substring(4, winmoveSelect.length)
-			) {
+			if (apps[app].name === winmoveSelect.substring(4, winmoveSelect.length)) {
 				winmovecurrapp = app;
 				break;
 			}
@@ -1378,8 +1365,7 @@ function winresing(e) {
 function highlightWindow(app) {
 	getId("windowFrameOverlay").style.display = "block";
 	// The 32 is to compensate for the absoltely positioned top bar, which isn't factored in by default
-	getId("windowFrameOverlay").style.top =
-		apps[app].appWindow.yPos + 32 + "px";
+	getId("windowFrameOverlay").style.top = apps[app].appWindow.yPos + 32 + "px";
 	getId("windowFrameOverlay").style.left = apps[app].appWindow.xPos + "px";
 	getId("windowFrameOverlay").style.width = apps[app].appWindow.width + "px";
 	getId("windowFrameOverlay").style.height = apps[app].appWindow.height + "px";

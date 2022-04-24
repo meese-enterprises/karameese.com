@@ -42,7 +42,7 @@ class Application {
 		vars = {},
 		hideApp = 1,
 		image = "logo.png",
-		resizeable = true
+		resizeable = true,
 	}) {
 		this.abbreviation = abbreviation;
 		this.name = name;
@@ -74,7 +74,7 @@ class Application {
 					"arg2",
 					"ctxMenu(baseCtx.appXXX, 1, event, [event, arg1, arg2]);",
 				],
-				ctxActionArgs: [this.name, this.abbreviation]
+				ctxActionArgs: [this.name, this.abbreviation],
 			});
 		}
 
@@ -98,7 +98,7 @@ class Application {
 				buildIcon({
 					size: 32,
 					image: this.appWindow.image,
-					css: "margin-left:6px"
+					css: "margin-left:6px",
 				}) +
 				`<div class="taskbarIconTitle" id="icntitle_${name}">` +
 				title +
@@ -213,9 +213,9 @@ class Application {
 			}
 		},
 		paddingMode: function (mode) {
-				if (mode) {
-					getId("win_" + this.name + "_html").classList.remove("noPadding");
-				} else {
+			if (mode) {
+				getId("win_" + this.name + "_html").classList.remove("noPadding");
+			} else {
 				getId("win_" + this.name + "_html").classList.add("noPadding");
 			}
 		},
@@ -226,15 +226,15 @@ class Application {
 			const windowCentered = [0, 0];
 			if (xOff === "auto") {
 				xOff = Math.round(
-							parseInt(getId("desktop").style.width) / 2 - xSiz / 2
-						);
-						windowCentered[0] = 1;
-					}
-					if (yOff === "auto") {
-						yOff = Math.round(
-							parseInt(getId("desktop").style.height) / 2 - ySiz / 2
-						);
-						windowCentered[1] = 1;
+					parseInt(getId("desktop").style.width) / 2 - xSiz / 2
+				);
+				windowCentered[0] = 1;
+			}
+			if (yOff === "auto") {
+				yOff = Math.round(
+					parseInt(getId("desktop").style.height) / 2 - ySiz / 2
+				);
+				windowCentered[1] = 1;
 			}
 			xOff = Math.round(xOff);
 			yOff = Math.round(yOff);
@@ -249,8 +249,7 @@ class Application {
 			}
 			if (this.width !== xSiz) {
 				getId("win_" + this.name + "_top").style.width = xSiz + "px";
-				getId("win_" + this.name + "_aero").style.width =
-					xSiz + 80 + "px";
+				getId("win_" + this.name + "_aero").style.width = xSiz + 80 + "px";
 				this.width = xSiz;
 			}
 			if (this.height !== ySiz) {
@@ -258,8 +257,7 @@ class Application {
 					getId("win_" + this.name + "_top").style.height = ySiz + "px";
 				}
 
-				getId("win_" + this.name + "_aero").style.height =
-					ySiz + 80 + "px";
+				getId("win_" + this.name + "_aero").style.height = ySiz + 80 + "px";
 				this.height = ySiz;
 			}
 			const aeroOffset = [0, -32];
@@ -281,62 +279,62 @@ class Application {
 			if (
 				!this.fullscreen &&
 				((windowCentered[0] &&
-							xSiz > parseInt(getId("desktop").style.width, 10)) ||
-							(windowCentered[1] &&
-								ySiz > parseInt(getId("desktop").style.height, 10)))
+					xSiz > parseInt(getId("desktop").style.width, 10)) ||
+					(windowCentered[1] &&
+						ySiz > parseInt(getId("desktop").style.height, 10)))
 			) {
 				this.toggleFullscreen();
 			}
 		},
 		openWindow: function () {
 			this.abbreviation = 1;
-				getId("win_" + this.name + "_top").classList.remove("closedWindow");
-				getId("win_" + this.name + "_top").style.display = "block";
-				getId("icn_" + this.name).style.display = "inline-block";
-				getId("icn_" + this.name).classList.add("openAppIcon");
-				getId("win_" + this.name + "_top").style.pointerEvents = "";
+			getId("win_" + this.name + "_top").classList.remove("closedWindow");
+			getId("win_" + this.name + "_top").style.display = "block";
+			getId("icn_" + this.name).style.display = "inline-block";
+			getId("icn_" + this.name).classList.add("openAppIcon");
+			getId("win_" + this.name + "_top").style.pointerEvents = "";
 
-				requestAnimationFrame(
-					function () {
-						getId("win_" + this.name + "_top").style.transform = "scale(1)";
+			requestAnimationFrame(
+				function () {
+					getId("win_" + this.name + "_top").style.transform = "scale(1)";
+					getId("win_" + this.name + "_top").style.opacity = "1";
+				}.bind(this)
+			);
+			setTimeout(
+				function () {
+					if (this.abbreviation) {
+						getId("win_" + this.name + "_top").style.display = "block";
 						getId("win_" + this.name + "_top").style.opacity = "1";
-					}.bind(this)
-				);
-				setTimeout(
-					function () {
-						if (this.abbreviation) {
-							getId("win_" + this.name + "_top").style.display = "block";
-							getId("win_" + this.name + "_top").style.opacity = "1";
-						}
-					}.bind(this),
-					300
-				);
-			},
-			closeWindow: function () {
-				this.abbreviation = 0;
+					}
+				}.bind(this),
+				300
+			);
+		},
+		closeWindow: function () {
+			this.abbreviation = 0;
 
-				const top = getId("win_" + this.name + "_top");
-				top.classList.add("closedWindow");
-				top.style.transformOrigin = "";
-				top.style.transform = `scale(${winFadeDistance})`;
-				top.style.opacity = "0";
-				top.style.pointerEvents = "none";
+			const top = getId("win_" + this.name + "_top");
+			top.classList.add("closedWindow");
+			top.style.transformOrigin = "";
+			top.style.transform = `scale(${winFadeDistance})`;
+			top.style.opacity = "0";
+			top.style.pointerEvents = "none";
 
-				setTimeout(
-					function () {
-						if (!this.abbreviation) {
-							top.style.display = "none";
-							top.style.width = "";
-							top.style.height = "";
-							this.windowH = -1;
-							this.windowV = -1;
-						}
-					}.bind(this),
-					300
-				);
+			setTimeout(
+				function () {
+					if (!this.abbreviation) {
+						top.style.display = "none";
+						top.style.width = "";
+						top.style.height = "";
+						this.windowH = -1;
+						this.windowV = -1;
+					}
+				}.bind(this),
+				300
+			);
 
-				getId("icn_" + this.name).style.display = "none";
-				getId("icn_" + this.name).classList.remove("openAppIcon");
+			getId("icn_" + this.name).style.display = "none";
+			getId("icn_" + this.name).classList.remove("openAppIcon");
 			this.fullscreen = false;
 			if (this.folded) {
 				this.foldWindow();
@@ -345,19 +343,17 @@ class Application {
 		},
 		closeIcon: function () {
 			getId("icn_" + this.name).style.display = "none";
-			},
-			folded: 0,
-			foldWindow: function () {
+		},
+		folded: 0,
+		foldWindow: function () {
 			if (this.folded) {
 				getId("win_" + this.name + "_html").style.display = "block";
-				getId("win_" + this.name + "_top").style.height =
-					this.height + "px";
+				getId("win_" + this.name + "_top").style.height = this.height + "px";
 				this.folded = 0;
 			} else {
 				getId("win_" + this.name + "_html").style.display = "none";
-					getId("win_" + this.name + "_top").style.height =
-						32 + winBorder + "px";
-					this.folded = 1;
+				getId("win_" + this.name + "_top").style.height = 32 + winBorder + "px";
+				this.folded = 1;
 			}
 		},
 		closeKeepTask: function () {
@@ -375,31 +371,31 @@ class Application {
 							"px";
 					} catch (err) {
 						getId("win_" + this.name + "_top").style.transformOrigin =
-								"50% -" + window.innerHeight + "px";
-						}
-					} else {
-						try {
-							getId("win_" + this.name + "_top").style.transformOrigin =
-								getId("icn_" + this.name).getBoundingClientRect().left +
-								23 +
-								"px 0px";
-						} catch (err) {
-							getId("win_" + this.name + "_top").style.transformOrigin =
-								"50% -" + window.innerHeight + "px";
-						}
+							"50% -" + window.innerHeight + "px";
 					}
-					getId("win_" + this.name + "_top").style.transform = "scale(0.1)";
-					getId("win_" + this.name + "_top").style.opacity = "0";
-					setTimeout(
-						function () {
-							getId("win_" + this.name + "_top").style.display = "none";
+				} else {
+					try {
+						getId("win_" + this.name + "_top").style.transformOrigin =
+							getId("icn_" + this.name).getBoundingClientRect().left +
+							23 +
+							"px 0px";
+					} catch (err) {
+						getId("win_" + this.name + "_top").style.transformOrigin =
+							"50% -" + window.innerHeight + "px";
+					}
+				}
+				getId("win_" + this.name + "_top").style.transform = "scale(0.1)";
+				getId("win_" + this.name + "_top").style.opacity = "0";
+				setTimeout(
+					function () {
+						getId("win_" + this.name + "_top").style.display = "none";
 					}.bind(this),
 					300
 				);
 			}
 
 			setTimeout(
-					"getId('icn_" + this.name + "').classList.remove('activeAppIcon')",
+				"getId('icn_" + this.name + "').classList.remove('activeAppIcon')",
 				0
 			);
 		},
@@ -418,15 +414,13 @@ class Application {
 					"</div>";
 			}
 		},
-			setContent: function (newHTML) {
+		setContent: function (newHTML) {
 			getId("win_" + this.name + "_html").innerHTML = newHTML;
 		},
 		toggleFullscreen: function () {
 			d(1, "Toggling fullscreen.");
 			this.fullscreen = !this.fullscreen;
-			getId("win_" + this.name + "_top").classList.toggle(
-				"maximizedWindow"
-			);
+			getId("win_" + this.name + "_top").classList.toggle("maximizedWindow");
 		},
 	});
 }

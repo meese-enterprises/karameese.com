@@ -25,7 +25,7 @@ const AppInfo = () => {
 							buildIcon({
 								size: 256,
 								image: apps[launchtype].appWindow.image,
-								css: "margin-left:calc(50% - 128px);margin-top:16px;"
+								css: "margin-left:calc(50% - 128px);margin-top:16px;",
 							}) +
 							'<h1 style="text-align:center;">' +
 							apps[launchtype].title +

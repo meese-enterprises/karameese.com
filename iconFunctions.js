@@ -5,11 +5,7 @@
  * @param {string} css
  * @returns {string}
  */
-function buildIcon({
-	size,
-	image = {},
-	css = ""
-}) {
+function buildIcon({ size, image = {}, css = "" }) {
 	if (typeof image === "string") {
 		image = {
 			foreground: image,
@@ -25,14 +21,10 @@ function buildIcon({
 			cleanStr(image.foreground.split(";")[0]) +
 			');"></div>';
 	}
-	icoTemp +=
-		'<div class="appicon_bg" data-appicon-size="' +
-		size + '"';
+	icoTemp += '<div class="appicon_bg" data-appicon-size="' + size + '"';
 	if (image.backgroundColor) {
 		icoTemp +=
-			"background-color:" +
-			cleanStr(image.backgroundColor.split(";")[0]) +
-			";";
+			"background-color:" + cleanStr(image.backgroundColor.split(";")[0]) + ";";
 	}
 	icoTemp += '">';
 	if (image.foreground) {

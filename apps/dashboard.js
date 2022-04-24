@@ -69,11 +69,10 @@ const Dashboard = () => {
 						';"></table>' +
 						"</div></div>"
 				);
-				const outerbound =
-					getId("win_startMenu_html").getBoundingClientRect();
-				const innerbound =
-					getId("dashboardWrapper").getBoundingClientRect();
-				getId("dashboardWrapper").style.height = "calc(100% - " + (innerbound.top - outerbound.top) + "px)";
+				const outerbound = getId("win_startMenu_html").getBoundingClientRect();
+				const innerbound = getId("dashboardWrapper").getBoundingClientRect();
+				getId("dashboardWrapper").style.height =
+					"calc(100% - " + (innerbound.top - outerbound.top) + "px)";
 				if (this.vars.listOfApps.length === 0) {
 					getId("appList").innerHTML = "<tr><td></td></tr>";
 					getId("appList").classList.add("cursorLoadDark");
@@ -89,7 +88,7 @@ const Dashboard = () => {
 								"<th>" +
 								buildIcon({
 									size: 32,
-									image: apps[app].appWindow.image
+									image: apps[app].appWindow.image,
 								}) +
 								"</th>" +
 								"<td>" +

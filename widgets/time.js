@@ -51,6 +51,6 @@ const TimeWidget = () => {
 		vars: {
 			running: 0,
 			lastTime: String(new Date()),
-		}
+		},
 	});
 }; // End initial variable declaration
