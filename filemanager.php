@@ -16,9 +16,7 @@
 			# Update the file manager content, the sidebar content, and the path
 			$content = (object) [
 				"fileManager" => getFileManagerContent($data->path),
-				// TODO: Tree-like hierarchy of directories here instead
 				"sidebar" => getSidebarContent($data->path),
-				// TODO: Return an absolute path here
 				"path" => $data->path
 			];
 
@@ -38,6 +36,7 @@
 			$dir   = new RecursiveDirectoryIterator($root);
 			$files = new RecursiveIteratorIterator($dir);
 
+			# TODO: Decompose this into smaller functions
 			$matchingFiles = [];
 			foreach ($files as $file) {
 				# Ignores ".." directories
@@ -204,7 +203,7 @@
 			$directoryName = basename($directoryPath);
 			$openDir = "apps.files.vars.openDirectory(\"$directoryPath\")";
 
-			// TODO: Do this as a nested list underneath the root level directory
+			// TODO: Tree-like hierarchy of directories here instead
 			$HTML .= "<div class='cursorPointer sidebarItem' oncontextmenu='$directoryContextMenu' onclick='$openDir'>" .
 				"<img class='sidebarIcon' src='icons/folder_v1.png'>" .
 				"<p class='fileManagerSidebarItem'>$directoryName</p>" .

@@ -1,0 +1,52 @@
+<style>
+	#browserSearchbar {
+		display: block;
+		margin: auto;
+		padding: 5px;
+	}
+</style>
+
+<script>
+	let vars = {};
+
+	/** Modified from https://stackoverflow.com/a/26917987/6456163 */
+	String.prototype.parseFunction = function () {
+		/** Removes inline comments, courtesy of https://www.regextester.com/93742 */
+		const strippedOfComments = this.replace(/[^:]\/\/.*/g, '');
+		const funcReg = /function *\(([^()]*)\)[ \n\t]*{(.*)}/gmi;
+		const match = funcReg.exec(strippedOfComments.replace(/(\n|\t)/g, ''));
+
+		// If the passed string is somehow not a function
+		if (!match) return null;
+
+		// Splits into arguments and the function body
+		return new Function(match[1].split(','), match[2]);
+	};
+
+	// Add an event listener to run when a message is received
+	window.addEventListener("message", (event) => {
+		// Check if the message is from the main site (as best as we can)
+		if (event.origin === window.location.origin && !event.data.target) {
+			// Parse the stringified message into an object
+			vars = JSON.parse(event.data.value);
+
+			// https://stackoverflow.com/a/14810722/6456163
+			Object.keys(vars).forEach((key) => {
+				if (typeof vars[key] === "string") {
+					// Parse the stringified functions into functions
+					vars[key] = vars[key].parseFunction();
+				}
+			});
+		}
+	});
+</script>
+
+<input
+	type="text"
+	id="browserSearchbar"
+	placeholder="Enter a query"
+	title="Enter a query"
+	onkeyup="vars.search(event)"
+/>
+
+<div id="searchResults"></div>

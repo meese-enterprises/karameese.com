@@ -114,6 +114,7 @@
 	echo '<script src="./apps/accreditation.js"></script>';
 	echo '<script src="./apps/app_info.js"></script>';
 	echo '<script src="./apps/app_prompt.js"></script>';
+	echo '<script src="./apps/browser.js"></script>';
 	echo '<script src="./apps/dashboard.js"></script>';
 	echo '<script src="./apps/file_manager.js"></script>';
 	echo '<script src="./apps/help.js"></script>';

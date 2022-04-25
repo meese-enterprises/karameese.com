@@ -19,7 +19,7 @@ const OldSite = () => {
 			this.appWindow.setContent(`
 				<iframe
 					data-parent-app="oldSite"
-					id="oldSiteFrame"
+					class="full-iframe"
 					src="./old-site/public/index.html"
 				></iframe>
 			`);

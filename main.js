@@ -483,6 +483,10 @@ c(function () {
 });
 
 c(function () {
+	Browser();
+});
+
+c(function () {
 	Accreditation();
 });
 

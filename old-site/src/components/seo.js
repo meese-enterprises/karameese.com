@@ -5,10 +5,10 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import React from "react"
-import PropTypes from "prop-types"
-import { Helmet } from "react-helmet"
-import { useStaticQuery, graphql } from "gatsby"
+import React from "react";
+import PropTypes from "prop-types";
+import { Helmet } from "react-helmet";
+import { useStaticQuery, graphql } from "gatsby";
 function SEO({ description, lang, meta, image, title }) {
 	const { site } = useStaticQuery(
 		graphql`
@@ -24,12 +24,12 @@ function SEO({ description, lang, meta, image, title }) {
 				}
 			}
 		`
-	)
+	);
 
-	const metaDescription = description || site.siteMetadata.description
-	const defaultTitle = site.siteMetadata?.title
-	const socialImage = site.siteMetadata?.image || image
-	const fullTitle = defaultTitle ? `${title} | ${defaultTitle}` : title
+	const metaDescription = description || site.siteMetadata.description;
+	const defaultTitle = site.siteMetadata?.title;
+	const socialImage = site.siteMetadata?.image || image;
+	const fullTitle = defaultTitle ? `${title} | ${defaultTitle}` : title;
 
 	return (
 		<Helmet
@@ -52,7 +52,7 @@ function SEO({ description, lang, meta, image, title }) {
 				{ property: "twitter:description", content: metaDescription },
 			].concat(meta)}
 		/>
-	)
+	);
 }
 
 SEO.defaultProps = {
@@ -70,4 +70,4 @@ SEO.propTypes = {
 	title: PropTypes.string.isRequired,
 }
 
-export default SEO
+export default SEO;

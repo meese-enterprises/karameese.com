@@ -16,7 +16,6 @@ const JSPaint = () => {
 			this.appWindow.setContent(`
 				<iframe
 					data-parent-app="jsPaint"
-					id="jsPframe"
 					class="full-iframe"
 					src="${url}"
 				></iframe>
