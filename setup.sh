@@ -7,6 +7,15 @@ sudo sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > 
 sudo apt update
 sudo apt install -y php8.0-common php8.0-cli php8.0-fpm
 
+# Install Composer
+# https://github.com/composer/composer/issues/9097#issuecomment-848900881
+sudo apt install -y wget php-cli php-zip unzip
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+HASH="$(wget -q -O - https://composer.github.io/installer.sig)"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+rm composer-setup.php
+
 # Install nvm for Node installation versioning
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 

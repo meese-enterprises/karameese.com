@@ -3,3 +3,4 @@
 /logs/errors/*
 /counter.txt
 .pnpm-store
+vendor

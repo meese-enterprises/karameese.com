@@ -4,41 +4,81 @@
 		margin: auto;
 		padding: 5px;
 	}
+
+	.urlDiv {
+		white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    color: #666;
+	}
+
+	.searchResult img {
+		overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+		margin-right: 0.5em;
+		margin-top: -3px;
+		width: 16px;
+	}
 </style>
 
 <script>
-	let vars = {};
+	const DDG = new XMLHttpRequest();
 
-	/** Modified from https://stackoverflow.com/a/26917987/6456163 */
-	String.prototype.parseFunction = function () {
-		/** Removes inline comments, courtesy of https://www.regextester.com/93742 */
-		const strippedOfComments = this.replace(/[^:]\/\/.*/g, '');
-		const funcReg = /function *\(([^()]*)\)[ \n\t]*{(.*)}/gmi;
-		const match = funcReg.exec(strippedOfComments.replace(/(\n|\t)/g, ''));
-
-		// If the passed string is somehow not a function
-		if (!match) return null;
-
-		// Splits into arguments and the function body
-		return new Function(match[1].split(','), match[2]);
-	};
-
-	// Add an event listener to run when a message is received
-	window.addEventListener("message", (event) => {
-		// Check if the message is from the main site (as best as we can)
-		if (event.origin === window.location.origin && !event.data.target) {
-			// Parse the stringified message into an object
-			vars = JSON.parse(event.data.value);
-
-			// https://stackoverflow.com/a/14810722/6456163
-			Object.keys(vars).forEach((key) => {
-				if (typeof vars[key] === "string") {
-					// Parse the stringified functions into functions
-					vars[key] = vars[key].parseFunction();
-				}
-			});
+	function search(event) {
+		if (event.keyCode === 13) {
+			// Search the designated query on enter key
+			sendQueryToDDG(event.target.value);
 		}
-	});
+	}
+
+	function sendQueryToDDG(query) {
+		DDG.onreadystatechange = () => this.displayResults();
+
+		DDG.open("GET", "/ddgSearch.php?q=" + query);
+		DDG.send();
+	}
+
+	function displayResults() {
+		if (DDG.readyState !== 4) return;
+
+		const response = JSON.parse(DDG.responseText);
+		console.log("Response:", response);
+
+		const searchResults = document.createElement("div");
+		searchResults.id = "searchResults";
+
+		response.forEach((result) => {
+			const resultDiv = document.createElement("div");
+			resultDiv.classList.add("searchResult");
+
+			const title = document.createElement("h3");
+			title.innerText = result.title;
+			resultDiv.appendChild(title);
+
+			const urlDiv = document.createElement("div");
+			urlDiv.className = "urlDiv";
+
+			const icon = document.createElement("img");
+			icon.src = result.icon;
+			urlDiv.appendChild(icon);
+
+			const url = document.createElement("a");
+			url.href = result.url;
+			url.innerText = result.url;
+			urlDiv.appendChild(url);
+			resultDiv.appendChild(urlDiv);
+
+			const snippet = document.createElement("p");
+			snippet.innerText = result.snippet;
+			resultDiv.appendChild(snippet);
+
+			searchResults.appendChild(resultDiv);
+		});
+
+		document.getElementById("searchResults").replaceWith(searchResults);
+		// TODO: Give credit with a link to DuckDuckGo
+	}
 </script>
 
 <input
@@ -46,7 +86,7 @@
 	id="browserSearchbar"
 	placeholder="Enter a query"
 	title="Enter a query"
-	onkeyup="vars.search(event)"
+	onkeyup="search(event)"
 />
 
 <div id="searchResults"></div>
