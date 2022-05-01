@@ -16,6 +16,23 @@ php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Insta
 sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 rm composer-setup.php
 
+# Install Chrome
+sudo curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add
+sudo bash -c "echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' > /etc/apt/sources.list.d/google-chrome.list"
+sudo apt -y update
+sudo apt -y install google-chrome-stable
+
+# Install Chrome Driver
+# @link https://www.webdeveloper.today/2021/05/install-webdriver-chrome-or-firefox-for.html
+	# OR sudo apt-get install chromium-chromedriver
+CHROME_DRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`
+wget -N "http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip" -P ~/
+unzip ~/chromedriver_linux64.zip -d ~/
+rm ~/chromedriver_linux64.zip
+sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
+sudo chown root:root /usr/local/bin/chromedriver
+sudo chmod 0755 /usr/local/bin/chromedriver
+
 # Install nvm for Node installation versioning
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 

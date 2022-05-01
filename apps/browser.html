@@ -23,27 +23,47 @@
 </style>
 
 <script>
-	const DDG = new XMLHttpRequest();
+	const googleSearch = new XMLHttpRequest();
 
 	function search(event) {
 		if (event.keyCode === 13) {
 			// Search the designated query on enter key
-			sendQueryToDDG(event.target.value);
+			sendQueryToGoogleSearch(event.target.value);
 		}
 	}
 
-	function sendQueryToDDG(query) {
-		DDG.onreadystatechange = () => this.displayResults();
+	function sendQueryToGoogleSearch(query) {
+		googleSearch.onreadystatechange = () => this.displayResults();
+		googleSearch.open("GET", "/googleSearch.php?q=" + query);
+		googleSearch.send();
 
-		DDG.open("GET", "/ddgSearch.php?q=" + query);
-		DDG.send();
+		// TODO: Loading bar
 	}
 
 	function displayResults() {
-		if (DDG.readyState !== 4) return;
+		if (googleSearch.readyState !== 4) return;
 
-		const response = JSON.parse(DDG.responseText);
-		console.log("Response:", response);
+		const response = JSON.parse(googleSearch.responseText);
+		return console.log("Parsed response:", response);
+
+		/*const results = response.map(result => {
+			const url = result.url;
+			const title = result.title;
+			const description = result.description;
+			const thumbnail = result.thumbnail;
+
+			return `
+				<div class="searchResult">
+					<a href="${url}" target="_blank">
+						<img src="${thumbnail}">
+						<div class="urlDiv">
+							<span class="title">${title}</span>
+							<span class="description">${description}</span>
+						</div>
+					</a>
+				</div>
+			`;
+		});*/
 
 		const searchResults = document.createElement("div");
 		searchResults.id = "searchResults";
@@ -77,7 +97,6 @@
 		});
 
 		document.getElementById("searchResults").replaceWith(searchResults);
-		// TODO: Give credit with a link to DuckDuckGo
 	}
 </script>
 

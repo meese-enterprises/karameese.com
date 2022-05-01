@@ -1,5 +1,6 @@
 {
-    "require": {
-        "imangazaliev/didom": "^1.18"
-    }
+	"require": {
+		"symfony/panther": "^2.0",
+		"imangazaliev/didom": "^1.18"
+	}
 }
