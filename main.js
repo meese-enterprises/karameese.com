@@ -431,10 +431,6 @@ c(function () {
 });
 
 c(function () {
-	NORA();
-});
-
-c(function () {
 	AppInfo();
 });
 
