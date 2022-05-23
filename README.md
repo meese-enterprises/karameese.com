@@ -6,12 +6,29 @@
 
 ### PHP Setup
 
-- Install PHP with ...
+- Install PHP with `sudo apt-get install php libapache2-mod-php`
 - `sudo nano /etc/php/8.0/fpm/php.ini` to turn on `display_errors` and `display_startup_errors`
   - `Ctrl+w` to search for `display_errors`
   - `sudo service php8.0-fpm restart` to restart the service
   - `sudo systemctl enable php8.0-fpm` to enable the service at boot
-  - `sudo chmod -R 0777 /var/lib/jenkins/workspace/karameese.com` to grant access to PHP and Node
+  - `sudo chmod -R 777 /var/lib/jenkins/workspace/karameese.com` to grant access to PHP and Node
+
+### `localhost` server setup
+
+1. Symlink `/var/www` to the directory of the repository.
+  - `sudo ln -s ~/Documents/karameese.com /var/www/karameese.com`
+2. Allow access to the site root.
+  - `sudo chmod -R 777 /var/www/karameese.com`
+3. Configure Apache2 to serve karameese.com
+  - `sudo cp ./apache.conf /etc/apache2/sites-available/karameese.com.conf`
+  - `sudo cp ./alias.conf /etc/apache2/mods-available/alias.conf`
+    - Removes the alias of our icons folder to a different, undesired location.
+  - `sudo a2dissite 000-default.conf`
+  - `sudo a2ensite karameese.com.conf`
+  - `sudo a2enmod rewrite`
+  - `sudo service apache2 restart`
+  - Confirm it worked with `a2query -s`
+4. Visit the site by opening `http://localhost`
 
 ### Email Setup
 
@@ -49,7 +66,15 @@ HTTP_PORT=8080
 3. Change the variable value to your port of choice
 4. Restart Jenkins with `sudo systemctl restart jenkins`
 
-### `localhost` server setup
+<!--
 
-On Windows I prefer to use the Ubuntu WSL2 distro with apache2 to serve my server, which I do by creating
-a symlink in `/var/www` to the directory of the repository on Windows.
+IDEAS:
+- https://codepen.io/Jintos/pen/OJKodm : Beautiful examples of background-clip text
+- https://codepen.io/herve/pen/PoReNR : Image moving behind text
+- https://codepen.io/animationbro/pen/QWbpqwR : Clouds animation; could be used to part clouds on the loading screen
+- https://codepen.io/nashvail/pen/wpGgXO : Random balls of color moving around in the background
+- https://codepen.io/naomihauret/pen/qmjMjB : Animated large background text
+- https://codepen.io/Sepion/pen/ZQJyeq : Subtle moving lines background
+- https://codepen.io/fronthendrik/pen/mvgJbW : Infinitely scrolling tiled image background
+
+-->
