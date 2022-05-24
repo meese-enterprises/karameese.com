@@ -2,5 +2,3 @@
 
 echo 'success: ';
 echo time();
-
-?>
