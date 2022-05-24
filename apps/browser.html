@@ -25,6 +25,7 @@
 <script>
 	const googleSearch = new XMLHttpRequest();
 
+	// TODO: DISABLE DOUBLE SEARCH, RESULTS IN "PORT ALREADY IN USE" ERROR
 	function search(event) {
 		if (event.keyCode === 13) {
 			// Search the designated query on enter key
@@ -42,33 +43,13 @@
 
 	function displayResults() {
 		if (googleSearch.readyState !== 4) return;
-
 		const response = JSON.parse(googleSearch.responseText);
-		return console.log("Parsed response:", response);
-
-		/*const results = response.map(result => {
-			const url = result.url;
-			const title = result.title;
-			const description = result.description;
-			const thumbnail = result.thumbnail;
-
-			return `
-				<div class="searchResult">
-					<a href="${url}" target="_blank">
-						<img src="${thumbnail}">
-						<div class="urlDiv">
-							<span class="title">${title}</span>
-							<span class="description">${description}</span>
-						</div>
-					</a>
-				</div>
-			`;
-		});*/
 
 		const searchResults = document.createElement("div");
 		searchResults.id = "searchResults";
 
-		response.forEach((result) => {
+		for (const key in response) {
+			const result = response[key];
 			const resultDiv = document.createElement("div");
 			resultDiv.classList.add("searchResult");
 
@@ -79,8 +60,9 @@
 			const urlDiv = document.createElement("div");
 			urlDiv.className = "urlDiv";
 
+			// https://stackoverflow.com/a/15750809/6456163
 			const icon = document.createElement("img");
-			icon.src = result.icon;
+			icon.src = `https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${result.url}&size=32`;
 			urlDiv.appendChild(icon);
 
 			const url = document.createElement("a");
@@ -89,12 +71,12 @@
 			urlDiv.appendChild(url);
 			resultDiv.appendChild(urlDiv);
 
-			const snippet = document.createElement("p");
-			snippet.innerText = result.snippet;
-			resultDiv.appendChild(snippet);
+			const description = document.createElement("p");
+			description.innerText = result.description;
+			resultDiv.appendChild(description);
 
 			searchResults.appendChild(resultDiv);
-		});
+		};
 
 		document.getElementById("searchResults").replaceWith(searchResults);
 	}
