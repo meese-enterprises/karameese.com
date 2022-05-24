@@ -16,18 +16,24 @@
 ### `localhost` server setup
 
 1. Symlink `/var/www` to the directory of the repository.
-  - `sudo ln -s ~/Documents/karameese.com /var/www/karameese.com`
+
+- `sudo ln -s ~/Documents/karameese.com /var/www/karameese.com`
+
 2. Allow access to the site root.
-  - `sudo chmod -R 777 /var/www/karameese.com`
+
+- `sudo chmod -R 777 /var/www/karameese.com`
+
 3. Configure Apache2 to serve karameese.com
-  - `sudo cp ./apache.conf /etc/apache2/sites-available/karameese.com.conf`
-  - `sudo cp ./alias.conf /etc/apache2/mods-available/alias.conf`
-    - Removes the alias of our icons folder to a different, undesired location.
-  - `sudo a2dissite 000-default.conf`
-  - `sudo a2ensite karameese.com.conf`
-  - `sudo a2enmod rewrite`
-  - `sudo service apache2 restart`
-  - Confirm it worked with `a2query -s`
+
+- `sudo cp ./apache.conf /etc/apache2/sites-available/karameese.com.conf`
+- `sudo cp ./alias.conf /etc/apache2/mods-available/alias.conf`
+  - Removes the alias of our icons folder to a different, undesired location.
+- `sudo a2dissite 000-default.conf`
+- `sudo a2ensite karameese.com.conf`
+- `sudo a2enmod rewrite`
+- `sudo service apache2 restart`
+- Confirm it worked with `a2query -s`
+
 4. Visit the site by opening `http://localhost`
 
 ### Email Setup
