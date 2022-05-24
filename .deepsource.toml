@@ -22,7 +22,3 @@ enabled = true
 [[transformers]]
 name = "prettier"
 enabled = true
-
-[[transformers]]
-name = "php-cs-fixer"
-enabled = true
