@@ -24,7 +24,7 @@ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 rm composer-setup.php
 
 # Install Composer packages
-composer install
+sudo composer install
 
 # Install Chrome
 sudo curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add
