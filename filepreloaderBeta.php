@@ -10,16 +10,8 @@ set_error_handler("error");
 if (!is_dir('USERFILES')) {
 	mkdir('USERFILES');
 	mkdir('USERFILES/!ERROR');
-	mkdir('USERFILES/!MESSAGE');
 	file_put_contents('USERFILES/newUsers.txt', '');
 	file_put_contents('USERFILES/.htaccess', 'Deny from all');
-	if (!file_exists('USERFILES/!MESSAGE/m0.txt')) {
-		file_put_contents('USERFILES/!MESSAGE/m0.txt', '{"i":" ","n":" ","c":"This is the beginning of the message history.","t":"1","l":"0"}');
-	}
-	if (!is_dir('messageUsernames')) {
-		mkdir('messageUsernames');
-		file_put_contents('messageUsernames/.htaccess', 'Deny from all');
-	}
 	if (!is_dir('logins')) {
 		mkdir('logins');
 		file_put_contents('logins/.htaccess', 'Deny from all');
@@ -48,7 +40,7 @@ if (!isset($_COOKIE['keyword']) || preg_match('/[^A-Za-z0-9_-]/', $_COOKIE['keyw
 	$_COOKIE['keyword'] = $newcode;
 }
 
-// Push javascript to set server variables
+// Push JavaScript to set server variables
 echo 'window.SRVRKEYWORD="' . $_COOKIE['keyword'] . '";';
 
 // If user folder not exist, create it
@@ -59,9 +51,9 @@ if (!(is_dir('USERFILES/' . $_COOKIE['keyword']))) {
 
 $newUsers = fopen('USERFILES/newUsers.txt', 'r');
 if (filesize('USERFILES/newUsers.txt') === 0) {
-    $newUsersList = array();
+	$newUsersList = array();
 } else {
-    $newUsersList = explode("\n", fread($newUsers, filesize('USERFILES/newUsers.txt')));
+	$newUsersList = explode("\n", fread($newUsers, filesize('USERFILES/newUsers.txt')));
 }
 
 fclose($newUsers);

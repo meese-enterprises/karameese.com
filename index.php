@@ -114,13 +114,13 @@
 	echo '<script src="./apps/accreditation.js"></script>';
 	echo '<script src="./apps/app_info.js"></script>';
 	echo '<script src="./apps/app_prompt.js"></script>';
+	echo '<script src="./apps/browser.js"></script>';
 	echo '<script src="./apps/dashboard.js"></script>';
 	echo '<script src="./apps/file_manager.js"></script>';
 	echo '<script src="./apps/help.js"></script>';
 	echo '<script src="./apps/js_paint.js"></script>';
 	echo '<script src="./apps/messaging.js"></script>';
 	echo '<script src="./apps/music_player.js"></script>';
-	echo '<script src="./apps/nora.js"></script>';
 	echo '<script src="./apps/old_site.js"></script>';
 	echo '<script src="./apps/properties_viewer.js"></script>';
 	echo '<script src="./apps/save_master.js"></script>';

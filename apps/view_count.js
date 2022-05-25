@@ -18,7 +18,7 @@ const ViewCount = () => {
 			this.appWindow.setContent(`
 				<iframe
 					data-parent-app="viewCount"
-					id="VWcframe"
+					class="full-iframe"
 					src="./ViewCount/index.php"
 				></iframe>
 			`);

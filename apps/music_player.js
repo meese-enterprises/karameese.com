@@ -12,7 +12,7 @@ const MusicPlayer = () => {
 				this.appWindow.setContent(`
 					<iframe
 						data-parent-app="musicPlayer"
-						id="MPlframe"
+						class="full-iframe"
 						src="./Music/index.html"
 					></iframe>
 				`);

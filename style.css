@@ -501,52 +501,6 @@ div {
 	filter: invert(1);
 }
 
-#NORAout {
-	width: 100%;
-	height: 95%;
-	font-size: 12px;
-	overflow: scroll;
-}
-
-#NORAout a {
-	color: #0f0;
-}
-
-#NORAspeech {
-	position: absolute;
-	width: 10%;
-	height: 5%;
-	bottom: 0;
-	left: 0;
-}
-
-#NORAin {
-	position: absolute;
-	left: 10%;
-	bottom: 0;
-	font-family: monospace;
-	width: 80%;
-	height: 5%;
-	padding-top: 0;
-	padding-bottom: 0;
-}
-
-#NORAbtn {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	width: 10%;
-	height: 5%;
-}
-
-#BNGiframe {
-	border: none;
-	display: block;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-
 #helpDiv {
 	width: 100%;
 	height: 100%;
@@ -591,6 +545,7 @@ div {
 
 .helpAppName {
 	font-size: 24px;
+	margin-top: 10px !important;
 }
 
 .winExit {
@@ -1249,8 +1204,7 @@ div {
 	display: none !important;
 }
 
-.flowDesktop #win_startMenu_top,
-.flowDesktop #win_nora_top {
+.flowDesktop #win_startMenu_top {
 	display: none !important;
 }
 
@@ -1323,16 +1277,6 @@ div {
 	margin: auto;
 	margin-top: 5px;
 	font-weight: bold;
-}
-
-#MPlframe,
-#VWcframe,
-#oldSiteFrame {
-	border: none;
-	display: block;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
 }
 
 #messagingDisplay {

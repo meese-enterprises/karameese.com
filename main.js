@@ -431,10 +431,6 @@ c(function () {
 });
 
 c(function () {
-	NORA();
-});
-
-c(function () {
 	AppInfo();
 });
 
@@ -480,6 +476,10 @@ c(function () {
 
 c(function () {
 	Help();
+});
+
+c(function () {
+	Browser();
 });
 
 c(function () {

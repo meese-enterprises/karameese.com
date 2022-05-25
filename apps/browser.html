@@ -1,0 +1,93 @@
+<style>
+	#browserSearchbar {
+		display: block;
+		margin: auto;
+		padding: 5px;
+	}
+
+	.urlDiv {
+		white-space: nowrap;
+		overflow: hidden;
+		width: 100%;
+		color: #666;
+	}
+
+	.searchResult img {
+		overflow: hidden;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 0.5em;
+		margin-top: -3px;
+		width: 16px;
+	}
+</style>
+
+<script>
+	const googleSearch = new XMLHttpRequest();
+
+	// TODO: DISABLE DOUBLE SEARCH, RESULTS IN "PORT ALREADY IN USE" ERROR
+	function search(event) {
+		if (event.keyCode === 13) {
+			// Search the designated query on enter key
+			sendQueryToGoogleSearch(event.target.value);
+		}
+	}
+
+	function sendQueryToGoogleSearch(query) {
+		googleSearch.onreadystatechange = () => this.displayResults();
+		googleSearch.open("GET", "/googleSearch.php?q=" + query);
+		googleSearch.send();
+
+		// TODO: Loading bar
+	}
+
+	function displayResults() {
+		if (googleSearch.readyState !== 4) return;
+		const response = JSON.parse(googleSearch.responseText);
+
+		const searchResults = document.createElement("div");
+		searchResults.id = "searchResults";
+
+		for (const key in response) {
+			const result = response[key];
+			const resultDiv = document.createElement("div");
+			resultDiv.classList.add("searchResult");
+
+			const title = document.createElement("h3");
+			title.innerText = result.title;
+			resultDiv.appendChild(title);
+
+			const urlDiv = document.createElement("div");
+			urlDiv.className = "urlDiv";
+
+			// https://stackoverflow.com/a/15750809/6456163
+			const icon = document.createElement("img");
+			icon.src = `https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${result.url}&size=32`;
+			urlDiv.appendChild(icon);
+
+			const url = document.createElement("a");
+			url.href = result.url;
+			url.innerText = result.url;
+			urlDiv.appendChild(url);
+			resultDiv.appendChild(urlDiv);
+
+			const description = document.createElement("p");
+			description.innerText = result.description;
+			resultDiv.appendChild(description);
+
+			searchResults.appendChild(resultDiv);
+		}
+
+		document.getElementById("searchResults").replaceWith(searchResults);
+	}
+</script>
+
+<input
+	type="text"
+	id="browserSearchbar"
+	placeholder="Enter a query"
+	title="Enter a query"
+	onkeyup="search(event)"
+/>
+
+<div id="searchResults"></div>
