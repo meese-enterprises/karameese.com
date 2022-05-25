@@ -6,12 +6,7 @@
 
 ### PHP Setup
 
-- Install PHP with `sudo apt-get install php libapache2-mod-php`
-- `sudo nano /etc/php/8.0/fpm/php.ini` to turn on `display_errors` and `display_startup_errors`
-  - `Ctrl+w` to search for `display_errors`
-  - `sudo service php8.0-fpm restart` to restart the service
-  - `sudo systemctl enable php8.0-fpm` to enable the service at boot
-  - `sudo chmod -R 777 /var/lib/jenkins/workspace/karameese.com` to grant access to PHP and Node
+- `sudo chmod -R 777 /var/lib/jenkins/workspace/karameese.com` to grant access to PHP and Node
 
 ### `localhost` server setup
 

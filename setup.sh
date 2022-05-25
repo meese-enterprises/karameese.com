@@ -5,11 +5,18 @@ sudo apt install -y apt-transport-https lsb-release ca-certificates wget
 sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 sudo sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 sudo apt update
-sudo apt install -y php8.0-common php8.0-cli php8.0-fpm
+sudo apt install -y php8.1-common php8.1-cli php8.1-fpm php8.1-xml php-curl libapache2-mod-php
+sudo systemctl enable php8.1-fpm
+
+# Configure Apache to use PHP
+sudo a2enmod php8.1 proxy_fcgi setenvif
+sudo a2enconf php8.1-fpm
+# sudo service apache2 restart
+# This is only needed for local development, as the project uses Nginx in production
 
 # Install Composer
 # https://github.com/composer/composer/issues/9097#issuecomment-848900881
-sudo apt install -y wget php-cli php-zip unzip
+sudo apt install -y wget php-zip unzip
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 HASH="$(wget -q -O - https://composer.github.io/installer.sig)"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -45,7 +52,7 @@ export NVM_DIR="$HOME/.nvm"
 . $NVM_DIR/nvm.sh;
 
 # Install Node 12.x and yarn
-nvm install 12
+nvm install
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 npm install -g yarn
