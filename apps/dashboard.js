@@ -44,7 +44,7 @@ const Dashboard = () => {
 				this.appWindow.setCaption("Dashboard");
 				this.appWindow.openWindow();
 				this.appWindow.closeKeepTask();
-			} else if (launchType === "dsktp" || launchType === "tskbr") {
+			} else {
 				if (getId("win_startMenu_top").style.display === "block") {
 					return apps.startMenu.signalHandler("shrink");
 				}

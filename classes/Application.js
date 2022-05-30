@@ -300,15 +300,11 @@ class Application {
 					getId("win_" + this.name + "_top").style.opacity = "1";
 				}.bind(this)
 			);
-			setTimeout(
-				function () {
-					if (this.abbreviation) {
-						getId("win_" + this.name + "_top").style.display = "block";
-						getId("win_" + this.name + "_top").style.opacity = "1";
-					}
-				}.bind(this),
-				300
-			);
+
+			if (this.abbreviation) {
+				getId("win_" + this.name + "_top").style.display = "block";
+				getId("win_" + this.name + "_top").style.opacity = "1";
+			}
 		},
 		closeWindow: function () {
 			this.abbreviation = 0;
