@@ -111,7 +111,7 @@ const FileManager = () => {
 			},
 			openFile: function (path) {
 				// NOTE: If support for anything other than images is desired in the future, this will need to change
-				const URL = `https://karameese.com/art/${path}`;
+				const URL = `https://karameese.com/.filesystem/art/${path}`;
 				apps.jsPaint.main(URL);
 			},
 		},
