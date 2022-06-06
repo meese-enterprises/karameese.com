@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# TODO: Check to see if software is already installed and if so, skip installation
-
 # Install PHP
-sudo apt install -y apt-transport-https lsb-release ca-certificates wget php-zip unzip
+sudo apt install -y apt-transport-https lsb-release ca-certificates wget php-xml php-zip unzip
 sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 sudo sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 sudo apt update
@@ -15,13 +13,24 @@ sudo apt install libapache2-mod-php8.1
 sudo a2enmod php8.1 proxy_fcgi setenvif
 sudo a2enconf php8.1-fpm
 
-# Make Apache use port 8080 since Nginx is already using port 80
-sudo sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf
-sudo sed -i 's/VirtualHost \*:80/VirtualHost \*:8080/g' /etc/apache2/sites-enabled/000-default.conf
-sudo service apache2 restart
+# Enable the cURL module in PHP
+# sudo sed -i 's/;extension=curl/extension=curl/' /etc/php/8.1/apache2/php.ini
+# sudo sed -i 's/;extension=curl/extension=curl/' /etc/php/8.1/fpm/php.ini
+# sudo sed -i 's/;extension=curl/extension=curl/' /etc/php/8.1/cli/php.ini
+# sudo service php8.1-fpm restart
 
-# To view any Nginx errors, run:
-# cat /var/log/nginx/error.log
+# Make Apache use port 8080 since Nginx is already using port 80
+ports_conf=/etc/apache2/ports.conf
+perl -p -e 's/Listen 80\n/Listen 8080\n/' "$ports_conf" | sudo tee "$ports_conf"
+sudo sed -i 's/VirtualHost \*:80>/VirtualHost \*:8080>/g' /etc/apache2/sites-enabled/000-default.conf
+sudo service apache2 restart | exit 1
+
+#####################################
+#  To view any Nginx errors, run:   #
+#   cat /var/log/nginx/error.log    #
+#  To view any Apache errors, run:  #
+#   cat /var/log/apache2/error.log  #
+#####################################
 
 # Install Composer
 # https://github.com/composer/composer/issues/9097#issuecomment-848900881
@@ -34,8 +43,8 @@ rm composer-setup.php
 # Install Composer packages
 composer install
 
-# Install Chrome/Gecko Driver and Chromium, just to be safe
-sudo apt-get install chromium-chromedriver firefox-geckodriver
+# Install Chromium Browser
+sudo apt-get install libminizip1 chromium-browser chromium-chromedriver
 
 # Install latest Chrome Driver
 CHROME_DRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`
@@ -55,7 +64,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 # Attempt to make nvm available to shell:
 # https://stackoverflow.com/a/23757895/6456163
 export NVM_DIR="$HOME/.nvm"
-. $NVM_DIR/nvm.sh;
+. $NVM_DIR/nvm.sh
 
 # Install Node 12.x and yarn
 nvm install

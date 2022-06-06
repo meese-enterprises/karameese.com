@@ -21,7 +21,7 @@ $options = [
 
 $query = urlencode($_GET["q"]);
 $url ="/search?hl=en&tbo=d&site=&source=hp&q=".$query;
-$client = Client::createChromeClient(null, $options, [], "http://www.google.com");
+$client = Client::createChromeClient("/usr/lib/chromium-browser/chromedriver", $options, [], "http://www.google.com");
 $client->request("GET", $url);
 
 # Crawl the Google page of interest and wait for the JavaScript to load
