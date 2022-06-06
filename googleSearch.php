@@ -1,18 +1,30 @@
 <?php
 
+# ini_set("display_errors", 1);
+
 # TODO: Implement rate limiting for my clients so the server isn't overwhelmed
 # IDEA: Add in my proxy script with PANTHER_CHROME_ARGUMENTS='--proxy-server=socks://127.0.0.1:9050'
 
 # https://oxylabs.io/blog/web-scraping-php
 require "vendor/autoload.php";
-use \Symfony\Component\Panther\Client;
+use Symfony\Component\Panther\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use DiDom\Document;
-$client = Client::createChromeClient();
+
+$options = [
+	"--headless",
+	"--window-size=1200,1100",
+	"--no-sandbox",
+	"--disable-gpu",
+	"--disable-dev-shm-usage",
+];
+
+$query = urlencode($_GET["q"]);
+$url ="/search?hl=en&tbo=d&site=&source=hp&q=".$query;
+$client = Client::createChromeClient(null, $options, [], "http://www.google.com");
+$client->request("GET", $url);
 
 # Crawl the Google page of interest and wait for the JavaScript to load
-$query = urlencode($_GET["q"]);
-$client->get("http://www.google.com/search?hl=en&tbo=d&site=&source=hp&q=".$query);
 $crawler = $client->waitFor("#search");
 $html = $crawler->html();
 

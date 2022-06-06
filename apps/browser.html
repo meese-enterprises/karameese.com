@@ -23,17 +23,20 @@
 </style>
 
 <script>
+	let searchInProgress = false;
 	const googleSearch = new XMLHttpRequest();
 
-	// TODO: DISABLE DOUBLE SEARCH, RESULTS IN "PORT ALREADY IN USE" ERROR
 	function search(event) {
-		if (event.keyCode === 13) {
+		if (event.keyCode === 13 && !searchInProgress) {
+			searchInProgress = true;
+
 			// Search the designated query on enter key
 			sendQueryToGoogleSearch(event.target.value);
 		}
 	}
 
 	function sendQueryToGoogleSearch(query) {
+		console.log("Sending search query to Google...");
 		googleSearch.onreadystatechange = () => this.displayResults();
 		googleSearch.open("GET", "/googleSearch.php?q=" + query);
 		googleSearch.send();
@@ -43,6 +46,9 @@
 
 	function displayResults() {
 		if (googleSearch.readyState !== 4) return;
+		// return console.log(googleSearch.responseText);
+
+		console.log("Displaying search results...");
 		const response = JSON.parse(googleSearch.responseText);
 
 		const searchResults = document.createElement("div");
@@ -79,6 +85,7 @@
 		}
 
 		document.getElementById("searchResults").replaceWith(searchResults);
+		searchInProgress = false;
 	}
 </script>
 

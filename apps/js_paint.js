@@ -13,6 +13,7 @@ const JSPaint = () => {
 			if (imageURL) url += "#load:" + imageURL;
 
 			// TODO: Make sure there is a working zoom in/out feature
+			// TODO: Zoom to window automatically
 			this.appWindow.setContent(`
 				<iframe
 					data-parent-app="jsPaint"
