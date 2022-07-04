@@ -13,12 +13,6 @@ sudo apt install libapache2-mod-php8.1
 sudo a2enmod php8.1 proxy_fcgi setenvif
 sudo a2enconf php8.1-fpm
 
-# Enable the cURL module in PHP
-# sudo sed -i 's/;extension=curl/extension=curl/' /etc/php/8.1/apache2/php.ini
-# sudo sed -i 's/;extension=curl/extension=curl/' /etc/php/8.1/fpm/php.ini
-# sudo sed -i 's/;extension=curl/extension=curl/' /etc/php/8.1/cli/php.ini
-# sudo service php8.1-fpm restart
-
 # Make Apache use port 8080 since Nginx is already using port 80
 ports_conf=/etc/apache2/ports.conf
 perl -p -e 's/Listen 80\n/Listen 8080\n/' "$ports_conf" | sudo tee "$ports_conf"
