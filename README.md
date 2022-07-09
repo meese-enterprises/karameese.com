@@ -1,6 +1,6 @@
 # karameese.com
 
-[![DeepSource](https://deepsource.io/gh/ajmeese7/karameese.com.svg/?label=active+issues&show_trend=true&token=M8yOCSSOgVKka2ykMLzNJ_mK)](https://deepsource.io/gh/ajmeese7/karameese.com/?ref=repository-badge)
+[![DeepSource](https://deepsource.io/gh/meese-enterprises/karameese.com.svg/?label=active+issues&show_trend=true&token=M8yOCSSOgVKka2ykMLzNJ_mK)](https://deepsource.io/gh/meese-enterprises/karameese.com/?ref=repository-badge)
 
 ## Setup
 
