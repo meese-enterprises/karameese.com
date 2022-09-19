@@ -196,7 +196,7 @@ function loadAudio(url = "./audio") {
 		xhr.onerror = function () {
 			reject({
 				status: this.status,
-				statusText: xhr.statusText
+				statusText: xhr.statusText,
 			});
 		};
 
