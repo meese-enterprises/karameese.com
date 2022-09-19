@@ -48,6 +48,7 @@ const supportedFormats = [
 ];
 
 function selectSong(id) {
+	if (!fileNames.length) return;
 	currentSong = id;
 	audio.pause();
 	audio.currentTime = 0;
@@ -82,10 +83,6 @@ function pause() {
 }
 
 audio.addEventListener("canplaythrough", play);
-window.addEventListener("load", function () {
-	console.log("All audio assets are loaded...");
-	play();
-});
 
 function back() {
 	if (audio.currentTime >= 3) return (audio.currentTime = 0);
@@ -159,36 +156,58 @@ function globalFrame() {
 	vis[currVis].frame();
 }
 
-function loadAudio() {
-	// https://stackoverflow.com/a/55270278/6456163
+/**
+ * Loads all the audio files in the given URL directory.
+ * @link https://stackoverflow.com/a/48969580/6456163
+ *
+ * @param {String} [url="./audio"] The URL to load the audio files from
+ * @returns {Promise<Array>}
+ */
+function loadAudio(url = "./audio") {
 	const files = [];
-	const xhr = new XMLHttpRequest();
-	xhr.open("GET", "./audio", false);
-	xhr.onload = () => {
-		if (xhr.status !== 200) {
-			return alert("Request failed. Returned status of " + xhr.status);
-		}
-		const parser = new DOMParser();
-		const HTML = parser.parseFromString(xhr.response, "text/html");
-		const elements = HTML.getElementsByTagName("a");
-		for (const x of elements) {
-			const filePath = x.href;
-			const filePathParts = filePath.split("Music");
-			if (supportedFormats.includes(filePath.split(".")[2])) {
-				// Push the correct file path to the files array
-				files.push(filePathParts[0] + "Music/audio" + filePathParts[1]);
-			}
-		}
-	};
 
-	xhr.send();
-	return files;
+	return new Promise((resolve, reject) => {
+		// https://stackoverflow.com/a/55270278/6456163
+		const xhr = new XMLHttpRequest();
+		xhr.open("GET", url);
+		xhr.onload = () => {
+			if (xhr.status !== 200) {
+				reject("Request failed. Returned status of " + xhr.status);
+			}
+
+			const parser = new DOMParser();
+			const HTML = parser.parseFromString(xhr.response, "text/html");
+			const elements = HTML.getElementsByTagName("a");
+			for (const elem of elements) {
+				const filePath = elem.href;
+				const extension = filePath.split(".").pop();
+
+				// Ensure that only audio files are loaded
+				if (supportedFormats.includes(extension)) {
+					// Push the correct file path to the files array
+					const filePathParts = filePath.split("Music");
+					const file = filePathParts[0] + "Music/audio" + filePathParts[1];
+					files.push(file);
+				}
+			}
+
+			resolve(files);
+		};
+		xhr.onerror = function () {
+			reject({
+				status: this.status,
+				statusText: xhr.statusText
+			});
+		};
+
+		xhr.send();
+	});
 }
 
-function loadAudioFiles() {
+async function loadAudioFiles() {
 	audio.pause();
 	currentSong = -1;
-	const filePaths = loadAudio();
+	const filePaths = await loadAudio();
 
 	for (let i = 0; i < filePaths.length; i++) {
 		const fileName = filePaths[i].split("audio/")[1].split(".")[0];
@@ -220,5 +239,8 @@ function loadAudioFiles() {
 
 	vis[currVis].start();
 	requestAnimationFrame(globalFrame);
+
+	console.log("All audio assets are loaded...");
+	play();
 }
 loadAudioFiles();
