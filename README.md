@@ -2,6 +2,10 @@
 
 [![DeepSource](https://deepsource.io/gh/meese-enterprises/karameese.com.svg/?label=active+issues&show_trend=true&token=M8yOCSSOgVKka2ykMLzNJ_mK)](https://deepsource.io/gh/meese-enterprises/karameese.com/?ref=repository-badge)
 
+## Information
+
+KaraOS is a highly modified fork of the awesome work of [AaronOS](https://github.com/MineAndCraft12/AaronOS) by [Aaron Adams](https://github.com/MineAndCraft12). This project does not make any claims of ownership over the base aOS code, only the modifications which have since been made. You may see the AaronOS EULA [here](./AaronOS-eula.txt).
+
 ## Setup
 
 ### PHP Setup
