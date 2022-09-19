@@ -108,7 +108,9 @@ if (darkMode) {
 	document.body.classList.remove("darkMode");
 }
 
-// Sanitize a string to make HTML safe
+/**
+ * Sanitizes a string to make HTML safe.
+ */
 function cleanStr(str) {
 	return str
 		.split("&")
@@ -119,7 +121,9 @@ function cleanStr(str) {
 		.join("&gt;");
 }
 
-// Make sure monitor doesn't get scrolled away
+/**
+ * Makes sure the monitor doesn't get scrolled away.
+ */
 function checkMonitorMovement() {
 	getId("monitor").scrollTop = 0;
 	getId("monitor").scrollLeft = 0;
@@ -150,7 +154,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
 let modulelast = `init ${websiteTitle}`;
 var module = modulelast;
 
-// Changes the current module
+/** Changes the current module. */
 function m(msg) {
 	d(2, "Module changed: " + msg);
 	if (module !== msg) {
@@ -170,7 +174,7 @@ const dbgLevel = 0;
 var d = function (level, message) {
 	// Level must be higher than the debuglevel set by Settings in order to log
 	if (level <= dbgLevel) {
-		doLog('<span style="color:#80F">Dbg:</span> ' + message);
+		doLog("<span style='color:#80F'>Dbg:</span> " + message);
 	}
 };
 
@@ -209,7 +213,7 @@ getId("taskbarIcons").innerHTML = "";
 // Live elements allow dynamic content to be placed on the page w/o manual updating
 let liveElements = [];
 
-// Checks for live elements
+/** Checks for live elements. */
 function checkLiveElements() {
 	liveElements = document.getElementsByClassName("liveElement");
 	for (const elem in liveElements) {
@@ -243,13 +247,14 @@ function checkLiveElements() {
 }
 requestAnimationFrame(checkLiveElements);
 
+/** An object containing all the applications currently running. */
 const apps = {};
 window.apps = apps;
 
 let appPosX = 8;
 let appPosY = 8;
 
-// Desktop vars
+/**Desktop variables. */
 const dsktp = {};
 
 function arrangeDesktopIcons() {
@@ -1481,7 +1486,7 @@ fitWindow();
 
 // Open apps on startup
 c(function () {
-	// openapp(apps.accreditation, 'dsktp');
-	// openapp(apps.viewCount, 'dsktp');
-	// openapp(apps.musicPlayer, 'dsktp');
+	openapp(apps.accreditation, "dsktp");
+	// openapp(apps.viewCount, "dsktp");
+	// openapp(apps.musicPlayer, "dsktp");
 });
