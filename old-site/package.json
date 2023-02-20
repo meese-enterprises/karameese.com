@@ -5,7 +5,7 @@
 	"version": "1.0.0",
 	"author": "Aaron Meese <ajmeese7@gmail.com>",
 	"dependencies": {
-		"@mapbox/node-pre-gyp": "^1.0.8",
+		"@mapbox/node-pre-gyp": "^1.0.10",
 		"canvas": "^2.6.1",
 		"gatsby": "^3.14.0",
 		"gatsby-image": "^3.0.0",
