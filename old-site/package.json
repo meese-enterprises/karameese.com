@@ -7,7 +7,7 @@
 	"dependencies": {
 		"@mapbox/node-pre-gyp": "^1.0.8",
 		"canvas": "^2.6.1",
-		"gatsby": "^3.14.0",
+		"gatsby": "^4.25.2",
 		"gatsby-image": "^3.0.0",
 		"gatsby-plugin-manifest": "^3.0.0",
 		"gatsby-plugin-offline": "^4.0.0",
